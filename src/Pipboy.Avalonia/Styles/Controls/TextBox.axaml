@@ -1,0 +1,95 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+
+    <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
+      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="0"/>
+      <Setter Property="Padding" Value="8,5"/>
+      <Setter Property="MinHeight" Value="30"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+      <Setter Property="CaretBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      <Setter Property="SelectionBrush" Value="{DynamicResource PipboySelectionBrush}"/>
+      <Setter Property="SelectionForegroundBrush" Value="{DynamicResource PipboyTextBrush}"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="TextBox">
+          <DataValidationErrors>
+            <Border Name="PART_BorderElement"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    MinWidth="{TemplateBinding MinWidth}"
+                    MinHeight="{TemplateBinding MinHeight}">
+              <Grid ColumnDefinitions="Auto,*,Auto">
+                <ContentPresenter Grid.Column="0"
+                                  Content="{TemplateBinding InnerLeftContent}"/>
+                <DockPanel Grid.Column="1">
+                  <TextBlock Name="PART_FloatingWatermark"
+                             DockPanel.Dock="Top"
+                             Text="{TemplateBinding Watermark}"
+                             Foreground="{DynamicResource PipboyTextDimBrush}"
+                             FontSize="10"
+                             Margin="2,2,0,0"
+                             IsVisible="False"/>
+                  <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+                                AllowAutoHide="True">
+                    <Panel>
+                      <TextBlock Name="PART_Watermark"
+                                 Text="{TemplateBinding Watermark}"
+                                 Foreground="{DynamicResource PipboyTextDimBrush}"
+                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                 Margin="{TemplateBinding Padding}"
+                                 IsHitTestVisible="False"/>
+                      <TextPresenter Name="PART_TextPresenter"
+                                     Text="{TemplateBinding Text, Mode=TwoWay}"
+                                     CaretIndex="{TemplateBinding CaretIndex}"
+                                     SelectionStart="{TemplateBinding SelectionStart}"
+                                     SelectionEnd="{TemplateBinding SelectionEnd}"
+                                     TextAlignment="{TemplateBinding TextAlignment}"
+                                     TextWrapping="{TemplateBinding TextWrapping}"
+                                     LineHeight="{TemplateBinding LineHeight}"
+                                     PasswordChar="{TemplateBinding PasswordChar}"
+                                     RevealPassword="{TemplateBinding RevealPassword}"
+                                     SelectionBrush="{TemplateBinding SelectionBrush}"
+                                     SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                     CaretBrush="{TemplateBinding CaretBrush}"
+                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                     Margin="{TemplateBinding Padding}"/>
+                    </Panel>
+                  </ScrollViewer>
+                </DockPanel>
+                <ContentPresenter Grid.Column="2"
+                                  Content="{TemplateBinding InnerRightContent}"/>
+              </Grid>
+            </Border>
+          </DataValidationErrors>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:focus /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+      </Style>
+      <Style Selector="^:disabled">
+        <Setter Property="Opacity" Value="0.45"/>
+      </Style>
+      <Style Selector="^:empty /template/ TextBlock#PART_Watermark">
+        <Setter Property="IsVisible" Value="True"/>
+      </Style>
+      <Style Selector="^:not(:empty) /template/ TextBlock#PART_Watermark">
+        <Setter Property="IsVisible" Value="False"/>
+      </Style>
+    </ControlTheme>
+
+  </Styles.Resources>
+</Styles>

@@ -1,0 +1,457 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+
+    <!-- DatePickerPresenter (the flyout panel) -->
+    <ControlTheme x:Key="{x:Type DatePickerPresenter}" TargetType="DatePickerPresenter">
+      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Width" Value="296"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="DatePickerPresenter">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+            <Grid RowDefinitions="*,Auto">
+              <!-- PART_PickerContainer required; hosts all column grids and selectors -->
+              <Grid Name="PART_PickerContainer"
+                    Grid.Row="0"
+                    ColumnDefinitions="*,Auto,*,Auto,*">
+                <Grid Name="PART_MonthHost" Grid.Column="0">
+                  <DateTimePickerPanel Name="PART_MonthSelector"
+                                       PanelType="Month"
+                                       ItemHeight="40"/>
+                </Grid>
+                <Rectangle Name="PART_FirstSpacer"
+                           Grid.Column="1"
+                           Width="1"
+                           Fill="{DynamicResource PipboyBorderBrush}"/>
+                <Grid Name="PART_DayHost" Grid.Column="2">
+                  <DateTimePickerPanel Name="PART_DaySelector"
+                                       PanelType="Day"
+                                       ItemHeight="40"/>
+                </Grid>
+                <Rectangle Name="PART_SecondSpacer"
+                           Grid.Column="3"
+                           Width="1"
+                           Fill="{DynamicResource PipboyBorderBrush}"/>
+                <Grid Name="PART_YearHost" Grid.Column="4">
+                  <DateTimePickerPanel Name="PART_YearSelector"
+                                       PanelType="Year"
+                                       ItemHeight="40"/>
+                </Grid>
+              </Grid>
+              <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
+                <Button Name="PART_AcceptButton"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Content="OK"
+                        Padding="8,6"/>
+                <Button Name="PART_DismissButton"
+                        Grid.Column="1"
+                        Content="Cancel"
+                        Padding="8,6"/>
+              </Grid>
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+    <!-- DatePicker -->
+    <ControlTheme x:Key="{x:Type DatePicker}" TargetType="DatePicker">
+      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="MinHeight" Value="30"/>
+      <Setter Property="Padding" Value="8,4"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="DatePicker">
+          <DataValidationErrors>
+            <Border Name="PART_Border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    MinHeight="{TemplateBinding MinHeight}">
+              <Button Name="PART_FlyoutButton"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      Padding="{TemplateBinding Padding}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch">
+                <Grid ColumnDefinitions="*,Auto,*,Auto,*">
+                  <TextBlock Name="PART_DayTextBlock"
+                             Grid.Column="0"
+                             Text="day"
+                             Foreground="{DynamicResource PipboyTextDimBrush}"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Grid.Column="1" Text="/" Margin="4,0"
+                             Foreground="{DynamicResource PipboyTextDimBrush}"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Name="PART_MonthTextBlock"
+                             Grid.Column="2"
+                             Text="month"
+                             Foreground="{DynamicResource PipboyTextDimBrush}"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Grid.Column="3" Text="/" Margin="4,0"
+                             Foreground="{DynamicResource PipboyTextDimBrush}"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Name="PART_YearTextBlock"
+                             Grid.Column="4"
+                             Text="year"
+                             Foreground="{DynamicResource PipboyTextDimBrush}"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+                </Grid>
+              </Button>
+            </Border>
+          </DataValidationErrors>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:pointerover /template/ Border#PART_Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
+      </Style>
+      <Style Selector="^:focus /template/ Border#PART_Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyFocusBrush}"/>
+      </Style>
+      <Style Selector="^:disabled">
+        <Setter Property="Opacity" Value="0.45"/>
+      </Style>
+    </ControlTheme>
+
+    <!-- TimePickerPresenter -->
+    <ControlTheme x:Key="{x:Type TimePickerPresenter}" TargetType="TimePickerPresenter">
+      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Width" Value="240"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="TimePickerPresenter">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+            <Grid RowDefinitions="*,Auto">
+              <!-- PART_PickerContainer: contains hour/minute/second/period hosts -->
+              <Grid Name="PART_PickerContainer"
+                    Grid.Row="0"
+                    ColumnDefinitions="*,Auto,*,Auto,*">
+                <!-- Hour -->
+                <Grid Name="PART_HourHost" Grid.Column="0">
+                  <DateTimePickerPanel Name="PART_HourSelector"
+                                       PanelType="Hour"
+                                       ItemHeight="40"/>
+                </Grid>
+                <!-- Separator 1 -->
+                <Rectangle Name="PART_FirstSpacer"
+                           Grid.Column="1"
+                           Width="1"
+                           Fill="{DynamicResource PipboyBorderBrush}"/>
+                <!-- Minute -->
+                <Grid Name="PART_MinuteHost" Grid.Column="2">
+                  <DateTimePickerPanel Name="PART_MinuteSelector"
+                                       PanelType="Minute"
+                                       ItemHeight="40"/>
+                </Grid>
+                <!-- Second (hidden by default, shown when ClockIdentifier is 24h and seconds enabled) -->
+                <Grid Name="PART_SecondHost" Grid.Column="3" ColumnDefinitions="Auto,*" IsVisible="False">
+                  <Rectangle Name="PART_SecondSpacer"
+                             Grid.Column="0"
+                             Width="1"
+                             Fill="{DynamicResource PipboyBorderBrush}"/>
+                  <DateTimePickerPanel Name="PART_SecondSelector"
+                                       Grid.Column="1"
+                                       PanelType="Second"
+                                       ItemHeight="40"/>
+                </Grid>
+                <!-- Period (AM/PM) -->
+                <Grid Name="PART_PeriodHost" Grid.Column="4" ColumnDefinitions="Auto,*">
+                  <Rectangle Name="PART_ThirdSpacer"
+                             Grid.Column="0"
+                             Width="1"
+                             Fill="{DynamicResource PipboyBorderBrush}"/>
+                  <DateTimePickerPanel Name="PART_PeriodSelector"
+                                       Grid.Column="1"
+                                       PanelType="TimePeriod"
+                                       ItemHeight="40"/>
+                </Grid>
+              </Grid>
+              <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
+                <Button Name="PART_AcceptButton"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Content="OK"
+                        Padding="8,6"/>
+                <Button Name="PART_DismissButton"
+                        Grid.Column="1"
+                        Content="Cancel"
+                        Padding="8,6"/>
+              </Grid>
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+    <!-- TimePicker -->
+    <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
+      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="MinHeight" Value="30"/>
+      <Setter Property="Padding" Value="8,4"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="TimePicker">
+          <DataValidationErrors>
+            <Border Name="PART_Border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    MinHeight="{TemplateBinding MinHeight}">
+              <Button Name="PART_FlyoutButton"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      Padding="{TemplateBinding Padding}"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch">
+                <Grid ColumnDefinitions="*,Auto,*,Auto,*">
+                  <TextBlock Name="PART_HourTextBlock"
+                             Grid.Column="0"
+                             Text="hour"
+                             Foreground="{DynamicResource PipboyTextDimBrush}"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Grid.Column="1" Text=":" Margin="4,0"
+                             Foreground="{DynamicResource PipboyTextDimBrush}"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Name="PART_MinuteTextBlock"
+                             Grid.Column="2"
+                             Text="minute"
+                             Foreground="{DynamicResource PipboyTextDimBrush}"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Grid.Column="3" Text=" " Margin="4,0"
+                             VerticalAlignment="Center"/>
+                  <TextBlock Name="PART_PeriodTextBlock"
+                             Grid.Column="4"
+                             Text="AM"
+                             Foreground="{DynamicResource PipboyTextDimBrush}"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+                </Grid>
+              </Button>
+            </Border>
+          </DataValidationErrors>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:pointerover /template/ Border#PART_Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
+      </Style>
+      <Style Selector="^:focus /template/ Border#PART_Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyFocusBrush}"/>
+      </Style>
+      <Style Selector="^:disabled">
+        <Setter Property="Opacity" Value="0.45"/>
+      </Style>
+    </ControlTheme>
+
+    <!-- CalendarDayButton -->
+    <ControlTheme x:Key="{x:Type CalendarDayButton}" TargetType="CalendarDayButton">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+      <Setter Property="Width" Value="34"/>
+      <Setter Property="Height" Value="34"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="CalendarDayButton">
+          <Border Name="DayBorder"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="Transparent"
+                  BorderThickness="1">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:pointerover /template/ Border#DayBorder">
+        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:selected /template/ Border#DayBorder">
+        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:today /template/ Border#DayBorder">
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:inactive">
+        <Setter Property="Opacity" Value="0.4"/>
+      </Style>
+      <Style Selector="^:disabled">
+        <Setter Property="Opacity" Value="0.45"/>
+      </Style>
+    </ControlTheme>
+
+    <!-- CalendarButton (month/year view) -->
+    <ControlTheme x:Key="{x:Type CalendarButton}" TargetType="CalendarButton">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+      <Setter Property="Width" Value="60"/>
+      <Setter Property="Height" Value="52"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="CalendarButton">
+          <Border Name="CalBorder"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="Transparent"
+                  BorderThickness="1">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:pointerover /template/ Border#CalBorder">
+        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:selected /template/ Border#CalBorder">
+        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+    </ControlTheme>
+
+    <!-- CalendarItem -->
+    <ControlTheme x:Key="{x:Type CalendarItem}" TargetType="CalendarItem">
+      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="CalendarItem">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+            <Grid RowDefinitions="Auto,*">
+              <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Margin="4">
+                <Button Name="PART_PreviousButton"
+                        Grid.Column="0"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Width="28" Height="28"
+                        Padding="4">
+                  <Path Data="M 10 4 L 4 8 L 10 12"
+                        Stroke="{DynamicResource PipboyTextBrush}"
+                        StrokeThickness="1.5"/>
+                </Button>
+                <Button Name="PART_HeaderButton"
+                        Grid.Column="1"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"/>
+                <Button Name="PART_NextButton"
+                        Grid.Column="2"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Width="28" Height="28"
+                        Padding="4">
+                  <Path Data="M 4 4 L 10 8 L 4 12"
+                        Stroke="{DynamicResource PipboyTextBrush}"
+                        StrokeThickness="1.5"/>
+                </Button>
+              </Grid>
+              <Grid Grid.Row="1">
+                <Grid Name="PART_MonthView" IsVisible="True"/>
+                <Grid Name="PART_YearView" IsVisible="False"/>
+              </Grid>
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+    <!-- Calendar -->
+    <ControlTheme x:Key="{x:Type Calendar}" TargetType="Calendar">
+      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="Calendar">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+            <CalendarItem Name="PART_CalendarItem"/>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+    <!-- CalendarDatePicker -->
+    <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
+      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="MinHeight" Value="30"/>
+      <Setter Property="Padding" Value="8,4"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="CalendarDatePicker">
+          <DataValidationErrors>
+            <Border Name="PART_Border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    MinHeight="{TemplateBinding MinHeight}">
+              <Grid ColumnDefinitions="*,Auto">
+                <TextBox Name="PART_TextBox"
+                         Grid.Column="0"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Padding="{TemplateBinding Padding}"
+                         Foreground="{TemplateBinding Foreground}"
+                         Watermark="{TemplateBinding Watermark}"
+                         VerticalContentAlignment="Center"/>
+                <Button Name="PART_Button"
+                        Grid.Column="1"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Width="28"
+                        Padding="4">
+                  <Path Data="M 2 4 L 2 13 L 14 13 L 14 4 Z M 5 2 L 5 5 M 11 2 L 11 5 M 2 8 L 14 8"
+                        Stroke="{DynamicResource PipboyTextDimBrush}"
+                        StrokeThickness="1.2"/>
+                </Button>
+                <Popup Name="PART_Popup"
+                       PlacementTarget="PART_Border"
+                       Placement="BottomEdgeAlignedLeft"
+                       IsLightDismissEnabled="True">
+                  <Calendar Name="PART_Calendar"/>
+                </Popup>
+              </Grid>
+            </Border>
+          </DataValidationErrors>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:pointerover /template/ Border#PART_Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
+      </Style>
+      <Style Selector="^:focus /template/ Border#PART_Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyFocusBrush}"/>
+      </Style>
+      <Style Selector="^:disabled">
+        <Setter Property="Opacity" Value="0.45"/>
+      </Style>
+    </ControlTheme>
+
+  </Styles.Resources>
+</Styles>

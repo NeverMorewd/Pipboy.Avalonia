@@ -1,0 +1,36 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+
+    <ControlTheme x:Key="{x:Type SplitView}" TargetType="SplitView">
+      <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}"/>
+      <Setter Property="PaneBackground" Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="OpenPaneLength" Value="220"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="SplitView">
+          <Grid>
+            <!-- Main content -->
+            <Grid Name="PART_ContentRoot"
+                  Background="{TemplateBinding Background}">
+              <ContentPresenter Content="{TemplateBinding Content}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"/>
+            </Grid>
+            <!-- Side pane overlay (for compact/overlay display modes) -->
+            <Grid Name="PART_PaneRoot"
+                  HorizontalAlignment="Left"
+                  Background="{TemplateBinding PaneBackground}">
+              <Border BorderBrush="{DynamicResource PipboyBorderBrush}"
+                      BorderThickness="0,0,1,0">
+                <ContentPresenter Content="{TemplateBinding Pane}"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"/>
+              </Border>
+            </Grid>
+          </Grid>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+  </Styles.Resources>
+</Styles>

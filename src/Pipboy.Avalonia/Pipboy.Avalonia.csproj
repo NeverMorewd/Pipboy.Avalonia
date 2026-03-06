@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Pipboy.Avalonia</RootNamespace>
+    <AssemblyName>Pipboy.Avalonia</AssemblyName>
+    <Version>1.0.0</Version>
+    <Authors>Pipboy.Avalonia Contributors</Authors>
+    <Description>A Fallout 4 Pip-Boy inspired theme library for Avalonia UI. Sharp corners, monochromatic palette, and runtime color switching. No base Fluent/Simple theme required.</Description>
+    <PackageTags>avalonia;theme;fallout;pipboy;retro;ui;dark-theme</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/pipboy-avalonia/Pipboy.Avalonia</PackageProjectUrl>
+    <!-- Compiled bindings eliminate reflection-based XAML binding — required for AOT -->
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <!-- AOT / Trimming compatibility markers -->
+    <IsTrimmable>true</IsTrimmable>
+    <IsAotCompatible>true</IsAotCompatible>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="True" PackagePath="\"/>
+  </ItemGroup>
+
+</Project>

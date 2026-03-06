@@ -1,0 +1,48 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+
+    <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
+      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="0"/>
+      <Setter Property="Height" Value="18"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="ProgressBar">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <Panel>
+              <!-- Indeterminate animation root -->
+              <Border Name="PART_IndeterminateRoot" IsVisible="False">
+                <Border Name="PART_IndeterminateIndicator"
+                        Background="{TemplateBinding Foreground}"
+                        Width="60"
+                        HorizontalAlignment="Left"/>
+              </Border>
+              <!-- Determinate fill indicator -->
+              <Border Name="PART_Indicator"
+                      Background="{TemplateBinding Foreground}"
+                      HorizontalAlignment="Left"
+                      CornerRadius="0"/>
+            </Panel>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:indeterminate /template/ Border#PART_Indicator">
+        <Setter Property="IsVisible" Value="False"/>
+      </Style>
+      <Style Selector="^:indeterminate /template/ Border#PART_IndeterminateRoot">
+        <Setter Property="IsVisible" Value="True"/>
+      </Style>
+      <Style Selector="^:disabled">
+        <Setter Property="Opacity" Value="0.45"/>
+      </Style>
+    </ControlTheme>
+
+  </Styles.Resources>
+</Styles>

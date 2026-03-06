@@ -1,0 +1,82 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Base Window styling -->
+  <Style Selector="Window">
+    <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+    <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}"/>
+    <Setter Property="FontSize" Value="{DynamicResource PipboyFontSize}"/>
+  </Style>
+
+  <!-- UserControl inherits theme colors -->
+  <Style Selector="UserControl">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+  </Style>
+
+  <!-- Panel / Grid / StackPanel — transparent so background shows through -->
+  <Style Selector="Panel">
+    <Setter Property="Background" Value="Transparent"/>
+  </Style>
+
+  <!-- Border default styling -->
+  <Style Selector="Border.pipboy-surface">
+    <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+  </Style>
+
+  <Style Selector="Border.pipboy-panel">
+    <Setter Property="Background" Value="{DynamicResource PipboySurfaceHighBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="Padding" Value="8"/>
+  </Style>
+
+  <!-- TextBlock default foreground -->
+  <Style Selector="TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+    <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}"/>
+  </Style>
+
+  <!-- Heading styles -->
+  <Style Selector="TextBlock.h1">
+    <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}"/>
+    <Setter Property="FontSize" Value="20"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+  </Style>
+
+  <Style Selector="TextBlock.h2">
+    <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}"/>
+    <Setter Property="FontSize" Value="{DynamicResource PipboyFontSizeLarge}"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+  </Style>
+
+  <Style Selector="TextBlock.dim">
+    <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}"/>
+  </Style>
+
+  <Style Selector="TextBlock.accent">
+    <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}"/>
+  </Style>
+
+  <!-- Semantic status text -->
+  <Style Selector="TextBlock.error">
+    <Setter Property="Foreground" Value="{DynamicResource PipboyErrorBrush}"/>
+  </Style>
+  <Style Selector="TextBlock.warning">
+    <Setter Property="Foreground" Value="{DynamicResource PipboyWarningBrush}"/>
+  </Style>
+  <Style Selector="TextBlock.success">
+    <Setter Property="Foreground" Value="{DynamicResource PipboySuccessBrush}"/>
+  </Style>
+
+  <!-- Separator -->
+  <Style Selector="Separator">
+    <Setter Property="Background" Value="{DynamicResource PipboyBorderBrush}"/>
+    <Setter Property="Height" Value="1"/>
+    <Setter Property="Margin" Value="0,4"/>
+  </Style>
+
+</Styles>

@@ -1,0 +1,26 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+
+    <ControlTheme x:Key="{x:Type GridSplitter}" TargetType="GridSplitter">
+      <Setter Property="Background" Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="MinWidth" Value="4"/>
+      <Setter Property="MinHeight" Value="4"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="GridSplitter">
+          <Border Name="Root"
+                  Background="{TemplateBinding Background}"
+                  CornerRadius="0"/>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:pointerover /template/ Border#Root">
+        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:pressed /template/ Border#Root">
+        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryLightBrush}"/>
+      </Style>
+    </ControlTheme>
+
+  </Styles.Resources>
+</Styles>

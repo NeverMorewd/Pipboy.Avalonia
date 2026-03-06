@@ -1,0 +1,463 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Pipboy.Avalonia.Demo.MainView">
+
+  <Grid RowDefinitions="Auto,*">
+
+    <!-- Menu bar -->
+    <Menu Grid.Row="0">
+      <MenuItem Header="_FILE">
+        <MenuItem Header="_New"/>
+        <MenuItem Header="_Open"/>
+        <Separator/>
+        <MenuItem Header="_Exit"/>
+      </MenuItem>
+      <MenuItem Header="_VIEW">
+        <MenuItem Header="_Status"/>
+        <MenuItem Header="_Inventory"/>
+        <MenuItem Header="_MAP"/>
+      </MenuItem>
+      <MenuItem Header="_WINDOW">
+        <MenuItem Header="_Open Dialog Window" Click="OnOpenDialog"/>
+      </MenuItem>
+      <MenuItem Header="_HELP">
+        <MenuItem Header="_About"/>
+      </MenuItem>
+    </Menu>
+
+    <!-- Main content -->
+    <TabControl Grid.Row="1" Margin="8">
+
+      <!-- ===== Tab 1: Basic Controls ===== -->
+      <TabItem Header="[ BASIC ]">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Margin="12">
+
+            <!-- Buttons -->
+            <TextBlock Classes="h2" Text="BUTTONS" Margin="0,0,0,8"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+              <Button Content="PRIMARY ACTION" Margin="0,0,8,0"/>
+              <Button Content="DISABLED" IsEnabled="False" Margin="0,0,8,0"/>
+              <Button Content="▶ EXECUTE" Margin="0,0,8,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+              <ToggleButton Content="TOGGLE OFF" Margin="0,0,8,0"/>
+              <ToggleButton Content="TOGGLE ON" IsChecked="True" Margin="0,0,8,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+              <SplitButton Content="SPLIT ACTION" Margin="0,0,8,0">
+                <SplitButton.Flyout>
+                  <MenuFlyout>
+                    <MenuItem Header="Option A"/>
+                    <MenuItem Header="Option B"/>
+                    <MenuItem Header="Option C"/>
+                  </MenuFlyout>
+                </SplitButton.Flyout>
+              </SplitButton>
+            </StackPanel>
+
+            <!-- TextBox -->
+            <TextBlock Classes="h2" Text="INPUT FIELDS" Margin="0,0,0,8"/>
+            <StackPanel MaxWidth="400" HorizontalAlignment="Left" Margin="0,0,0,16">
+              <TextBox Watermark="Enter terminal command..." Margin="0,0,0,6"/>
+              <TextBox Text="Editable text field" Margin="0,0,0,6"/>
+              <TextBox Watermark="Password field" PasswordChar="●" Margin="0,0,0,6"/>
+              <TextBox Text="Read-only" IsReadOnly="True" Margin="0,0,0,6"/>
+              <AutoCompleteBox Watermark="Auto-complete search..."/>
+            </StackPanel>
+
+            <!-- NumericUpDown -->
+            <TextBlock Classes="h2" Text="NUMERIC INPUT" Margin="0,0,0,8"/>
+            <StackPanel Orientation="Horizontal" MaxWidth="500" HorizontalAlignment="Left" Margin="0,0,0,16">
+              <NumericUpDown Value="42" Minimum="0" Maximum="100" Width="160" Margin="0,0,12,0"/>
+              <NumericUpDown Value="3.14" Minimum="0" Maximum="9.99" Increment="0.01" FormatString="F2" Width="160"/>
+            </StackPanel>
+
+            <!-- CheckBox / RadioButton / ToggleSwitch -->
+            <TextBlock Classes="h2" Text="TOGGLES" Margin="0,0,0,8"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+              <StackPanel Margin="0,0,32,0">
+                <CheckBox Content="VATS ENABLED" IsChecked="True" Margin="0,0,0,6"/>
+                <CheckBox Content="AUTO-SAVE" IsChecked="False" Margin="0,0,0,6"/>
+                <CheckBox Content="INDETERMINATE" IsChecked="{x:Null}" Margin="0,0,0,6"/>
+                <CheckBox Content="DISABLED" IsEnabled="False"/>
+              </StackPanel>
+              <StackPanel Margin="0,0,32,0">
+                <RadioButton Content="NORMAL" GroupName="diff" IsChecked="True" Margin="0,0,0,6"/>
+                <RadioButton Content="HARD" GroupName="diff" Margin="0,0,0,6"/>
+                <RadioButton Content="SURVIVAL" GroupName="diff"/>
+              </StackPanel>
+              <StackPanel>
+                <TextBlock Classes="dim" Text="HUD ENABLED" Margin="0,0,0,4"/>
+                <ToggleSwitch IsChecked="True" Margin="0,0,0,8"/>
+                <TextBlock Classes="dim" Text="SUBTITLES" Margin="0,0,0,4"/>
+                <ToggleSwitch IsChecked="False"/>
+              </StackPanel>
+            </StackPanel>
+
+            <!-- Meters -->
+            <TextBlock Classes="h2" Text="METERS &amp; SLIDERS" Margin="0,0,0,8"/>
+            <Grid MaxWidth="500" HorizontalAlignment="Left" Margin="0,0,0,16">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
+              <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="HP:" VerticalAlignment="Center"/>
+              <ProgressBar Grid.Row="0" Grid.Column="1" Value="75" Maximum="100"/>
+              <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="AP:" VerticalAlignment="Center"/>
+              <ProgressBar Grid.Row="2" Grid.Column="1" Value="50" Maximum="100"/>
+              <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="RAD:" VerticalAlignment="Center"/>
+              <ProgressBar Grid.Row="4" Grid.Column="1" Value="20" Maximum="100"/>
+              <TextBlock Grid.Row="6" Grid.Column="0" Classes="dim" Text="INDET:" VerticalAlignment="Center"/>
+              <ProgressBar Grid.Row="6" Grid.Column="1" IsIndeterminate="True"/>
+              <TextBlock Grid.Row="8" Grid.Column="0" Classes="dim" Text="VOL:" VerticalAlignment="Center"/>
+              <Slider Grid.Row="8" Grid.Column="1" Value="65" Maximum="100"/>
+              <TextBlock Grid.Row="10" Grid.Column="0" Classes="dim" Text="BRIG:" VerticalAlignment="Center"/>
+              <Slider Grid.Row="10" Grid.Column="1" Value="80" Maximum="100"/>
+            </Grid>
+
+            <!-- Typography -->
+            <TextBlock Classes="h2" Text="TYPOGRAPHY" Margin="0,0,0,8"/>
+            <StackPanel Margin="0,0,0,16">
+              <TextBlock Classes="h1" Text="HEADING LEVEL 1"/>
+              <TextBlock Classes="h2" Text="Heading Level 2" Margin="0,4,0,4"/>
+              <TextBlock Text="Regular body text — Normal paragraph content goes here."/>
+              <TextBlock Classes="dim" Text="Dimmed / secondary text for labels and hints." Margin="0,4,0,4"/>
+              <TextBlock Classes="accent" Text="Accent text — primary color highlight."/>
+              <SelectableTextBlock Text="Selectable text — you can highlight this." Margin="0,4,0,0"/>
+            </StackPanel>
+
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+
+      <!-- ===== Tab 2: Lists & Selection ===== -->
+      <TabItem Header="[ LISTS ]">
+        <Grid ColumnDefinitions="*,8,*" Margin="12">
+
+          <!-- Left: ListBox + ComboBox + AutoComplete -->
+          <StackPanel Grid.Column="0">
+            <TextBlock Classes="h2" Text="LIST BOX — INVENTORY" Margin="0,0,0,8"/>
+            <ListBox Height="160" Margin="0,0,0,16">
+              <ListBoxItem Content="10mm Pistol          x1"/>
+              <ListBoxItem Content="Stimpak              x12"/>
+              <ListBoxItem Content="RadAway              x4"/>
+              <ListBoxItem Content="Nuka-Cola             x7"/>
+              <ListBoxItem Content="Fusion Core           x2"/>
+              <ListBoxItem Content="Bobby Pin             x99"/>
+            </ListBox>
+
+            <TextBlock Classes="h2" Text="COMBO BOX — LOCATION" Margin="0,0,0,8"/>
+            <ComboBox SelectedIndex="0" Width="260" HorizontalAlignment="Left" Margin="0,0,0,16">
+              <ComboBoxItem Content="DIAMOND CITY"/>
+              <ComboBoxItem Content="GOODNEIGHBOR"/>
+              <ComboBoxItem Content="THE INSTITUTE"/>
+              <ComboBoxItem Content="VAULT 81"/>
+              <ComboBoxItem Content="SANCTUARY HILLS"/>
+            </ComboBox>
+
+            <TextBlock Classes="h2" Text="SECOND LIST — PERKS" Margin="0,0,0,8"/>
+            <ListBox Height="200">
+              <ListBoxItem Content="Rifleman        Rank 3"/>
+              <ListBoxItem Content="Sneak           Rank 2"/>
+              <ListBoxItem Content="Hacker          Rank 2"/>
+              <ListBoxItem Content="Locksmith       Rank 1"/>
+              <ListBoxItem Content="Medic           Rank 1"/>
+              <ListBoxItem Content="Toughness       Rank 2"/>
+              <ListBoxItem Content="Gun Nut         Rank 3"/>
+              <ListBoxItem Content="Science!        Rank 1"/>
+            </ListBox>
+          </StackPanel>
+
+          <!-- Separator -->
+          <GridSplitter Grid.Column="1" ResizeDirection="Columns"/>
+
+          <!-- Right: TreeView -->
+          <StackPanel Grid.Column="2">
+            <TextBlock Classes="h2" Text="TREE VIEW — SKILL TREE" Margin="0,0,0,8"/>
+            <TreeView>
+              <TreeViewItem Header="SPECIAL ATTRIBUTES" IsExpanded="True">
+                <TreeViewItem Header="Strength — 7"/>
+                <TreeViewItem Header="Perception — 6"/>
+                <TreeViewItem Header="Endurance — 5"/>
+                <TreeViewItem Header="Charisma — 8"/>
+                <TreeViewItem Header="Intelligence — 9"/>
+                <TreeViewItem Header="Agility — 6"/>
+                <TreeViewItem Header="Luck — 7"/>
+              </TreeViewItem>
+              <TreeViewItem Header="PERKS" IsExpanded="True">
+                <TreeViewItem Header="Rifleman" IsExpanded="True">
+                  <TreeViewItem Header="Rank 1 — +20% rifle damage"/>
+                  <TreeViewItem Header="Rank 2 — +40% rifle damage"/>
+                  <TreeViewItem Header="Rank 3 — Ignore 30% armor"/>
+                </TreeViewItem>
+                <TreeViewItem Header="Sneak">
+                  <TreeViewItem Header="Rank 1 — Harder to detect"/>
+                  <TreeViewItem Header="Rank 2 — No noise in armor"/>
+                </TreeViewItem>
+                <TreeViewItem Header="Hacker">
+                  <TreeViewItem Header="Rank 1 — Hack novice terminals"/>
+                  <TreeViewItem Header="Rank 2 — Hack advanced terminals"/>
+                </TreeViewItem>
+              </TreeViewItem>
+              <TreeViewItem Header="CRAFTING">
+                <TreeViewItem Header="Armorer"/>
+                <TreeViewItem Header="Blacksmith"/>
+                <TreeViewItem Header="Science!"/>
+              </TreeViewItem>
+              <TreeViewItem Header="COMPANIONS — No children (leaf node)"/>
+            </TreeView>
+          </StackPanel>
+
+        </Grid>
+      </TabItem>
+
+      <!-- ===== Tab 3: Layout Controls ===== -->
+      <TabItem Header="[ LAYOUT ]">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Margin="12">
+
+            <!-- Expander -->
+            <TextBlock Classes="h2" Text="EXPANDER" Margin="0,0,0,8"/>
+            <StackPanel Margin="0,0,0,16" MaxWidth="500" HorizontalAlignment="Left">
+              <Expander Header="WEAPON STATS" IsExpanded="True" Margin="0,0,0,6">
+                <StackPanel Margin="8">
+                  <TextBlock Text="Damage:      85"/>
+                  <TextBlock Text="Fire Rate:   6"/>
+                  <TextBlock Text="Range:       119"/>
+                  <TextBlock Text="Accuracy:    69"/>
+                </StackPanel>
+              </Expander>
+              <Expander Header="ARMOR STATS" Margin="0,0,0,6">
+                <StackPanel Margin="8">
+                  <TextBlock Text="Ballistic:   42"/>
+                  <TextBlock Text="Energy:      38"/>
+                  <TextBlock Text="Radiation:   15"/>
+                </StackPanel>
+              </Expander>
+              <Expander Header="CLOSED EXPANDER (no expand)"/>
+            </StackPanel>
+
+            <!-- Tab inside tab to show TabControl styling -->
+            <TextBlock Classes="h2" Text="TAB CONTROL (NESTED)" Margin="0,0,0,8"/>
+            <TabControl MaxWidth="500" HorizontalAlignment="Left" Height="140" Margin="0,0,0,16">
+              <TabItem Header="STATUS">
+                <TextBlock Margin="8" Text="Character is in good health. No active status effects."/>
+              </TabItem>
+              <TabItem Header="QUESTS">
+                <TextBlock Margin="8" Text="Active: The Nuclear Option"/>
+              </TabItem>
+              <TabItem Header="MAP">
+                <TextBlock Margin="8" Text="Current location: The Glowing Sea"/>
+              </TabItem>
+            </TabControl>
+
+            <!-- SplitView -->
+            <TextBlock Classes="h2" Text="SPLIT VIEW" Margin="0,0,0,8"/>
+            <Border BorderBrush="{DynamicResource PipboyBorderBrush}" BorderThickness="1"
+                    MaxWidth="500" HorizontalAlignment="Left" Height="120" Margin="0,0,0,16">
+              <SplitView IsPaneOpen="True"
+                         DisplayMode="Inline"
+                         OpenPaneLength="140">
+                <SplitView.Pane>
+                  <StackPanel Margin="8">
+                    <TextBlock Classes="dim" Text="NAVIGATION"/>
+                    <TextBlock Text="STATUS" Margin="0,4,0,2"/>
+                    <TextBlock Text="INVENTORY" Margin="0,2,0,2"/>
+                    <TextBlock Text="MAP" Margin="0,2,0,2"/>
+                  </StackPanel>
+                </SplitView.Pane>
+                <TextBlock Margin="12" Text="Main content area of the SplitView goes here." TextWrapping="Wrap"/>
+              </SplitView>
+            </Border>
+
+            <!-- ToolTip demo -->
+            <TextBlock Classes="h2" Text="TOOLTIP" Margin="0,0,0,8"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+              <Button Content="HOVER ME" Margin="0,0,8,0">
+                <ToolTip.Tip>
+                  <TextBlock Text="This is a Pipboy-styled tooltip.&#x0a;It can span multiple lines."/>
+                </ToolTip.Tip>
+              </Button>
+              <TextBlock Text="(hover the button to see tooltip)" VerticalAlignment="Center" Classes="dim"/>
+            </StackPanel>
+
+            <!-- Date/Time pickers -->
+            <TextBlock Classes="h2" Text="DATE &amp; TIME PICKERS" Margin="0,0,0,8"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+              <DatePicker Margin="0,0,12,0"/>
+              <TimePicker Margin="0,0,12,0"/>
+              <CalendarDatePicker Watermark="Pick a date" Width="180"/>
+            </StackPanel>
+
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+
+      <!-- ===== Tab 4: Window & Dialog ===== -->
+      <TabItem Header="[ WINDOW ]">
+        <StackPanel Margin="12" MaxWidth="600">
+          <TextBlock Classes="h1" Text="WINDOW SHOWCASE" Margin="0,0,0,8"/>
+          <TextBlock TextWrapping="Wrap" Margin="0,0,0,16"
+                     Text="The Pipboy theme applies globally to all Window instances including dialogs. Click below to open a styled dialog window and see the window chrome, title bar, and content styling in action."/>
+
+          <Border Classes="pipboy-panel" Margin="0,0,0,16" Padding="12">
+            <StackPanel>
+              <TextBlock Classes="h2" Text="MAIN WINDOW PROPERTIES"/>
+              <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+                <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="Theme:"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Classes="accent" Text="Pipboy Green (default)"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="Font:"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="Cascadia Code, Consolas, Monospace"/>
+                <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="Platform:"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="Avalonia UI 11.2.3"/>
+                <TextBlock Grid.Row="6" Grid.Column="0" Classes="dim" Text="Mode:"/>
+                <TextBlock Grid.Row="6" Grid.Column="1" Text="Runtime color switching enabled"/>
+              </Grid>
+            </StackPanel>
+          </Border>
+
+          <Button Content="OPEN DIALOG WINDOW" Click="OnOpenDialog" Margin="0,0,0,8"/>
+          <TextBlock Classes="dim" TextWrapping="Wrap"
+                     Text="The dialog window will inherit the current Pipboy theme including any runtime color changes."/>
+        </StackPanel>
+      </TabItem>
+
+      <!-- ===== Tab 5: More Controls ===== -->
+      <TabItem Header="[ MORE ]">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Margin="12">
+
+            <!-- RepeatButton -->
+            <TextBlock Classes="h2" Text="REPEAT BUTTON" Margin="0,0,0,8"/>
+            <TextBlock Classes="dim" TextWrapping="Wrap" Margin="0,0,0,8"
+                       Text="Fires repeatedly while held down. Useful for increment/decrement controls."/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+              <RepeatButton Content="◀ HOLD" Margin="0,0,8,0" Delay="300" Interval="100"/>
+              <RepeatButton Content="▶ HOLD" Margin="0,0,8,0" Delay="300" Interval="100"/>
+              <RepeatButton Content="DISABLED" IsEnabled="False"/>
+            </StackPanel>
+
+            <!-- DropDownButton -->
+            <TextBlock Classes="h2" Text="DROP-DOWN BUTTON" Margin="0,0,0,8"/>
+            <TextBlock Classes="dim" TextWrapping="Wrap" Margin="0,0,0,8"
+                       Text="Button that opens a flyout menu when clicked."/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+              <DropDownButton Content="SELECT FACTION" Margin="0,0,8,0">
+                <DropDownButton.Flyout>
+                  <MenuFlyout>
+                    <MenuItem Header="Brotherhood of Steel"/>
+                    <MenuItem Header="Railroad"/>
+                    <MenuItem Header="Minutemen"/>
+                    <MenuItem Header="Institute"/>
+                  </MenuFlyout>
+                </DropDownButton.Flyout>
+              </DropDownButton>
+              <DropDownButton Content="DISABLED" IsEnabled="False"/>
+            </StackPanel>
+
+            <!-- HyperlinkButton -->
+            <TextBlock Classes="h2" Text="HYPERLINK BUTTON" Margin="0,0,0,8"/>
+            <StackPanel Margin="0,0,0,16">
+              <HyperlinkButton Content="View Vault-Tec official site" NavigateUri="https://www.fallout.com" Margin="0,0,0,4"/>
+              <HyperlinkButton Content="Check SPECIAL stats" Margin="0,0,0,4"/>
+              <HyperlinkButton Content="Disabled link" IsEnabled="False"/>
+            </StackPanel>
+
+            <!-- DataValidationErrors -->
+            <TextBlock Classes="h2" Text="DATA VALIDATION" Margin="0,0,0,8"/>
+            <TextBlock Classes="dim" TextWrapping="Wrap" Margin="0,0,0,8"
+                       Text="TextBox controls show validation errors via DataValidationErrors. Bind with data annotations or INotifyDataErrorInfo."/>
+            <StackPanel MaxWidth="400" HorizontalAlignment="Left" Margin="0,0,0,16">
+              <TextBox Watermark="Enter target name (required)" Margin="0,0,0,6"/>
+              <TextBox Watermark="Enter range (0-9999)" Margin="0,0,0,6"/>
+            </StackPanel>
+
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+
+      <!-- ===== Tab 6: Theme Switcher ===== -->
+      <TabItem Header="[ THEME ]">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="12" MaxWidth="500">
+          <TextBlock Classes="h2" Text="RUNTIME COLOR SWITCHING" Margin="0,0,0,8"/>
+          <TextBlock Classes="dim" TextWrapping="Wrap" Margin="0,0,0,12"
+                     Text="Change the primary color at runtime. All controls update instantly without restart."/>
+
+          <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+            <Button Content="PIPBOY GREEN" Tag="#15FF52" Click="OnColorButtonClick" Margin="0,0,6,6"/>
+            <Button Content="AMBER" Tag="#FFA500" Click="OnColorButtonClick" Margin="0,0,6,6"/>
+            <Button Content="BLUE" Tag="#00BFFF" Click="OnColorButtonClick" Margin="0,0,6,6"/>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+            <Button Content="RED" Tag="#FF3030" Click="OnColorButtonClick" Margin="0,0,6,6"/>
+            <Button Content="CYAN" Tag="#00FFEE" Click="OnColorButtonClick" Margin="0,0,6,6"/>
+            <Button Content="PURPLE" Tag="#BB44FF" Click="OnColorButtonClick" Margin="0,0,6,6"/>
+          </StackPanel>
+
+          <Grid Margin="0,4,0,8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="HEX COLOR:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <TextBox Grid.Column="1" Name="HexColorBox" Watermark="#15FF52" Text="#15FF52"/>
+            <Button Grid.Column="2" Content="APPLY" Margin="8,0,0,0" Click="OnApplyHexColor"/>
+          </Grid>
+
+          <TextBlock Name="StatusText" Classes="dim" Text="Current theme: Pipboy Green (#15FF52)" Margin="0,0,0,16"/>
+
+          <!-- Live preview of all palette brushes -->
+          <TextBlock Classes="h2" Text="PALETTE PREVIEW" Margin="0,0,0,8"/>
+          <ItemsControl Margin="0,0,0,8">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <Border Width="80" Height="48" Background="{DynamicResource PipboyPrimaryBrush}" Margin="0,0,4,4">
+              <TextBlock Text="Primary" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+            </Border>
+            <Border Width="80" Height="48" Background="{DynamicResource PipboyPrimaryLightBrush}" Margin="0,0,4,4">
+              <TextBlock Text="P.Light" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+            </Border>
+            <Border Width="80" Height="48" Background="{DynamicResource PipboyPrimaryDarkBrush}" Margin="0,0,4,4">
+              <TextBlock Text="P.Dark" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+            </Border>
+            <Border Width="80" Height="48" Background="{DynamicResource PipboyBackgroundBrush}" Margin="0,0,4,4"
+                    BorderBrush="{DynamicResource PipboyBorderBrush}" BorderThickness="1">
+              <TextBlock Text="Background" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+            </Border>
+            <Border Width="80" Height="48" Background="{DynamicResource PipboySurfaceBrush}" Margin="0,0,4,4"
+                    BorderBrush="{DynamicResource PipboyBorderBrush}" BorderThickness="1">
+              <TextBlock Text="Surface" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+            </Border>
+            <Border Width="80" Height="48" Background="{DynamicResource PipboySurfaceHighBrush}" Margin="0,0,4,4"
+                    BorderBrush="{DynamicResource PipboyBorderBrush}" BorderThickness="1">
+              <TextBlock Text="SurfHigh" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+            </Border>
+          </ItemsControl>
+        </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+
+    </TabControl>
+
+  </Grid>
+
+</UserControl>

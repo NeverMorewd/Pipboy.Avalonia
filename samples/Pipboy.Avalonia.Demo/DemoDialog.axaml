@@ -1,0 +1,103 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Pipboy.Avalonia.Demo.DemoDialog"
+        Title="PIPBOY OS — DIALOG WINDOW"
+        Width="560"
+        Height="520"
+        WindowStartupLocation="CenterOwner">
+
+  <Grid RowDefinitions="Auto,*,Auto" Margin="0">
+
+    <!-- Title strip -->
+    <Border Grid.Row="0"
+            Background="{DynamicResource PipboyPrimaryBrush}"
+            Padding="16,10">
+      <TextBlock Text="// VAULT-TEC TERMINAL v2.0 //"
+                 Foreground="{DynamicResource PipboyBackgroundBrush}"
+                 FontSize="16"
+                 HorizontalAlignment="Center"/>
+    </Border>
+
+    <!-- Content -->
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+      <StackPanel Margin="20">
+
+        <TextBlock Classes="h2" Text="SYSTEM DIAGNOSTIC REPORT" Margin="0,0,0,12"/>
+
+        <!-- Panel section -->
+        <Border Classes="pipboy-panel" Margin="0,0,0,12" Padding="12">
+          <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+            <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="TERMINAL ID:"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" Classes="accent" Text="VLT-081-TRM-007"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="STATUS:"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="ONLINE"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="OPERATOR:"/>
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="VAULT OVERSEER"/>
+            <TextBlock Grid.Row="6" Grid.Column="0" Classes="dim" Text="CLEARANCE:"/>
+            <TextBlock Grid.Row="6" Grid.Column="1" Classes="accent" Text="LEVEL 5 — TOP SECRET"/>
+          </Grid>
+        </Border>
+
+        <!-- Input fields -->
+        <TextBlock Classes="h2" Text="AUTHENTICATION" Margin="0,0,0,8"/>
+        <TextBox Watermark="Enter access code..." Margin="0,0,0,6"/>
+        <TextBox Watermark="Password" PasswordChar="●" Margin="0,0,0,12"/>
+
+        <!-- Options -->
+        <TextBlock Classes="h2" Text="DIAGNOSTIC OPTIONS" Margin="0,0,0,8"/>
+        <StackPanel Margin="0,0,0,12">
+          <CheckBox Content="RUN MEMORY CHECK" IsChecked="True" Margin="0,0,0,6"/>
+          <CheckBox Content="SCAN NETWORK NODES" IsChecked="True" Margin="0,0,0,6"/>
+          <CheckBox Content="VERIFY VAULT DOOR SEALS" IsChecked="False" Margin="0,0,0,6"/>
+          <CheckBox Content="PURGE ERROR LOG" IsChecked="False"/>
+        </StackPanel>
+
+        <!-- Priority selector -->
+        <TextBlock Classes="h2" Text="PRIORITY LEVEL" Margin="0,0,0,8"/>
+        <ComboBox SelectedIndex="1" Width="220" HorizontalAlignment="Left" Margin="0,0,0,12">
+          <ComboBoxItem Content="CRITICAL — IMMEDIATE"/>
+          <ComboBoxItem Content="HIGH — WITHIN 1 HOUR"/>
+          <ComboBoxItem Content="NORMAL — SCHEDULED"/>
+          <ComboBoxItem Content="LOW — DEFERRED"/>
+        </ComboBox>
+
+        <!-- Progress -->
+        <TextBlock Classes="h2" Text="LAST SCAN RESULTS" Margin="0,0,0,8"/>
+        <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,8,Auto,8,Auto" Margin="0,0,0,16">
+          <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="MEMORY INTEGRITY:" VerticalAlignment="Center"/>
+          <ProgressBar Grid.Row="0" Grid.Column="1" Value="94" Maximum="100"/>
+          <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="NETWORK NODES:" VerticalAlignment="Center"/>
+          <ProgressBar Grid.Row="2" Grid.Column="1" Value="77" Maximum="100"/>
+          <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="VAULT SEALS:" VerticalAlignment="Center"/>
+          <ProgressBar Grid.Row="4" Grid.Column="1" Value="100" Maximum="100"/>
+        </Grid>
+
+        <!-- Log -->
+        <TextBlock Classes="h2" Text="SYSTEM LOG" Margin="0,0,0,8"/>
+        <Border Classes="pipboy-surface" Padding="8" Margin="0,0,0,8">
+          <StackPanel>
+            <TextBlock Classes="dim" Text="[2287-10-23 08:14:02] System boot complete"/>
+            <TextBlock Classes="dim" Text="[2287-10-23 08:14:03] Network: 14/18 nodes online"/>
+            <TextBlock Classes="dim" Text="[2287-10-23 08:14:05] Memory check: PASS (94%)"/>
+            <TextBlock Classes="accent" Text="[2287-10-23 08:14:07] WARNING: Node 12 unreachable"/>
+            <TextBlock Classes="dim" Text="[2287-10-23 08:14:09] Vault door seal: INTACT"/>
+          </StackPanel>
+        </Border>
+
+      </StackPanel>
+    </ScrollViewer>
+
+    <!-- Footer buttons -->
+    <Border Grid.Row="2"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,1,0,0"
+            Padding="16,10">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <Button Content="RUN DIAGNOSTIC" Margin="0,0,8,0" Click="OnRunDiagnostic"/>
+        <Button Content="CLOSE" Click="OnClose"/>
+      </StackPanel>
+    </Border>
+
+  </Grid>
+
+</Window>

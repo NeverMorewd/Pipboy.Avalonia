@@ -1,0 +1,94 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+
+    <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
+      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="HorizontalAlignment" Value="Left"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="OnContent" Value="ON"/>
+      <Setter Property="OffContent" Value="OFF"/>
+      <!-- Animate knob sliding via Canvas.Left -->
+      <Setter Property="KnobTransitions">
+        <Transitions>
+          <DoubleTransition Property="Canvas.Left" Duration="0:0:0.15"/>
+        </Transitions>
+      </Setter>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="ToggleSwitch">
+          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <!-- OFF label -->
+            <ContentPresenter Name="PART_OffContentPresenter"
+                              Content="{TemplateBinding OffContent}"
+                              Foreground="{DynamicResource PipboyTextDimBrush}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,6,0"/>
+            <!-- Track border: visual outer frame -->
+            <Border Name="TrackBorder"
+                    Width="48"
+                    Height="20"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="0"
+                    VerticalAlignment="Center">
+              <!--
+                PART_SwitchKnob must be a Panel subclass (Canvas) so that Avalonia's
+                ToggleSwitch can call Canvas.SetLeft(PART_MovingKnobs, ...) to slide the knob.
+
+                Width = track content width − knob width = (48 − 2×1 border) − 16 = 30.
+                When unchecked: Canvas.SetLeft(PART_MovingKnobs, 0)   → knob at left edge.
+                When checked:   Canvas.SetLeft(PART_MovingKnobs, 30)  → knob at right edge
+                                (30 + knob width 16 = 46 = content area width).
+              -->
+              <Canvas Name="PART_SwitchKnob"
+                      Width="30"
+                      Height="18"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center">
+                <Panel Name="PART_MovingKnobs"
+                       Width="16"
+                       Height="18">
+                  <!-- Knob indicator: 14×14 centered in the 16×18 panel via Margin="1,2" -->
+                  <Border Width="14"
+                          Height="14"
+                          Margin="1,2"
+                          Background="{DynamicResource PipboyTextDimBrush}"
+                          CornerRadius="0"/>
+                </Panel>
+              </Canvas>
+            </Border>
+            <!-- ON label -->
+            <ContentPresenter Name="PART_OnContentPresenter"
+                              Content="{TemplateBinding OnContent}"
+                              Foreground="{DynamicResource PipboyTextDimBrush}"
+                              VerticalAlignment="Center"
+                              Margin="6,0,0,0"/>
+          </StackPanel>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:checked /template/ Border#TrackBorder">
+        <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:checked /template/ Panel#PART_MovingKnobs Border">
+        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:checked /template/ ContentPresenter#PART_OnContentPresenter">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:pointerover /template/ Border#TrackBorder">
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:disabled">
+        <Setter Property="Opacity" Value="0.45"/>
+      </Style>
+    </ControlTheme>
+
+  </Styles.Resources>
+</Styles>
