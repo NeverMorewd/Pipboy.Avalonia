@@ -10,4 +10,12 @@ const dotnetRuntime = await dotnet
 
 const config = dotnetRuntime.getConfig();
 
-await dotnetRuntime.runMain(config.mainAssemblyName, [globalThis.location.href]);
+const runPromise = dotnetRuntime.runMain(config.mainAssemblyName, [globalThis.location.href]);
+
+// Hide splash overlay once Avalonia has had time to render its first frame
+requestAnimationFrame(() => requestAnimationFrame(() => {
+    const splash = document.querySelector('.avalonia-splash');
+    if (splash) splash.classList.add('loaded');
+}));
+
+await runPromise;
