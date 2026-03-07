@@ -2,6 +2,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Styles.Resources>
 
+    <!-- MenuFlyout popup container (used by SplitButton, DropDownButton, Button.Flyout=MenuFlyout) -->
+    <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
+      <Setter Property="Background"   Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="Foreground"   Value="{DynamicResource PipboyTextBrush}"/>
+      <Setter Property="BorderBrush"  Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="0,2"/>
+      <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+      <Setter Property="ScrollViewer.VerticalScrollBarVisibility"   Value="Auto"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="MenuFlyoutPresenter">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="0">
+            <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                          VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+              <ItemsPresenter Name="PART_ItemsPresenter"
+                              ItemsPanel="{TemplateBinding ItemsPanel}"
+                              Margin="{TemplateBinding Padding}"/>
+            </ScrollViewer>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
     <ControlTheme x:Key="{x:Type FlyoutPresenter}" TargetType="FlyoutPresenter">
       <Setter Property="Background" Value="{DynamicResource PipboySurfaceHighBrush}"/>
       <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>

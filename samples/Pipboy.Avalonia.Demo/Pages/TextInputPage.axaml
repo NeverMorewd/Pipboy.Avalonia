@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Pipboy.Avalonia.Demo.Pages.TextInputPage">
+  <ScrollViewer>
+    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+
+      <!-- TextBox -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="TEXT BOX"/>
+        <TextBox Width="360" Watermark="Enter terminal command..."/>
+        <TextBox Width="360" Text="Editable text field"/>
+        <TextBox Width="360" Watermark="Password" PasswordChar="●"/>
+        <TextBox Width="360" Text="Read-only field" IsReadOnly="True"/>
+        <TextBox Width="360" AcceptsReturn="True" Height="80" TextWrapping="Wrap"
+                 Watermark="Multi-line... (Shift+Enter)"/>
+      </StackPanel>
+
+      <!-- AutoCompleteBox -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="AUTO COMPLETE BOX"/>
+        <TextBlock Classes="dim" Text="Items loaded from code-behind."/>
+        <AutoCompleteBox Name="LocationAutoComplete" Width="360" Watermark="Search locations..."/>
+      </StackPanel>
+
+      <!-- NumericUpDown -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="NUMERIC UP-DOWN"/>
+        <WrapPanel>
+          <NumericUpDown Width="160" Value="42" Minimum="0" Maximum="100"           Margin="0,0,12,8"/>
+          <NumericUpDown Width="160" Value="3.14" Minimum="0" Maximum="9.99"
+                         Increment="0.01" FormatString="F2"                        Margin="0,0,12,8"/>
+          <NumericUpDown Width="160" Value="7" IsEnabled="False"                   Margin="0,0,12,8"/>
+        </WrapPanel>
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

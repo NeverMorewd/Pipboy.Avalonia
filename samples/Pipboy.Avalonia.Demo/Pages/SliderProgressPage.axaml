@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Pipboy.Avalonia.Demo.Pages.SliderProgressPage">
+  <ScrollViewer>
+    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+
+      <!-- ProgressBar -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="PROGRESS BAR"/>
+        <Grid ColumnDefinitions="80,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto,8,Auto"
+              Width="440" HorizontalAlignment="Left">
+          <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="HP:" VerticalAlignment="Center"/>
+          <ProgressBar Grid.Row="0" Grid.Column="1" Value="78" Maximum="100"/>
+
+          <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="AP:" VerticalAlignment="Center"/>
+          <ProgressBar Grid.Row="2" Grid.Column="1" Value="52" Maximum="100"/>
+
+          <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="RAD:" VerticalAlignment="Center"/>
+          <ProgressBar Grid.Row="4" Grid.Column="1" Value="23" Maximum="100"/>
+
+          <TextBlock Grid.Row="6" Grid.Column="0" Classes="dim" Text="LVL EXP:" VerticalAlignment="Center"/>
+          <ProgressBar Grid.Row="6" Grid.Column="1" Value="67" Maximum="100"/>
+
+          <TextBlock Grid.Row="8" Grid.Column="0" Classes="dim" Text="LOADING:" VerticalAlignment="Center"/>
+          <ProgressBar Grid.Row="8" Grid.Column="1" IsIndeterminate="True"/>
+        </Grid>
+      </StackPanel>
+
+      <!-- Slider -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="SLIDER"/>
+        <Grid ColumnDefinitions="80,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto"
+              Width="440" HorizontalAlignment="Left">
+          <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="VOLUME:" VerticalAlignment="Center"/>
+          <Slider Grid.Row="0" Grid.Column="1" Value="65" Maximum="100"/>
+
+          <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="BRIGHTNESS:" VerticalAlignment="Center"/>
+          <Slider Grid.Row="2" Grid.Column="1" Value="80" Maximum="100"/>
+
+          <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="GAMMA:" VerticalAlignment="Center"/>
+          <Slider Grid.Row="4" Grid.Column="1" Value="50" Maximum="100"/>
+
+          <TextBlock Grid.Row="6" Grid.Column="0" Classes="dim" Text="DISABLED:" VerticalAlignment="Center"/>
+          <Slider Grid.Row="6" Grid.Column="1" Value="30" Maximum="100" IsEnabled="False"/>
+        </Grid>
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

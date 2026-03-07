@@ -1,0 +1,89 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Pipboy.Avalonia.Demo.Pages.ThemePage">
+  <ScrollViewer>
+    <StackPanel Margin="24" MaxWidth="520" Spacing="16">
+
+      <TextBlock Classes="h1" Text="RUNTIME COLOR THEME"/>
+      <TextBlock Classes="dim" TextWrapping="Wrap"
+                 Text="Change the primary color at runtime. All controls update instantly without restart."/>
+
+      <!-- Preset buttons -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="PRESETS"/>
+
+        <TextBlock Classes="dim" Text="— CLASSIC —" FontSize="10" LetterSpacing="2"/>
+        <WrapPanel>
+          <Button Content="PIPBOY GREEN" Tag="#15FF52" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <Button Content="AMBER"        Tag="#FFA500" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <Button Content="BLUE"         Tag="#00BFFF" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <Button Content="RED"          Tag="#FF3030" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <Button Content="CYAN"         Tag="#00FFEE" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <Button Content="PURPLE"       Tag="#BB44FF" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <Button Content="GOLD"         Tag="#FFD700" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <Button Content="ORANGE"       Tag="#FF8C00" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+        </WrapPanel>
+
+        <TextBlock Classes="dim" Text="— MODERN / GEEK —" FontSize="10" LetterSpacing="2"/>
+        <WrapPanel>
+          <!-- Slate: blue-grey, VSCode / dev-tools aesthetic -->
+          <Button Content="SLATE"    Tag="#607D8B" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <!-- Graphite: neutral cool grey, Apple / Linear minimal -->
+          <Button Content="GRAPHITE" Tag="#9E9E9E" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <!-- Nord: Arctic frost from the Nord palette, hugely popular in dev circles -->
+          <Button Content="NORD"     Tag="#88C0D0" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <!-- Cobalt: deep royal blue, focused / productive -->
+          <Button Content="COBALT"   Tag="#0F52BA" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <!-- Indigo: rich tech indigo, between blue and purple -->
+          <Button Content="INDIGO"   Tag="#5C6BC0" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <!-- Rose: cyberpunk hot-pink / magenta edge -->
+          <Button Content="ROSE"     Tag="#FF4080" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <!-- Neon: high-voltage phosphor lime, Matrix / CRT terminal -->
+          <Button Content="NEON"     Tag="#39FF14" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+          <!-- Sakura: soft pink blossom, elegant contrast -->
+          <Button Content="SAKURA"   Tag="#FF8FAB" Click="OnColorPresetClick" Margin="0,0,6,6"/>
+        </WrapPanel>
+      </StackPanel>
+
+      <!-- Custom hex -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="CUSTOM HEX COLOR"/>
+        <Grid ColumnDefinitions="Auto,*,Auto">
+          <TextBlock Grid.Column="0" Text="HEX:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+          <TextBox Grid.Column="1" Name="HexColorBox" Watermark="#15FF52" Text="#15FF52"/>
+          <Button Grid.Column="2" Content="APPLY" Margin="8,0,0,0" Click="OnApplyHexColor"/>
+        </Grid>
+        <TextBlock Name="StatusText" Classes="dim" Text="Current theme: Pipboy Green (#15FF52)"/>
+      </StackPanel>
+
+      <!-- Palette preview -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="PALETTE PREVIEW"/>
+        <WrapPanel>
+          <Border Width="90" Height="52" Background="{DynamicResource PipboyPrimaryBrush}" Margin="0,0,4,4">
+            <TextBlock Text="Primary" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+          </Border>
+          <Border Width="90" Height="52" Background="{DynamicResource PipboyPrimaryLightBrush}" Margin="0,0,4,4">
+            <TextBlock Text="P.Light" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+          </Border>
+          <Border Width="90" Height="52" Background="{DynamicResource PipboyPrimaryDarkBrush}" Margin="0,0,4,4">
+            <TextBlock Text="P.Dark" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+          </Border>
+          <Border Width="90" Height="52" Background="{DynamicResource PipboyBackgroundBrush}"
+                  BorderBrush="{DynamicResource PipboyBorderBrush}" BorderThickness="1" Margin="0,0,4,4">
+            <TextBlock Text="Background" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+          </Border>
+          <Border Width="90" Height="52" Background="{DynamicResource PipboySurfaceBrush}"
+                  BorderBrush="{DynamicResource PipboyBorderBrush}" BorderThickness="1" Margin="0,0,4,4">
+            <TextBlock Text="Surface" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+          </Border>
+          <Border Width="90" Height="52" Background="{DynamicResource PipboySurfaceHighBrush}"
+                  BorderBrush="{DynamicResource PipboyBorderBrush}" BorderThickness="1" Margin="0,0,4,4">
+            <TextBlock Text="SurfHigh" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+          </Border>
+        </WrapPanel>
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

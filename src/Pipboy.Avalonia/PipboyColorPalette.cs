@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Media;
 
 namespace Pipboy.Avalonia;
@@ -46,23 +47,30 @@ public sealed class PipboyColorPalette
 
         Primary = primaryColor;
 
-        // Lighter / darker primary shades (requirement: +/- 20-30% lightness)
+        // Lighter / darker primary shades
         PrimaryLight = hsl.AdjustLightness(0.25f).ToColor();
         PrimaryDark = hsl.AdjustLightness(-0.25f).ToColor();
 
+        // Saturation scale: primaries with low saturation (greys, slates) produce
+        // proportionally desaturated derived colors so there is no unwanted hue cast.
+        // Primaries with S ≥ 0.25 get the full target saturation; achromatic primaries
+        // (S = 0) produce a pure grey palette.
+        float ss = Math.Min(hsl.S / 0.25f, 1.0f);
+
         // Dark backgrounds — same hue, low saturation, very low lightness
-        Background = new HslColor(hsl.H, 0.30f, 0.05f).ToColor();
-        Surface = new HslColor(hsl.H, 0.28f, 0.09f).ToColor();
-        SurfaceHigh = new HslColor(hsl.H, 0.25f, 0.14f).ToColor();
+        Background = new HslColor(hsl.H, 0.30f * ss, 0.05f).ToColor();
+        Surface    = new HslColor(hsl.H, 0.28f * ss, 0.09f).ToColor();
+        SurfaceHigh = new HslColor(hsl.H, 0.25f * ss, 0.14f).ToColor();
 
         // Text — same hue, moderately saturated, high lightness
-        Text = new HslColor(hsl.H, 0.70f, 0.85f).ToColor();
-        TextDim = new HslColor(hsl.H, 0.45f, 0.58f).ToColor();
+        Text    = new HslColor(hsl.H, 0.70f * ss, 0.85f).ToColor();
+        TextDim = new HslColor(hsl.H, 0.45f * ss, 0.58f).ToColor();
 
-        // Interactive states
-        Hover = hsl.AdjustLightness(0.12f).ToColor();
-        Pressed = hsl.AdjustLightness(-0.12f).ToColor();
-        Disabled = new HslColor(hsl.H, 0.15f, 0.35f).ToColor();
+        // Interactive states — fixed dark lightness so all hues (green, yellow,
+        // cyan, orange…) stay dark enough for Text (L=0.85) to be readable.
+        Hover    = new HslColor(hsl.H, Math.Min(hsl.S * 0.60f, 0.55f), 0.20f).ToColor();
+        Pressed  = new HslColor(hsl.H, Math.Min(hsl.S * 0.50f, 0.45f), 0.13f).ToColor();
+        Disabled = new HslColor(hsl.H, 0.15f * ss, 0.35f).ToColor();
 
         // Focus / selection
         float focusL = hsl.L + 0.30f;

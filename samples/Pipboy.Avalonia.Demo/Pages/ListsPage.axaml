@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Pipboy.Avalonia.Demo.Pages.ListsPage">
+  <ScrollViewer>
+    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+
+      <!-- ListBox -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="LIST BOX — INVENTORY"/>
+        <ListBox Width="340" Height="180">
+          <ListBoxItem Content="10mm Pistol          ×1"/>
+          <ListBoxItem Content="Stimpak              ×12"/>
+          <ListBoxItem Content="RadAway              ×4"/>
+          <ListBoxItem Content="Nuka-Cola             ×7"/>
+          <ListBoxItem Content="Fusion Core           ×2"/>
+          <ListBoxItem Content="Bobby Pin             ×99"/>
+          <ListBoxItem Content="Jet                   ×3"/>
+          <ListBoxItem Content="Psycho                ×1"/>
+        </ListBox>
+      </StackPanel>
+
+      <!-- ComboBox -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="COMBO BOX — LOCATION"/>
+        <ComboBox SelectedIndex="0" Width="260">
+          <ComboBoxItem Content="DIAMOND CITY"/>
+          <ComboBoxItem Content="GOODNEIGHBOR"/>
+          <ComboBoxItem Content="THE INSTITUTE"/>
+          <ComboBoxItem Content="VAULT 81"/>
+          <ComboBoxItem Content="SANCTUARY HILLS"/>
+          <ComboBoxItem Content="THE GLOWING SEA"/>
+        </ComboBox>
+        <ComboBox Width="260" IsEnabled="False" SelectedIndex="0">
+          <ComboBoxItem Content="DISABLED COMBO"/>
+        </ComboBox>
+      </StackPanel>
+
+      <!-- Second ListBox -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="LIST BOX — PERKS"/>
+        <ListBox Width="340" Height="200">
+          <ListBoxItem Content="Rifleman        Rank 3"/>
+          <ListBoxItem Content="Sneak           Rank 2"/>
+          <ListBoxItem Content="Hacker          Rank 2"/>
+          <ListBoxItem Content="Locksmith       Rank 1"/>
+          <ListBoxItem Content="Medic           Rank 1"/>
+          <ListBoxItem Content="Toughness       Rank 2"/>
+          <ListBoxItem Content="Gun Nut         Rank 3"/>
+          <ListBoxItem Content="Science!        Rank 1"/>
+        </ListBox>
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

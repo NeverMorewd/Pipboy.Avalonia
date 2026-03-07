@@ -1,0 +1,76 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Pipboy.Avalonia.Demo.Pages.ExpanderPage">
+  <ScrollViewer>
+    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+
+      <!-- Expander -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="EXPANDER"/>
+        <StackPanel Width="440" Spacing="6">
+          <Expander Header="WEAPON STATS" IsExpanded="True">
+            <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,4,Auto,4,Auto,4,Auto" Margin="8">
+              <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="Damage:"/>
+              <TextBlock Grid.Row="0" Grid.Column="1" Text="85"/>
+              <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="Fire Rate:"/>
+              <TextBlock Grid.Row="2" Grid.Column="1" Text="6"/>
+              <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="Range:"/>
+              <TextBlock Grid.Row="4" Grid.Column="1" Text="119"/>
+              <TextBlock Grid.Row="6" Grid.Column="0" Classes="dim" Text="Accuracy:"/>
+              <TextBlock Grid.Row="6" Grid.Column="1" Text="69"/>
+            </Grid>
+          </Expander>
+          <Expander Header="ARMOR STATS">
+            <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,4,Auto,4,Auto" Margin="8">
+              <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="Ballistic:"/>
+              <TextBlock Grid.Row="0" Grid.Column="1" Text="42"/>
+              <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="Energy:"/>
+              <TextBlock Grid.Row="2" Grid.Column="1" Text="38"/>
+              <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="Radiation:"/>
+              <TextBlock Grid.Row="4" Grid.Column="1" Text="15"/>
+            </Grid>
+          </Expander>
+          <Expander Header="COMPANION DATA (disabled)" IsEnabled="False"/>
+          <Expander Header="CLOSED SECTION"/>
+        </StackPanel>
+      </StackPanel>
+
+      <!-- SplitView -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="SPLIT VIEW"/>
+        <Border BorderBrush="{DynamicResource PipboyBorderBrush}" BorderThickness="1"
+                Width="440" Height="150">
+          <SplitView IsPaneOpen="True" DisplayMode="Inline" OpenPaneLength="140">
+            <SplitView.Pane>
+              <StackPanel Margin="10">
+                <TextBlock Classes="dim" Text="NAVIGATION" FontSize="10" Margin="0,0,0,6"/>
+                <TextBlock Text="STATUS"    Margin="0,0,0,4"/>
+                <TextBlock Text="INVENTORY" Margin="0,0,0,4"/>
+                <TextBlock Text="QUESTS"    Margin="0,0,0,4"/>
+                <TextBlock Text="MAP"/>
+              </StackPanel>
+            </SplitView.Pane>
+            <TextBlock Margin="14" TextWrapping="Wrap"
+                       Text="Main content area. SplitView provides a collapsible side panel for navigation or detail views."/>
+          </SplitView>
+        </Border>
+      </StackPanel>
+
+      <!-- GridSplitter -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="GRID SPLITTER"/>
+        <Border BorderBrush="{DynamicResource PipboyBorderBrush}" BorderThickness="1"
+                Width="440" Height="120">
+          <Grid ColumnDefinitions="*,5,*">
+            <TextBlock Grid.Column="0" Margin="10" TextWrapping="Wrap" Classes="dim"
+                       Text="Left panel — Drag the splitter to resize."/>
+            <GridSplitter Grid.Column="1" ResizeDirection="Columns" Width="5"/>
+            <TextBlock Grid.Column="2" Margin="10" TextWrapping="Wrap" Classes="dim"
+                       Text="Right panel content area."/>
+          </Grid>
+        </Border>
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
