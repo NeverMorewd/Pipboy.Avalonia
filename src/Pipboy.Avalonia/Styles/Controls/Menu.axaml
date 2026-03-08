@@ -1,238 +1,265 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Styles.Resources>
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         MenuItem  (used in ContextMenu, MenuFlyout, and as children of Menu)
-         PART_Popup is the required named part for submenu support.
-         Submenu arrow: visible by default, hidden on :empty (no children).
-         ═══════════════════════════════════════════════════════════════════════ -->
-    <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderThickness" Value="0"/>
-      <Setter Property="Padding" Value="12,5"/>
-      <Setter Property="Cursor" Value="Hand"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="MenuItem">
-          <Panel>
+        <!--
+            ═══════════════════════════════════════════════════════════════════════
+            MenuItem  (used in ContextMenu, MenuFlyout, and as children of Menu)
+            PART_Popup is the required named part for submenu support.
+            Submenu arrow: visible by default, hidden on :empty (no children).
+            ═══════════════════════════════════════════════════════════════════════
+        -->
+        <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="12,5" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="MenuItem">
+                    <Panel>
 
-            <!-- ── Visible row ── -->
-            <Border Name="PART_LayoutRoot"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}">
-              <Grid ColumnDefinitions="20,*,Auto,20">
-                <!-- Icon -->
-                <ContentPresenter Grid.Column="0"
-                                  Content="{TemplateBinding Icon}"
-                                  Width="14" Height="14"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center"/>
-                <!-- Header -->
-                <ContentPresenter Grid.Column="1"
-                                  Name="PART_HeaderPresenter"
-                                  Content="{TemplateBinding Header}"
-                                  ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                  Padding="{TemplateBinding Padding}"
-                                  RecognizesAccessKey="True"
-                                  HorizontalContentAlignment="Left"
-                                  VerticalContentAlignment="Center"/>
-                <!-- Input gesture hint (Ctrl+S etc.) -->
-                <TextBlock Grid.Column="2"
-                           Name="PART_InputGestureText"
-                           Text="{TemplateBinding InputGesture}"
-                           Foreground="{DynamicResource PipboyTextDimBrush}"
-                           Margin="8,0"
-                           VerticalAlignment="Center"/>
-                <!-- Submenu chevron — hidden via :empty when no children -->
-                <Path Grid.Column="3"
-                      Name="PART_SubMenuArrow"
-                      Data="M 4 5 L 9 8 L 4 11"
-                      Stroke="{DynamicResource PipboyTextDimBrush}"
-                      StrokeThickness="1.5"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"/>
-              </Grid>
-            </Border>
+                        <!--  ── Visible row ──  -->
+                        <Border
+                            Name="PART_LayoutRoot"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid ColumnDefinitions="20,*,Auto,20">
+                                <!--  Icon  -->
+                                <ContentPresenter
+                                    Grid.Column="0"
+                                    Width="14"
+                                    Height="14"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="{TemplateBinding Icon}" />
+                                <!--  Header  -->
+                                <ContentPresenter
+                                    Name="PART_HeaderPresenter"
+                                    Grid.Column="1"
+                                    Padding="{TemplateBinding Padding}"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    Content="{TemplateBinding Header}"
+                                    ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                    RecognizesAccessKey="True" />
+                                <!--  Input gesture hint (Ctrl+S etc.)  -->
+                                <TextBlock
+                                    Name="PART_InputGestureText"
+                                    Grid.Column="2"
+                                    Margin="8,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource PipboyTextDimBrush}"
+                                    Text="{TemplateBinding InputGesture}" />
+                                <!--  Submenu chevron — hidden via :empty when no children  -->
+                                <Path
+                                    Name="PART_SubMenuArrow"
+                                    Grid.Column="3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="M 4 5 L 9 8 L 4 11"
+                                    Stroke="{DynamicResource PipboyTextDimBrush}"
+                                    StrokeThickness="1.5" />
+                            </Grid>
+                        </Border>
 
-            <!-- ── PART_Popup: submenu (required by MenuItem control) ── -->
-            <Popup Name="PART_Popup"
-                   IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
-                   Placement="RightEdgeAlignedTop"
-                   HorizontalOffset="2"
-                   VerticalOffset="-3"
-                   IsLightDismissEnabled="False"
-                   WindowManagerAddShadowHint="False"
-                   InheritsTransform="True">
-              <Border Background="{DynamicResource PipboySurfaceBrush}"
-                      BorderBrush="{DynamicResource PipboyBorderBrush}"
-                      BorderThickness="1"
-                      Padding="0,2">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                  <ItemsPresenter Name="PART_ItemsPresenter"
-                                  ItemsPanel="{TemplateBinding ItemsPanel}"
-                                  Grid.IsSharedSizeScope="True"/>
-                </ScrollViewer>
-              </Border>
-            </Popup>
+                        <!--  ── PART_Popup: submenu (required by MenuItem control) ──  -->
+                        <Popup
+                            Name="PART_Popup"
+                            HorizontalOffset="2"
+                            InheritsTransform="True"
+                            IsLightDismissEnabled="False"
+                            IsOpen="{TemplateBinding IsSubMenuOpen,
+                                                     Mode=TwoWay}"
+                            Placement="RightEdgeAlignedTop"
+                            VerticalOffset="-3"
+                            WindowManagerAddShadowHint="False">
+                            <Border
+                                Padding="0,2"
+                                Background="{DynamicResource PipboySurfaceBrush}"
+                                BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                BorderThickness="1">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ItemsPresenter
+                                        Name="PART_ItemsPresenter"
+                                        Grid.IsSharedSizeScope="True"
+                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
 
-          </Panel>
-        </ControlTemplate>
-      </Setter>
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
 
-      <!-- Hover -->
-      <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
-      </Style>
-      <!-- Pressed (only when pointer is still over the row, not a child submenu) -->
-      <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
-        <Setter Property="Background" Value="{DynamicResource PipboyPressedBrush}"/>
-      </Style>
-      <!-- Open: submenu is expanded -->
-      <Style Selector="^:open /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}"/>
-      </Style>
-      <!-- :empty = MenuItem has no sub-items → hide the chevron -->
-      <Style Selector="^:empty /template/ Path#PART_SubMenuArrow">
-        <Setter Property="IsVisible" Value="False"/>
-      </Style>
-      <!-- Disabled -->
-      <Style Selector="^:disabled">
-        <Setter Property="Opacity" Value="0.45"/>
-      </Style>
-      <!-- Separator role: replace template with a thin horizontal rule -->
-      <Style Selector="^:separator">
-        <Setter Property="Template">
-          <ControlTemplate>
-            <Separator/>
-          </ControlTemplate>
-        </Setter>
-      </Style>
-    </ControlTheme>
+            <!--  Hover  -->
+            <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+            <!--  Pressed (only when pointer is still over the row, not a child submenu)  -->
+            <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
+                <Setter Property="Background" Value="{DynamicResource PipboyPressedBrush}" />
+            </Style>
+            <!--  Open: submenu is expanded  -->
+            <Style Selector="^:open /template/ Border#PART_LayoutRoot">
+                <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}" />
+            </Style>
+            <!--  :empty = MenuItem has no sub-items → hide the chevron  -->
+            <Style Selector="^:empty /template/ Path#PART_SubMenuArrow">
+                <Setter Property="IsVisible" Value="False" />
+            </Style>
+            <!--  Disabled  -->
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+            <!--  Separator role: replace template with a thin horizontal rule  -->
+            <Style Selector="^:separator">
+                <Setter Property="Template">
+                    <ControlTemplate>
+                        <Separator />
+                    </ControlTemplate>
+                </Setter>
+            </Style>
+        </ControlTheme>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         TopLevelMenuItem  —  used only for direct children of a Menu bar.
-         Key differences vs regular MenuItem:
-           • Popup opens downward (BottomEdgeAlignedLeft) not rightward
-           • IsLightDismissEnabled="True" so clicking elsewhere closes it
-           • OverlayInputPassThroughElement lets clicks on sibling menu items work
-           • No icon column, no gesture hint, no chevron (top-level has no parent)
-         ═══════════════════════════════════════════════════════════════════════ -->
-    <ControlTheme x:Key="TopLevelMenuItem" TargetType="MenuItem">
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderThickness" Value="0"/>
-      <Setter Property="Padding" Value="12,6"/>
-      <Setter Property="Cursor" Value="Hand"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="MenuItem">
-          <Panel>
+        <!--
+            ═══════════════════════════════════════════════════════════════════════
+            TopLevelMenuItem  —  used only for direct children of a Menu bar.
+            Key differences vs regular MenuItem:
+            • Popup opens downward (BottomEdgeAlignedLeft) not rightward
+            • IsLightDismissEnabled="True" so clicking elsewhere closes it
+            • OverlayInputPassThroughElement lets clicks on sibling menu items work
+            • No icon column, no gesture hint, no chevron (top-level has no parent)
+            ═══════════════════════════════════════════════════════════════════════
+        -->
+        <ControlTheme x:Key="TopLevelMenuItem" TargetType="MenuItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="MenuItem">
+                    <Panel>
 
-            <Border Name="PART_LayoutRoot"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}">
-              <ContentPresenter Name="PART_HeaderPresenter"
+                        <Border
+                            Name="PART_LayoutRoot"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                                Name="PART_HeaderPresenter"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
                                 Content="{TemplateBinding Header}"
                                 ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                Padding="{TemplateBinding Padding}"
-                                RecognizesAccessKey="True"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center"/>
-            </Border>
+                                RecognizesAccessKey="True" />
+                        </Border>
 
-            <!-- Dropdown popup — opens below the menu bar item -->
-            <Popup Name="PART_Popup"
-                   MinWidth="{Binding $parent[MenuItem].Bounds.Width}"
-                   IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
-                   Placement="BottomEdgeAlignedLeft"
-                   IsLightDismissEnabled="True"
-                   OverlayInputPassThroughElement="{Binding $parent[Menu]}"
-                   WindowManagerAddShadowHint="False"
-                   InheritsTransform="True">
-              <Border Background="{DynamicResource PipboySurfaceBrush}"
-                      BorderBrush="{DynamicResource PipboyBorderBrush}"
-                      BorderThickness="1"
-                      Padding="0,2">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                  <ItemsPresenter Name="PART_ItemsPresenter"
-                                  ItemsPanel="{TemplateBinding ItemsPanel}"
-                                  Grid.IsSharedSizeScope="True"/>
-                </ScrollViewer>
-              </Border>
-            </Popup>
+                        <!--  Dropdown popup — opens below the menu bar item  -->
+                        <Popup
+                            Name="PART_Popup"
+                            MinWidth="{Binding $parent[MenuItem].Bounds.Width}"
+                            InheritsTransform="True"
+                            IsLightDismissEnabled="True"
+                            IsOpen="{TemplateBinding IsSubMenuOpen,
+                                                     Mode=TwoWay}"
+                            OverlayInputPassThroughElement="{Binding $parent[Menu]}"
+                            Placement="BottomEdgeAlignedLeft"
+                            WindowManagerAddShadowHint="False">
+                            <Border
+                                Padding="0,2"
+                                Background="{DynamicResource PipboySurfaceBrush}"
+                                BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                BorderThickness="1">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ItemsPresenter
+                                        Name="PART_ItemsPresenter"
+                                        Grid.IsSharedSizeScope="True"
+                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
 
-          </Panel>
-        </ControlTemplate>
-      </Setter>
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
 
-      <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
-      </Style>
-      <!-- :selected = keyboard-focused in the menu bar -->
-      <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
-      </Style>
-      <!-- :open = dropdown is visible -->
-      <Style Selector="^:open /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
-      </Style>
-      <Style Selector="^:disabled">
-        <Setter Property="Opacity" Value="0.45"/>
-      </Style>
-    </ControlTheme>
+            <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+            <!--  :selected = keyboard-focused in the menu bar  -->
+            <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+            <!--  :open = dropdown is visible  -->
+            <Style Selector="^:open /template/ Border#PART_LayoutRoot">
+                <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         Menu bar  (horizontal strip at the top of a window / panel)
-         TopLevelMenuItem is applied to direct children so they drop downward.
-         ═══════════════════════════════════════════════════════════════════════ -->
-    <ControlTheme x:Key="{x:Type Menu}" TargetType="Menu">
-      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
-      <Setter Property="BorderThickness" Value="0,0,0,1"/>
-      <Setter Property="Padding" Value="2,0"/>
-      <Setter Property="ItemContainerTheme" Value="{StaticResource TopLevelMenuItem}"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="Menu">
-          <Border Background="{TemplateBinding Background}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}">
-            <ItemsPresenter Name="PART_ItemsPresenter"
-                            ItemsPanel="{TemplateBinding ItemsPanel}"
+        <!--
+            ═══════════════════════════════════════════════════════════════════════
+            Menu bar  (horizontal strip at the top of a window / panel)
+            TopLevelMenuItem is applied to direct children so they drop downward.
+            ═══════════════════════════════════════════════════════════════════════
+        -->
+        <ControlTheme x:Key="{x:Type Menu}" TargetType="Menu">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="Padding" Value="2,0" />
+            <Setter Property="ItemContainerTheme" Value="{StaticResource TopLevelMenuItem}" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Menu">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsPresenter
+                            Name="PART_ItemsPresenter"
                             Margin="{TemplateBinding Padding}"
-                            KeyboardNavigation.TabNavigation="Continue"/>
-          </Border>
-        </ControlTemplate>
-      </Setter>
-    </ControlTheme>
+                            ItemsPanel="{TemplateBinding ItemsPanel}"
+                            KeyboardNavigation.TabNavigation="Continue" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         ContextMenu  (right-click popup)
-         ═══════════════════════════════════════════════════════════════════════ -->
-    <ControlTheme x:Key="{x:Type ContextMenu}" TargetType="ContextMenu">
-      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
-      <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="Padding" Value="0,2"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="ContextMenu">
-          <Border Background="{TemplateBinding Background}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-              <ItemsPresenter Name="PART_ItemsPresenter"
-                              ItemsPanel="{TemplateBinding ItemsPanel}"
-                              Margin="{TemplateBinding Padding}"
-                              Grid.IsSharedSizeScope="True"/>
-            </ScrollViewer>
-          </Border>
-        </ControlTemplate>
-      </Setter>
-    </ControlTheme>
+        <!--
+            ═══════════════════════════════════════════════════════════════════════
+            ContextMenu  (right-click popup)
+            ═══════════════════════════════════════════════════════════════════════
+        -->
+        <ControlTheme x:Key="{x:Type ContextMenu}" TargetType="ContextMenu">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="0,2" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="ContextMenu">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter
+                                Name="PART_ItemsPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                Grid.IsSharedSizeScope="True"
+                                ItemsPanel="{TemplateBinding ItemsPanel}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
 
-  </Styles.Resources>
+    </Styles.Resources>
 </Styles>

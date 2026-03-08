@@ -1,50 +1,54 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Pipboy.Avalonia.Demo.Pages.TreeViewPage">
-  <ScrollViewer>
-    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+﻿<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.TreeViewPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel
+            Margin="24"
+            HorizontalAlignment="Left"
+            Spacing="24">
 
-      <!-- TreeView -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="TREE VIEW — SKILL TREE"/>
-        <TreeView Width="400">
-          <TreeViewItem Header="SPECIAL ATTRIBUTES" IsExpanded="True">
-            <TreeViewItem Header="Strength      — 7"/>
-            <TreeViewItem Header="Perception    — 6"/>
-            <TreeViewItem Header="Endurance     — 5"/>
-            <TreeViewItem Header="Charisma      — 8"/>
-            <TreeViewItem Header="Intelligence  — 9"/>
-            <TreeViewItem Header="Agility       — 6"/>
-            <TreeViewItem Header="Luck          — 7"/>
-          </TreeViewItem>
-          <TreeViewItem Header="PERKS" IsExpanded="True">
-            <TreeViewItem Header="Rifleman" IsExpanded="True">
-              <TreeViewItem Header="Rank 1 — +20% rifle damage"/>
-              <TreeViewItem Header="Rank 2 — +40% rifle damage"/>
-              <TreeViewItem Header="Rank 3 — Ignore 30% armor"/>
-            </TreeViewItem>
-            <TreeViewItem Header="Sneak">
-              <TreeViewItem Header="Rank 1 — Harder to detect"/>
-              <TreeViewItem Header="Rank 2 — No noise in light armor"/>
-            </TreeViewItem>
-            <TreeViewItem Header="Hacker">
-              <TreeViewItem Header="Rank 1 — Hack novice terminals"/>
-              <TreeViewItem Header="Rank 2 — Hack advanced terminals"/>
-            </TreeViewItem>
-            <TreeViewItem Header="Locksmith">
-              <TreeViewItem Header="Rank 1 — Pick novice locks"/>
-            </TreeViewItem>
-          </TreeViewItem>
-          <TreeViewItem Header="CRAFTING">
-            <TreeViewItem Header="Armorer"/>
-            <TreeViewItem Header="Blacksmith"/>
-            <TreeViewItem Header="Science!"/>
-            <TreeViewItem Header="Gun Nut"/>
-          </TreeViewItem>
-          <TreeViewItem Header="COMPANIONS — leaf node (no children)"/>
-        </TreeView>
-      </StackPanel>
+            <!--  TreeView  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="TREE VIEW — SKILL TREE" />
+                <TreeView Width="400">
+                    <TreeViewItem Header="SPECIAL ATTRIBUTES" IsExpanded="True">
+                        <TreeViewItem Header="Strength      — 7" />
+                        <TreeViewItem Header="Perception    — 6" />
+                        <TreeViewItem Header="Endurance     — 5" />
+                        <TreeViewItem Header="Charisma      — 8" />
+                        <TreeViewItem Header="Intelligence  — 9" />
+                        <TreeViewItem Header="Agility       — 6" />
+                        <TreeViewItem Header="Luck          — 7" />
+                    </TreeViewItem>
+                    <TreeViewItem Header="PERKS" IsExpanded="True">
+                        <TreeViewItem Header="Rifleman" IsExpanded="True">
+                            <TreeViewItem Header="Rank 1 — +20% rifle damage" />
+                            <TreeViewItem Header="Rank 2 — +40% rifle damage" />
+                            <TreeViewItem Header="Rank 3 — Ignore 30% armor" />
+                        </TreeViewItem>
+                        <TreeViewItem Header="Sneak">
+                            <TreeViewItem Header="Rank 1 — Harder to detect" />
+                            <TreeViewItem Header="Rank 2 — No noise in light armor" />
+                        </TreeViewItem>
+                        <TreeViewItem Header="Hacker">
+                            <TreeViewItem Header="Rank 1 — Hack novice terminals" />
+                            <TreeViewItem Header="Rank 2 — Hack advanced terminals" />
+                        </TreeViewItem>
+                        <TreeViewItem Header="Locksmith">
+                            <TreeViewItem Header="Rank 1 — Pick novice locks" />
+                        </TreeViewItem>
+                    </TreeViewItem>
+                    <TreeViewItem Header="CRAFTING">
+                        <TreeViewItem Header="Armorer" />
+                        <TreeViewItem Header="Blacksmith" />
+                        <TreeViewItem Header="Science!" />
+                        <TreeViewItem Header="Gun Nut" />
+                    </TreeViewItem>
+                    <TreeViewItem Header="COMPANIONS — leaf node (no children)" />
+                </TreeView>
+            </StackPanel>
 
-    </StackPanel>
-  </ScrollViewer>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

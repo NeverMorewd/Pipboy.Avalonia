@@ -1,60 +1,108 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Pipboy.Avalonia.Demo.Pages.TogglesPage">
-  <ScrollViewer>
-    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+﻿<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.TogglesPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel
+            Margin="24"
+            HorizontalAlignment="Left"
+            Spacing="24">
 
-      <!-- CheckBox -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="CHECK BOX"/>
-        <StackPanel Orientation="Horizontal" Spacing="16">
-          <StackPanel Spacing="6">
-            <CheckBox Content="VATS ENABLED"   IsChecked="True"/>
-            <CheckBox Content="AUTO-SAVE"      IsChecked="False"/>
-            <CheckBox Content="INDETERMINATE"  IsChecked="{x:Null}"/>
-            <CheckBox Content="DISABLED"       IsEnabled="False"/>
-            <CheckBox Content="DISABLED ON"    IsEnabled="False" IsChecked="True"/>
-          </StackPanel>
+            <!--  CheckBox  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="CHECK BOX" />
+                <StackPanel Orientation="Horizontal" Spacing="16">
+                    <StackPanel Spacing="6">
+                        <CheckBox Content="VATS ENABLED" IsChecked="True" />
+                        <CheckBox Content="AUTO-SAVE" IsChecked="False" />
+                        <CheckBox Content="INDETERMINATE" IsChecked="{x:Null}" />
+                        <CheckBox Content="DISABLED" IsEnabled="False" />
+                        <CheckBox
+                            Content="DISABLED ON"
+                            IsChecked="True"
+                            IsEnabled="False" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <!--  RadioButton  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="RADIO BUTTON" />
+                <StackPanel Orientation="Horizontal" Spacing="32">
+                    <StackPanel Spacing="6">
+                        <TextBlock Classes="dim" Text="DIFFICULTY" />
+                        <RadioButton Content="VERY EASY" GroupName="diff" />
+                        <RadioButton
+                            Content="NORMAL"
+                            GroupName="diff"
+                            IsChecked="True" />
+                        <RadioButton Content="HARD" GroupName="diff" />
+                        <RadioButton Content="SURVIVAL" GroupName="diff" />
+                        <RadioButton
+                            Content="DISABLED"
+                            GroupName="diff2"
+                            IsEnabled="False" />
+                    </StackPanel>
+                    <StackPanel Spacing="6">
+                        <TextBlock Classes="dim" Text="FACTION" />
+                        <RadioButton
+                            Content="Brotherhood"
+                            GroupName="fac"
+                            IsChecked="True" />
+                        <RadioButton Content="Railroad" GroupName="fac" />
+                        <RadioButton Content="Minutemen" GroupName="fac" />
+                        <RadioButton Content="Institute" GroupName="fac" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <!--  ToggleSwitch  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="TOGGLE SWITCH" />
+                <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Classes="dim"
+                        Text="HUD ENABLED" />
+                    <ToggleSwitch
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        IsChecked="True" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Classes="dim"
+                        Text="SUBTITLES" />
+                    <ToggleSwitch
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        IsChecked="False" />
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Classes="dim"
+                        Text="GOD MODE" />
+                    <ToggleSwitch
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        IsChecked="True" />
+                    <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Classes="dim"
+                        Text="DISABLED" />
+                    <ToggleSwitch
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        IsEnabled="False" />
+                </Grid>
+            </StackPanel>
+
         </StackPanel>
-      </StackPanel>
-
-      <!-- RadioButton -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="RADIO BUTTON"/>
-        <StackPanel Orientation="Horizontal" Spacing="32">
-          <StackPanel Spacing="6">
-            <TextBlock Classes="dim" Text="DIFFICULTY"/>
-            <RadioButton Content="VERY EASY"  GroupName="diff" />
-            <RadioButton Content="NORMAL"     GroupName="diff" IsChecked="True"/>
-            <RadioButton Content="HARD"       GroupName="diff"/>
-            <RadioButton Content="SURVIVAL"   GroupName="diff"/>
-            <RadioButton Content="DISABLED"   GroupName="diff2" IsEnabled="False"/>
-          </StackPanel>
-          <StackPanel Spacing="6">
-            <TextBlock Classes="dim" Text="FACTION"/>
-            <RadioButton Content="Brotherhood" GroupName="fac" IsChecked="True"/>
-            <RadioButton Content="Railroad"    GroupName="fac"/>
-            <RadioButton Content="Minutemen"   GroupName="fac"/>
-            <RadioButton Content="Institute"   GroupName="fac"/>
-          </StackPanel>
-        </StackPanel>
-      </StackPanel>
-
-      <!-- ToggleSwitch -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="TOGGLE SWITCH"/>
-        <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
-          <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="HUD ENABLED" VerticalAlignment="Center"/>
-          <ToggleSwitch Grid.Row="0" Grid.Column="1" IsChecked="True"/>
-          <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="SUBTITLES" VerticalAlignment="Center"/>
-          <ToggleSwitch Grid.Row="2" Grid.Column="1" IsChecked="False"/>
-          <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="GOD MODE" VerticalAlignment="Center"/>
-          <ToggleSwitch Grid.Row="4" Grid.Column="1" IsChecked="True"/>
-          <TextBlock Grid.Row="6" Grid.Column="0" Classes="dim" Text="DISABLED" VerticalAlignment="Center"/>
-          <ToggleSwitch Grid.Row="6" Grid.Column="1" IsEnabled="False"/>
-        </Grid>
-      </StackPanel>
-
-    </StackPanel>
-  </ScrollViewer>
+    </ScrollViewer>
 </UserControl>

@@ -1,73 +1,95 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Pipboy.Avalonia.Demo.Pages.CardPage">
-  <ScrollViewer>
-    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+﻿<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.CardPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel
+            Margin="24"
+            HorizontalAlignment="Left"
+            Spacing="24">
 
-      <!-- Card -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="CARD"/>
-        <TextBlock Classes="dim" Text="Border with Classes=&quot;card&quot; — surface background, theme border, 16px padding."/>
-        <WrapPanel>
-          <Border Classes="card" Width="200" Margin="0,0,12,12">
-            <StackPanel Spacing="4">
-              <TextBlock Classes="h2" Text="VAULT 101"/>
-              <TextBlock Classes="dim" Text="Status: Sealed"/>
-              <TextBlock Text="Population: 0"/>
+            <!--  Card  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="CARD" />
+                <TextBlock Classes="dim" Text="Border with Classes=&quot;card&quot; — surface background, theme border, 16px padding." />
+                <WrapPanel>
+                    <Border
+                        Width="200"
+                        Margin="0,0,12,12"
+                        Classes="card">
+                        <StackPanel Spacing="4">
+                            <TextBlock Classes="h2" Text="VAULT 101" />
+                            <TextBlock Classes="dim" Text="Status: Sealed" />
+                            <TextBlock Text="Population: 0" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="200"
+                        Margin="0,0,12,12"
+                        Classes="card">
+                        <StackPanel Spacing="4">
+                            <TextBlock Classes="h2" Text="VAULT 81" />
+                            <TextBlock Classes="dim" Text="Status: Active" />
+                            <TextBlock Text="Population: 42" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="200"
+                        Margin="0,0,12,12"
+                        Classes="card">
+                        <StackPanel Spacing="4">
+                            <TextBlock Classes="h2" Text="VAULT 111" />
+                            <TextBlock Classes="dim" Text="Status: Abandoned" />
+                            <TextBlock Text="Population: 1" />
+                        </StackPanel>
+                    </Border>
+                </WrapPanel>
             </StackPanel>
-          </Border>
-          <Border Classes="card" Width="200" Margin="0,0,12,12">
-            <StackPanel Spacing="4">
-              <TextBlock Classes="h2" Text="VAULT 81"/>
-              <TextBlock Classes="dim" Text="Status: Active"/>
-              <TextBlock Text="Population: 42"/>
-            </StackPanel>
-          </Border>
-          <Border Classes="card" Width="200" Margin="0,0,12,12">
-            <StackPanel Spacing="4">
-              <TextBlock Classes="h2" Text="VAULT 111"/>
-              <TextBlock Classes="dim" Text="Status: Abandoned"/>
-              <TextBlock Text="Population: 1"/>
-            </StackPanel>
-          </Border>
-        </WrapPanel>
-      </StackPanel>
 
-      <!-- Elevated Card -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="ELEVATED CARD"/>
-        <TextBlock Classes="dim" Text="Classes=&quot;card-elevated&quot; — raised surface with primary border accent."/>
-        <WrapPanel>
-          <Border Classes="card-elevated" Width="200" Margin="0,0,12,12">
-            <StackPanel Spacing="4">
-              <TextBlock Classes="h2" Text="DIAMOND CITY"/>
-              <TextBlock Classes="dim" Text="Commonwealth"/>
-              <TextBlock Text="Traders: 12 · Guards: 8"/>
+            <!--  Elevated Card  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="ELEVATED CARD" />
+                <TextBlock Classes="dim" Text="Classes=&quot;card-elevated&quot; — raised surface with primary border accent." />
+                <WrapPanel>
+                    <Border
+                        Width="200"
+                        Margin="0,0,12,12"
+                        Classes="card-elevated">
+                        <StackPanel Spacing="4">
+                            <TextBlock Classes="h2" Text="DIAMOND CITY" />
+                            <TextBlock Classes="dim" Text="Commonwealth" />
+                            <TextBlock Text="Traders: 12 · Guards: 8" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="200"
+                        Margin="0,0,12,12"
+                        Classes="card-elevated">
+                        <StackPanel Spacing="4">
+                            <TextBlock Classes="h2" Text="GOODNEIGHBOR" />
+                            <TextBlock Classes="dim" Text="Commonwealth" />
+                            <TextBlock Text="Traders: 7 · Gangers: 20" />
+                        </StackPanel>
+                    </Border>
+                </WrapPanel>
             </StackPanel>
-          </Border>
-          <Border Classes="card-elevated" Width="200" Margin="0,0,12,12">
-            <StackPanel Spacing="4">
-              <TextBlock Classes="h2" Text="GOODNEIGHBOR"/>
-              <TextBlock Classes="dim" Text="Commonwealth"/>
-              <TextBlock Text="Traders: 7 · Gangers: 20"/>
-            </StackPanel>
-          </Border>
-        </WrapPanel>
-      </StackPanel>
 
-      <!-- Separator -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="SEPARATOR"/>
-        <TextBlock Classes="dim" Text="Horizontal divider rule. Used between sections."/>
-        <StackPanel Spacing="8" Width="340" HorizontalAlignment="Left">
-          <TextBlock Text="Section A — Primary Systems"/>
-          <Separator/>
-          <TextBlock Text="Section B — Auxiliary Systems"/>
-          <Separator/>
-          <TextBlock Text="Section C — Emergency Protocols"/>
+            <!--  Separator  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="SEPARATOR" />
+                <TextBlock Classes="dim" Text="Horizontal divider rule. Used between sections." />
+                <StackPanel
+                    Width="340"
+                    HorizontalAlignment="Left"
+                    Spacing="8">
+                    <TextBlock Text="Section A — Primary Systems" />
+                    <Separator />
+                    <TextBlock Text="Section B — Auxiliary Systems" />
+                    <Separator />
+                    <TextBlock Text="Section C — Emergency Protocols" />
+                </StackPanel>
+            </StackPanel>
+
         </StackPanel>
-      </StackPanel>
-
-    </StackPanel>
-  </ScrollViewer>
+    </ScrollViewer>
 </UserControl>

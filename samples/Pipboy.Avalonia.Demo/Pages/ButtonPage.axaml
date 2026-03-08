@@ -1,93 +1,131 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Pipboy.Avalonia.Demo.Pages.ButtonPage">
-  <ScrollViewer>
-    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+﻿<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.ButtonPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel
+            Margin="24"
+            HorizontalAlignment="Left"
+            Spacing="24">
 
-      <!-- Button -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="BUTTON"/>
-        <WrapPanel>
-          <Button Content="PRIMARY ACTION"   Margin="0,0,8,8"/>
-          <Button Content="EXECUTE"          Margin="0,0,8,8"/>
-          <Button Content="DISABLED" IsEnabled="False" Margin="0,0,8,8"/>
-        </WrapPanel>
-      </StackPanel>
+            <!--  Button  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="BUTTON" />
+                <WrapPanel>
+                    <Button Margin="0,0,8,8" Content="PRIMARY ACTION" />
+                    <Button Margin="0,0,8,8" Content="EXECUTE" />
+                    <Button
+                        Margin="0,0,8,8"
+                        Content="DISABLED"
+                        IsEnabled="False" />
+                </WrapPanel>
+            </StackPanel>
 
-      <!-- ToggleButton -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="TOGGLE BUTTON"/>
-        <WrapPanel>
-          <ToggleButton Content="VATS: OFF"                      Margin="0,0,8,8"/>
-          <ToggleButton Content="VATS: ON"  IsChecked="True"     Margin="0,0,8,8"/>
-          <ToggleButton Content="DISABLED"  IsEnabled="False"    Margin="0,0,8,8"/>
-          <ToggleButton Content="DISABLED ON" IsEnabled="False" IsChecked="True" Margin="0,0,8,8"/>
-        </WrapPanel>
-      </StackPanel>
+            <!--  ToggleButton  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="TOGGLE BUTTON" />
+                <WrapPanel>
+                    <ToggleButton Margin="0,0,8,8" Content="VATS: OFF" />
+                    <ToggleButton
+                        Margin="0,0,8,8"
+                        Content="VATS: ON"
+                        IsChecked="True" />
+                    <ToggleButton
+                        Margin="0,0,8,8"
+                        Content="DISABLED"
+                        IsEnabled="False" />
+                    <ToggleButton
+                        Margin="0,0,8,8"
+                        Content="DISABLED ON"
+                        IsChecked="True"
+                        IsEnabled="False" />
+                </WrapPanel>
+            </StackPanel>
 
-      <!-- RepeatButton -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="REPEAT BUTTON"/>
-        <TextBlock Classes="dim" Text="Fires continuously while held. Use for increment / decrement."/>
-        <WrapPanel>
-          <RepeatButton Content="◀ HOLD" Delay="300" Interval="100" Margin="0,0,8,8"/>
-          <RepeatButton Content="▶ HOLD" Delay="300" Interval="100" Margin="0,0,8,8"/>
-          <RepeatButton Content="DISABLED" IsEnabled="False"         Margin="0,0,8,8"/>
-        </WrapPanel>
-      </StackPanel>
+            <!--  RepeatButton  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="REPEAT BUTTON" />
+                <TextBlock Classes="dim" Text="Fires continuously while held. Use for increment / decrement." />
+                <WrapPanel>
+                    <RepeatButton
+                        Margin="0,0,8,8"
+                        Content="◀ HOLD"
+                        Delay="300"
+                        Interval="100" />
+                    <RepeatButton
+                        Margin="0,0,8,8"
+                        Content="▶ HOLD"
+                        Delay="300"
+                        Interval="100" />
+                    <RepeatButton
+                        Margin="0,0,8,8"
+                        Content="DISABLED"
+                        IsEnabled="False" />
+                </WrapPanel>
+            </StackPanel>
 
-      <!-- SplitButton -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="SPLIT BUTTON"/>
-        <WrapPanel>
-          <SplitButton Content="SELECT FACTION" Margin="0,0,8,8">
-            <SplitButton.Flyout>
-              <MenuFlyout>
-                <MenuItem Header="Brotherhood of Steel"/>
-                <MenuItem Header="Railroad"/>
-                <MenuItem Header="Minutemen"/>
-                <MenuItem Header="Institute"/>
-              </MenuFlyout>
-            </SplitButton.Flyout>
-          </SplitButton>
-          <SplitButton Content="DISABLED" IsEnabled="False" Margin="0,0,8,8">
-            <SplitButton.Flyout>
-              <MenuFlyout><MenuItem Header="Item"/></MenuFlyout>
-            </SplitButton.Flyout>
-          </SplitButton>
-        </WrapPanel>
-      </StackPanel>
+            <!--  SplitButton  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="SPLIT BUTTON" />
+                <WrapPanel>
+                    <SplitButton Margin="0,0,8,8" Content="SELECT FACTION">
+                        <SplitButton.Flyout>
+                            <MenuFlyout>
+                                <MenuItem Header="Brotherhood of Steel" />
+                                <MenuItem Header="Railroad" />
+                                <MenuItem Header="Minutemen" />
+                                <MenuItem Header="Institute" />
+                            </MenuFlyout>
+                        </SplitButton.Flyout>
+                    </SplitButton>
+                    <SplitButton
+                        Margin="0,0,8,8"
+                        Content="DISABLED"
+                        IsEnabled="False">
+                        <SplitButton.Flyout>
+                            <MenuFlyout>
+                                <MenuItem Header="Item" />
+                            </MenuFlyout>
+                        </SplitButton.Flyout>
+                    </SplitButton>
+                </WrapPanel>
+            </StackPanel>
 
-      <!-- DropDownButton -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="DROP-DOWN BUTTON"/>
-        <WrapPanel>
-          <DropDownButton Content="SELECT LOCATION" Margin="0,0,8,8">
-            <DropDownButton.Flyout>
-              <MenuFlyout>
-                <MenuItem Header="Diamond City"/>
-                <MenuItem Header="Goodneighbor"/>
-                <MenuItem Header="Vault 81"/>
-                <MenuItem Header="Sanctuary Hills"/>
-              </MenuFlyout>
-            </DropDownButton.Flyout>
-          </DropDownButton>
-          <DropDownButton Content="DISABLED" IsEnabled="False" Margin="0,0,8,8">
-            <DropDownButton.Flyout>
-              <MenuFlyout><MenuItem Header="Item"/></MenuFlyout>
-            </DropDownButton.Flyout>
-          </DropDownButton>
-        </WrapPanel>
-      </StackPanel>
+            <!--  DropDownButton  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="DROP-DOWN BUTTON" />
+                <WrapPanel>
+                    <DropDownButton Margin="0,0,8,8" Content="SELECT LOCATION">
+                        <DropDownButton.Flyout>
+                            <MenuFlyout>
+                                <MenuItem Header="Diamond City" />
+                                <MenuItem Header="Goodneighbor" />
+                                <MenuItem Header="Vault 81" />
+                                <MenuItem Header="Sanctuary Hills" />
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+                    <DropDownButton
+                        Margin="0,0,8,8"
+                        Content="DISABLED"
+                        IsEnabled="False">
+                        <DropDownButton.Flyout>
+                            <MenuFlyout>
+                                <MenuItem Header="Item" />
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+                </WrapPanel>
+            </StackPanel>
 
-      <!-- HyperlinkButton -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="HYPERLINK BUTTON"/>
-        <HyperlinkButton Content="Open Vault-Tec official records" NavigateUri="https://www.fallout.com"/>
-        <HyperlinkButton Content="Check SPECIAL stats"/>
-        <HyperlinkButton Content="Disabled link" IsEnabled="False"/>
-      </StackPanel>
+            <!--  HyperlinkButton  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="HYPERLINK BUTTON" />
+                <HyperlinkButton Content="Open Vault-Tec official records" NavigateUri="https://www.fallout.com" />
+                <HyperlinkButton Content="Check SPECIAL stats" />
+                <HyperlinkButton Content="Disabled link" IsEnabled="False" />
+            </StackPanel>
 
-    </StackPanel>
-  </ScrollViewer>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

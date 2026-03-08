@@ -1,44 +1,56 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Pipboy.Avalonia.Demo.Pages.TypographyPage">
-  <ScrollViewer>
-    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+﻿<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.TypographyPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel
+            Margin="24"
+            HorizontalAlignment="Left"
+            Spacing="24">
 
-      <!-- TextBlock variants -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="TEXT BLOCK"/>
-        <TextBlock Classes="h1" Text="HEADING LEVEL 1 — VAULT-TEC"/>
-        <TextBlock Classes="h2" Text="Heading Level 2 — Status Report"/>
-        <TextBlock Text="Body text — Regular paragraph content. Welcome to the Capital Wasteland. Current radiation level: moderate."/>
-        <TextBlock Classes="dim" Text="Dim text — Secondary labels, hints, and supplemental info."/>
-        <TextBlock Classes="accent" Text="Accent text — Primary color highlight for important values."/>
-      </StackPanel>
+            <!--  TextBlock variants  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="TEXT BLOCK" />
+                <TextBlock Classes="h1" Text="HEADING LEVEL 1 — VAULT-TEC" />
+                <TextBlock Classes="h2" Text="Heading Level 2 — Status Report" />
+                <TextBlock Text="Body text — Regular paragraph content. Welcome to the Capital Wasteland. Current radiation level: moderate." />
+                <TextBlock Classes="dim" Text="Dim text — Secondary labels, hints, and supplemental info." />
+                <TextBlock Classes="accent" Text="Accent text — Primary color highlight for important values." />
+            </StackPanel>
 
-      <!-- SelectableTextBlock -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="SELECTABLE TEXT BLOCK"/>
-        <SelectableTextBlock Text="This text can be selected and copied — useful for IDs, coordinates, and data output."/>
-        <SelectableTextBlock Classes="dim" Text="LOCATION: 38°53′42″N 77°02′12″W — SECTOR 7-G"/>
-        <SelectableTextBlock Classes="accent" Text="SERIAL: VLT-111-OVERSEER-UNIT"/>
-      </StackPanel>
+            <!--  SelectableTextBlock  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="SELECTABLE TEXT BLOCK" />
+                <SelectableTextBlock Text="This text can be selected and copied — useful for IDs, coordinates, and data output." />
+                <SelectableTextBlock Classes="dim" Text="LOCATION: 38°53′42″N 77°02′12″W — SECTOR 7-G" />
+                <SelectableTextBlock Classes="accent" Text="SERIAL: VLT-111-OVERSEER-UNIT" />
+            </StackPanel>
 
-      <!-- Font sizes -->
-      <StackPanel Spacing="4">
-        <TextBlock Classes="h2" Text="FONT SCALE"/>
-        <TextBlock FontSize="28" FontWeight="Bold"  Text="28px — H1 Display"/>
-        <TextBlock FontSize="20" FontWeight="Bold"  Text="20px — H2 Section"/>
-        <TextBlock FontSize="14"                   Text="14px — Body (default)"/>
-        <TextBlock FontSize="12"                   Text="12px — Small / captions"/>
-        <TextBlock FontSize="10"                   Text="10px — Micro / status labels"/>
-      </StackPanel>
+            <!--  Font sizes  -->
+            <StackPanel Spacing="4">
+                <TextBlock Classes="h2" Text="FONT SCALE" />
+                <TextBlock
+                    FontSize="28"
+                    FontWeight="Bold"
+                    Text="28px — H1 Display" />
+                <TextBlock
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Text="20px — H2 Section" />
+                <TextBlock FontSize="14" Text="14px — Body (default)" />
+                <TextBlock FontSize="12" Text="12px — Small / captions" />
+                <TextBlock FontSize="10" Text="10px — Micro / status labels" />
+            </StackPanel>
 
-      <!-- Text wrapping -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="TEXT WRAPPING"/>
-        <TextBlock MaxWidth="400" TextWrapping="Wrap"
-                   Text="Long-form wrapped text. The Pip-Boy 3000 is a personal computing device manufactured by Vault-Tec Corporation. It is used to manage character stats, inventory, quests, and the map of the wasteland."/>
-      </StackPanel>
+            <!--  Text wrapping  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="TEXT WRAPPING" />
+                <TextBlock
+                    MaxWidth="400"
+                    Text="Long-form wrapped text. The Pip-Boy 3000 is a personal computing device manufactured by Vault-Tec Corporation. It is used to manage character stats, inventory, quests, and the map of the wasteland."
+                    TextWrapping="Wrap" />
+            </StackPanel>
 
-    </StackPanel>
-  </ScrollViewer>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

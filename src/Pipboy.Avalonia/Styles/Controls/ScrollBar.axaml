@@ -1,118 +1,126 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Styles.Resources>
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
 
-    <!-- ScrollBar page repeat button (clicking the track) -->
-    <ControlTheme x:Key="PipboyScrollBarPageButton" TargetType="RepeatButton">
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="Focusable" Value="False"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="RepeatButton">
-          <Border Background="{TemplateBinding Background}"/>
-        </ControlTemplate>
-      </Setter>
-    </ControlTheme>
+        <!--  ScrollBar page repeat button (clicking the track)  -->
+        <ControlTheme x:Key="PipboyScrollBarPageButton" TargetType="RepeatButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Background="{TemplateBinding Background}" />
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
 
-    <!-- ScrollBar thumb -->
-    <ControlTheme x:Key="PipboyScrollBarThumb" TargetType="Thumb">
-      <Setter Property="Background" Value="{DynamicResource PipboyTextDimBrush}"/>
-      <Setter Property="MinWidth" Value="8"/>
-      <Setter Property="MinHeight" Value="8"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="Thumb">
-          <Border Name="ThumbBorder"
-                  Background="{TemplateBinding Background}"
-                  CornerRadius="0"/>
-        </ControlTemplate>
-      </Setter>
-      <Style Selector="^:pointerover /template/ Border#ThumbBorder">
-        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}"/>
-      </Style>
-      <Style Selector="^:pressed /template/ Border#ThumbBorder">
-        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryLightBrush}"/>
-      </Style>
-    </ControlTheme>
+        <!--  ScrollBar thumb  -->
+        <ControlTheme x:Key="PipboyScrollBarThumb" TargetType="Thumb">
+            <Setter Property="Background" Value="{DynamicResource PipboyTextDimBrush}" />
+            <Setter Property="MinWidth" Value="8" />
+            <Setter Property="MinHeight" Value="8" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Thumb">
+                    <Border
+                        Name="ThumbBorder"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="0" />
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#ThumbBorder">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#ThumbBorder">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryLightBrush}" />
+            </Style>
+        </ControlTheme>
 
-    <!-- Main ScrollBar — single template; orientation-specific properties set via styles -->
-    <ControlTheme x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
-      <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="ScrollBar">
-          <Border Background="{TemplateBinding Background}">
-            <Track Name="PART_Track"
-                   Minimum="{TemplateBinding Minimum}"
-                   Maximum="{TemplateBinding Maximum}"
-                   Value="{TemplateBinding Value, Mode=TwoWay}"
-                   ViewportSize="{TemplateBinding ViewportSize}"
-                   Orientation="{TemplateBinding Orientation}">
-              <Track.DecreaseButton>
-                <RepeatButton Name="PART_PageUpButton"
-                              Theme="{StaticResource PipboyScrollBarPageButton}"/>
-              </Track.DecreaseButton>
-              <Track.Thumb>
-                <Thumb Theme="{StaticResource PipboyScrollBarThumb}"
-                       Cursor="Hand"/>
-              </Track.Thumb>
-              <Track.IncreaseButton>
-                <RepeatButton Name="PART_PageDownButton"
-                              Theme="{StaticResource PipboyScrollBarPageButton}"/>
-              </Track.IncreaseButton>
-            </Track>
-          </Border>
-        </ControlTemplate>
-      </Setter>
+        <!--  Main ScrollBar — single template; orientation-specific properties set via styles  -->
+        <ControlTheme x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
+            <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="ScrollBar">
+                    <Border Background="{TemplateBinding Background}">
+                        <Track
+                            Name="PART_Track"
+                            Maximum="{TemplateBinding Maximum}"
+                            Minimum="{TemplateBinding Minimum}"
+                            Orientation="{TemplateBinding Orientation}"
+                            ViewportSize="{TemplateBinding ViewportSize}"
+                            Value="{TemplateBinding Value,
+                                                    Mode=TwoWay}">
+                            <Track.DecreaseButton>
+                                <RepeatButton Name="PART_PageUpButton" Theme="{StaticResource PipboyScrollBarPageButton}" />
+                            </Track.DecreaseButton>
+                            <Track.Thumb>
+                                <Thumb Cursor="Hand" Theme="{StaticResource PipboyScrollBarThumb}" />
+                            </Track.Thumb>
+                            <Track.IncreaseButton>
+                                <RepeatButton Name="PART_PageDownButton" Theme="{StaticResource PipboyScrollBarPageButton}" />
+                            </Track.IncreaseButton>
+                        </Track>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
 
-      <!-- Vertical scrollbar: fixed width, thumb inverted so value 0 = thumb at top -->
-      <Style Selector="^:vertical">
-        <Setter Property="Width" Value="14"/>
-        <Setter Property="MinWidth" Value="14"/>
-      </Style>
-      <Style Selector="^:vertical /template/ Track">
-        <Setter Property="IsDirectionReversed" Value="True"/>
-      </Style>
+            <!--  Vertical scrollbar: fixed width, thumb inverted so value 0 = thumb at top  -->
+            <Style Selector="^:vertical">
+                <Setter Property="Width" Value="14" />
+                <Setter Property="MinWidth" Value="14" />
+            </Style>
+            <Style Selector="^:vertical /template/ Track">
+                <Setter Property="IsDirectionReversed" Value="True" />
+            </Style>
 
-      <!-- Horizontal scrollbar: fixed height -->
-      <Style Selector="^:horizontal">
-        <Setter Property="Height" Value="14"/>
-        <Setter Property="MinHeight" Value="14"/>
-      </Style>
+            <!--  Horizontal scrollbar: fixed height  -->
+            <Style Selector="^:horizontal">
+                <Setter Property="Height" Value="14" />
+                <Setter Property="MinHeight" Value="14" />
+            </Style>
 
-      <Style Selector="^:disabled">
-        <Setter Property="Opacity" Value="0.45"/>
-      </Style>
-    </ControlTheme>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
 
-    <!-- ScrollViewer: provides the Grid layout with scrollbars.
-         Without this ControlTheme, Avalonia renders the content but never creates
-         PART_VerticalScrollBar / PART_HorizontalScrollBar, so no scrollbars appear. -->
-    <ControlTheme x:Key="{x:Type ScrollViewer}" TargetType="ScrollViewer">
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="ScrollViewer">
-          <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">
-            <ScrollContentPresenter Name="PART_ContentPresenter"
-                                    Grid.Row="0" Grid.Column="0"
-                                    Grid.RowSpan="2" Grid.ColumnSpan="2"
-                                    Background="{TemplateBinding Background}"
-                                    Padding="{TemplateBinding Padding}">
-              <ScrollContentPresenter.GestureRecognizers>
-                <ScrollGestureRecognizer
-                    CanHorizontallyScroll="{Binding CanHorizontallyScroll, ElementName=PART_ContentPresenter}"
-                    CanVerticallyScroll="{Binding CanVerticallyScroll, ElementName=PART_ContentPresenter}"
-                    IsScrollInertiaEnabled="{Binding (ScrollViewer.IsScrollInertiaEnabled), ElementName=PART_ContentPresenter}"/>
-              </ScrollContentPresenter.GestureRecognizers>
-            </ScrollContentPresenter>
-            <ScrollBar Name="PART_HorizontalScrollBar"
-                       Grid.Row="1" Grid.Column="0"
-                       Orientation="Horizontal"/>
-            <ScrollBar Name="PART_VerticalScrollBar"
-                       Grid.Row="0" Grid.Column="1"
-                       Orientation="Vertical"/>
-          </Grid>
-        </ControlTemplate>
-      </Setter>
-    </ControlTheme>
+        <!--
+            ScrollViewer: provides the Grid layout with scrollbars.
+            Without this ControlTheme, Avalonia renders the content but never creates
+            PART_VerticalScrollBar / PART_HorizontalScrollBar, so no scrollbars appear.
+        -->
+        <ControlTheme x:Key="{x:Type ScrollViewer}" TargetType="ScrollViewer">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="ScrollViewer">
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">
+                        <ScrollContentPresenter
+                            Name="PART_ContentPresenter"
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}">
+                            <ScrollContentPresenter.GestureRecognizers>
+                                <ScrollGestureRecognizer
+                                    CanHorizontallyScroll="{Binding CanHorizontallyScroll, ElementName=PART_ContentPresenter}"
+                                    CanVerticallyScroll="{Binding CanVerticallyScroll, ElementName=PART_ContentPresenter}"
+                                    IsScrollInertiaEnabled="{Binding (ScrollViewer.IsScrollInertiaEnabled), ElementName=PART_ContentPresenter}" />
+                            </ScrollContentPresenter.GestureRecognizers>
+                        </ScrollContentPresenter>
+                        <ScrollBar
+                            Name="PART_HorizontalScrollBar"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Orientation="Horizontal" />
+                        <ScrollBar
+                            Name="PART_VerticalScrollBar"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Orientation="Vertical" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
 
-  </Styles.Resources>
+    </Styles.Resources>
 
 </Styles>

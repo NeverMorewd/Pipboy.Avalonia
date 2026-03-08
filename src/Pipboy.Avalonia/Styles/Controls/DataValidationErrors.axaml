@@ -1,47 +1,47 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Styles.Resources>
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
 
-    <ControlTheme x:Key="{x:Type DataValidationErrors}" TargetType="DataValidationErrors">
-      <Setter Property="ErrorTemplate">
-        <DataTemplate>
-          <ItemsControl ItemsSource="{Binding}"
-                        Foreground="{DynamicResource PipboyErrorBrush}">
-            <ItemsControl.Styles>
-              <Style Selector="TextBlock">
-                <Setter Property="TextWrapping" Value="Wrap"/>
-                <Setter Property="FontSize" Value="{DynamicResource PipboyFontSizeSmall}"/>
-              </Style>
-            </ItemsControl.Styles>
-          </ItemsControl>
-        </DataTemplate>
-      </Setter>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="DataValidationErrors">
-          <DockPanel LastChildFill="True">
-            <ContentControl Name="PART_Error"
-                            DockPanel.Dock="Bottom"
+        <ControlTheme x:Key="{x:Type DataValidationErrors}" TargetType="DataValidationErrors">
+            <Setter Property="ErrorTemplate">
+                <DataTemplate>
+                    <ItemsControl Foreground="{DynamicResource PipboyErrorBrush}" ItemsSource="{Binding}">
+                        <ItemsControl.Styles>
+                            <Style Selector="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                                <Setter Property="FontSize" Value="{DynamicResource PipboyFontSizeSmall}" />
+                            </Style>
+                        </ItemsControl.Styles>
+                    </ItemsControl>
+                </DataTemplate>
+            </Setter>
+            <Setter Property="Template">
+                <ControlTemplate TargetType="DataValidationErrors">
+                    <DockPanel LastChildFill="True">
+                        <ContentControl
+                            Name="PART_Error"
                             Margin="0,3,0,0"
                             Content="{Binding (DataValidationErrors.Errors)}"
                             ContentTemplate="{TemplateBinding ErrorTemplate}"
                             DataContext="{TemplateBinding Owner}"
-                            IsVisible="{Binding (DataValidationErrors.HasErrors)}"/>
-            <ContentPresenter Name="PART_ContentPresenter"
-                              Padding="{TemplateBinding Padding}"
-                              Background="{TemplateBinding Background}"
-                              BorderBrush="{TemplateBinding BorderBrush}"
-                              BorderThickness="{TemplateBinding BorderThickness}"
-                              Content="{TemplateBinding Content}"
-                              ContentTemplate="{TemplateBinding ContentTemplate}"/>
-          </DockPanel>
-        </ControlTemplate>
-      </Setter>
+                            DockPanel.Dock="Bottom"
+                            IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter>
 
-      <!-- Highlight border when field has errors -->
-      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="BorderBrush" Value="{TemplateBinding BorderBrush}"/>
-      </Style>
-    </ControlTheme>
+            <!--  Highlight border when field has errors  -->
+            <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="BorderBrush" Value="{TemplateBinding BorderBrush}" />
+            </Style>
+        </ControlTheme>
 
-  </Styles.Resources>
+    </Styles.Resources>
 </Styles>

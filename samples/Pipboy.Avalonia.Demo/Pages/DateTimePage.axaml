@@ -1,36 +1,43 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Pipboy.Avalonia.Demo.Pages.DateTimePage">
-  <ScrollViewer>
-    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+﻿<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.DateTimePage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel
+            Margin="24"
+            HorizontalAlignment="Left"
+            Spacing="24">
 
-      <!-- DatePicker -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="DATE PICKER"/>
-        <DatePicker Name="DatePicker1"/>
-        <DatePicker Name="DatePicker2" IsEnabled="False"/>
-      </StackPanel>
+            <!--  DatePicker  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="DATE PICKER" />
+                <DatePicker Name="DatePicker1" />
+                <DatePicker Name="DatePicker2" IsEnabled="False" />
+            </StackPanel>
 
-      <!-- TimePicker -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="TIME PICKER"/>
-        <TimePicker/>
-        <TimePicker IsEnabled="False"/>
-      </StackPanel>
+            <!--  TimePicker  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="TIME PICKER" />
+                <TimePicker />
+                <TimePicker IsEnabled="False" />
+            </StackPanel>
 
-      <!-- CalendarDatePicker -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="CALENDAR DATE PICKER"/>
-        <CalendarDatePicker Watermark="Select a date" Width="220"/>
-        <CalendarDatePicker Watermark="Disabled" Width="220" IsEnabled="False"/>
-      </StackPanel>
+            <!--  CalendarDatePicker  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="CALENDAR DATE PICKER" />
+                <CalendarDatePicker Width="220" Watermark="Select a date" />
+                <CalendarDatePicker
+                    Width="220"
+                    IsEnabled="False"
+                    Watermark="Disabled" />
+            </StackPanel>
 
-      <!-- Calendar -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="CALENDAR"/>
-        <Calendar/>
-      </StackPanel>
+            <!--  Calendar  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="CALENDAR" />
+                <Calendar />
+            </StackPanel>
 
-    </StackPanel>
-  </ScrollViewer>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

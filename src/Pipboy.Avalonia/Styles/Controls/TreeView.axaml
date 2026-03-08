@@ -1,127 +1,133 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
-  <Styles.Resources>
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    <Styles.Resources>
 
-    <!-- TreeView expand/collapse button -->
-    <ControlTheme x:Key="PipboyTreeExpandButton" TargetType="ToggleButton">
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="Width" Value="16"/>
-      <Setter Property="Height" Value="16"/>
-      <Setter Property="Focusable" Value="False"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="ToggleButton">
-          <Border Background="Transparent">
-            <Path Name="Arrow"
-                  Data="{DynamicResource PipboyIconChevronDown}"
-                  Width="12" Height="12" Stretch="Uniform"
-                  Stroke="{DynamicResource PipboyTextDimBrush}"
-                  StrokeThickness="1.5"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"/>
-          </Border>
-        </ControlTemplate>
-      </Setter>
-      <Style Selector="^:checked /template/ Path#Arrow">
-        <Setter Property="RenderTransform">
-          <RotateTransform Angle="180"/>
-        </Setter>
-        <Setter Property="Stroke" Value="{DynamicResource PipboyPrimaryBrush}"/>
-      </Style>
-    </ControlTheme>
+        <!--  TreeView expand/collapse button  -->
+        <ControlTheme x:Key="PipboyTreeExpandButton" TargetType="ToggleButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="Transparent">
+                        <Path
+                            Name="Arrow"
+                            Width="12"
+                            Height="12"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Data="{DynamicResource PipboyIconChevronDown}"
+                            Stretch="Uniform"
+                            Stroke="{DynamicResource PipboyTextDimBrush}"
+                            StrokeThickness="1.5" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:checked /template/ Path#Arrow">
+                <Setter Property="RenderTransform">
+                    <RotateTransform Angle="180" />
+                </Setter>
+                <Setter Property="Stroke" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+        </ControlTheme>
 
-    <!-- TreeViewItem -->
-    <ControlTheme x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderThickness" Value="0"/>
-      <Setter Property="Padding" Value="4,3"/>
-      <Setter Property="ItemsPanel">
-        <ItemsPanelTemplate>
-          <StackPanel/>
-        </ItemsPanelTemplate>
-      </Setter>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="TreeViewItem">
-          <StackPanel>
-            <Border Name="PART_HeaderBorder"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}">
-              <Grid ColumnDefinitions="Auto,Auto,*">
-                <!-- Indent spacer based on nesting level -->
-                <Border Grid.Column="0"
-                        Width="{TemplateBinding Level,
-                               Converter={x:Static pipboy:LevelToIndentConverter.Instance}}"/>
-                <!-- Expand/collapse toggle -->
-                <ToggleButton Grid.Column="1"
-                              Name="PART_ExpandCollapseChevron"
-                              Theme="{StaticResource PipboyTreeExpandButton}"
-                              IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
-                              IsVisible="True"/>
-                <!-- Item header content -->
-                <ContentPresenter Grid.Column="2"
-                                  Name="PART_HeaderPresenter"
-                                  Content="{TemplateBinding Header}"
-                                  ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                  Padding="{TemplateBinding Padding}"
-                                  HorizontalContentAlignment="Left"
-                                  VerticalContentAlignment="Center"/>
-              </Grid>
-            </Border>
-            <!-- Child items (shown when expanded) -->
-            <ItemsPresenter Name="PART_ItemsPresenter"
-                            ItemsPanel="{TemplateBinding ItemsPanel}"
-                            IsVisible="{TemplateBinding IsExpanded}"/>
-          </StackPanel>
-        </ControlTemplate>
-      </Setter>
+        <!--  TreeViewItem  -->
+        <ControlTheme x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="4,3" />
+            <Setter Property="ItemsPanel">
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </Setter>
+            <Setter Property="Template">
+                <ControlTemplate TargetType="TreeViewItem">
+                    <StackPanel>
+                        <Border
+                            Name="PART_HeaderBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid ColumnDefinitions="Auto,Auto,*">
+                                <!--  Indent spacer based on nesting level  -->
+                                <Border Grid.Column="0" Width="{TemplateBinding Level, Converter={x:Static pipboy:LevelToIndentConverter.Instance}}" />
+                                <!--  Expand/collapse toggle  -->
+                                <ToggleButton
+                                    Name="PART_ExpandCollapseChevron"
+                                    Grid.Column="1"
+                                    IsChecked="{TemplateBinding IsExpanded,
+                                                                Mode=TwoWay}"
+                                    IsVisible="True"
+                                    Theme="{StaticResource PipboyTreeExpandButton}" />
+                                <!--  Item header content  -->
+                                <ContentPresenter
+                                    Name="PART_HeaderPresenter"
+                                    Grid.Column="2"
+                                    Padding="{TemplateBinding Padding}"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    Content="{TemplateBinding Header}"
+                                    ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                            </Grid>
+                        </Border>
+                        <!--  Child items (shown when expanded)  -->
+                        <ItemsPresenter
+                            Name="PART_ItemsPresenter"
+                            IsVisible="{TemplateBinding IsExpanded}"
+                            ItemsPanel="{TemplateBinding ItemsPanel}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter>
 
-      <Style Selector="^:pointerover /template/ Border#PART_HeaderBorder">
-        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
-      </Style>
-      <Style Selector="^:pointerover">
-        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      </Style>
-      <Style Selector="^:selected">
-        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      </Style>
-      <Style Selector="^:selected /template/ Border#PART_HeaderBorder">
-        <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
-        <Setter Property="BorderThickness" Value="0,0,0,1"/>
-      </Style>
-      <!-- Hide expand button for leaf nodes (no children) -->
-      <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
-        <Setter Property="IsVisible" Value="False"/>
-      </Style>
-      <Style Selector="^:disabled">
-        <Setter Property="Opacity" Value="0.45"/>
-      </Style>
-    </ControlTheme>
+            <Style Selector="^:pointerover /template/ Border#PART_HeaderBorder">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+            <Style Selector="^:pointerover">
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            </Style>
+            <Style Selector="^:selected">
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            </Style>
+            <Style Selector="^:selected /template/ Border#PART_HeaderBorder">
+                <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+                <Setter Property="BorderThickness" Value="0,0,0,1" />
+            </Style>
+            <!--  Hide expand button for leaf nodes (no children)  -->
+            <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
+                <Setter Property="IsVisible" Value="False" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
 
-    <!-- TreeView container -->
-    <ControlTheme x:Key="{x:Type TreeView}" TargetType="TreeView">
-      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
-      <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-      <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="TreeView">
-          <Border Background="{TemplateBinding Background}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}">
-            <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
-                          VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
-              <ItemsPresenter Name="PART_ItemsPresenter"
-                              ItemsPanel="{TemplateBinding ItemsPanel}"/>
-            </ScrollViewer>
-          </Border>
-        </ControlTemplate>
-      </Setter>
-    </ControlTheme>
+        <!--  TreeView container  -->
+        <ControlTheme x:Key="{x:Type TreeView}" TargetType="TreeView">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="TreeView">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                            <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
 
-  </Styles.Resources>
+    </Styles.Resources>
 </Styles>

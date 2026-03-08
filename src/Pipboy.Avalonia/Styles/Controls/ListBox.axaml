@@ -1,83 +1,85 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Styles.Resources>
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
 
-    <!-- ListBoxItem -->
-    <ControlTheme x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderThickness" Value="0"/>
-      <Setter Property="Padding" Value="8,4"/>
-      <Setter Property="HorizontalContentAlignment" Value="Left"/>
-      <Setter Property="VerticalContentAlignment" Value="Center"/>
-      <Setter Property="Cursor" Value="Hand"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="ListBoxItem">
-          <Border Name="PART_Border"
-                  Background="{TemplateBinding Background}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}">
-            <ContentPresenter Name="PART_ContentPresenter"
-                              Content="{TemplateBinding Content}"
-                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                              Padding="{TemplateBinding Padding}"
-                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-          </Border>
-        </ControlTemplate>
-      </Setter>
+        <!--  ListBoxItem  -->
+        <ControlTheme x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border
+                        Name="PART_Border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
 
-      <Style Selector="^:pointerover">
-        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      </Style>
-      <Style Selector="^:selected">
-        <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      </Style>
-      <Style Selector="^:selected /template/ Border#PART_Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
-        <Setter Property="BorderThickness" Value="0,0,0,1"/>
-      </Style>
-      <Style Selector="^:focus-visible /template/ Border#PART_Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-      </Style>
-      <Style Selector="^:disabled">
-        <Setter Property="Opacity" Value="0.45"/>
-      </Style>
-    </ControlTheme>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            </Style>
+            <Style Selector="^:selected">
+                <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            </Style>
+            <Style Selector="^:selected /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+                <Setter Property="BorderThickness" Value="0,0,0,1" />
+            </Style>
+            <Style Selector="^:focus-visible /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
 
-    <!-- ListBox -->
-    <ControlTheme x:Key="{x:Type ListBox}" TargetType="ListBox">
-      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
-      <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="CornerRadius" Value="0"/>
-      <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-      <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="ListBox">
-          <Border Name="PART_Border"
-                  Background="{TemplateBinding Background}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  CornerRadius="{TemplateBinding CornerRadius}">
-            <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
-                          VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
-              <ItemsPresenter Name="PART_ItemsPresenter"
-                              ItemsPanel="{TemplateBinding ItemsPanel}"
-                              Margin="{TemplateBinding Padding}"/>
-            </ScrollViewer>
-          </Border>
-        </ControlTemplate>
-      </Setter>
+        <!--  ListBox  -->
+        <ControlTheme x:Key="{x:Type ListBox}" TargetType="ListBox">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="ListBox">
+                    <Border
+                        Name="PART_Border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                        <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                            <ItemsPresenter
+                                Name="PART_ItemsPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                ItemsPanel="{TemplateBinding ItemsPanel}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
 
-      <Style Selector="^:focus-visible /template/ Border#PART_Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}"/>
-      </Style>
-    </ControlTheme>
+            <Style Selector="^:focus-visible /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />
+            </Style>
+        </ControlTheme>
 
-  </Styles.Resources>
+    </Styles.Resources>
 </Styles>

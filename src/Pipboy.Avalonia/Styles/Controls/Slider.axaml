@@ -1,83 +1,87 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Styles.Resources>
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
 
-    <!-- Invisible repeat button used in Track click areas -->
-    <ControlTheme x:Key="PipboySliderRepeatButton" TargetType="RepeatButton">
-      <Setter Property="Template">
-        <ControlTemplate TargetType="RepeatButton">
-          <Border Background="Transparent"/>
-        </ControlTemplate>
-      </Setter>
-    </ControlTheme>
+        <!--  Invisible repeat button used in Track click areas  -->
+        <ControlTheme x:Key="PipboySliderRepeatButton" TargetType="RepeatButton">
+            <Setter Property="Template">
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Background="Transparent" />
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
 
-    <!-- Slider thumb — square Pipboy style -->
-    <ControlTheme x:Key="PipboySliderThumb" TargetType="Thumb">
-      <Setter Property="Template">
-        <ControlTemplate TargetType="Thumb">
-          <Border Name="ThumbBorder"
-                  Width="14"
-                  Height="14"
-                  Background="{DynamicResource PipboyPrimaryBrush}"
-                  BorderBrush="{DynamicResource PipboyBorderFocusBrush}"
-                  BorderThickness="1"
-                  CornerRadius="0"/>
-        </ControlTemplate>
-      </Setter>
-      <Style Selector="^:pointerover /template/ Border#ThumbBorder">
-        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryLightBrush}"/>
-      </Style>
-      <Style Selector="^:pressed /template/ Border#ThumbBorder">
-        <Setter Property="Background" Value="{DynamicResource PipboyPressedBrush}"/>
-      </Style>
-    </ControlTheme>
+        <!--  Slider thumb — square Pipboy style  -->
+        <ControlTheme x:Key="PipboySliderThumb" TargetType="Thumb">
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Thumb">
+                    <Border
+                        Name="ThumbBorder"
+                        Width="14"
+                        Height="14"
+                        Background="{DynamicResource PipboyPrimaryBrush}"
+                        BorderBrush="{DynamicResource PipboyBorderFocusBrush}"
+                        BorderThickness="1"
+                        CornerRadius="0" />
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#ThumbBorder">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryLightBrush}" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#ThumbBorder">
+                <Setter Property="Background" Value="{DynamicResource PipboyPressedBrush}" />
+            </Style>
+        </ControlTheme>
 
-    <!-- Slider control -->
-    <ControlTheme x:Key="{x:Type Slider}" TargetType="Slider">
-      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="Slider">
-          <Grid MinHeight="24" MinWidth="24">
-            <!-- Visual track line -->
-            <Border Height="4"
-                    Width="{TemplateBinding Width}"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="1"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Stretch"/>
-            <!-- Functional Track (full size, transparent background) -->
-            <Track Name="PART_Track"
-                   Minimum="{TemplateBinding Minimum}"
-                   Maximum="{TemplateBinding Maximum}"
-                   Value="{TemplateBinding Value, Mode=TwoWay}"
-                   IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
-                   Orientation="{TemplateBinding Orientation}">
-              <Track.DecreaseButton>
-                <RepeatButton Name="PART_DecreaseButton"
-                              Theme="{StaticResource PipboySliderRepeatButton}"
-                              Focusable="False"/>
-              </Track.DecreaseButton>
-              <Track.Thumb>
-                <Thumb Theme="{StaticResource PipboySliderThumb}"
-                       Cursor="Hand"/>
-              </Track.Thumb>
-              <Track.IncreaseButton>
-                <RepeatButton Name="PART_IncreaseButton"
-                              Theme="{StaticResource PipboySliderRepeatButton}"
-                              Focusable="False"/>
-              </Track.IncreaseButton>
-            </Track>
-          </Grid>
-        </ControlTemplate>
-      </Setter>
+        <!--  Slider control  -->
+        <ControlTheme x:Key="{x:Type Slider}" TargetType="Slider">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Slider">
+                    <Grid MinWidth="24" MinHeight="24">
+                        <!--  Visual track line  -->
+                        <Border
+                            Width="{TemplateBinding Width}"
+                            Height="4"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1" />
+                        <!--  Functional Track (full size, transparent background)  -->
+                        <Track
+                            Name="PART_Track"
+                            IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
+                            Maximum="{TemplateBinding Maximum}"
+                            Minimum="{TemplateBinding Minimum}"
+                            Orientation="{TemplateBinding Orientation}"
+                            Value="{TemplateBinding Value,
+                                                    Mode=TwoWay}">
+                            <Track.DecreaseButton>
+                                <RepeatButton
+                                    Name="PART_DecreaseButton"
+                                    Focusable="False"
+                                    Theme="{StaticResource PipboySliderRepeatButton}" />
+                            </Track.DecreaseButton>
+                            <Track.Thumb>
+                                <Thumb Cursor="Hand" Theme="{StaticResource PipboySliderThumb}" />
+                            </Track.Thumb>
+                            <Track.IncreaseButton>
+                                <RepeatButton
+                                    Name="PART_IncreaseButton"
+                                    Focusable="False"
+                                    Theme="{StaticResource PipboySliderRepeatButton}" />
+                            </Track.IncreaseButton>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
 
-      <Style Selector="^:disabled">
-        <Setter Property="Opacity" Value="0.45"/>
-      </Style>
-    </ControlTheme>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
 
-  </Styles.Resources>
+    </Styles.Resources>
 </Styles>

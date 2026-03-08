@@ -1,81 +1,84 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Styles.Resources>
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
 
-    <ControlTheme x:Key="{x:Type CheckBox}" TargetType="CheckBox">
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
-      <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="CornerRadius" Value="0"/>
-      <Setter Property="Padding" Value="8,0,0,0"/>
-      <Setter Property="VerticalContentAlignment" Value="Center"/>
-      <Setter Property="HorizontalAlignment" Value="Left"/>
-      <Setter Property="Cursor" Value="Hand"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="CheckBox">
-          <Grid ColumnDefinitions="20,*" RowDefinitions="*">
-            <Border Name="PART_Border"
-                    Grid.Column="0"
-                    Width="16"
-                    Height="16"
-                    Background="{DynamicResource PipboySurfaceBrush}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center">
-              <Path Name="PART_CheckMark"
-                    Data="M 2 7 L 6 11 L 14 3"
-                    Stroke="{DynamicResource PipboyPrimaryBrush}"
-                    StrokeThickness="2"
-                    IsVisible="False"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"/>
-            </Border>
-            <Rectangle Name="PART_IndeterminateMark"
-                       Grid.Column="0"
-                       Width="8"
-                       Height="2"
-                       Fill="{DynamicResource PipboyPrimaryBrush}"
-                       IsVisible="False"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-            <ContentPresenter Grid.Column="1"
-                              Content="{TemplateBinding Content}"
-                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                              Padding="{TemplateBinding Padding}"
-                              RecognizesAccessKey="True"
-                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-          </Grid>
-        </ControlTemplate>
-      </Setter>
+        <ControlTheme x:Key="{x:Type CheckBox}" TargetType="CheckBox">
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Padding" Value="8,0,0,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid ColumnDefinitions="20,*" RowDefinitions="*">
+                        <Border
+                            Name="PART_Border"
+                            Grid.Column="0"
+                            Width="16"
+                            Height="16"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="{DynamicResource PipboySurfaceBrush}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <Path
+                                Name="PART_CheckMark"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Data="M 2 7 L 6 11 L 14 3"
+                                IsVisible="False"
+                                Stroke="{DynamicResource PipboyPrimaryBrush}"
+                                StrokeThickness="2" />
+                        </Border>
+                        <Rectangle
+                            Name="PART_IndeterminateMark"
+                            Grid.Column="0"
+                            Width="8"
+                            Height="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Fill="{DynamicResource PipboyPrimaryBrush}"
+                            IsVisible="False" />
+                        <ContentPresenter
+                            Grid.Column="1"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            RecognizesAccessKey="True" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
 
-      <Style Selector="^:checked /template/ Path#PART_CheckMark">
-        <Setter Property="IsVisible" Value="True"/>
-      </Style>
-      <Style Selector="^:checked /template/ Border#PART_Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
-        <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}"/>
-      </Style>
-      <Style Selector="^:indeterminate /template/ Rectangle#PART_IndeterminateMark">
-        <Setter Property="IsVisible" Value="True"/>
-      </Style>
-      <Style Selector="^:indeterminate /template/ Border#PART_Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
-      </Style>
-      <Style Selector="^:pointerover /template/ Border#PART_Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
-        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
-      </Style>
-      <Style Selector="^:focus-visible /template/ Border#PART_Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}"/>
-        <Setter Property="BorderThickness" Value="2"/>
-      </Style>
-      <Style Selector="^:disabled">
-        <Setter Property="Opacity" Value="0.45"/>
-      </Style>
-    </ControlTheme>
+            <Style Selector="^:checked /template/ Path#PART_CheckMark">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+            <Style Selector="^:checked /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+                <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}" />
+            </Style>
+            <Style Selector="^:indeterminate /template/ Rectangle#PART_IndeterminateMark">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+            <Style Selector="^:indeterminate /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+            <Style Selector="^:pointerover /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+            <Style Selector="^:focus-visible /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />
+                <Setter Property="BorderThickness" Value="2" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
 
-  </Styles.Resources>
+    </Styles.Resources>
 </Styles>

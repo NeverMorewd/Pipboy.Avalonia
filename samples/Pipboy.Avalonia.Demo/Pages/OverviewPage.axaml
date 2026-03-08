@@ -1,90 +1,115 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Pipboy.Avalonia.Demo.Pages.OverviewPage">
-  <ScrollViewer HorizontalScrollBarVisibility="Auto">
-    <StackPanel Margin="24" Spacing="24">
+﻿<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.OverviewPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <StackPanel Margin="24" Spacing="24">
 
-      <!-- Hero -->
-      <StackPanel HorizontalAlignment="Center" Spacing="6">
-        <TextBlock Classes="h1" Text="PIPBOY OS v3.0" HorizontalAlignment="Center"/>
-        <TextBlock Classes="dim" HorizontalAlignment="Center"
-                   Text="Avalonia UI control theme inspired by Fallout's Pip-Boy terminal aesthetic."/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16" Margin="0,8,0,0">
-          <TextBlock Classes="accent" Text="MONOSPACE"/>
-          <TextBlock Classes="dim"    Text="·"/>
-          <TextBlock Classes="accent" Text="CRT GREEN"/>
-          <TextBlock Classes="dim"    Text="·"/>
-          <TextBlock Classes="accent" Text="RETRO-FUTURIST"/>
+            <!--  Hero  -->
+            <StackPanel HorizontalAlignment="Center" Spacing="6">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Classes="h1"
+                    Text="PIPBOY OS v3.0" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Classes="dim"
+                    Text="Avalonia UI control theme inspired by Fallout's Pip-Boy terminal aesthetic." />
+                <StackPanel
+                    Margin="0,8,0,0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="16">
+                    <TextBlock Classes="accent" Text="MONOSPACE" />
+                    <TextBlock Classes="dim" Text="·" />
+                    <TextBlock Classes="accent" Text="CRT GREEN" />
+                    <TextBlock Classes="dim" Text="·" />
+                    <TextBlock Classes="accent" Text="RETRO-FUTURIST" />
+                </StackPanel>
+            </StackPanel>
+
+            <!--  Controls preview grid  -->
+            <Grid ColumnDefinitions="*,16,*,16,*">
+
+                <!--  Column 1  -->
+                <StackPanel Grid.Column="0" Spacing="8">
+                    <TextBlock Classes="h2" Text="BUTTONS" />
+                    <Button Content="PRIMARY ACTION" />
+                    <Button Content="DISABLED" IsEnabled="False" />
+                    <ToggleButton Content="TOGGLE ON" IsChecked="True" />
+                    <SplitButton Content="SPLIT ACTION">
+                        <SplitButton.Flyout>
+                            <MenuFlyout>
+                                <MenuItem Header="Option A" />
+                                <MenuItem Header="Option B" />
+                            </MenuFlyout>
+                        </SplitButton.Flyout>
+                    </SplitButton>
+
+                    <TextBlock
+                        Margin="0,8,0,0"
+                        Classes="h2"
+                        Text="TOGGLES" />
+                    <CheckBox Content="VATS ENABLED" IsChecked="True" />
+                    <CheckBox Content="AUTO-SAVE" IsChecked="False" />
+                    <CheckBox Content="INDETERMINATE" IsChecked="{x:Null}" />
+                    <RadioButton
+                        Content="NORMAL"
+                        GroupName="ovDiff"
+                        IsChecked="True" />
+                    <RadioButton Content="SURVIVAL" GroupName="ovDiff" />
+                    <ToggleSwitch IsChecked="True" />
+                </StackPanel>
+
+                <!--  Column 2  -->
+                <StackPanel Grid.Column="2" Spacing="8">
+                    <TextBlock Classes="h2" Text="INPUT" />
+                    <TextBox Watermark="Enter terminal command..." />
+                    <TextBox Text="Editable field" />
+                    <TextBox PasswordChar="●" Watermark="Password" />
+                    <NumericUpDown
+                        Maximum="100"
+                        Minimum="0"
+                        Value="42" />
+                    <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0">
+                        <ComboBoxItem Content="DIAMOND CITY" />
+                        <ComboBoxItem Content="GOODNEIGHBOR" />
+                        <ComboBoxItem Content="VAULT 81" />
+                    </ComboBox>
+
+                    <TextBlock
+                        Margin="0,8,0,0"
+                        Classes="h2"
+                        Text="METERS" />
+                    <ProgressBar Maximum="100" Value="75" />
+                    <ProgressBar Maximum="100" Value="45" />
+                    <ProgressBar IsIndeterminate="True" />
+                    <Slider Maximum="100" Value="65" />
+                </StackPanel>
+
+                <!--  Column 3  -->
+                <StackPanel Grid.Column="4" Spacing="8">
+                    <TextBlock Classes="h2" Text="LISTS" />
+                    <ListBox Height="120">
+                        <ListBoxItem Content="10mm Pistol  ×1" />
+                        <ListBoxItem Content="Stimpak      ×12" />
+                        <ListBoxItem Content="RadAway      ×4" />
+                        <ListBoxItem Content="Fusion Core  ×2" />
+                    </ListBox>
+
+                    <TextBlock
+                        Margin="0,8,0,0"
+                        Classes="h2"
+                        Text="TYPOGRAPHY" />
+                    <TextBlock Classes="h1" Text="HEADING 1" />
+                    <TextBlock Classes="h2" Text="Heading 2" />
+                    <TextBlock Text="Body — Regular paragraph text." />
+                    <TextBlock Classes="dim" Text="Dim / secondary hint text." />
+                    <TextBlock Classes="accent" Text="Accent primary highlight." />
+                </StackPanel>
+
+            </Grid>
+
         </StackPanel>
-      </StackPanel>
-
-      <!-- Controls preview grid -->
-      <Grid ColumnDefinitions="*,16,*,16,*">
-
-        <!-- Column 1 -->
-        <StackPanel Grid.Column="0" Spacing="8">
-          <TextBlock Classes="h2" Text="BUTTONS"/>
-          <Button Content="PRIMARY ACTION"/>
-          <Button Content="DISABLED" IsEnabled="False"/>
-          <ToggleButton Content="TOGGLE ON" IsChecked="True"/>
-          <SplitButton Content="SPLIT ACTION">
-            <SplitButton.Flyout>
-              <MenuFlyout>
-                <MenuItem Header="Option A"/>
-                <MenuItem Header="Option B"/>
-              </MenuFlyout>
-            </SplitButton.Flyout>
-          </SplitButton>
-
-          <TextBlock Classes="h2" Text="TOGGLES" Margin="0,8,0,0"/>
-          <CheckBox Content="VATS ENABLED" IsChecked="True"/>
-          <CheckBox Content="AUTO-SAVE" IsChecked="False"/>
-          <CheckBox Content="INDETERMINATE" IsChecked="{x:Null}"/>
-          <RadioButton Content="NORMAL" GroupName="ovDiff" IsChecked="True"/>
-          <RadioButton Content="SURVIVAL" GroupName="ovDiff"/>
-          <ToggleSwitch IsChecked="True"/>
-        </StackPanel>
-
-        <!-- Column 2 -->
-        <StackPanel Grid.Column="2" Spacing="8">
-          <TextBlock Classes="h2" Text="INPUT"/>
-          <TextBox Watermark="Enter terminal command..."/>
-          <TextBox Text="Editable field"/>
-          <TextBox Watermark="Password" PasswordChar="●"/>
-          <NumericUpDown Value="42" Minimum="0" Maximum="100"/>
-          <ComboBox SelectedIndex="0" HorizontalAlignment="Stretch">
-            <ComboBoxItem Content="DIAMOND CITY"/>
-            <ComboBoxItem Content="GOODNEIGHBOR"/>
-            <ComboBoxItem Content="VAULT 81"/>
-          </ComboBox>
-
-          <TextBlock Classes="h2" Text="METERS" Margin="0,8,0,0"/>
-          <ProgressBar Value="75" Maximum="100"/>
-          <ProgressBar Value="45" Maximum="100"/>
-          <ProgressBar IsIndeterminate="True"/>
-          <Slider Value="65" Maximum="100"/>
-        </StackPanel>
-
-        <!-- Column 3 -->
-        <StackPanel Grid.Column="4" Spacing="8">
-          <TextBlock Classes="h2" Text="LISTS"/>
-          <ListBox Height="120">
-            <ListBoxItem Content="10mm Pistol  ×1"/>
-            <ListBoxItem Content="Stimpak      ×12"/>
-            <ListBoxItem Content="RadAway      ×4"/>
-            <ListBoxItem Content="Fusion Core  ×2"/>
-          </ListBox>
-
-          <TextBlock Classes="h2" Text="TYPOGRAPHY" Margin="0,8,0,0"/>
-          <TextBlock Classes="h1" Text="HEADING 1"/>
-          <TextBlock Classes="h2" Text="Heading 2"/>
-          <TextBlock Text="Body — Regular paragraph text."/>
-          <TextBlock Classes="dim" Text="Dim / secondary hint text."/>
-          <TextBlock Classes="accent" Text="Accent primary highlight."/>
-        </StackPanel>
-
-      </Grid>
-
-    </StackPanel>
-  </ScrollViewer>
+    </ScrollViewer>
 </UserControl>

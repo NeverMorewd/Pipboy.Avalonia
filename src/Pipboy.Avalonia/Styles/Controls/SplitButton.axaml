@@ -1,159 +1,180 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Styles.Resources>
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
 
-    <!-- SplitButton: two independent click zones separated by a visible divider line.
-         LEFT  (PART_PrimaryButton)   → executes the primary action immediately.
-         RIGHT (PART_SecondaryButton) → opens the flyout for alternate options.
-         Each half highlights on its OWN hover — never both at once. -->
-    <ControlTheme x:Key="{x:Type SplitButton}" TargetType="SplitButton">
-      <Setter Property="Background"                Value="{DynamicResource PipboySurfaceBrush}"/>
-      <Setter Property="Foreground"                Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderBrush"               Value="{DynamicResource PipboyBorderBrush}"/>
-      <Setter Property="BorderThickness"           Value="1"/>
-      <Setter Property="CornerRadius"              Value="0"/>
-      <Setter Property="Padding"                   Value="14,6"/>
-      <Setter Property="HorizontalContentAlignment" Value="Center"/>
-      <Setter Property="VerticalContentAlignment"  Value="Center"/>
-      <Setter Property="Cursor"                    Value="Hand"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="SplitButton">
-          <Grid ColumnDefinitions="*,1,28">
+        <!--
+            SplitButton: two independent click zones separated by a visible divider line.
+            LEFT  (PART_PrimaryButton)   → executes the primary action immediately.
+            RIGHT (PART_SecondaryButton) → opens the flyout for alternate options.
+            Each half highlights on its OWN hover — never both at once.
+        -->
+        <ControlTheme x:Key="{x:Type SplitButton}" TargetType="SplitButton">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Padding" Value="14,6" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="SplitButton">
+                    <Grid ColumnDefinitions="*,1,28">
 
-            <!-- ── Left: primary action button ── -->
-            <Border Grid.Column="0"
-                    Name="PART_PrimaryButtonBorder"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}">
-              <Button Name="PART_PrimaryButton"
-                      Background="Transparent"
-                      BorderThickness="0"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch"
-                      Padding="{TemplateBinding Padding}"
-                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                      Content="{TemplateBinding Content}"
-                      ContentTemplate="{TemplateBinding ContentTemplate}"/>
-            </Border>
+                        <!--  ── Left: primary action button ──  -->
+                        <Border
+                            Name="PART_PrimaryButtonBorder"
+                            Grid.Column="0"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <Button
+                                Name="PART_PrimaryButton"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </Border>
 
-            <!-- ── Divider line — the key visual that shows there are two zones ── -->
-            <Border Grid.Column="1"
-                    Name="PART_Separator"
-                    Background="{DynamicResource PipboyBorderBrush}"/>
+                        <!--  ── Divider line — the key visual that shows there are two zones ──  -->
+                        <Border
+                            Name="PART_Separator"
+                            Grid.Column="1"
+                            Background="{DynamicResource PipboyBorderBrush}" />
 
-            <!-- ── Right: secondary (flyout) button ── -->
-            <Border Grid.Column="2"
-                    Name="PART_SecondaryButtonBorder"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="0,1,1,1">
-              <Button Name="PART_SecondaryButton"
-                      Background="Transparent"
-                      BorderThickness="0"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch"
-                      HorizontalContentAlignment="Center"
-                      VerticalContentAlignment="Center"
-                      Focusable="False">
-                <Path Data="{DynamicResource PipboyIconChevronDown}"
-                      Width="10" Height="10" Stretch="Uniform"
-                      Stroke="{DynamicResource PipboyTextDimBrush}"
-                      StrokeThickness="1.5"
-                      IsHitTestVisible="False"/>
-              </Button>
-            </Border>
+                        <!--  ── Right: secondary (flyout) button ──  -->
+                        <Border
+                            Name="PART_SecondaryButtonBorder"
+                            Grid.Column="2"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="0,1,1,1">
+                            <Button
+                                Name="PART_SecondaryButton"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Focusable="False">
+                                <Path
+                                    Width="10"
+                                    Height="10"
+                                    Data="{DynamicResource PipboyIconChevronDown}"
+                                    IsHitTestVisible="False"
+                                    Stretch="Uniform"
+                                    Stroke="{DynamicResource PipboyTextDimBrush}"
+                                    StrokeThickness="1.5" />
+                            </Button>
+                        </Border>
 
-          </Grid>
-        </ControlTemplate>
-      </Setter>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
 
-      <!-- No outer :pointerover — inner Buttons handle their own hover independently,
-           which makes each zone highlight separately and reinforces the split concept. -->
+            <!--
+                No outer :pointerover — inner Buttons handle their own hover independently,
+                which makes each zone highlight separately and reinforces the split concept.
+            -->
 
-      <!-- Divider brightens when either half is hovered (whole-control pointer-over) -->
-      <Style Selector="^:pointerover /template/ Border#PART_Separator">
-        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}"/>
-      </Style>
+            <!--  Divider brightens when either half is hovered (whole-control pointer-over)  -->
+            <Style Selector="^:pointerover /template/ Border#PART_Separator">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
 
-      <Style Selector="^:disabled">
-        <Setter Property="Opacity" Value="0.45"/>
-      </Style>
-    </ControlTheme>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
 
-    <!-- ToggleSplitButton: same two-zone layout; left half also acts as a toggle.
-         :checked state fills the primary zone with the selection color. -->
-    <ControlTheme x:Key="{x:Type ToggleSplitButton}" TargetType="ToggleSplitButton">
-      <Setter Property="Background"                Value="{DynamicResource PipboySurfaceBrush}"/>
-      <Setter Property="Foreground"                Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderBrush"               Value="{DynamicResource PipboyBorderBrush}"/>
-      <Setter Property="BorderThickness"           Value="1"/>
-      <Setter Property="Padding"                   Value="14,6"/>
-      <Setter Property="HorizontalContentAlignment" Value="Center"/>
-      <Setter Property="VerticalContentAlignment"  Value="Center"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="ToggleSplitButton">
-          <Grid ColumnDefinitions="*,1,28">
+        <!--
+            ToggleSplitButton: same two-zone layout; left half also acts as a toggle.
+            :checked state fills the primary zone with the selection color.
+        -->
+        <ControlTheme x:Key="{x:Type ToggleSplitButton}" TargetType="ToggleSplitButton">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="14,6" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="ToggleSplitButton">
+                    <Grid ColumnDefinitions="*,1,28">
 
-            <Border Grid.Column="0"
-                    Name="PART_PrimaryButtonBorder"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}">
-              <Button Name="PART_PrimaryButton"
-                      Background="Transparent"
-                      BorderThickness="0"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch"
-                      Padding="{TemplateBinding Padding}"
-                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                      Content="{TemplateBinding Content}"
-                      ContentTemplate="{TemplateBinding ContentTemplate}"/>
-            </Border>
+                        <Border
+                            Name="PART_PrimaryButtonBorder"
+                            Grid.Column="0"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <Button
+                                Name="PART_PrimaryButton"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </Border>
 
-            <Border Grid.Column="1"
-                    Name="PART_Separator"
-                    Background="{DynamicResource PipboyBorderBrush}"/>
+                        <Border
+                            Name="PART_Separator"
+                            Grid.Column="1"
+                            Background="{DynamicResource PipboyBorderBrush}" />
 
-            <Border Grid.Column="2"
-                    Name="PART_SecondaryButtonBorder"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="0,1,1,1">
-              <Button Name="PART_SecondaryButton"
-                      Background="Transparent"
-                      BorderThickness="0"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch"
-                      HorizontalContentAlignment="Center"
-                      VerticalContentAlignment="Center"
-                      Focusable="False">
-                <Path Data="{DynamicResource PipboyIconChevronDown}"
-                      Width="10" Height="10" Stretch="Uniform"
-                      Stroke="{DynamicResource PipboyTextDimBrush}"
-                      StrokeThickness="1.5"
-                      IsHitTestVisible="False"/>
-              </Button>
-            </Border>
+                        <Border
+                            Name="PART_SecondaryButtonBorder"
+                            Grid.Column="2"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="0,1,1,1">
+                            <Button
+                                Name="PART_SecondaryButton"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Focusable="False">
+                                <Path
+                                    Width="10"
+                                    Height="10"
+                                    Data="{DynamicResource PipboyIconChevronDown}"
+                                    IsHitTestVisible="False"
+                                    Stretch="Uniform"
+                                    Stroke="{DynamicResource PipboyTextDimBrush}"
+                                    StrokeThickness="1.5" />
+                            </Button>
+                        </Border>
 
-          </Grid>
-        </ControlTemplate>
-      </Setter>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
 
-      <Style Selector="^:pointerover /template/ Border#PART_Separator">
-        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}"/>
-      </Style>
-      <!-- :checked — primary zone shows selection state -->
-      <Style Selector="^:checked /template/ Border#PART_PrimaryButtonBorder">
-        <Setter Property="Background"  Value="{DynamicResource PipboyPrimaryDarkBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
-      </Style>
-      <Style Selector="^:disabled">
-        <Setter Property="Opacity" Value="0.45"/>
-      </Style>
-    </ControlTheme>
+            <Style Selector="^:pointerover /template/ Border#PART_Separator">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+            <!--  :checked — primary zone shows selection state  -->
+            <Style Selector="^:checked /template/ Border#PART_PrimaryButtonBorder">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryDarkBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
 
-  </Styles.Resources>
+    </Styles.Resources>
 </Styles>

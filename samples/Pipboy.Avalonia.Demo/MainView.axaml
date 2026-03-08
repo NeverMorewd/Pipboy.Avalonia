@@ -1,202 +1,223 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:pages="using:Pipboy.Avalonia.Demo.Pages"
-             x:Class="Pipboy.Avalonia.Demo.MainView">
+﻿<UserControl
+    x:Class="Pipboy.Avalonia.Demo.MainView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pages="using:Pipboy.Avalonia.Demo.Pages">
 
-  <UserControl.Resources>
+    <UserControl.Resources>
 
-    <!-- Non-interactive section header in sidebar -->
-    <ControlTheme x:Key="NavCategory" TargetType="TabItem">
-      <Setter Property="IsEnabled" Value="False"/>
-      <Setter Property="Padding" Value="0"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="TabItem">
-          <TextBlock Text="{TemplateBinding Header}"
-                     FontSize="10" FontWeight="Bold" LetterSpacing="2"
-                     Margin="20,14,0,4"
-                     Foreground="{DynamicResource PipboyPrimaryDarkBrush}"/>
-        </ControlTemplate>
-      </Setter>
-    </ControlTheme>
+        <!--  Non-interactive section header in sidebar  -->
+        <ControlTheme x:Key="NavCategory" TargetType="TabItem">
+            <Setter Property="IsEnabled" Value="False" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="TabItem">
+                    <TextBlock
+                        Margin="20,14,0,4"
+                        FontSize="10"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource PipboyPrimaryDarkBrush}"
+                        LetterSpacing="2"
+                        Text="{TemplateBinding Header}" />
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
 
-    <!-- Sidebar nav item with left selection indicator -->
-    <ControlTheme x:Key="NavTabItem" TargetType="TabItem">
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}"/>
-      <Setter Property="Padding" Value="20,9"/>
-      <Setter Property="Cursor" Value="Hand"/>
-      <Setter Property="HorizontalAlignment" Value="Stretch"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="TabItem">
-          <Border Name="PART_LayoutRoot"
-                  Background="{TemplateBinding Background}"
-                  BorderBrush="Transparent"
-                  BorderThickness="3,0,0,0"
-                  Padding="{TemplateBinding Padding}">
-            <ContentPresenter Name="PART_ContentPresenter"
-                              Content="{TemplateBinding Header}"
-                              Foreground="{TemplateBinding Foreground}"
-                              FontSize="12"/>
-          </Border>
-        </ControlTemplate>
-      </Setter>
-      <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryDarkBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
-      </Style>
-      <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      </Style>
-      <Style Selector="^:pointerover:not(:selected) /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
-      </Style>
-      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      </Style>
-    </ControlTheme>
+        <!--  Sidebar nav item with left selection indicator  -->
+        <ControlTheme x:Key="NavTabItem" TargetType="TabItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
+            <Setter Property="Padding" Value="20,9" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="TabItem">
+                    <Border
+                        Name="PART_LayoutRoot"
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="Transparent"
+                        BorderThickness="3,0,0,0">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Header}"
+                            FontSize="12"
+                            Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryDarkBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+            <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            </Style>
+            <Style Selector="^:pointerover:not(:selected) /template/ Border#PART_LayoutRoot">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            </Style>
+        </ControlTheme>
 
-    <!-- Main navigation TabControl: 200 px sidebar + content -->
-    <ControlTheme x:Key="NavTabControl" TargetType="TabControl">
-      <Setter Property="Padding" Value="0"/>
-      <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="TabControl">
-          <Grid ColumnDefinitions="200,*">
+        <!--  Main navigation TabControl: 200 px sidebar + content  -->
+        <ControlTheme x:Key="NavTabControl" TargetType="TabControl">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="TabControl">
+                    <Grid ColumnDefinitions="200,*">
 
-            <!-- ── Left sidebar ── -->
-            <DockPanel Grid.Column="0"
-                       Background="{DynamicResource PipboySurfaceBrush}">
-              <!-- Brand -->
-              <Border DockPanel.Dock="Top"
-                      Padding="20,16"
-                      BorderBrush="{DynamicResource PipboyBorderBrush}"
-                      BorderThickness="0,0,0,1">
-                <TextBlock Classes="h2" Text="PIPBOY OS"/>
-              </Border>
-              <!-- Nav items -->
-              <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                            VerticalScrollBarVisibility="Auto">
-                <ItemsPresenter Name="PART_ItemsPresenter"
-                                ItemsPanel="{TemplateBinding ItemsPanel}"/>
-              </ScrollViewer>
-            </DockPanel>
+                        <!--  ── Left sidebar ──  -->
+                        <DockPanel Grid.Column="0" Background="{DynamicResource PipboySurfaceBrush}">
+                            <!--  Brand  -->
+                            <Border
+                                Padding="20,16"
+                                BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                BorderThickness="0,0,0,1"
+                                DockPanel.Dock="Top">
+                                <TextBlock Classes="h2" Text="PIPBOY OS" />
+                            </Border>
+                            <!--  Nav items  -->
+                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+                            </ScrollViewer>
+                        </DockPanel>
 
-            <!-- Sidebar right border -->
-            <Rectangle Grid.Column="0" HorizontalAlignment="Right" Width="1"
-                       Fill="{DynamicResource PipboyBorderBrush}"/>
+                        <!--  Sidebar right border  -->
+                        <Rectangle
+                            Grid.Column="0"
+                            Width="1"
+                            HorizontalAlignment="Right"
+                            Fill="{DynamicResource PipboyBorderBrush}" />
 
-            <!-- ── Right: breadcrumb + page content ── -->
-            <Grid Grid.Column="1" RowDefinitions="Auto,*">
-              <Border Grid.Row="0"
-                      Padding="20,10"
-                      BorderBrush="{DynamicResource PipboyBorderBrush}"
-                      BorderThickness="0,0,0,1">
-                <StackPanel Orientation="Horizontal" Spacing="6">
-                  <TextBlock Classes="dim" Text="PIPBOY OS" VerticalAlignment="Center"/>
-                  <TextBlock Classes="dim" Text="›" VerticalAlignment="Center"/>
-                  <TextBlock Classes="dim" VerticalAlignment="Center"
-                             Text="{ReflectionBinding #MainNav.SelectedItem.Header}"/>
-                </StackPanel>
-              </Border>
-              <Border Grid.Row="1" ClipToBounds="True"
-                      Background="{TemplateBinding Background}">
-                <ContentPresenter Name="PART_SelectedContentHost"
-                                  Content="{TemplateBinding SelectedContent}"
-                                  ContentTemplate="{TemplateBinding SelectedContentTemplate}"
-                                  HorizontalContentAlignment="Stretch"
-                                  VerticalContentAlignment="Stretch"/>
-              </Border>
-            </Grid>
+                        <!--  ── Right: breadcrumb + page content ──  -->
+                        <Grid Grid.Column="1" RowDefinitions="Auto,*">
+                            <Border
+                                Grid.Row="0"
+                                Padding="20,10"
+                                BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                BorderThickness="0,0,0,1">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Classes="dim"
+                                        Text="PIPBOY OS" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Classes="dim"
+                                        Text="›" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Classes="dim"
+                                        Text="{ReflectionBinding #MainNav.SelectedItem.Header}" />
+                                </StackPanel>
+                            </Border>
+                            <Border
+                                Grid.Row="1"
+                                Background="{TemplateBinding Background}"
+                                ClipToBounds="True">
+                                <ContentPresenter
+                                    Name="PART_SelectedContentHost"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch"
+                                    Content="{TemplateBinding SelectedContent}"
+                                    ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+                            </Border>
+                        </Grid>
 
-          </Grid>
-        </ControlTemplate>
-      </Setter>
-    </ControlTheme>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
 
-  </UserControl.Resources>
+    </UserControl.Resources>
 
-  <TabControl Name="MainNav" Theme="{StaticResource NavTabControl}">
-    <TabControl.ItemsPanel>
-      <ItemsPanelTemplate><StackPanel/></ItemsPanelTemplate>
-    </TabControl.ItemsPanel>
+    <TabControl Name="MainNav" Theme="{StaticResource NavTabControl}">
+        <TabControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel />
+            </ItemsPanelTemplate>
+        </TabControl.ItemsPanel>
 
-    <!-- Overview -->
-    <TabItem Header="OVERVIEW" Theme="{StaticResource NavTabItem}">
-      <pages:OverviewPage/>
-    </TabItem>
+        <!--  Overview  -->
+        <TabItem Header="OVERVIEW" Theme="{StaticResource NavTabItem}">
+            <pages:OverviewPage />
+        </TabItem>
 
-    <!-- DISPLAY -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="DISPLAY"/>
-    <TabItem Header="Typography" Theme="{StaticResource NavTabItem}">
-      <pages:TypographyPage/>
-    </TabItem>
-    <TabItem Header="Card &amp; Badge" Theme="{StaticResource NavTabItem}">
-      <pages:CardPage/>
-    </TabItem>
+        <!--  DISPLAY  -->
+        <TabItem Header="DISPLAY" Theme="{StaticResource NavCategory}" />
+        <TabItem Header="Typography" Theme="{StaticResource NavTabItem}">
+            <pages:TypographyPage />
+        </TabItem>
+        <TabItem Header="Card &amp; Badge" Theme="{StaticResource NavTabItem}">
+            <pages:CardPage />
+        </TabItem>
 
-    <!-- NAVIGATION -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="NAVIGATION"/>
-    <TabItem Header="Menu" Theme="{StaticResource NavTabItem}">
-      <pages:MenuPage/>
-    </TabItem>
-    <TabItem Header="Tab Control" Theme="{StaticResource NavTabItem}">
-      <pages:TabControlPage/>
-    </TabItem>
-    <TabItem Header="TreeView" Theme="{StaticResource NavTabItem}">
-      <pages:TreeViewPage/>
-    </TabItem>
+        <!--  NAVIGATION  -->
+        <TabItem Header="NAVIGATION" Theme="{StaticResource NavCategory}" />
+        <TabItem Header="Menu" Theme="{StaticResource NavTabItem}">
+            <pages:MenuPage />
+        </TabItem>
+        <TabItem Header="Tab Control" Theme="{StaticResource NavTabItem}">
+            <pages:TabControlPage />
+        </TabItem>
+        <TabItem Header="TreeView" Theme="{StaticResource NavTabItem}">
+            <pages:TreeViewPage />
+        </TabItem>
 
-    <!-- INPUT -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="INPUT"/>
-    <TabItem Header="Button" Theme="{StaticResource NavTabItem}">
-      <pages:ButtonPage/>
-    </TabItem>
-    <TabItem Header="TextInput" Theme="{StaticResource NavTabItem}">
-      <pages:TextInputPage/>
-    </TabItem>
-    <TabItem Header="ComboBox" Theme="{StaticResource NavTabItem}">
-      <pages:ComboBoxPage/>
-    </TabItem>
-    <TabItem Header="Toggles" Theme="{StaticResource NavTabItem}">
-      <pages:TogglesPage/>
-    </TabItem>
-    <TabItem Header="Slider &amp; Progress" Theme="{StaticResource NavTabItem}">
-      <pages:SliderProgressPage/>
-    </TabItem>
-    <TabItem Header="Date &amp; Time" Theme="{StaticResource NavTabItem}">
-      <pages:DateTimePage/>
-    </TabItem>
+        <!--  INPUT  -->
+        <TabItem Header="INPUT" Theme="{StaticResource NavCategory}" />
+        <TabItem Header="Button" Theme="{StaticResource NavTabItem}">
+            <pages:ButtonPage />
+        </TabItem>
+        <TabItem Header="TextInput" Theme="{StaticResource NavTabItem}">
+            <pages:TextInputPage />
+        </TabItem>
+        <TabItem Header="ComboBox" Theme="{StaticResource NavTabItem}">
+            <pages:ComboBoxPage />
+        </TabItem>
+        <TabItem Header="Toggles" Theme="{StaticResource NavTabItem}">
+            <pages:TogglesPage />
+        </TabItem>
+        <TabItem Header="Slider &amp; Progress" Theme="{StaticResource NavTabItem}">
+            <pages:SliderProgressPage />
+        </TabItem>
+        <TabItem Header="Date &amp; Time" Theme="{StaticResource NavTabItem}">
+            <pages:DateTimePage />
+        </TabItem>
 
-    <!-- DATA DISPLAY -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="DATA DISPLAY"/>
-    <TabItem Header="ListBox" Theme="{StaticResource NavTabItem}">
-      <pages:ListsPage/>
-    </TabItem>
+        <!--  DATA DISPLAY  -->
+        <TabItem Header="DATA DISPLAY" Theme="{StaticResource NavCategory}" />
+        <TabItem Header="ListBox" Theme="{StaticResource NavTabItem}">
+            <pages:ListsPage />
+        </TabItem>
 
-    <!-- CONTAINERS -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="CONTAINERS"/>
-    <TabItem Header="Expander" Theme="{StaticResource NavTabItem}">
-      <pages:ExpanderPage/>
-    </TabItem>
+        <!--  CONTAINERS  -->
+        <TabItem Header="CONTAINERS" Theme="{StaticResource NavCategory}" />
+        <TabItem Header="Expander" Theme="{StaticResource NavTabItem}">
+            <pages:ExpanderPage />
+        </TabItem>
 
-    <!-- FEEDBACK -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="FEEDBACK"/>
-    <TabItem Header="Tooltip &amp; Flyout" Theme="{StaticResource NavTabItem}">
-      <pages:FeedbackPage/>
-    </TabItem>
-    <TabItem Header="Notification" Theme="{StaticResource NavTabItem}">
-      <pages:NotificationPage/>
-    </TabItem>
-    <TabItem Header="Dialog" Theme="{StaticResource NavTabItem}">
-      <pages:WindowPage/>
-    </TabItem>
+        <!--  FEEDBACK  -->
+        <TabItem Header="FEEDBACK" Theme="{StaticResource NavCategory}" />
+        <TabItem Header="Tooltip &amp; Flyout" Theme="{StaticResource NavTabItem}">
+            <pages:FeedbackPage />
+        </TabItem>
+        <TabItem Header="Notification" Theme="{StaticResource NavTabItem}">
+            <pages:NotificationPage />
+        </TabItem>
+        <TabItem Header="Dialog" Theme="{StaticResource NavTabItem}">
+            <pages:WindowPage />
+        </TabItem>
 
-    <!-- THEME -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="THEME"/>
-    <TabItem Header="Colors" Theme="{StaticResource NavTabItem}">
-      <pages:ThemePage/>
-    </TabItem>
+        <!--  THEME  -->
+        <TabItem Header="THEME" Theme="{StaticResource NavCategory}" />
+        <TabItem Header="Colors" Theme="{StaticResource NavTabItem}">
+            <pages:ThemePage />
+        </TabItem>
 
-  </TabControl>
+    </TabControl>
 
 </UserControl>

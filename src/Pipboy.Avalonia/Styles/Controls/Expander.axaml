@@ -1,69 +1,76 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Styles.Resources>
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
 
-    <ControlTheme x:Key="{x:Type Expander}" TargetType="Expander">
-      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
-      <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="Padding" Value="8"/>
-      <Setter Property="HorizontalAlignment" Value="Stretch"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="Expander">
-          <Border Background="{TemplateBinding Background}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  CornerRadius="0">
-            <StackPanel>
-              <!-- Header toggle button -->
-              <ToggleButton Name="PART_toggle"
-                            IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
-                            Background="Transparent"
-                            BorderBrush="{DynamicResource PipboyBorderBrush}"
-                            BorderThickness="0,0,0,1"
-                            Padding="8,6"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Center"
-                            Cursor="Hand">
-                <Grid ColumnDefinitions="*,20">
-                  <ContentPresenter Grid.Column="0"
-                                    Content="{TemplateBinding Header}"
-                                    ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"/>
-                  <Path Grid.Column="1"
-                        Name="ExpandArrow"
-                        Data="{DynamicResource PipboyIconChevronDown}"
-                        Width="12" Height="12" Stretch="Uniform"
-                        Stroke="{DynamicResource PipboyTextDimBrush}"
-                        StrokeThickness="1.5"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"/>
-                </Grid>
-              </ToggleButton>
-              <!-- Collapsible content area -->
-              <ContentPresenter Name="PART_ContentPresenter"
+        <ControlTheme x:Key="{x:Type Expander}" TargetType="Expander">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Expander">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="0">
+                        <StackPanel>
+                            <!--  Header toggle button  -->
+                            <ToggleButton
+                                Name="PART_toggle"
+                                Padding="8,6"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                Background="Transparent"
+                                BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                BorderThickness="0,0,0,1"
+                                Cursor="Hand"
+                                IsChecked="{TemplateBinding IsExpanded,
+                                                            Mode=TwoWay}">
+                                <Grid ColumnDefinitions="*,20">
+                                    <ContentPresenter
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Content="{TemplateBinding Header}"
+                                        ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                                    <Path
+                                        Name="ExpandArrow"
+                                        Grid.Column="1"
+                                        Width="12"
+                                        Height="12"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Data="{DynamicResource PipboyIconChevronDown}"
+                                        Stretch="Uniform"
+                                        Stroke="{DynamicResource PipboyTextDimBrush}"
+                                        StrokeThickness="1.5" />
+                                </Grid>
+                            </ToggleButton>
+                            <!--  Collapsible content area  -->
+                            <ContentPresenter
+                                Name="PART_ContentPresenter"
+                                Padding="{TemplateBinding Padding}"
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
-                                Padding="{TemplateBinding Padding}"
-                                IsVisible="{TemplateBinding IsExpanded}"/>
-            </StackPanel>
-          </Border>
-        </ControlTemplate>
-      </Setter>
+                                IsVisible="{TemplateBinding IsExpanded}" />
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
 
-      <Style Selector="^:expanded /template/ Path#ExpandArrow">
-        <Setter Property="RenderTransform">
-          <RotateTransform Angle="180"/>
-        </Setter>
-        <Setter Property="Stroke" Value="{DynamicResource PipboyPrimaryBrush}"/>
-      </Style>
-      <Style Selector="^:disabled">
-        <Setter Property="Opacity" Value="0.45"/>
-      </Style>
-    </ControlTheme>
+            <Style Selector="^:expanded /template/ Path#ExpandArrow">
+                <Setter Property="RenderTransform">
+                    <RotateTransform Angle="180" />
+                </Setter>
+                <Setter Property="Stroke" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
 
-  </Styles.Resources>
+    </Styles.Resources>
 </Styles>

@@ -1,57 +1,60 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Styles.Resources>
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
 
-    <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
-      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
-      <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="MinHeight" Value="30"/>
-      <Setter Property="Padding" Value="8,5"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="AutoCompleteBox">
-          <DataValidationErrors>
-            <Grid RowDefinitions="Auto">
-              <!-- Text input -->
-              <TextBox Name="PART_TextBox"
-                       Background="{TemplateBinding Background}"
-                       Foreground="{TemplateBinding Foreground}"
-                       BorderBrush="{TemplateBinding BorderBrush}"
-                       BorderThickness="{TemplateBinding BorderThickness}"
-                       Padding="{TemplateBinding Padding}"
-                       MinHeight="{TemplateBinding MinHeight}"
-                       Watermark="{TemplateBinding Watermark}"
-                       CaretBrush="{DynamicResource PipboyPrimaryBrush}"
-                       SelectionBrush="{DynamicResource PipboySelectionBrush}"
-                       VerticalContentAlignment="Center"/>
-              <!-- Dropdown suggestions popup -->
-              <Popup Name="PART_Popup"
-                     IsOpen="False"
-                     PlacementTarget="PART_TextBox"
-                     Placement="BottomEdgeAlignedLeft"
-                     IsLightDismissEnabled="True"
-                     MaxHeight="200">
-                <Border Background="{DynamicResource PipboySurfaceBrush}"
-                        BorderBrush="{DynamicResource PipboyBorderBrush}"
-                        BorderThickness="1"
-                        CornerRadius="0">
-                  <ListBox Name="PART_SelectingItemsControl"
-                           Background="Transparent"
-                           BorderThickness="0"
-                           ScrollViewer.VerticalScrollBarVisibility="Auto"
-                           MaxHeight="200"/>
-                </Border>
-              </Popup>
-            </Grid>
-          </DataValidationErrors>
-        </ControlTemplate>
-      </Setter>
+        <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="Padding" Value="8,5" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="AutoCompleteBox">
+                    <DataValidationErrors>
+                        <Grid RowDefinitions="Auto">
+                            <!--  Text input  -->
+                            <TextBox
+                                Name="PART_TextBox"
+                                MinHeight="{TemplateBinding MinHeight}"
+                                Padding="{TemplateBinding Padding}"
+                                VerticalContentAlignment="Center"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CaretBrush="{DynamicResource PipboyPrimaryBrush}"
+                                Foreground="{TemplateBinding Foreground}"
+                                SelectionBrush="{DynamicResource PipboySelectionBrush}"
+                                Watermark="{TemplateBinding Watermark}" />
+                            <!--  Dropdown suggestions popup  -->
+                            <Popup
+                                Name="PART_Popup"
+                                MaxHeight="200"
+                                IsLightDismissEnabled="True"
+                                IsOpen="False"
+                                Placement="BottomEdgeAlignedLeft"
+                                PlacementTarget="PART_TextBox">
+                                <Border
+                                    Background="{DynamicResource PipboySurfaceBrush}"
+                                    BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="0">
+                                    <ListBox
+                                        Name="PART_SelectingItemsControl"
+                                        MaxHeight="200"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </DataValidationErrors>
+                </ControlTemplate>
+            </Setter>
 
-      <Style Selector="^:disabled">
-        <Setter Property="Opacity" Value="0.45"/>
-      </Style>
-    </ControlTheme>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
 
-  </Styles.Resources>
+    </Styles.Resources>
 </Styles>

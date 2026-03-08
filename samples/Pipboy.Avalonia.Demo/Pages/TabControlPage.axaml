@@ -1,76 +1,85 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Pipboy.Avalonia.Demo.Pages.TabControlPage">
-  <ScrollViewer>
-    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+﻿<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.TabControlPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel
+            Margin="24"
+            HorizontalAlignment="Left"
+            Spacing="24">
 
-      <!-- TabControl top -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="TAB CONTROL — TOP (default)"/>
-        <TabControl Width="440" Height="160">
-          <TabItem Header="STATUS">
-            <TextBlock Margin="12" TextWrapping="Wrap"
-                       Text="Character is in good health. No active status effects. Radiation: 0 RAD."/>
-          </TabItem>
-          <TabItem Header="QUESTS">
-            <StackPanel Margin="12" Spacing="4">
-              <TextBlock Text="● The Nuclear Option" Classes="accent"/>
-              <TextBlock Text="○ Road to Freedom" Classes="dim"/>
-              <TextBlock Text="○ Taking Independence" Classes="dim"/>
+            <!--  TabControl top  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="TAB CONTROL — TOP (default)" />
+                <TabControl Width="440" Height="160">
+                    <TabItem Header="STATUS">
+                        <TextBlock
+                            Margin="12"
+                            Text="Character is in good health. No active status effects. Radiation: 0 RAD."
+                            TextWrapping="Wrap" />
+                    </TabItem>
+                    <TabItem Header="QUESTS">
+                        <StackPanel Margin="12" Spacing="4">
+                            <TextBlock Classes="accent" Text="● The Nuclear Option" />
+                            <TextBlock Classes="dim" Text="○ Road to Freedom" />
+                            <TextBlock Classes="dim" Text="○ Taking Independence" />
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Header="MAP">
+                        <TextBlock Margin="12" Text="Current location: The Glowing Sea — CAUTION: HIGH RADIATION" />
+                    </TabItem>
+                    <TabItem Header="DISABLED" IsEnabled="False" />
+                </TabControl>
             </StackPanel>
-          </TabItem>
-          <TabItem Header="MAP">
-            <TextBlock Margin="12" Text="Current location: The Glowing Sea — CAUTION: HIGH RADIATION"/>
-          </TabItem>
-          <TabItem Header="DISABLED" IsEnabled="False"/>
-        </TabControl>
-      </StackPanel>
 
-      <!-- TabControl left -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="TAB CONTROL — LEFT"/>
-        <TabControl Width="440" Height="200" TabStripPlacement="Left">
-          <TabItem Header="WEAPONS">
-            <StackPanel Margin="12" Spacing="4">
-              <TextBlock Text="10mm Pistol"/>
-              <TextBlock Text="Assault Rifle"/>
-              <TextBlock Text="Plasma Rifle"/>
+            <!--  TabControl left  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="TAB CONTROL — LEFT" />
+                <TabControl
+                    Width="440"
+                    Height="200"
+                    TabStripPlacement="Left">
+                    <TabItem Header="WEAPONS">
+                        <StackPanel Margin="12" Spacing="4">
+                            <TextBlock Text="10mm Pistol" />
+                            <TextBlock Text="Assault Rifle" />
+                            <TextBlock Text="Plasma Rifle" />
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Header="ARMOR">
+                        <TextBlock Margin="12" Text="Combat Armor — DR: 42 | ER: 38" />
+                    </TabItem>
+                    <TabItem Header="AMMO">
+                        <StackPanel Margin="12" Spacing="4">
+                            <TextBlock Text=".38 Rounds    ×324" />
+                            <TextBlock Text="5.56mm         ×156" />
+                            <TextBlock Text="Fusion Cell    ×72" />
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
             </StackPanel>
-          </TabItem>
-          <TabItem Header="ARMOR">
-            <TextBlock Margin="12" Text="Combat Armor — DR: 42 | ER: 38"/>
-          </TabItem>
-          <TabItem Header="AMMO">
-            <StackPanel Margin="12" Spacing="4">
-              <TextBlock Text=".38 Rounds    ×324"/>
-              <TextBlock Text="5.56mm         ×156"/>
-              <TextBlock Text="Fusion Cell    ×72"/>
+
+            <!--  Menu  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="MENU" />
+                <Menu>
+                    <MenuItem Header="_FILE">
+                        <MenuItem Header="_New" />
+                        <MenuItem Header="_Open" />
+                        <Separator />
+                        <MenuItem Header="_Exit" />
+                    </MenuItem>
+                    <MenuItem Header="_VIEW">
+                        <MenuItem Header="_Status" />
+                        <MenuItem Header="_Inventory" />
+                        <MenuItem Header="_MAP" />
+                    </MenuItem>
+                    <MenuItem Header="_HELP">
+                        <MenuItem Header="_About" />
+                    </MenuItem>
+                </Menu>
             </StackPanel>
-          </TabItem>
-        </TabControl>
-      </StackPanel>
 
-      <!-- Menu -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="MENU"/>
-        <Menu>
-          <MenuItem Header="_FILE">
-            <MenuItem Header="_New"/>
-            <MenuItem Header="_Open"/>
-            <Separator/>
-            <MenuItem Header="_Exit"/>
-          </MenuItem>
-          <MenuItem Header="_VIEW">
-            <MenuItem Header="_Status"/>
-            <MenuItem Header="_Inventory"/>
-            <MenuItem Header="_MAP"/>
-          </MenuItem>
-          <MenuItem Header="_HELP">
-            <MenuItem Header="_About"/>
-          </MenuItem>
-        </Menu>
-      </StackPanel>
-
-    </StackPanel>
-  </ScrollViewer>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

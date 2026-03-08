@@ -1,33 +1,70 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Pipboy.Avalonia.Demo.Pages.WindowPage">
-  <ScrollViewer>
-    <StackPanel Margin="24" MaxWidth="520" Spacing="16">
+﻿<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.WindowPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel
+            MaxWidth="520"
+            Margin="24"
+            Spacing="16">
 
-      <TextBlock Classes="h1" Text="WINDOW &amp; DIALOG"/>
-      <TextBlock TextWrapping="Wrap" Classes="dim"
-                 Text="The Pipboy theme applies globally to all Window instances including dialogs. Open the dialog below to see window chrome, title bar, and content styling in action."/>
+            <TextBlock Classes="h1" Text="WINDOW &amp; DIALOG" />
+            <TextBlock
+                Classes="dim"
+                Text="The Pipboy theme applies globally to all Window instances including dialogs. Open the dialog below to see window chrome, title bar, and content styling in action."
+                TextWrapping="Wrap" />
 
-      <Border Classes="pipboy-panel" Padding="16">
-        <StackPanel Spacing="8">
-          <TextBlock Classes="h2" Text="MAIN WINDOW PROPERTIES"/>
-          <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,6,Auto,6,Auto,6,Auto">
-            <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="Theme:"/>
-            <TextBlock Grid.Row="0" Grid.Column="1" Classes="accent" Text="Pipboy (default)"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="Font:"/>
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="Cascadia Code, Consolas, Monospace"/>
-            <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="Platform:"/>
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="Avalonia UI 11.2.3"/>
-            <TextBlock Grid.Row="6" Grid.Column="0" Classes="dim" Text="Runtime switch:"/>
-            <TextBlock Grid.Row="6" Grid.Column="1" Text="Color theming enabled"/>
-          </Grid>
+            <Border Padding="16" Classes="pipboy-panel">
+                <StackPanel Spacing="8">
+                    <TextBlock Classes="h2" Text="MAIN WINDOW PROPERTIES" />
+                    <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,6,Auto,6,Auto,6,Auto">
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Classes="dim"
+                            Text="Theme:" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Classes="accent"
+                            Text="Pipboy (default)" />
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Classes="dim"
+                            Text="Font:" />
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Text="Cascadia Code, Consolas, Monospace" />
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Classes="dim"
+                            Text="Platform:" />
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Text="Avalonia UI 11.2.3" />
+                        <TextBlock
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Classes="dim"
+                            Text="Runtime switch:" />
+                        <TextBlock
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Text="Color theming enabled" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Button Click="OnOpenDialog" Content="OPEN DIALOG WINDOW" />
+            <TextBlock
+                Classes="dim"
+                Text="The dialog will inherit the active Pipboy color theme, including any runtime changes made on the Colors page."
+                TextWrapping="Wrap" />
+
         </StackPanel>
-      </Border>
-
-      <Button Content="OPEN DIALOG WINDOW" Click="OnOpenDialog"/>
-      <TextBlock Classes="dim" TextWrapping="Wrap"
-                 Text="The dialog will inherit the active Pipboy color theme, including any runtime changes made on the Colors page."/>
-
-    </StackPanel>
-  </ScrollViewer>
+    </ScrollViewer>
 </UserControl>

@@ -1,131 +1,145 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <Styles.Resources>
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
 
-    <!-- Window ControlTheme — MUST include VisualLayerManager so that the
-         AdornerLayer exists. Without this, WindowNotificationManager cannot
-         install itself and toast notifications will never appear.
-         Template mirrors Avalonia's built-in SimpleTheme Window template. -->
-    <ControlTheme x:Key="{x:Type Window}" TargetType="Window">
-      <Setter Property="Background"   Value="{DynamicResource PipboyBackgroundBrush}"/>
-      <Setter Property="Foreground"   Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="FontFamily"   Value="{DynamicResource PipboyFontFamily}"/>
-      <Setter Property="FontSize"     Value="{DynamicResource PipboyFontSize}"/>
-      <Setter Property="Template">
-        <ControlTemplate TargetType="Window">
-          <Panel>
-            <Border Name="PART_TransparencyFallback" IsHitTestVisible="False"/>
-            <Border Background="{TemplateBinding Background}" IsHitTestVisible="False"/>
-            <Panel Margin="{TemplateBinding WindowDecorationMargin}" Background="Transparent"/>
-            <VisualLayerManager>
-              <VisualLayerManager.ChromeOverlayLayer>
-                <TitleBar/>
-              </VisualLayerManager.ChromeOverlayLayer>
-              <ContentPresenter Name="PART_ContentPresenter"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
+        <!--
+            Window ControlTheme — MUST include VisualLayerManager so that the
+            AdornerLayer exists. Without this, WindowNotificationManager cannot
+            install itself and toast notifications will never appear.
+            Template mirrors Avalonia's built-in SimpleTheme Window template.
+        -->
+        <ControlTheme x:Key="{x:Type Window}" TargetType="Window">
+            <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
+            <Setter Property="FontSize" Value="{DynamicResource PipboyFontSize}" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Window">
+                    <Panel>
+                        <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+                        <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
+                        <Panel Margin="{TemplateBinding WindowDecorationMargin}" Background="Transparent" />
+                        <VisualLayerManager>
+                            <VisualLayerManager.ChromeOverlayLayer>
+                                <TitleBar />
+                            </VisualLayerManager.ChromeOverlayLayer>
+                            <ContentPresenter
+                                Name="PART_ContentPresenter"
                                 Margin="{TemplateBinding Padding}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-            </VisualLayerManager>
-          </Panel>
-        </ControlTemplate>
-      </Setter>
-    </ControlTheme>
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </VisualLayerManager>
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
 
-  </Styles.Resources>
+    </Styles.Resources>
 
-  <!-- UserControl inherits theme colors -->
-  <Style Selector="UserControl">
-    <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-  </Style>
+    <!--  UserControl inherits theme colors  -->
+    <Style Selector="UserControl">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+    </Style>
 
-  <!-- Panel / Grid / StackPanel — transparent so background shows through -->
-  <Style Selector="Panel">
-    <Setter Property="Background" Value="Transparent"/>
-  </Style>
+    <!--  Panel / Grid / StackPanel — transparent so background shows through  -->
+    <Style Selector="Panel">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
 
-  <!-- Border default styling -->
-  <Style Selector="Border.pipboy-surface">
-    <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
-  </Style>
+    <!--  Border default styling  -->
+    <Style Selector="Border.pipboy-surface">
+        <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
 
-  <Style Selector="Border.pipboy-panel">
-    <Setter Property="Background" Value="{DynamicResource PipboySurfaceHighBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="Padding" Value="8"/>
-  </Style>
+    <Style Selector="Border.pipboy-panel">
+        <Setter Property="Background" Value="{DynamicResource PipboySurfaceHighBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="8" />
+    </Style>
 
-  <!-- TextBlock default foreground -->
-  <Style Selector="TextBlock">
-    <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-    <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}"/>
-  </Style>
+    <!--  TextBlock default foreground  -->
+    <Style Selector="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+        <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
+    </Style>
 
-  <!-- Heading styles -->
-  <Style Selector="TextBlock.h1">
-    <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}"/>
-    <Setter Property="FontSize" Value="20"/>
-    <Setter Property="FontWeight" Value="Bold"/>
-  </Style>
+    <!--  Heading styles  -->
+    <Style Selector="TextBlock.h1">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
 
-  <Style Selector="TextBlock.h2">
-    <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}"/>
-    <Setter Property="FontSize" Value="{DynamicResource PipboyFontSizeLarge}"/>
-    <Setter Property="FontWeight" Value="Bold"/>
-  </Style>
+    <Style Selector="TextBlock.h2">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource PipboyFontSizeLarge}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
 
-  <Style Selector="TextBlock.dim">
-    <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}"/>
-  </Style>
+    <Style Selector="TextBlock.dim">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
+    </Style>
 
-  <Style Selector="TextBlock.accent">
-    <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}"/>
-  </Style>
+    <Style Selector="TextBlock.accent">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
+    </Style>
 
-  <!-- Semantic status text -->
-  <Style Selector="TextBlock.error">
-    <Setter Property="Foreground" Value="{DynamicResource PipboyErrorBrush}"/>
-  </Style>
-  <Style Selector="TextBlock.warning">
-    <Setter Property="Foreground" Value="{DynamicResource PipboyWarningBrush}"/>
-  </Style>
-  <Style Selector="TextBlock.success">
-    <Setter Property="Foreground" Value="{DynamicResource PipboySuccessBrush}"/>
-  </Style>
+    <!--  Semantic status text  -->
+    <Style Selector="TextBlock.error">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyErrorBrush}" />
+    </Style>
+    <Style Selector="TextBlock.warning">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyWarningBrush}" />
+    </Style>
+    <Style Selector="TextBlock.success">
+        <Setter Property="Foreground" Value="{DynamicResource PipboySuccessBrush}" />
+    </Style>
 
-  <!-- ── Pip-Boy data display classes ──────────────────────────────────────
-       value  — prominent numeric readout (HP, AP, Caps, SPECIAL stats)
-       label  — small dim descriptor above a value; spaced uppercase
-       blink  — hard-cut blink for critical alerts (low HP, rad warning)
-  ─────────────────────────────────────────────────────────────────────────── -->
-  <Style Selector="TextBlock.value">
-    <Setter Property="Foreground"  Value="{DynamicResource PipboyPrimaryBrush}"/>
-    <Setter Property="FontSize"    Value="{DynamicResource PipboyFontSizeLarge}"/>
-    <Setter Property="FontWeight"  Value="Bold"/>
-  </Style>
+    <!--
+        ── Pip-Boy data display classes ──────────────────────────────────────
+        value  — prominent numeric readout (HP, AP, Caps, SPECIAL stats)
+        label  — small dim descriptor above a value; spaced uppercase
+        blink  — hard-cut blink for critical alerts (low HP, rad warning)
+        ───────────────────────────────────────────────────────────────────────────
+    -->
+    <Style Selector="TextBlock.value">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource PipboyFontSizeLarge}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
 
-  <Style Selector="TextBlock.label">
-    <Setter Property="Foreground"     Value="{DynamicResource PipboyTextDimBrush}"/>
-    <Setter Property="FontSize"       Value="10"/>
-    <Setter Property="LetterSpacing"  Value="1.5"/>
-  </Style>
+    <Style Selector="TextBlock.label">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="LetterSpacing" Value="1.5" />
+    </Style>
 
-  <!-- Hard-cut blink: 50 % on / 50 % off, no fade — matches CRT terminal alerts -->
-  <Style Selector="TextBlock.blink">
-    <Style.Animations>
-      <Animation Duration="0:0:1" IterationCount="INFINITE">
-        <KeyFrame Cue="0%">  <Setter Property="Opacity" Value="1"/></KeyFrame>
-        <KeyFrame Cue="49%"> <Setter Property="Opacity" Value="1"/></KeyFrame>
-        <KeyFrame Cue="50%"> <Setter Property="Opacity" Value="0"/></KeyFrame>
-        <KeyFrame Cue="99%"> <Setter Property="Opacity" Value="0"/></KeyFrame>
-        <KeyFrame Cue="100%"><Setter Property="Opacity" Value="1"/></KeyFrame>
-      </Animation>
-    </Style.Animations>
-  </Style>
+    <!--  Hard-cut blink: 50 % on / 50 % off, no fade — matches CRT terminal alerts  -->
+    <Style Selector="TextBlock.blink">
+        <Style.Animations>
+            <Animation IterationCount="INFINITE" Duration="0:0:1">
+                <KeyFrame Cue="0%">  
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="49%"> 
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="50%"> 
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="99%"> 
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
 
 </Styles>
