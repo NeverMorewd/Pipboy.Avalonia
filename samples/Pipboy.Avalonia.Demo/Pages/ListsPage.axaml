@@ -19,22 +19,6 @@
         </ListBox>
       </StackPanel>
 
-      <!-- ComboBox -->
-      <StackPanel Spacing="8">
-        <TextBlock Classes="h2" Text="COMBO BOX — LOCATION"/>
-        <ComboBox SelectedIndex="0" Width="260">
-          <ComboBoxItem Content="DIAMOND CITY"/>
-          <ComboBoxItem Content="GOODNEIGHBOR"/>
-          <ComboBoxItem Content="THE INSTITUTE"/>
-          <ComboBoxItem Content="VAULT 81"/>
-          <ComboBoxItem Content="SANCTUARY HILLS"/>
-          <ComboBoxItem Content="THE GLOWING SEA"/>
-        </ComboBox>
-        <ComboBox Width="260" IsEnabled="False" SelectedIndex="0">
-          <ComboBoxItem Content="DISABLED COMBO"/>
-        </ComboBox>
-      </StackPanel>
-
       <!-- Second ListBox -->
       <StackPanel Spacing="8">
         <TextBlock Classes="h2" Text="LIST BOX — PERKS"/>

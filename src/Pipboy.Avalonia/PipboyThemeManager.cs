@@ -22,10 +22,10 @@ public sealed class ThemeColorChangedEventArgs : EventArgs
 /// </summary>
 public sealed class PipboyThemeManager
 {
-    private static PipboyThemeManager? _instance;
+    private static readonly Lazy<PipboyThemeManager> _instance = new(() => new PipboyThemeManager());
 
     /// <summary>Gets the singleton instance of the theme manager.</summary>
-    public static PipboyThemeManager Instance => _instance ??= new PipboyThemeManager();
+    public static PipboyThemeManager Instance => _instance.Value;
 
     // Default Pipboy green from Fallout 4
     private static readonly Color DefaultPrimaryColor = Color.Parse("#15FF52");

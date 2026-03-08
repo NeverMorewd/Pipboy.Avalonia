@@ -144,5 +144,6 @@ public class PipboyTheme : Styles, IDisposable
     public void Dispose()
     {
         _manager.ThemeColorChanged -= OnThemeColorChanged;
+        GC.SuppressFinalize(this);
     }
 }

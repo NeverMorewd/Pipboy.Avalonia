@@ -44,4 +44,46 @@
     <Setter Property="Cursor" Value="IBeam"/>
   </Style>
 
+  <!-- ── Card: elevated surface container ── -->
+  <Style Selector="Border.card">
+    <Setter Property="Background"      Value="{DynamicResource PipboySurfaceBrush}"/>
+    <Setter Property="BorderBrush"     Value="{DynamicResource PipboyBorderBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="Padding"         Value="16"/>
+  </Style>
+  <Style Selector="Border.card-elevated">
+    <Setter Property="Background"      Value="{DynamicResource PipboySurfaceHighBrush}"/>
+    <Setter Property="BorderBrush"     Value="{DynamicResource PipboyPrimaryDarkBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="Padding"         Value="16"/>
+  </Style>
+
+  <!-- ── Pip-Boy panel variants ────────────────────────────────────────────
+       terminal  — primary-color border on black background; looks like a
+                   Pip-Boy screen section or CRT terminal readout
+       hud       — compact data block with standard border; use for HP/AP/
+                   Caps counters and small stat readouts
+  ─────────────────────────────────────────────────────────────────────────── -->
+  <Style Selector="Border.terminal">
+    <Setter Property="Background"      Value="{DynamicResource PipboyBackgroundBrush}"/>
+    <Setter Property="BorderBrush"     Value="{DynamicResource PipboyPrimaryBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="Padding"         Value="12"/>
+  </Style>
+
+  <Style Selector="Border.hud">
+    <Setter Property="Background"      Value="{DynamicResource PipboySurfaceBrush}"/>
+    <Setter Property="BorderBrush"     Value="{DynamicResource PipboyBorderBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="Padding"         Value="8,4"/>
+  </Style>
+
+  <!-- ── Separator: horizontal rule ── -->
+  <Style Selector="Separator">
+    <Setter Property="Background" Value="{DynamicResource PipboyBorderBrush}"/>
+    <Setter Property="Height" Value="1"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="Margin" Value="0,4"/>
+  </Style>
+
 </Styles>

@@ -1,0 +1,154 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+
+    <!--
+      Pipboy icon geometry library.
+      All icons are designed on a 24×24 viewport, stroke-only (no fill),
+      matching the wireframe / retro-terminal aesthetic of the theme.
+
+      Usage in AXAML:
+        <Path Data="{DynamicResource PipboyIconWarning}"
+              Stroke="{DynamicResource PipboyTextBrush}"
+              StrokeThickness="1.5"
+              StrokeLineCap="Square"
+              StrokeJoin="Miter"
+              Fill="Transparent"
+              Width="16" Height="16" Stretch="Uniform"/>
+    -->
+
+    <!-- ── Notification / status ─────────────────────────────────────────── -->
+
+    <!-- Circle outline with "i": dot (short upper line) + vertical bar -->
+    <StreamGeometry x:Key="PipboyIconInformation">
+      M 12,2 A 10,10 0 0,1 12,22 A 10,10 0 0,1 12,2
+      M 12,7 L 12,9
+      M 12,11 L 12,17
+    </StreamGeometry>
+
+    <!-- Bold checkmark -->
+    <StreamGeometry x:Key="PipboyIconSuccess">
+      M 3,12 L 9,18 L 21,5
+    </StreamGeometry>
+
+    <!-- Equilateral triangle with exclamation: bar + dot -->
+    <StreamGeometry x:Key="PipboyIconWarning">
+      M 12,3 L 22,21 L 2,21 Z
+      M 12,9 L 12,15
+      M 12,17 L 12,19
+    </StreamGeometry>
+
+    <!-- X cross -->
+    <StreamGeometry x:Key="PipboyIconError">
+      M 4,4 L 20,20
+      M 20,4 L 4,20
+    </StreamGeometry>
+
+    <!-- ── Navigation / UI ───────────────────────────────────────────────── -->
+
+    <!-- X close (alias of error icon) -->
+    <StreamGeometry x:Key="PipboyIconClose">
+      M 4,4 L 20,20
+      M 20,4 L 4,20
+    </StreamGeometry>
+
+    <!-- Upward chevron -->
+    <StreamGeometry x:Key="PipboyIconChevronUp">
+      M 4,16 L 12,8 L 20,16
+    </StreamGeometry>
+
+    <!-- Downward chevron -->
+    <StreamGeometry x:Key="PipboyIconChevronDown">
+      M 4,8 L 12,16 L 20,8
+    </StreamGeometry>
+
+    <!-- Right chevron -->
+    <StreamGeometry x:Key="PipboyIconChevronRight">
+      M 8,4 L 16,12 L 8,20
+    </StreamGeometry>
+
+    <!-- Left chevron -->
+    <StreamGeometry x:Key="PipboyIconChevronLeft">
+      M 16,4 L 8,12 L 16,20
+    </StreamGeometry>
+
+    <!-- Magnifying glass: small circle + handle line -->
+    <StreamGeometry x:Key="PipboyIconSearch">
+      M 10,3 A 7,7 0 0,1 10,17 A 7,7 0 0,1 10,3
+      M 15,15 L 21,21
+    </StreamGeometry>
+
+    <!-- ── Fallout HUD / stat icons ─────────────────────────────────────── -->
+
+    <!-- Five-pointed star (quests / favorites) -->
+    <StreamGeometry x:Key="PipboyIconStar">
+      M 12,2 L 14.5,9 L 22,9 L 16,14 L 18.5,21 L 12,17 L 5.5,21 L 8,14 L 2,9 L 9.5,9 Z
+    </StreamGeometry>
+
+    <!-- Padlock: shackle arc + rectangular body + keyhole dot -->
+    <StreamGeometry x:Key="PipboyIconLock">
+      M 8,11 L 8,7 A 4,4 0 0,1 16,7 L 16,11
+      M 5,11 L 19,11 L 19,21 L 5,21 Z
+      M 12,14 L 12,18
+    </StreamGeometry>
+
+    <!-- Map / location pin: teardrop shape -->
+    <StreamGeometry x:Key="PipboyIconLocation">
+      M 12,22 C 12,22 4,14 4,9 A 8,8 0 0,1 20,9 C 20,14 12,22 12,22 Z
+      M 12,7 A 2,2 0 0,1 12,11 A 2,2 0 0,1 12,7
+    </StreamGeometry>
+
+    <!-- Heart outline: HP / health readout -->
+    <StreamGeometry x:Key="PipboyIconHeart">
+      M 12,20 C 12,20 3,13 3,8 A 4.5,4.5 0 0,1 12,6.5 A 4.5,4.5 0 0,1 21,8 C 21,13 12,20 12,20 Z
+    </StreamGeometry>
+
+    <!-- Lightning bolt: AP / Action Points -->
+    <StreamGeometry x:Key="PipboyIconBolt">
+      M 14,2 L 6,13 L 11,13 L 10,22 L 18,11 L 13,11 Z
+    </StreamGeometry>
+
+    <!-- Shield outline: armor / defense -->
+    <StreamGeometry x:Key="PipboyIconShield">
+      M 12,2 L 20,6 L 20,13 C 20,17.5 16.5,21 12,22 C 7.5,21 4,17.5 4,13 L 4,6 Z
+    </StreamGeometry>
+
+    <!-- Person silhouette: character / player stats -->
+    <StreamGeometry x:Key="PipboyIconUser">
+      M 12,4 A 4,4 0 0,1 12,12 A 4,4 0 0,1 12,4
+      M 4,21 A 8,8 0 0,1 20,21
+    </StreamGeometry>
+
+    <!-- Backpack / satchel: inventory -->
+    <StreamGeometry x:Key="PipboyIconBackpack">
+      M 9,3 A 3,3 0 0,1 15,3 L 19,5 L 19,20 L 5,20 L 5,5 Z
+      M 9,3 L 9,7 L 15,7 L 15,3
+      M 8,12 L 16,12
+    </StreamGeometry>
+
+    <!-- Folded map: world map / locations -->
+    <StreamGeometry x:Key="PipboyIconMap">
+      M 3,6 L 9,4 L 15,6 L 21,4 L 21,18 L 15,20 L 9,18 L 3,20 Z
+      M 9,4 L 9,18
+      M 15,6 L 15,20
+    </StreamGeometry>
+
+    <!-- Gear / cog: settings -->
+    <StreamGeometry x:Key="PipboyIconGear">
+      M 12,9 A 3,3 0 0,1 12,15 A 3,3 0 0,1 12,9
+      M 12,2 L 12,5  M 12,19 L 12,22
+      M 4.2,4.2 L 6.3,6.3  M 17.7,17.7 L 19.8,19.8
+      M 2,12 L 5,12  M 19,12 L 22,12
+      M 4.2,19.8 L 6.3,17.7  M 17.7,6.3 L 19.8,4.2
+    </StreamGeometry>
+
+    <!-- ── Pipboy-specific ────────────────────────────────────────────────── -->
+    <StreamGeometry x:Key="PipboyIconRadiation">
+      M 12,9 A 3,3 0 1,0 12,15 A 3,3 0 1,0 12,9
+      M 12,6 A 6,6 0 0,1 17.2,9 L 22,6 A 12,12 0 0,0 2,6 L 6.8,9 A 6,6 0 0,1 12,6
+      M 17.2,15 L 22,18 A 12,12 0 0,1 12,24 L 12,18 A 6,6 0 0,1 17.2,15
+      M 6.8,15 A 6,6 0 0,1 2,18 L 2,18 A 12,12 0 0,1 12,24 L 12,18 A 6,6 0 0,1 6.8,15
+    </StreamGeometry>
+
+  </Styles.Resources>
+</Styles>

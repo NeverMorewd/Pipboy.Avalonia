@@ -41,5 +41,7 @@
   <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/HyperlinkButton.axaml"/>
   <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DropDownButton.axaml"/>
   <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DataValidationErrors.axaml"/>
+  <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Icons.axaml"/>
+  <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Notification.axaml"/>
 
 </Styles>

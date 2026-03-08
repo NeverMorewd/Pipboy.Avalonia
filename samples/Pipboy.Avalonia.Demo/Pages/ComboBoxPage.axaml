@@ -1,0 +1,56 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Pipboy.Avalonia.Demo.Pages.ComboBoxPage">
+  <ScrollViewer>
+    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+
+      <!-- ComboBox -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="COMBO BOX"/>
+        <TextBlock Classes="dim" Text="Single-selection dropdown. Click to expand, select an item to close."/>
+        <StackPanel Spacing="8">
+          <ComboBox SelectedIndex="0" Width="280">
+            <ComboBoxItem Content="DIAMOND CITY"/>
+            <ComboBoxItem Content="GOODNEIGHBOR"/>
+            <ComboBoxItem Content="THE INSTITUTE"/>
+            <ComboBoxItem Content="VAULT 81"/>
+            <ComboBoxItem Content="SANCTUARY HILLS"/>
+            <ComboBoxItem Content="THE GLOWING SEA"/>
+          </ComboBox>
+          <ComboBox SelectedIndex="0" Width="280">
+            <ComboBoxItem Content="BROTHERHOOD OF STEEL"/>
+            <ComboBoxItem Content="MINUTEMEN"/>
+            <ComboBoxItem Content="RAILROAD"/>
+            <ComboBoxItem Content="INSTITUTE"/>
+          </ComboBox>
+          <ComboBox Width="280" IsEnabled="False" SelectedIndex="0">
+            <ComboBoxItem Content="DISABLED COMBO"/>
+          </ComboBox>
+        </StackPanel>
+      </StackPanel>
+
+      <!-- ComboBox with many items (scroll) -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="COMBO BOX — MANY ITEMS"/>
+        <TextBlock Classes="dim" Text="Dropdown scrolls when items exceed the max height."/>
+        <ComboBox SelectedIndex="0" Width="280">
+          <ComboBoxItem Content="1. GUNS"/>
+          <ComboBoxItem Content="2. ENERGY WEAPONS"/>
+          <ComboBoxItem Content="3. EXPLOSIVES"/>
+          <ComboBoxItem Content="4. MELEE WEAPONS"/>
+          <ComboBoxItem Content="5. UNARMED"/>
+          <ComboBoxItem Content="6. SNEAK"/>
+          <ComboBoxItem Content="7. LOCKPICK"/>
+          <ComboBoxItem Content="8. SCIENCE"/>
+          <ComboBoxItem Content="9. REPAIR"/>
+          <ComboBoxItem Content="10. MEDICINE"/>
+          <ComboBoxItem Content="11. BARTER"/>
+          <ComboBoxItem Content="12. SPEECH"/>
+          <ComboBoxItem Content="13. SURVIVAL"/>
+          <ComboBoxItem Content="14. EXPLOSIVES"/>
+        </ComboBox>
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

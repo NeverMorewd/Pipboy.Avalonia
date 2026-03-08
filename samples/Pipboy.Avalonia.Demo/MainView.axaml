@@ -130,51 +130,63 @@
     <TabItem Header="Typography" Theme="{StaticResource NavTabItem}">
       <pages:TypographyPage/>
     </TabItem>
-
-    <!-- BUTTONS -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="BUTTONS"/>
-    <TabItem Header="Button" Theme="{StaticResource NavTabItem}">
-      <pages:ButtonPage/>
+    <TabItem Header="Card &amp; Badge" Theme="{StaticResource NavTabItem}">
+      <pages:CardPage/>
     </TabItem>
 
-    <!-- INPUT -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="INPUT"/>
-    <TabItem Header="TextInput" Theme="{StaticResource NavTabItem}">
-      <pages:TextInputPage/>
+    <!-- NAVIGATION -->
+    <TabItem Theme="{StaticResource NavCategory}" Header="NAVIGATION"/>
+    <TabItem Header="Menu" Theme="{StaticResource NavTabItem}">
+      <pages:MenuPage/>
     </TabItem>
-    <TabItem Header="Toggles" Theme="{StaticResource NavTabItem}">
-      <pages:TogglesPage/>
-    </TabItem>
-    <TabItem Header="Slider" Theme="{StaticResource NavTabItem}">
-      <pages:SliderProgressPage/>
-    </TabItem>
-    <TabItem Header="DatePicker" Theme="{StaticResource NavTabItem}">
-      <pages:DateTimePage/>
-    </TabItem>
-
-    <!-- LISTS -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="LISTS"/>
-    <TabItem Header="ListBox" Theme="{StaticResource NavTabItem}">
-      <pages:ListsPage/>
+    <TabItem Header="Tab Control" Theme="{StaticResource NavTabItem}">
+      <pages:TabControlPage/>
     </TabItem>
     <TabItem Header="TreeView" Theme="{StaticResource NavTabItem}">
       <pages:TreeViewPage/>
     </TabItem>
 
-    <!-- LAYOUT -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="LAYOUT"/>
+    <!-- INPUT -->
+    <TabItem Theme="{StaticResource NavCategory}" Header="INPUT"/>
+    <TabItem Header="Button" Theme="{StaticResource NavTabItem}">
+      <pages:ButtonPage/>
+    </TabItem>
+    <TabItem Header="TextInput" Theme="{StaticResource NavTabItem}">
+      <pages:TextInputPage/>
+    </TabItem>
+    <TabItem Header="ComboBox" Theme="{StaticResource NavTabItem}">
+      <pages:ComboBoxPage/>
+    </TabItem>
+    <TabItem Header="Toggles" Theme="{StaticResource NavTabItem}">
+      <pages:TogglesPage/>
+    </TabItem>
+    <TabItem Header="Slider &amp; Progress" Theme="{StaticResource NavTabItem}">
+      <pages:SliderProgressPage/>
+    </TabItem>
+    <TabItem Header="Date &amp; Time" Theme="{StaticResource NavTabItem}">
+      <pages:DateTimePage/>
+    </TabItem>
+
+    <!-- DATA DISPLAY -->
+    <TabItem Theme="{StaticResource NavCategory}" Header="DATA DISPLAY"/>
+    <TabItem Header="ListBox" Theme="{StaticResource NavTabItem}">
+      <pages:ListsPage/>
+    </TabItem>
+
+    <!-- CONTAINERS -->
+    <TabItem Theme="{StaticResource NavCategory}" Header="CONTAINERS"/>
     <TabItem Header="Expander" Theme="{StaticResource NavTabItem}">
       <pages:ExpanderPage/>
     </TabItem>
-    <TabItem Header="TabControl" Theme="{StaticResource NavTabItem}">
-      <pages:TabControlPage/>
-    </TabItem>
-    <TabItem Header="Feedback" Theme="{StaticResource NavTabItem}">
+
+    <!-- FEEDBACK -->
+    <TabItem Theme="{StaticResource NavCategory}" Header="FEEDBACK"/>
+    <TabItem Header="Tooltip &amp; Flyout" Theme="{StaticResource NavTabItem}">
       <pages:FeedbackPage/>
     </TabItem>
-
-    <!-- WINDOW -->
-    <TabItem Theme="{StaticResource NavCategory}" Header="WINDOW"/>
+    <TabItem Header="Notification" Theme="{StaticResource NavTabItem}">
+      <pages:NotificationPage/>
+    </TabItem>
     <TabItem Header="Dialog" Theme="{StaticResource NavTabItem}">
       <pages:WindowPage/>
     </TabItem>

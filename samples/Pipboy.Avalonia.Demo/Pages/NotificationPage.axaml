@@ -1,0 +1,118 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Pipboy.Avalonia.Demo.Pages.NotificationPage">
+  <ScrollViewer>
+    <StackPanel HorizontalAlignment="Left" Margin="24" Spacing="24">
+
+      <!-- Static notification cards -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="NOTIFICATION TYPES"/>
+        <TextBlock Classes="dim" Text="Four semantic variants distinguished by icon. All share the same monochromatic color."/>
+        <StackPanel Spacing="8" Width="360" HorizontalAlignment="Left">
+
+          <!-- Shared card style: same border/background for all types -->
+
+          <!-- Information — circle "i" icon (PipboyIconInformation) -->
+          <Border Background="{DynamicResource PipboySurfaceBrush}"
+                  BorderBrush="{DynamicResource PipboyBorderBrush}"
+                  BorderThickness="1">
+            <DockPanel>
+              <Border DockPanel.Dock="Left" Width="3" Background="{DynamicResource PipboyBorderBrush}"/>
+              <DockPanel Margin="10,10,10,10">
+                <Path DockPanel.Dock="Left" Width="16" Height="16" Stretch="Uniform"
+                      VerticalAlignment="Top" Margin="0,2,10,0"
+                      Stroke="{DynamicResource PipboyTextBrush}" StrokeThickness="1.5"
+                      StrokeLineCap="Square" StrokeJoin="Miter" Fill="Transparent"
+                      Data="{DynamicResource PipboyIconInformation}"/>
+                <StackPanel Spacing="2">
+                  <TextBlock FontWeight="Bold" Text="SYSTEM INFO"/>
+                  <TextBlock Classes="dim" TextWrapping="Wrap"
+                             Text="Pip-Boy OS v4.2.1 loaded. All subsystems nominal."/>
+                </StackPanel>
+              </DockPanel>
+            </DockPanel>
+          </Border>
+
+          <!-- Success — checkmark icon (PipboyIconSuccess) -->
+          <Border Background="{DynamicResource PipboySurfaceBrush}"
+                  BorderBrush="{DynamicResource PipboyBorderBrush}"
+                  BorderThickness="1">
+            <DockPanel>
+              <Border DockPanel.Dock="Left" Width="3" Background="{DynamicResource PipboyBorderBrush}"/>
+              <DockPanel Margin="10,10,10,10">
+                <Path DockPanel.Dock="Left" Width="16" Height="16" Stretch="Uniform"
+                      VerticalAlignment="Top" Margin="0,2,10,0"
+                      Stroke="{DynamicResource PipboyTextBrush}" StrokeThickness="1.5"
+                      StrokeLineCap="Square" StrokeJoin="Miter" Fill="Transparent"
+                      Data="{DynamicResource PipboyIconSuccess}"/>
+                <StackPanel Spacing="2">
+                  <TextBlock FontWeight="Bold" Text="QUEST COMPLETE"/>
+                  <TextBlock Classes="dim" TextWrapping="Wrap"
+                             Text="&quot;The Nuclear Option&quot; finished. 500 XP earned."/>
+                </StackPanel>
+              </DockPanel>
+            </DockPanel>
+          </Border>
+
+          <!-- Warning — triangle "!" icon (PipboyIconWarning) -->
+          <Border Background="{DynamicResource PipboySurfaceBrush}"
+                  BorderBrush="{DynamicResource PipboyBorderBrush}"
+                  BorderThickness="1">
+            <DockPanel>
+              <Border DockPanel.Dock="Left" Width="3" Background="{DynamicResource PipboyBorderBrush}"/>
+              <DockPanel Margin="10,10,10,10">
+                <Path DockPanel.Dock="Left" Width="16" Height="16" Stretch="Uniform"
+                      VerticalAlignment="Top" Margin="0,2,10,0"
+                      Stroke="{DynamicResource PipboyTextBrush}" StrokeThickness="1.5"
+                      StrokeLineCap="Square" StrokeJoin="Miter" Fill="Transparent"
+                      Data="{DynamicResource PipboyIconWarning}"/>
+                <StackPanel Spacing="2">
+                  <TextBlock FontWeight="Bold" Text="LOW AMMO"/>
+                  <TextBlock Classes="dim" TextWrapping="Wrap"
+                             Text="10mm rounds: 8 remaining. Find ammo or switch weapon."/>
+                </StackPanel>
+              </DockPanel>
+            </DockPanel>
+          </Border>
+
+          <!-- Error — X cross icon (PipboyIconError) -->
+          <Border Background="{DynamicResource PipboySurfaceBrush}"
+                  BorderBrush="{DynamicResource PipboyBorderBrush}"
+                  BorderThickness="1">
+            <DockPanel>
+              <Border DockPanel.Dock="Left" Width="3" Background="{DynamicResource PipboyBorderBrush}"/>
+              <DockPanel Margin="10,10,10,10">
+                <Path DockPanel.Dock="Left" Width="16" Height="16" Stretch="Uniform"
+                      VerticalAlignment="Top" Margin="0,2,10,0"
+                      Stroke="{DynamicResource PipboyTextBrush}" StrokeThickness="1.5"
+                      StrokeLineCap="Square" StrokeJoin="Miter" Fill="Transparent"
+                      Data="{DynamicResource PipboyIconError}"/>
+                <StackPanel Spacing="2">
+                  <TextBlock FontWeight="Bold" Text="RADIATION ALERT"/>
+                  <TextBlock Classes="dim" TextWrapping="Wrap"
+                             Text="RAD level critical: 950 rads. Take RadAway immediately."/>
+                </StackPanel>
+              </DockPanel>
+            </DockPanel>
+          </Border>
+
+        </StackPanel>
+      </StackPanel>
+
+      <!-- Toast notifications via WindowNotificationManager -->
+      <StackPanel Spacing="8">
+        <TextBlock Classes="h2" Text="TOAST NOTIFICATIONS"/>
+        <TextBlock Classes="dim" TextWrapping="Wrap" MaxWidth="420"
+                   Text="WindowNotificationManager displays toasts in a corner of the window. Click a button to trigger one."/>
+        <WrapPanel>
+          <Button Content="INFO"    Click="OnShowInfo"    Margin="0,0,8,0"/>
+          <Button Content="SUCCESS" Click="OnShowSuccess" Margin="0,0,8,0"/>
+          <Button Content="WARNING" Click="OnShowWarning" Margin="0,0,8,0"/>
+          <Button Content="ERROR"   Click="OnShowError"/>
+        </WrapPanel>
+        <TextBlock Name="ToastStatus" Classes="dim" Text="Toasts appear in the bottom-right corner."/>
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

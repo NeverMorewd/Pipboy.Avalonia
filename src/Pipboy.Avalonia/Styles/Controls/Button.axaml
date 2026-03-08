@@ -50,4 +50,51 @@
     </ControlTheme>
 
   </Styles.Resources>
+
+  <!-- ── Button style variants ──────────────────────────────────────────────
+       Apply as Classes on any Button, e.g. <Button Classes="accent">
+
+       accent  — solid primary fill; use for the single primary action
+       ghost   — transparent background; text + border only; low-emphasis
+       danger  — error-color border/text; highlights destructive actions
+  ─────────────────────────────────────────────────────────────────────────── -->
+
+  <!-- accent -->
+  <Style Selector="Button.accent">
+    <Setter Property="Background"  Value="{DynamicResource PipboyPrimaryBrush}"/>
+    <Setter Property="Foreground"  Value="{DynamicResource PipboyBackgroundBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+  </Style>
+  <Style Selector="Button.accent:pointerover">
+    <Setter Property="Background"  Value="{DynamicResource PipboyPrimaryLightBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryLightBrush}"/>
+  </Style>
+  <Style Selector="Button.accent:pressed">
+    <Setter Property="Background"  Value="{DynamicResource PipboyPrimaryDarkBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryDarkBrush}"/>
+  </Style>
+
+  <!-- ghost -->
+  <Style Selector="Button.ghost">
+    <Setter Property="Background"  Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+  </Style>
+  <Style Selector="Button.ghost:pointerover">
+    <Setter Property="Background"  Value="{DynamicResource PipboyHoverBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+  </Style>
+  <Style Selector="Button.ghost:pressed">
+    <Setter Property="Background"  Value="{DynamicResource PipboyPressedBrush}"/>
+  </Style>
+
+  <!-- danger -->
+  <Style Selector="Button.danger">
+    <Setter Property="Foreground"  Value="{DynamicResource PipboyErrorBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PipboyErrorBrush}"/>
+  </Style>
+  <Style Selector="Button.danger:pointerover">
+    <Setter Property="Background"  Value="{DynamicResource PipboyPressedBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PipboyErrorBrush}"/>
+  </Style>
+
 </Styles>

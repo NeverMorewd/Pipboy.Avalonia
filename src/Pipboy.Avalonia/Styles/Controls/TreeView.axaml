@@ -13,7 +13,8 @@
         <ControlTemplate TargetType="ToggleButton">
           <Border Background="Transparent">
             <Path Name="Arrow"
-                  Data="M 4 5 L 8 9 L 12 5"
+                  Data="{DynamicResource PipboyIconChevronDown}"
+                  Width="12" Height="12" Stretch="Uniform"
                   Stroke="{DynamicResource PipboyTextDimBrush}"
                   StrokeThickness="1.5"
                   HorizontalAlignment="Center"
@@ -22,7 +23,9 @@
         </ControlTemplate>
       </Setter>
       <Style Selector="^:checked /template/ Path#Arrow">
-        <Setter Property="Data" Value="M 4 9 L 8 5 L 12 9"/>
+        <Setter Property="RenderTransform">
+          <RotateTransform Angle="180"/>
+        </Setter>
         <Setter Property="Stroke" Value="{DynamicResource PipboyPrimaryBrush}"/>
       </Style>
     </ControlTheme>
@@ -78,7 +81,7 @@
         <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
       </Style>
       <Style Selector="^:pointerover">
-        <Setter Property="Foreground" Value="{DynamicResource PipboyBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
       </Style>
       <Style Selector="^:selected">
         <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>

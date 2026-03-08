@@ -1,16 +1,20 @@
-﻿<Styles xmlns="https://github.com/avaloniaui"
+<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Styles.Resources>
 
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         Default tab strip (top-edge, box style)
+         ═══════════════════════════════════════════════════════════════════════ -->
+
     <!-- TabItem -->
     <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
-      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="Background"      Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="Foreground"      Value="{DynamicResource PipboyTextDimBrush}"/>
+      <Setter Property="BorderBrush"     Value="{DynamicResource PipboyBorderBrush}"/>
       <Setter Property="BorderThickness" Value="1,1,1,0"/>
-      <Setter Property="Padding" Value="14,6"/>
-      <Setter Property="CornerRadius" Value="0"/>
-      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Padding"         Value="14,6"/>
+      <Setter Property="CornerRadius"    Value="0"/>
+      <Setter Property="Cursor"          Value="Hand"/>
       <Setter Property="Template">
         <ControlTemplate TargetType="TabItem">
           <Border Name="PART_LayoutRoot"
@@ -31,8 +35,8 @@
       </Setter>
 
       <Style Selector="^:selected">
-        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryDarkBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+        <Setter Property="Background"  Value="{DynamicResource PipboyPrimaryDarkBrush}"/>
+        <Setter Property="Foreground"  Value="{DynamicResource PipboyTextBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
       </Style>
       <Style Selector="^:pointerover">
@@ -46,11 +50,11 @@
 
     <!-- TabControl -->
     <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
-      <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}"/>
+      <Setter Property="Background"      Value="{DynamicResource PipboySurfaceBrush}"/>
+      <Setter Property="Foreground"      Value="{DynamicResource PipboyTextBrush}"/>
+      <Setter Property="BorderBrush"     Value="{DynamicResource PipboyBorderBrush}"/>
       <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="Padding" Value="0"/>
+      <Setter Property="Padding"         Value="0"/>
       <Setter Property="Template">
         <ControlTemplate TargetType="TabControl">
           <Grid RowDefinitions="Auto,*">
@@ -62,11 +66,8 @@
               <ItemsPresenter Name="PART_ItemsPresenter"
                               ItemsPanel="{TemplateBinding ItemsPanel}"/>
             </Border>
-            <!-- Content area — ClipToBounds ensures the finite height is visible to children.
-                 HorizontalContentAlignment/VerticalContentAlignment="Stretch" are required so
-                 that ContentPresenter constrains its child to the available size (not the
-                 child's natural/infinite desired size), which allows ScrollViewer inside
-                 TabItem to correctly compute ViewportHeight and show the scrollbar. -->
+            <!-- Content area — ClipToBounds ensures ScrollViewer inside TabItem
+                 correctly computes ViewportHeight and shows the scrollbar. -->
             <Border Grid.Row="1"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
@@ -78,7 +79,96 @@
                                 Margin="{TemplateBinding Padding}"
                                 HorizontalContentAlignment="Stretch"
                                 VerticalContentAlignment="Stretch"/>
-				</Border>
+            </Border>
+          </Grid>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         PipboyTopTabItem / PipboyTopTabs
+         Horizontal top-strip layout modeled on Fallout 4's
+         STAT | INV | DATA | MAP | RADIO navigation bar.
+
+         Usage:
+           <TabControl Theme="{StaticResource PipboyTopTabs}">
+             <TabItem Header="STAT" Theme="{StaticResource PipboyTopTabItem}">...</TabItem>
+             <TabItem Header="INV"  Theme="{StaticResource PipboyTopTabItem}">...</TabItem>
+           </TabControl>
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- PipboyTopTabItem: flat item with bottom underline as selection indicator -->
+    <ControlTheme x:Key="PipboyTopTabItem" TargetType="TabItem">
+      <Setter Property="Background"  Value="Transparent"/>
+      <Setter Property="Foreground"  Value="{DynamicResource PipboyTextDimBrush}"/>
+      <Setter Property="Padding"     Value="20,10"/>
+      <Setter Property="FontWeight"  Value="Bold"/>
+      <Setter Property="Cursor"      Value="Hand"/>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="TabItem">
+          <!-- BorderThickness="0,0,0,2": bottom-only border acts as underline indicator -->
+          <Border Name="PART_LayoutRoot"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="Transparent"
+                  BorderThickness="0,0,0,2"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter Name="PART_ContentPresenter"
+                              Content="{TemplateBinding Header}"
+                              Foreground="{TemplateBinding Foreground}"
+                              FontWeight="{TemplateBinding FontWeight}"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center"/>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}"/>
+      </Style>
+      <Style Selector="^:pointerover:not(:selected) /template/ Border#PART_LayoutRoot">
+        <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}"/>
+      </Style>
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}"/>
+      </Style>
+      <Style Selector="^:disabled">
+        <Setter Property="Opacity" Value="0.45"/>
+      </Style>
+    </ControlTheme>
+
+    <!-- PipboyTopTabs: full-width horizontal strip + content area below -->
+    <ControlTheme x:Key="PipboyTopTabs" TargetType="TabControl">
+      <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}"/>
+      <Setter Property="Padding"    Value="0"/>
+      <Setter Property="ItemsPanel">
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </Setter>
+      <Setter Property="Template">
+        <ControlTemplate TargetType="TabControl">
+          <Grid RowDefinitions="Auto,*">
+            <!-- Horizontal tab strip with bottom separator line -->
+            <Border Grid.Row="0"
+                    Background="{DynamicResource PipboySurfaceBrush}"
+                    BorderBrush="{DynamicResource PipboyBorderBrush}"
+                    BorderThickness="0,0,0,1">
+              <ItemsPresenter Name="PART_ItemsPresenter"
+                              ItemsPanel="{TemplateBinding ItemsPanel}"/>
+            </Border>
+            <!-- Content area -->
+            <Border Grid.Row="1"
+                    Background="{TemplateBinding Background}"
+                    ClipToBounds="True">
+              <ContentPresenter Name="PART_SelectedContentHost"
+                                Content="{TemplateBinding SelectedContent}"
+                                ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"/>
+            </Border>
           </Grid>
         </ControlTemplate>
       </Setter>

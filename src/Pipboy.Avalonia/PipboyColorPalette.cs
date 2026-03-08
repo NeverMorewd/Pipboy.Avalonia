@@ -32,7 +32,7 @@ public sealed class PipboyColorPalette
     public Color Focus { get; }
     public Color Selection { get; }
 
-    // --- Semantic status (fixed hues, not derived from primary) ---
+    // --- Semantic status (same hue as primary, varying lightness) ---
     public Color Error { get; }
     public Color Warning { get; }
     public Color Success { get; }
@@ -84,9 +84,12 @@ public sealed class PipboyColorPalette
         float bfL = hsl.L + 0.25f;
         BorderFocus = hsl.WithLightness(bfL > 0.90f ? 0.90f : bfL).ToColor();
 
-        // Semantic status — fixed conventional hues regardless of primary color
-        Error   = Color.Parse("#FF4040");
-        Warning = Color.Parse("#FFAA00");
-        Success = Color.Parse("#40C840");
+        // Semantic status — same hue as primary, varying lightness for severity tiers.
+        // Keeps the monochromatic design principle: Success (mid), Warning (bright), Error (near-white).
+        // The ss factor collapses saturation to 0 for gray/achromatic primaries.
+        float semS = Math.Min(hsl.S * 1.1f * ss, 0.95f);
+        Success = new HslColor(hsl.H, semS, 0.60f).ToColor();
+        Warning = new HslColor(hsl.H, semS, 0.78f).ToColor();
+        Error   = new HslColor(hsl.H, semS, 0.93f).ToColor();
     }
 }

@@ -35,7 +35,8 @@
                                     VerticalAlignment="Center"/>
                   <Path Grid.Column="1"
                         Name="ExpandArrow"
-                        Data="M 4 5 L 8 9 L 12 5"
+                        Data="{DynamicResource PipboyIconChevronDown}"
+                        Width="12" Height="12" Stretch="Uniform"
                         Stroke="{DynamicResource PipboyTextDimBrush}"
                         StrokeThickness="1.5"
                         HorizontalAlignment="Center"
@@ -54,7 +55,9 @@
       </Setter>
 
       <Style Selector="^:expanded /template/ Path#ExpandArrow">
-        <Setter Property="Data" Value="M 4 9 L 8 5 L 12 9"/>
+        <Setter Property="RenderTransform">
+          <RotateTransform Angle="180"/>
+        </Setter>
         <Setter Property="Stroke" Value="{DynamicResource PipboyPrimaryBrush}"/>
       </Style>
       <Style Selector="^:disabled">
