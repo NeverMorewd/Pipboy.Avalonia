@@ -1,21 +1,43 @@
-# Pipboy.Avalonia
+﻿# Pipboy.Avalonia
 
 A Fallout 4 Pip-Boy inspired theme library for [Avalonia UI](https://avaloniaui.net/).
 
-Sharp corners, monochromatic palette, retro-green phosphor glow — drop it in as your sole application theme and every standard control gets the Vault-Tec treatment.
+Sharp corners, monochromatic phosphor palette, retro terminal aesthetic — drop it in as your sole application theme and every standard control gets the Vault-Tec treatment.
+
+---
+
+## Screenshots
+
+<!-- Desktop -->
+![Desktop overview](docs/images/screenshot-overview.png)
+
+<!-- Runtime color switching -->
+![Color switching](docs/images/screenshot-colors.png)
 
 ---
 
 ## Features
 
-- **Full control coverage** — Button, TextBox, CheckBox, RadioButton, ToggleButton, ToggleSwitch, Slider, ProgressBar, ListBox, ComboBox, TreeView, TabControl, Menu, ContextMenu, Expander, ScrollViewer, NumericUpDown, DatePicker, TimePicker, CalendarDatePicker, AutoCompleteBox, SplitButton, DropDownButton, HyperlinkButton, RepeatButton, ToolTip, SplitView, GridSplitter, DataValidationErrors, and more.
-- **Runtime color switching** — change the primary color at any time; all 18 brush resources update instantly via `SolidColorBrush.Color` mutation — no layout passes triggered.
+- **Full control coverage** — Button, RepeatButton, HyperlinkButton, SplitButton, DropDownButton, TextBox, CheckBox, RadioButton, ToggleButton, ToggleSwitch, Slider, ProgressBar, ScrollBar, ListBox, ComboBox, TreeView, TabControl, Menu, ContextMenu, Expander, NumericUpDown, AutoCompleteBox, DatePicker, TimePicker, CalendarDatePicker, SplitView, GridSplitter, ToolTip, FlyoutPresenter, DataValidationErrors, Notification, and more.
+- **Runtime color switching** — change the primary color at any time; all brush resources update instantly via `SolidColorBrush.Color` mutation — no layout passes triggered.
 - **Monochromatic palette** — the entire color system is derived from a single HSL primary color. Hover, pressed, selection, border, and background variants are computed automatically.
 - **No rounded corners** — all controls use `CornerRadius="0"` by design.
 - **Zero third-party dependencies** — only `Avalonia` is referenced.
 - **AOT / trimming compatible** — compiled XAML bindings, `IsTrimmable`, and `IsAotCompatible` all enabled.
 - **`netstandard2.0` + `net8.0`** dual targets.
+- **Multi-platform** — Desktop (Windows, macOS, Linux), Browser (WASM), Android, iOS.
 - **Typography utility classes** — `h1`, `h2`, `dim`, `accent`, `error`, `warning`, `success` for `TextBlock`; `pipboy-panel`, `pipboy-surface` for `Border`.
+
+---
+
+## Platform Support
+
+| Platform | Project suffix | Notes |
+|----------|---------------|-------|
+| Windows / macOS / Linux | `.Desktop` | `IClassicDesktopStyleApplicationLifetime` |
+| Browser (WASM) | `.Browser` | `net8.0-browser`, `Avalonia.Browser` |
+| Android | `.Android` | `net8.0-android` |
+| iOS | `.iOS` | `net8.0-ios` |
 
 ---
 
@@ -42,14 +64,16 @@ dotnet add package Pipboy.Avalonia
 </Application>
 ```
 
-That's it. `PipboyTheme` is a self-contained `Styles` collection — no base Fluent/Simple theme required.
+`PipboyTheme` is a self-contained `Styles` collection — no base Fluent/Simple theme required.
 
-### 2. (Optional) Change the primary color at startup
+### 2. (Optional) Set the primary color at startup
 
 ```csharp
-// In App.axaml.cs or Program.cs
+// In App.axaml.cs or Program.cs — before the window is shown
 PipboyThemeManager.Instance.SetColor(Color.Parse("#FFA500")); // Amber
 ```
+
+The default color is phosphor green (`#4CAF50`-ish).
 
 ### 3. (Optional) Change color at runtime
 
@@ -68,6 +92,64 @@ PipboyThemeManager.Instance.ThemeColorChanged += (_, e) =>
 
 ---
 
+## Notifications
+
+`WindowNotificationManager` is themed and works on all platforms, including WASM.
+
+**Desktop**
+
+```csharp
+// App.axaml.cs — OnFrameworkInitializationCompleted
+NotificationManager = new WindowNotificationManager(window)
+{
+    Position = NotificationPosition.BottomRight,
+    MaxItems = 4,
+};
+```
+
+**WASM / Mobile (single-view lifetimes)**
+
+Register the `AttachedToVisualTree` handler *before* assigning `MainView` so the event is never missed:
+
+```csharp
+var mainView = new MainView();
+
+mainView.AttachedToVisualTree += (_, _) =>
+{
+    if (NotificationManager is not null) return;
+    if (TopLevel.GetTopLevel(mainView) is not { } tl) return;
+
+    var vlm = tl.FindDescendantOfType<VisualLayerManager>();
+    var overlay = vlm?.OverlayLayer;
+
+    if (overlay is not null)
+    {
+        var wNM = new WindowNotificationManager { Position = NotificationPosition.BottomRight, MaxItems = 4 };
+        Canvas.SetRight(wNM, 0);
+        Canvas.SetBottom(wNM, 0);
+        overlay.Children.Add(wNM);
+        NotificationManager = wNM;
+    }
+    else
+    {
+        NotificationManager = new WindowNotificationManager(tl) { Position = NotificationPosition.BottomRight, MaxItems = 4 };
+    }
+};
+
+singleView.MainView = mainView;
+```
+
+Then anywhere in your app:
+
+```csharp
+App.NotificationManager?.Show(new Notification("QUEST COMPLETE", "500 XP earned.", NotificationType.Success));
+```
+
+<!-- Notification screenshot -->
+![Notifications](docs/images/screenshot-notifications.png)
+
+---
+
 ## Typography Classes
 
 Apply directly on `TextBlock`:
@@ -75,7 +157,7 @@ Apply directly on `TextBlock`:
 | Class | Effect |
 |-------|--------|
 | `h1` | 20 px, bold, primary color |
-| `h2` | 16 px (PipboyFontSizeLarge), bold, primary color |
+| `h2` | 16 px, bold, primary color |
 | `dim` | Dimmed foreground (`PipboyTextDimBrush`) |
 | `accent` | Primary color foreground |
 | `error` | Error red foreground |
@@ -107,7 +189,7 @@ Apply on `Border`:
 
 ## Design Tokens
 
-All tokens are available as `{DynamicResource}` in XAML:
+All tokens are available as `{DynamicResource}` in XAML.
 
 ### Brushes
 
@@ -153,18 +235,43 @@ All tokens are available as `{DynamicResource}` in XAML:
 
 ## Runtime Color Switching — How It Works
 
-`PipboyTheme` registers 18 `SolidColorBrush` instances as `DynamicResource` entries. When `PipboyThemeManager.SetColor()` is called, `PipboyColorPalette` computes the full HSL-derived palette and `OnThemeColorChanged` mutates each brush's `.Color` in place. Avalonia's reactive binding system propagates the change to every bound control automatically — no re-layout, no template re-application.
+`PipboyTheme` registers `SolidColorBrush` instances as `DynamicResource` entries. When `PipboyThemeManager.SetColor()` is called, `PipboyColorPalette` computes the full HSL-derived palette and `OnThemeColorChanged` mutates each brush's `.Color` in place. Avalonia's reactive binding system propagates the change to every bound control automatically — no re-layout, no template re-application.
 
 ```
 SetColor(hex)
-  └─ PipboyColorPalette.FromHex()   — HSL-derive all 15 palette colors
+  └─ PipboyColorPalette.FromHex()   — HSL-derive all palette colors
        └─ ThemeColorChanged event
             └─ PipboyTheme.OnThemeColorChanged()
-                 └─ brush.Color = newColor  (× 15 brushes)
+                 └─ brush.Color = newColor  (× 18 brushes)
                       └─ DynamicResource invalidation → UI updates
 ```
 
 `PipboyTheme` implements `IDisposable`. If you remove the theme from `Application.Styles` at runtime, call `Dispose()` to unsubscribe from `ThemeColorChanged` and avoid a memory leak.
+
+---
+
+## Demo App
+
+The `samples/` directory contains a full demo app targeting all supported platforms:
+
+| Page | What it shows |
+|------|--------------|
+| Overview | Side-by-side palette & key controls |
+| Buttons | Button, RepeatButton, HyperlinkButton, SplitButton, DropDownButton |
+| Text Input | TextBox, AutoCompleteBox, NumericUpDown with validation |
+| Toggles | CheckBox, RadioButton, ToggleButton, ToggleSwitch |
+| Sliders & Progress | Slider, ProgressBar (horizontal + vertical + indeterminate) |
+| Lists | ListBox, TreeView |
+| ComboBox | ComboBox with various item counts |
+| Tab Control | TabControl, TabItem |
+| Menu | MenuBar, ContextMenu, Flyout |
+| Expander | Expander, SplitView, GridSplitter |
+| Date & Time | DatePicker, TimePicker, CalendarDatePicker |
+| Typography | All TextBlock classes + layout Border classes |
+| Cards | `pipboy-panel` / `pipboy-surface` layout |
+| Notifications | WindowNotificationManager (all four types) |
+| Theme | Runtime color picker |
+| Window | Window chrome, dialogs |
 
 ---
 
