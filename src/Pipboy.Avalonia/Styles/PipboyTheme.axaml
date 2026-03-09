@@ -36,6 +36,7 @@
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/FlyoutPresenter.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Miscellaneous.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Window.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/EmbeddableControlRoot.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RepeatButton.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/HyperlinkButton.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DropDownButton.axaml" />

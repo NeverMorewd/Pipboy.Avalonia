@@ -30,7 +30,7 @@
 
             <Style Selector="^:pointerover">
                 <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
-                <Setter Property="Foreground" Value="{DynamicResource PipboyBackgroundBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             </Style>
             <Style Selector="^:selected">
                 <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}" />

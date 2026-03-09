@@ -1,6 +1,6 @@
 using System;
+using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Styling;
 
 namespace Pipboy.Avalonia;
@@ -22,7 +22,7 @@ namespace Pipboy.Avalonia;
 /// </code>
 /// </example>
 /// </summary>
-public class PipboyTheme : Styles, IDisposable
+public partial class PipboyTheme : Styles, IDisposable
 {
     private readonly PipboyThemeManager _manager;
 
@@ -110,9 +110,10 @@ public class PipboyTheme : Styles, IDisposable
         // Spacing / sizing design tokens
         Resources["PipboyTreeViewItemIndent"] = 16.0;
 
-        // Load AXAML control styles
-        var baseUri = new Uri("avares://Pipboy.Avalonia/");
-        Add(new StyleInclude(baseUri) { Source = new Uri("avares://Pipboy.Avalonia/Styles/PipboyTheme.axaml") });
+        // Load compiled AXAML styles — AvaloniaXamlLoader.Load uses the compiled (NativeAOT-safe)
+        // version generated from PipboyTheme.axaml; the StyleInclude chain inside that AXAML file
+        // is resolved at compile time, so no runtime URI lookup is required.
+        AvaloniaXamlLoader.Load(serviceProvider, this);
 
         // Subscribe to runtime color changes
         _manager.ThemeColorChanged += OnThemeColorChanged;

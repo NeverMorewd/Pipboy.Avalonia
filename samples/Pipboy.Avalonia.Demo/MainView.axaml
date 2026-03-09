@@ -109,9 +109,10 @@
                                         Classes="dim"
                                         Text="›" />
                                     <TextBlock
+                                        Name="BreadcrumbTitle"
                                         VerticalAlignment="Center"
                                         Classes="dim"
-                                        Text="{ReflectionBinding #MainNav.SelectedItem.Header}" />
+                                        Text="OVERVIEW" />
                                 </StackPanel>
                             </Border>
                             <Border

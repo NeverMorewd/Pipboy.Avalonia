@@ -13,7 +13,7 @@ public partial class NotificationPage : UserControl
 
     private void Show(string title, string message, NotificationType type)
     {
-        var mgr = MainWindow.NotificationManager;
+        var mgr = App.NotificationManager;
         if (mgr is null)
         {
             ToastStatus.Text = "⚠ NotificationManager unavailable.";

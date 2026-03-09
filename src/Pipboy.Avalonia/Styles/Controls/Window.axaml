@@ -43,11 +43,6 @@
         <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
     </Style>
 
-    <!--  Panel / Grid / StackPanel — transparent so background shows through  -->
-    <Style Selector="Panel">
-        <Setter Property="Background" Value="Transparent" />
-    </Style>
-
     <!--  Border default styling  -->
     <Style Selector="Border.pipboy-surface">
         <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
