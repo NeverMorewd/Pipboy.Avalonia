@@ -1,8 +1,12 @@
 ﻿# Pipboy.Avalonia
 
+[![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-blueviolet?logo=anthropic)](https://claude.ai/claude-code)
+
 A Fallout 4 Pip-Boy inspired theme library for [Avalonia UI](https://avaloniaui.net/).
 
 Sharp corners, monochromatic phosphor palette, retro terminal aesthetic — drop it in as your sole application theme and every standard control gets the Vault-Tec treatment.
+
+> A significant portion of this codebase was written with [Claude Code](https://claude.ai/claude-code).
 
 ---
 
