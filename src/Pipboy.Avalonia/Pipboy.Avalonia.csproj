@@ -23,11 +23,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.2.3" />
+    <PackageReference Include="Avalonia" Version="11.3.12" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\README.md" Pack="True" PackagePath="\"/>
+    <None Include="..\..\README.md" Pack="True" PackagePath="\" />
   </ItemGroup>
 
 </Project>
