@@ -1,5 +1,0 @@
-<linker>
-  <!-- Preserve all types in demo assemblies so AXAML-instantiated controls survive trimming -->
-  <assembly fullname="Pipboy.Avalonia.Demo" preserve="all" />
-  <assembly fullname="Pipboy.Avalonia" preserve="all" />
-</linker>

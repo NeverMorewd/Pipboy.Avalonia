@@ -9,7 +9,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PublishAot>true</PublishAot>
-    <TrimmerRootDescriptor>TrimmerRoots.xml</TrimmerRootDescriptor>
+    <!--<TrimmerRootDescriptor>TrimmerRoots.xml</TrimmerRootDescriptor>-->
   </PropertyGroup>
 
   <ItemGroup>
