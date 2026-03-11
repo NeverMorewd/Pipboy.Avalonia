@@ -20,7 +20,10 @@ public readonly struct HslColor : IEquatable<HslColor>
 
     public HslColor(float h, float s, float l)
     {
-        H = h < 0 ? 0 : h > 360 ? 360 : h;
+        // Normalize H into [0, 360): wrap values ≥ 360 or negative
+        h = h % 360f;
+        if (h < 0f) h += 360f;
+        H = h;
         S = s < 0 ? 0 : s > 1 ? 1 : s;
         L = l < 0 ? 0 : l > 1 ? 1 : l;
     }

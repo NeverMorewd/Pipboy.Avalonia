@@ -105,13 +105,19 @@ public class HslColorTests
     }
 
     [Fact]
-    public void Constructor_ClampsHOutOfRange()
+    public void Constructor_NormalizesHIntoRange()
     {
+        // H wraps into [0, 360) — 400 % 360 = 40
         var hsl = new HslColor(400f, 0.5f, 0.5f);
-        Assert.Equal(360f, hsl.H, 1);
+        Assert.Equal(40f, hsl.H, 1);
 
+        // 360 itself wraps to 0
+        var hsl360 = new HslColor(360f, 0.5f, 0.5f);
+        Assert.Equal(0f, hsl360.H, 1);
+
+        // Negative wraps: -10 + 360 = 350
         var hsl2 = new HslColor(-10f, 0.5f, 0.5f);
-        Assert.Equal(0f, hsl2.H, 1);
+        Assert.Equal(350f, hsl2.H, 1);
     }
 
     [Fact]
