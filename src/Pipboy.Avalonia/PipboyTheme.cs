@@ -43,7 +43,7 @@ public partial class PipboyTheme : Styles, IDisposable
     private readonly SolidColorBrush _borderBrush;
     private readonly SolidColorBrush _borderFocusBrush;
 
-    // Semantic status brushes — fixed hues, do not change with primary color
+    // Semantic status brushes — same hue as primary, update with theme changes
     private readonly SolidColorBrush _errorBrush;
     private readonly SolidColorBrush _warningBrush;
     private readonly SolidColorBrush _successBrush;
@@ -139,7 +139,14 @@ public partial class PipboyTheme : Styles, IDisposable
         _selectionBrush.Color = p.Selection;
         _borderBrush.Color = p.Border;
         _borderFocusBrush.Color = p.BorderFocus;
-        // Status brushes are fixed — no update needed
+        _errorBrush.Color   = p.Error;
+        _warningBrush.Color = p.Warning;
+        _successBrush.Color = p.Success;
+
+        // Update raw Color resources
+        Resources["PipboyPrimaryColor"]    = p.Primary;
+        Resources["PipboyBackgroundColor"] = p.Background;
+        Resources["PipboyTextColor"]       = p.Text;
     }
 
     public void Dispose()

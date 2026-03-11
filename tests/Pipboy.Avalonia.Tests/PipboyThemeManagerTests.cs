@@ -48,9 +48,17 @@ public class PipboyThemeManagerTests
         var currentColor = manager.PrimaryColor;
 
         int eventCount = 0;
-        manager.ThemeColorChanged += (_, _) => eventCount++;
-        manager.SetPrimaryColor(currentColor); // same color — should not fire
-        Assert.Equal(0, eventCount);
+        EventHandler<ThemeColorChangedEventArgs> handler = (_, _) => eventCount++;
+        manager.ThemeColorChanged += handler;
+        try
+        {
+            manager.SetPrimaryColor(currentColor); // same color — should not fire
+            Assert.Equal(0, eventCount);
+        }
+        finally
+        {
+            manager.ThemeColorChanged -= handler;
+        }
     }
 
     [Fact]
@@ -61,13 +69,20 @@ public class PipboyThemeManagerTests
 
         int eventCount = 0;
         ThemeColorChangedEventArgs? receivedArgs = null;
-        manager.ThemeColorChanged += (_, e) => { eventCount++; receivedArgs = e; };
-
-        manager.SetPrimaryColor(Colors.Purple);
-        Assert.Equal(1, eventCount);
-        Assert.NotNull(receivedArgs);
-        Assert.Equal(Colors.Purple, receivedArgs.Palette.Primary);
-        manager.ResetToDefault();
+        EventHandler<ThemeColorChangedEventArgs> handler = (_, e) => { eventCount++; receivedArgs = e; };
+        manager.ThemeColorChanged += handler;
+        try
+        {
+            manager.SetPrimaryColor(Colors.Purple);
+            Assert.Equal(1, eventCount);
+            Assert.NotNull(receivedArgs);
+            Assert.Equal(Colors.Purple, receivedArgs.Palette.Primary);
+        }
+        finally
+        {
+            manager.ThemeColorChanged -= handler;
+            manager.ResetToDefault();
+        }
     }
 
     [Fact]
@@ -109,11 +124,18 @@ public class PipboyThemeManagerTests
     {
         var manager = PipboyThemeManager.Instance;
         PipboyColorPalette? receivedPalette = null;
-        manager.ThemeColorChanged += (_, e) => receivedPalette = e.Palette;
-
-        manager.SetPrimaryColor(Colors.Cyan);
-        Assert.NotNull(receivedPalette);
-        Assert.Equal(Colors.Cyan, receivedPalette.Primary);
-        manager.ResetToDefault();
+        EventHandler<ThemeColorChangedEventArgs> handler = (_, e) => receivedPalette = e.Palette;
+        manager.ThemeColorChanged += handler;
+        try
+        {
+            manager.SetPrimaryColor(Colors.Cyan);
+            Assert.NotNull(receivedPalette);
+            Assert.Equal(Colors.Cyan, receivedPalette.Primary);
+        }
+        finally
+        {
+            manager.ThemeColorChanged -= handler;
+            manager.ResetToDefault();
+        }
     }
 }
