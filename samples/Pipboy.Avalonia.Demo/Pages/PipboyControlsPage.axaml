@@ -263,9 +263,9 @@
                             Label="SELF DESTRUCT"
                             Precision="Seconds" />
                         <StackPanel Orientation="Horizontal" Spacing="6">
-                            <Button Width="60" Click="OnCountdownStart"  Content="START"  />
-                            <Button Width="60" Click="OnCountdownStop"   Content="STOP"   />
-                            <Button Width="60" Click="OnCountdownReset"  Content="RESET"  />
+                            <Button MinWidth="72" Click="OnCountdownStart"  Content="START"  />
+                            <Button MinWidth="72" Click="OnCountdownStop"   Content="STOP"   />
+                            <Button MinWidth="72" Click="OnCountdownReset"  Content="RESET"  />
                         </StackPanel>
                     </StackPanel>
 
@@ -293,9 +293,9 @@
                             Label="ROUND TIMER"
                             Precision="Milliseconds" />
                         <StackPanel Orientation="Horizontal" Spacing="6">
-                            <Button Width="60" Click="OnMsCountdownStart"  Content="START"  />
-                            <Button Width="60" Click="OnMsCountdownStop"   Content="STOP"   />
-                            <Button Width="60" Click="OnMsCountdownReset"  Content="RESET"  />
+                            <Button MinWidth="72" Click="OnMsCountdownStart"  Content="START"  />
+                            <Button MinWidth="72" Click="OnMsCountdownStop"   Content="STOP"   />
+                            <Button MinWidth="72" Click="OnMsCountdownReset"  Content="RESET"  />
                         </StackPanel>
                     </StackPanel>
 
