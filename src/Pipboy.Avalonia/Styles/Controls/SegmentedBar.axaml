@@ -20,9 +20,9 @@
                                 Foreground="{DynamicResource PipboyTextDimBrush}"
                                 Text="{TemplateBinding Label}" />
                             <TextBlock Grid.Column="1" Foreground="{DynamicResource PipboyTextBrush}">
-                                <Run Text="{TemplateBinding Value}" />
+                                <Run Text="{TemplateBinding DisplayValue}" />
                                 <Run Foreground="{DynamicResource PipboyTextDimBrush}" Text="/" />
-                                <Run Foreground="{DynamicResource PipboyTextDimBrush}" Text="{TemplateBinding Maximum}" />
+                                <Run Foreground="{DynamicResource PipboyTextDimBrush}" Text="{TemplateBinding DisplayMaximum}" />
                             </TextBlock>
                         </Grid>
 

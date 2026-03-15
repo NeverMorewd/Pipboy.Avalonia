@@ -108,4 +108,66 @@ public class SegmentedBarTests
         Assert.Equal(filledBefore, filledAfter);
         Assert.Equal(10, bar.Segments.Count);
     }
+
+    // ── ValueDecimalPlaces / DisplayValue / DisplayMaximum ───────────────────
+
+    [Fact]
+    public void ValueDecimalPlaces_Default_IsZero()
+    {
+        var bar = new SegmentedBar();
+        Assert.Equal(0, bar.ValueDecimalPlaces);
+    }
+
+    [Fact]
+    public void DisplayValue_Default_NoDecimals()
+    {
+        var bar = new SegmentedBar { Value = 73.456, Maximum = 100 };
+        Assert.Equal("73", bar.DisplayValue);
+    }
+
+    [Fact]
+    public void DisplayMaximum_Default_NoDecimals()
+    {
+        var bar = new SegmentedBar { Value = 0, Maximum = 100.0 };
+        Assert.Equal("100", bar.DisplayMaximum);
+    }
+
+    [Fact]
+    public void DisplayValue_OneDecimalPlace_FormatsCorrectly()
+    {
+        var bar = new SegmentedBar { Value = 73.456, Maximum = 100, ValueDecimalPlaces = 1 };
+        Assert.Equal("73.5", bar.DisplayValue);
+    }
+
+    [Fact]
+    public void DisplayValue_TwoDecimalPlaces_FormatsCorrectly()
+    {
+        var bar = new SegmentedBar { Value = 73.456, Maximum = 100, ValueDecimalPlaces = 2 };
+        Assert.Equal("73.46", bar.DisplayValue);
+    }
+
+    [Fact]
+    public void DisplayMaximum_RespectValueDecimalPlaces()
+    {
+        var bar = new SegmentedBar { Value = 0, Maximum = 100.5, ValueDecimalPlaces = 1 };
+        Assert.Equal("100.5", bar.DisplayMaximum);
+    }
+
+    [Fact]
+    public void ValueDecimalPlaces_Change_UpdatesDisplayStrings()
+    {
+        var bar = new SegmentedBar { Value = 78.9, Maximum = 100, ValueDecimalPlaces = 0 };
+        Assert.Equal("79", bar.DisplayValue);
+
+        bar.ValueDecimalPlaces = 2;
+        Assert.Equal("78.90", bar.DisplayValue);
+    }
+
+    [Fact]
+    public void ValueDecimalPlaces_Negative_TreatedAsZero()
+    {
+        var bar = new SegmentedBar { Value = 73.9, Maximum = 100, ValueDecimalPlaces = -3 };
+        // Negative values should be clamped to 0 → no decimals
+        Assert.Equal("74", bar.DisplayValue);
+    }
 }

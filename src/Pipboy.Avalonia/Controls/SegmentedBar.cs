@@ -36,17 +36,35 @@ public class SegmentedBar : TemplatedControl
     public static readonly StyledProperty<bool> ShowProgressBarProperty =
         AvaloniaProperty.Register<SegmentedBar, bool>(nameof(ShowProgressBar), defaultValue: false);
 
+    /// <summary>
+    /// Number of decimal places used when formatting <see cref="Value"/> and
+    /// <see cref="Maximum"/> in the label row.  Defaults to <c>0</c> (no decimals).
+    /// </summary>
+    public static readonly StyledProperty<int> ValueDecimalPlacesProperty =
+        AvaloniaProperty.Register<SegmentedBar, int>(nameof(ValueDecimalPlaces), defaultValue: 0);
+
     public static readonly DirectProperty<SegmentedBar, IReadOnlyList<SegmentItem>> SegmentsProperty =
         AvaloniaProperty.RegisterDirect<SegmentedBar, IReadOnlyList<SegmentItem>>(
             nameof(Segments), o => o.Segments);
 
+    public static readonly DirectProperty<SegmentedBar, string> DisplayValueProperty =
+        AvaloniaProperty.RegisterDirect<SegmentedBar, string>(
+            nameof(DisplayValue), o => o.DisplayValue);
+
+    public static readonly DirectProperty<SegmentedBar, string> DisplayMaximumProperty =
+        AvaloniaProperty.RegisterDirect<SegmentedBar, string>(
+            nameof(DisplayMaximum), o => o.DisplayMaximum);
+
     private IReadOnlyList<SegmentItem> _segments = Array.Empty<SegmentItem>();
+    private string _displayValue = "0";
+    private string _displayMaximum = "100";
 
     static SegmentedBar()
     {
         ValueProperty.Changed.AddClassHandler<SegmentedBar>((x, _) => x.RebuildSegments());
         MaximumProperty.Changed.AddClassHandler<SegmentedBar>((x, _) => x.RebuildSegments());
         SegmentCountProperty.Changed.AddClassHandler<SegmentedBar>((x, _) => x.RebuildSegments());
+        ValueDecimalPlacesProperty.Changed.AddClassHandler<SegmentedBar>((x, _) => x.RebuildSegments());
     }
 
     public SegmentedBar() => RebuildSegments();
@@ -88,11 +106,42 @@ public class SegmentedBar : TemplatedControl
         set => SetValue(ShowProgressBarProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets the number of decimal places shown when formatting
+    /// <see cref="Value"/> and <see cref="Maximum"/> in the label row.
+    /// Defaults to <c>0</c>.
+    /// </summary>
+    public int ValueDecimalPlaces
+    {
+        get => GetValue(ValueDecimalPlacesProperty);
+        set => SetValue(ValueDecimalPlacesProperty, value);
+    }
+
     /// <summary>Gets the computed list of segment states used by the template.</summary>
     public IReadOnlyList<SegmentItem> Segments
     {
         get => _segments;
         private set => SetAndRaise(SegmentsProperty, ref _segments, value);
+    }
+
+    /// <summary>
+    /// Gets the formatted string representation of <see cref="Value"/>
+    /// respecting <see cref="ValueDecimalPlaces"/>.
+    /// </summary>
+    public string DisplayValue
+    {
+        get => _displayValue;
+        private set => SetAndRaise(DisplayValueProperty, ref _displayValue, value);
+    }
+
+    /// <summary>
+    /// Gets the formatted string representation of <see cref="Maximum"/>
+    /// respecting <see cref="ValueDecimalPlaces"/>.
+    /// </summary>
+    public string DisplayMaximum
+    {
+        get => _displayMaximum;
+        private set => SetAndRaise(DisplayMaximumProperty, ref _displayMaximum, value);
     }
 
     private void RebuildSegments()
@@ -107,5 +156,10 @@ public class SegmentedBar : TemplatedControl
             items[i] = new SegmentItem(i < filledCount);
 
         Segments = items;
+
+        int dp = Math.Max(0, ValueDecimalPlaces);
+        string fmt = dp == 0 ? "F0" : $"F{dp}";
+        DisplayValue = Value.ToString(fmt);
+        DisplayMaximum = Maximum.ToString(fmt);
     }
 }
