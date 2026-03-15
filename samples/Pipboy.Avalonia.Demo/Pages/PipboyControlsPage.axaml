@@ -2,59 +2,116 @@
     x:Class="Pipboy.Avalonia.Demo.Pages.PipboyControlsPage"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
+    x:CompileBindings="False">
     <ScrollViewer>
         <StackPanel
             Margin="24"
             HorizontalAlignment="Left"
             Spacing="32">
 
-            <!--  SegmentedBar  -->
+            <!--  ══════════════════════════════════════════
+                  SEGMENTED BAR
+                  Drag the HP slider to see both the discrete
+                  segments and the precision progress bar update.
+                  ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="SEGMENTED BAR" />
-                <TextBlock Classes="dim" Text="Discrete segment bars. Set ShowProgressBar=True for an exact fractional underbar." />
-                <StackPanel Spacing="6" Width="320" HorizontalAlignment="Left">
-                    <pipboy:SegmentedBar Label="HP"  Value="78"  Maximum="100" SegmentCount="20" ShowProgressBar="True" />
-                    <pipboy:SegmentedBar Label="AP"  Value="45"  Maximum="100" SegmentCount="20" ShowProgressBar="True" />
-                    <pipboy:SegmentedBar Label="RAD" Value="23"  Maximum="100" SegmentCount="20" ShowProgressBar="True" />
-                    <pipboy:SegmentedBar             Value="100" Maximum="100" SegmentCount="10" />
-                    <pipboy:SegmentedBar             Value="0"   Maximum="100" SegmentCount="10" />
+                <TextBlock Classes="dim" Text="Discrete segment bars. ShowProgressBar=True adds an exact fractional underbar — drag the HP slider to compare." />
+
+                <StackPanel Spacing="6" Width="340" HorizontalAlignment="Left">
+
+                    <!--  Interactive HP bar  -->
+                    <pipboy:SegmentedBar
+                        Label="HP"
+                        Maximum="100"
+                        SegmentCount="20"
+                        ShowProgressBar="True"
+                        Value="{Binding Value, ElementName=HpSlider}" />
+                    <Slider
+                        x:Name="HpSlider"
+                        Maximum="100"
+                        Minimum="0"
+                        Value="78" />
+
+                    <!--  Static bars  -->
+                    <pipboy:SegmentedBar
+                        Label="AP"
+                        Maximum="100"
+                        SegmentCount="20"
+                        ShowProgressBar="True"
+                        Value="45" />
+                    <pipboy:SegmentedBar
+                        Label="RAD"
+                        Maximum="100"
+                        SegmentCount="20"
+                        ShowProgressBar="True"
+                        Value="23" />
+
+                    <!--  No progress bar variants  -->
+                    <pipboy:SegmentedBar
+                        Maximum="100"
+                        SegmentCount="10"
+                        Value="100" />
+                    <pipboy:SegmentedBar
+                        Maximum="100"
+                        SegmentCount="10"
+                        Value="0" />
                 </StackPanel>
                 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-segmentedbar.png -->
             </StackPanel>
 
-            <!--  RatedAttribute  -->
+            <!--  ══════════════════════════════════════════
+                  RATED ATTRIBUTE
+                  ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="RATED ATTRIBUTE" />
                 <TextBlock Classes="dim" Text="S.P.E.C.I.A.L. dot-based attribute display." />
                 <StackPanel Spacing="4" Width="320" HorizontalAlignment="Left">
-                    <pipboy:RatedAttribute Label="STRENGTH"    Value="8"  />
-                    <pipboy:RatedAttribute Label="PERCEPTION"  Value="5"  />
-                    <pipboy:RatedAttribute Label="ENDURANCE"   Value="7"  />
-                    <pipboy:RatedAttribute Label="CHARISMA"    Value="4"  />
+                    <pipboy:RatedAttribute Label="STRENGTH"     Value="8" />
+                    <pipboy:RatedAttribute Label="PERCEPTION"   Value="5" />
+                    <pipboy:RatedAttribute Label="ENDURANCE"    Value="7" />
+                    <pipboy:RatedAttribute Label="CHARISMA"     Value="4" />
                     <pipboy:RatedAttribute Label="INTELLIGENCE" Value="9" />
-                    <pipboy:RatedAttribute Label="AGILITY"     Value="6"  />
-                    <pipboy:RatedAttribute Label="LUCK"        Value="3"  />
+                    <pipboy:RatedAttribute Label="AGILITY"      Value="6" />
+                    <pipboy:RatedAttribute Label="LUCK"         Value="3" />
                 </StackPanel>
                 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-ratedattribute.png -->
             </StackPanel>
 
-            <!--  BlinkText  -->
+            <!--  ══════════════════════════════════════════
+                  BLINK TEXT
+                  Toggle switch controls IsBlinking at runtime.
+                  ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="BLINK TEXT" />
-                <TextBlock Classes="dim" Text="Content that blinks at ~530 ms intervals (Fallout cursor rate)." />
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                    <pipboy:BlinkText IsBlinking="True">
+                <TextBlock Classes="dim" Text="Wraps content with a ~530 ms blink animation. Toggle the switch below." />
+
+                <StackPanel Spacing="10" HorizontalAlignment="Left">
+
+                    <pipboy:BlinkText IsBlinking="{Binding IsChecked, ElementName=BlinkToggle}">
                         <TextBlock Classes="accent" Text="PRESS ENTER TO CONTINUE" />
                     </pipboy:BlinkText>
+
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <ToggleSwitch
+                            x:Name="BlinkToggle"
+                            IsChecked="True"
+                            OffContent="BLINKING: OFF"
+                            OnContent="BLINKING: ON" />
+                    </StackPanel>
+
                     <pipboy:BlinkText IsBlinking="False">
-                        <TextBlock Classes="dim" Text="(not blinking)" />
+                        <TextBlock Classes="dim" Text="(always visible — IsBlinking=False)" />
                     </pipboy:BlinkText>
+
                 </StackPanel>
                 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-blinktext.png -->
             </StackPanel>
 
-            <!--  ScanlineOverlay  -->
+            <!--  ══════════════════════════════════════════
+                  SCANLINE OVERLAY
+                  ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="SCANLINE OVERLAY" />
                 <TextBlock Classes="dim" Text="CRT monitor effect — wraps any content with horizontal scanlines." />
@@ -74,32 +131,75 @@
                 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-scanlineoverlay.png -->
             </StackPanel>
 
-            <!--  BracketHighlight  -->
+            <!--  ══════════════════════════════════════════
+                  BRACKET HIGHLIGHT — SELECTION GROUP
+                  Click any item; the group auto-deselects
+                  all others (RadioButton-style).
+                  ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="BRACKET HIGHLIGHT" />
-                <TextBlock Classes="dim" Text="Fallout-style &gt; ... &lt; selection brackets. Hover or set IsSelected." />
-                <StackPanel Spacing="4" Width="240" HorizontalAlignment="Left">
-                    <pipboy:BracketHighlight IsSelected="True">
-                        <TextBlock Text="INVENTORY" />
-                    </pipboy:BracketHighlight>
-                    <pipboy:BracketHighlight>
-                        <TextBlock Text="STATUS" />
-                    </pipboy:BracketHighlight>
-                    <pipboy:BracketHighlight>
-                        <TextBlock Text="MAP" />
-                    </pipboy:BracketHighlight>
-                    <pipboy:BracketHighlight IsSelected="False">
-                        <TextBlock Text="RADIO" />
-                    </pipboy:BracketHighlight>
-                </StackPanel>
+                <TextBlock Classes="dim" Text="Click any item — SelectionGroup makes selection mutually exclusive." />
+
+                <Grid ColumnDefinitions="*,32,*" HorizontalAlignment="Left">
+
+                    <!--  Left: grouped menu (mutual exclusion)  -->
+                    <StackPanel Grid.Column="0" Spacing="2" Width="200">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="GROUPED (click to select)" />
+                        <pipboy:BracketHighlight
+                            IsSelected="True"
+                            SelectionGroup="mainMenu">
+                            <TextBlock Text="INVENTORY" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight SelectionGroup="mainMenu">
+                            <TextBlock Text="STATUS" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight SelectionGroup="mainMenu">
+                            <TextBlock Text="MAP" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight SelectionGroup="mainMenu">
+                            <TextBlock Text="RADIO" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight SelectionGroup="mainMenu">
+                            <TextBlock Text="DATA" />
+                        </pipboy:BracketHighlight>
+                    </StackPanel>
+
+                    <!--  Right: standalone (no group — hover only)  -->
+                    <StackPanel Grid.Column="2" Spacing="2" Width="200">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="STANDALONE (hover only)" />
+                        <pipboy:BracketHighlight>
+                            <TextBlock Text="ACCESS FILES" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight>
+                            <TextBlock Text="UNLOCK DOOR" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight IsSelected="True">
+                            <TextBlock Text="SELF DESTRUCT" />
+                        </pipboy:BracketHighlight>
+                    </StackPanel>
+
+                </Grid>
                 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-brackethighlight.png -->
             </StackPanel>
 
-            <!--  PipboyTabStrip  -->
+            <!--  ══════════════════════════════════════════
+                  PIPBOY TAB STRIP
+                  ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="PIPBOY TAB STRIP" />
-                <TextBlock Classes="dim" Text="Horizontal tab navigation — D-Pad Left/Right to navigate." />
-                <pipboy:PipboyTabStrip Width="400" HorizontalAlignment="Left" SelectedIndex="0">
+                <TextBlock Classes="dim" Text="Horizontal tab navigation — D-Pad Left/Right or click to navigate." />
+                <pipboy:PipboyTabStrip
+                    Width="400"
+                    HorizontalAlignment="Left"
+                    SelectedIndex="0">
                     <pipboy:PipboyTabStripItem Content="STAT" />
                     <pipboy:PipboyTabStripItem Content="INV" />
                     <pipboy:PipboyTabStripItem Content="DATA" />
@@ -109,50 +209,81 @@
                 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-pipboytabstrip.png -->
             </StackPanel>
 
-            <!--  TerminalPanel  -->
+            <!--  ══════════════════════════════════════════
+                  TERMINAL PANEL
+                  ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="TERMINAL PANEL" />
-                <TextBlock Classes="dim" Text="CRT terminal container. Enable TypewriterEffect for character-by-character reveal." />
+                <TextBlock Classes="dim" Text="CRT terminal container. TypewriterEffect reveals text character-by-character." />
+
                 <StackPanel Spacing="12" Width="420" HorizontalAlignment="Left">
+
                     <pipboy:TerminalPanel
-                        TypewriterEffect="False"
-                        Content="ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL&#x0a;ENTER PASSWORD NOW&#x0a;&#x0a;> _" />
-                    <pipboy:TerminalPanel
-                        TypewriterEffect="True"
-                        TypewriterDelayMs="40"
-                        Content="ACCESSING VAULT-TEC MAINFRAME...&#x0a;CONNECTION ESTABLISHED.&#x0a;WELCOME, OVERSEER." />
+                        Content="ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL&#x0a;ENTER PASSWORD NOW&#x0a;&#x0a;> _"
+                        TypewriterEffect="False" />
+
+                    <StackPanel Spacing="6">
+                        <pipboy:TerminalPanel
+                            x:Name="TypewriterTerminal"
+                            Content="ACCESSING VAULT-TEC MAINFRAME...&#x0a;CONNECTION ESTABLISHED.&#x0a;WELCOME, OVERSEER."
+                            TypewriterDelayMs="40"
+                            TypewriterEffect="True" />
+                        <Button
+                            HorizontalAlignment="Left"
+                            Click="OnTerminalReplay"
+                            Content="REPLAY TYPEWRITER" />
+                    </StackPanel>
+
                 </StackPanel>
                 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-terminalpanel.png -->
             </StackPanel>
 
-            <!--  PipboyCountdown  -->
+            <!--  ══════════════════════════════════════════
+                  PIPBOY COUNTDOWN
+                  Start / Stop / Reset buttons exercise all
+                  three public control methods interactively.
+                  ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="PIPBOY COUNTDOWN" />
-                <TextBlock Classes="dim" Text="Pip-Boy styled countdown timer. Call Start() / Stop() / Reset() or set AutoStart=True." />
-                <StackPanel
-                    HorizontalAlignment="Left"
-                    Orientation="Horizontal"
-                    Spacing="16">
+                <TextBlock Classes="dim" Text="Pip-Boy styled countdown timer — Start, Stop, and Reset via the buttons below." />
 
-                    <!--  Short countdown — starts immediately in demo  -->
-                    <pipboy:PipboyCountdown
-                        Width="180"
-                        AutoStart="True"
-                        Duration="0:5:00"
-                        Label="SELF DESTRUCT" />
+                <StackPanel HorizontalAlignment="Left" Spacing="16">
 
-                    <!--  Long-form hours display  -->
-                    <pipboy:PipboyCountdown
-                        Width="180"
-                        Duration="1:30:00"
-                        Format="hh\:mm\:ss"
-                        Label="VAULT LOCKDOWN" />
+                    <!--  Interactive countdown  -->
+                    <StackPanel Spacing="10" Width="220">
+                        <pipboy:PipboyCountdown
+                            x:Name="DemoCountdown"
+                            Duration="0:3:00"
+                            Label="SELF DESTRUCT" />
 
-                    <!--  Already-expired display  -->
-                    <pipboy:PipboyCountdown
-                        Width="180"
-                        Duration="0:0:0"
-                        Label="EXPIRED" />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button
+                                Width="68"
+                                Click="OnCountdownStart"
+                                Content="START" />
+                            <Button
+                                Width="68"
+                                Click="OnCountdownStop"
+                                Content="STOP" />
+                            <Button
+                                Width="68"
+                                Click="OnCountdownReset"
+                                Content="RESET" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--  Static examples  -->
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <pipboy:PipboyCountdown
+                            Width="180"
+                            Duration="1:30:00"
+                            Format="hh\:mm\:ss"
+                            Label="VAULT LOCKDOWN" />
+                        <pipboy:PipboyCountdown
+                            Width="180"
+                            Duration="0:0:0"
+                            Label="EXPIRED" />
+                    </StackPanel>
 
                 </StackPanel>
                 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-pipboycountdown.png -->
