@@ -28,7 +28,7 @@ Sharp corners, monochromatic phosphor palette, retro terminal aesthetic — drop
 - **No rounded corners** — all controls use `CornerRadius="0"` by design.
 - **Zero third-party dependencies** — only `Avalonia` is referenced.
 - **AOT / trimming compatible** — compiled XAML bindings, `IsTrimmable`, and `IsAotCompatible` all enabled.
-- **`netstandard2.0` + `net8.0`** dual targets.
+- **`net10.0`** primary target.
 - **Multi-platform** — Desktop (Windows, macOS, Linux), Browser (WASM), Android, iOS.
 - **Typography utility classes** — `h1`, `h2`, `dim`, `accent`, `error`, `warning`, `success` for `TextBlock`; `pipboy-panel`, `pipboy-surface` for `Border`.
 
@@ -74,7 +74,7 @@ dotnet add package Pipboy.Avalonia
 
 ```csharp
 // In App.axaml.cs or Program.cs — before the window is shown
-PipboyThemeManager.Instance.SetColor(Color.Parse("#FFA500")); // Amber
+PipboyThemeManager.Instance.SetPrimaryColor(Color.Parse("#FFA500")); // Amber
 ```
 
 The default color is phosphor green (`#4CAF50`-ish).
@@ -82,7 +82,7 @@ The default color is phosphor green (`#4CAF50`-ish).
 ### 3. (Optional) Change color at runtime
 
 ```csharp
-PipboyThemeManager.Instance.SetColor(Color.Parse("#00BFFF")); // Blue
+PipboyThemeManager.Instance.SetPrimaryColor(Color.Parse("#00BFFF")); // Blue
 ```
 
 Subscribe to `ThemeColorChanged` if you need to react to changes:
@@ -157,9 +157,9 @@ All tokens are available as `{DynamicResource}` in XAML.
 | `PipboySelectionBrush` | Selected item background |
 | `PipboyFocusBrush` | Focus ring color |
 | `PipboyDisabledBrush` | Disabled foreground |
-| `PipboyErrorBrush` | Validation error (fixed red) |
-| `PipboyWarningBrush` | Warning (fixed amber) |
-| `PipboySuccessBrush` | Success (fixed green) |
+| `PipboyErrorBrush` | Error severity (hue-derived, near-white lightness) |
+| `PipboyWarningBrush` | Warning severity (hue-derived, bright lightness) |
+| `PipboySuccessBrush` | Success severity (hue-derived, mid lightness) |
 
 ### Font Sizes
 
@@ -182,11 +182,11 @@ All tokens are available as `{DynamicResource}` in XAML.
 
 ## Runtime Color Switching — How It Works
 
-`PipboyTheme` registers `SolidColorBrush` instances as `DynamicResource` entries. When `PipboyThemeManager.SetColor()` is called, `PipboyColorPalette` computes the full HSL-derived palette and `OnThemeColorChanged` mutates each brush's `.Color` in place. Avalonia's reactive binding system propagates the change to every bound control automatically — no re-layout, no template re-application.
+`PipboyTheme` registers `SolidColorBrush` instances as `DynamicResource` entries. When `PipboyThemeManager.SetPrimaryColor()` is called, `PipboyColorPalette` computes the full HSL-derived palette and `OnThemeColorChanged` mutates each brush's `.Color` in place. Avalonia's reactive binding system propagates the change to every bound control automatically — no re-layout, no template re-application.
 
 ```
-SetColor(hex)
-  └─ PipboyColorPalette.FromHex()   — HSL-derive all palette colors
+SetPrimaryColor(color)
+  └─ PipboyColorPalette(color)      — HSL-derive all palette colors
        └─ ThemeColorChanged event
             └─ PipboyTheme.OnThemeColorChanged()
                  └─ brush.Color = newColor  (× 18 brushes)
@@ -224,7 +224,7 @@ The `samples/` directory contains a full demo app targeting all supported platfo
 
 ## Supported Avalonia Version
 
-**11.2.3** (tested). Compatible with Avalonia 11.x.
+**11.3.12** (tested). Compatible with Avalonia 11.x.
 
 ---
 
