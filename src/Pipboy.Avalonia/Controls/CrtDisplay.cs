@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Globalization;
 using Avalonia;
@@ -10,7 +11,7 @@ using Avalonia.Threading;
 namespace Pipboy.Avalonia;
 
 /// <summary>
-/// A <see cref="Decorator"/> that layers animated CRT monitor effects on top of its child
+/// A <see cref="Panel"/> that layers animated CRT monitor effects on top of its child
 /// content using only managed <see cref="DrawingContext"/> APIs — fully WASM-safe and AOT-compatible.
 /// </summary>
 /// <remarks>
@@ -22,20 +23,55 @@ namespace Pipboy.Avalonia;
 ///   <item><description><b>Vignette</b> – radial darkening of the screen edges.</description></item>
 ///   <item><description><b>Flicker</b> – subtle random brightness dimming (disabled by default).</description></item>
 /// </list>
+/// CRT effects are drawn by an internal overlay <see cref="Control"/> that is always the last
+/// item in <see cref="Panel.Children"/> and therefore composites on top of all user content.
 /// Two timers drive animation: a 16 ms animation timer for smooth motion effects (scanlines,
 /// scan beam, flicker, FPS overlay) and a configurable-rate noise timer for static generation.
-/// Both timers start only when their effects are enabled and the control is in the visual tree.
 /// </remarks>
-public class CrtDisplay : Decorator
+public class CrtDisplay : Panel
 {
+    // ── Overlay layer ─────────────────────────────────────────────────────────────────
+    //
+    // Panel renders Children in list order — the last item composites on top.
+    // _overlay is always kept as the last child via EnsureOverlayIsLast(), so all
+    // effect drawing happens above any user-supplied content.
+
+    private sealed class CrtEffectsLayer : Control
+    {
+        private readonly CrtDisplay _owner;
+
+        internal CrtEffectsLayer(CrtDisplay owner)
+        {
+            _owner           = owner;
+            IsHitTestVisible = false;
+        }
+
+        protected override Size MeasureOverride(Size availableSize) => default;
+        protected override Size ArrangeOverride(Size finalSize)     => finalSize;
+
+        public override void Render(DrawingContext context)
+        {
+            var bounds = new Rect(0, 0, Bounds.Width, Bounds.Height);
+            if (bounds.Width <= 0 || bounds.Height <= 0) return;
+
+            if (_owner.EnableScanlines) _owner.DrawScanlines(context, bounds);
+            if (_owner.EnableNoise)     _owner.DrawNoise(context);
+            if (_owner.EnableScanBeam)  _owner.DrawScanBeam(context, bounds);
+            if (_owner.EnableVignette)  _owner.DrawVignette(context, bounds);
+            if (_owner.EnableFlicker)   _owner.DrawFlicker(context, bounds);
+            if (_owner.ShowFps)         _owner.DrawFps(context, bounds);
+        }
+    }
+
+    private readonly CrtEffectsLayer _overlay;
+
     // ── Scanlines ─────────────────────────────────────────────────────────────────────
 
     /// <summary>Gets or sets whether horizontal scanlines are rendered.</summary>
     public static readonly StyledProperty<bool> EnableScanlinesProperty =
         AvaloniaProperty.Register<CrtDisplay, bool>(nameof(EnableScanlines), defaultValue: true);
 
-    /// <summary>Gets or sets the colour of the scanlines.
-    /// The Pip-Boy theme automatically overrides this to <c>PipboyPrimaryColor</c>.</summary>
+    /// <summary>Gets or sets the colour of the scanlines.</summary>
     public static readonly StyledProperty<Color> ScanlineColorProperty =
         AvaloniaProperty.Register<CrtDisplay, Color>(nameof(ScanlineColor),
             defaultValue: Colors.Black);
@@ -89,8 +125,7 @@ public class CrtDisplay : Decorator
     public static readonly StyledProperty<bool> EnableNoiseProperty =
         AvaloniaProperty.Register<CrtDisplay, bool>(nameof(EnableNoise), defaultValue: true);
 
-    /// <summary>Gets or sets the probability (0–1) that any given pixel cell contains a noise dot.
-    /// Higher values produce denser static. Typical range: 0.01–0.05.</summary>
+    /// <summary>Gets or sets the probability (0–1) that any given pixel cell contains a noise dot.</summary>
     public static readonly StyledProperty<double> NoiseDensityProperty =
         AvaloniaProperty.Register<CrtDisplay, double>(nameof(NoiseDensity), defaultValue: 0.02);
 
@@ -98,13 +133,11 @@ public class CrtDisplay : Decorator
     public static readonly StyledProperty<double> NoiseOpacityProperty =
         AvaloniaProperty.Register<CrtDisplay, double>(nameof(NoiseOpacity), defaultValue: 0.05);
 
-    /// <summary>Gets or sets the logical pixel size of each noise dot (minimum 1).
-    /// Larger values produce a coarser, retro look.</summary>
+    /// <summary>Gets or sets the logical pixel size of each noise dot (minimum 1).</summary>
     public static readonly StyledProperty<int> NoisePixelSizeProperty =
         AvaloniaProperty.Register<CrtDisplay, int>(nameof(NoisePixelSize), defaultValue: 1);
 
-    /// <summary>Gets or sets the interval in milliseconds between noise refreshes.
-    /// Lower values produce more rapidly flickering static; minimum clamped to 16 ms.</summary>
+    /// <summary>Gets or sets the interval in milliseconds between noise refreshes (minimum 16 ms).</summary>
     public static readonly StyledProperty<int> NoiseRefreshIntervalMsProperty =
         AvaloniaProperty.Register<CrtDisplay, int>(nameof(NoiseRefreshIntervalMs), defaultValue: 50);
 
@@ -114,20 +147,17 @@ public class CrtDisplay : Decorator
     public static readonly StyledProperty<bool> EnableVignetteProperty =
         AvaloniaProperty.Register<CrtDisplay, bool>(nameof(EnableVignette), defaultValue: true);
 
-    /// <summary>Gets or sets the maximum darkness of the vignette corners (0–1).
-    /// 0 = no vignette; 1 = near-black corners.</summary>
+    /// <summary>Gets or sets the maximum darkness of the vignette corners (0–1).</summary>
     public static readonly StyledProperty<double> VignetteIntensityProperty =
         AvaloniaProperty.Register<CrtDisplay, double>(nameof(VignetteIntensity), defaultValue: 0.35);
 
     // ── Flicker ───────────────────────────────────────────────────────────────────────
 
-    /// <summary>Gets or sets whether random per-frame brightness dimming (flicker) is applied.
-    /// Disabled by default; enable for a more authentic worn-CRT feel.</summary>
+    /// <summary>Gets or sets whether random per-frame brightness dimming (flicker) is applied.</summary>
     public static readonly StyledProperty<bool> EnableFlickerProperty =
         AvaloniaProperty.Register<CrtDisplay, bool>(nameof(EnableFlicker), defaultValue: false);
 
-    /// <summary>Gets or sets the maximum fraction of brightness that can be randomly removed
-    /// each frame (0–1). Typical value: 0.03–0.08.</summary>
+    /// <summary>Gets or sets the maximum fraction of brightness that can be randomly removed each frame (0–1).</summary>
     public static readonly StyledProperty<double> FlickerIntensityProperty =
         AvaloniaProperty.Register<CrtDisplay, double>(nameof(FlickerIntensity), defaultValue: 0.04);
 
@@ -279,7 +309,7 @@ public class CrtDisplay : Decorator
     private DispatcherTimer?   _animTimer;
     private DispatcherTimer?   _noiseTimer;
     private TimeSpan           _lastAnimTick;
-    private double             _scanlineOffset; // px within [0, ScanlineSpacing)
+    private double             _scanlineOffset;
 
     // FPS counter
     private int    _frameCount;
@@ -288,76 +318,119 @@ public class CrtDisplay : Decorator
 
     // ── Render caches ─────────────────────────────────────────────────────────────────
 
-    // Noise
     private readonly record struct NoiseDot(float X, float Y, byte Brightness);
     private NoiseDot[]                 _noiseDots    = Array.Empty<NoiseDot>();
     private ImmutableSolidColorBrush[] _noiseBrushes = Array.Empty<ImmutableSolidColorBrush>();
     private double                     _cachedNoiseAlpha = -1;
 
-    // Scanline pen
     private Pen?   _scanlinePen;
     private Color  _cachedScanlineColor;
     private double _cachedScanlineOpacity = -1;
     private double _cachedScanlineHeight  = -1;
 
-    // Scan beam gradient brush
     private LinearGradientBrush? _scanBeamBrush;
     private Color                _cachedScanBeamColor = default;
 
-    // Vignette brush
     private RadialGradientBrush? _vignetteBrush;
     private double               _cachedVignetteIntensity = -1;
 
-    // Flicker overlay brushes
-    private const int                      FlickerLevels = 16;
-    private ImmutableSolidColorBrush[]     _flickerBrushes     = Array.Empty<ImmutableSolidColorBrush>();
-    private double                         _cachedFlickerIntensity = -1;
+    private const int                  FlickerLevels = 16;
+    private ImmutableSolidColorBrush[] _flickerBrushes     = Array.Empty<ImmutableSolidColorBrush>();
+    private double                     _cachedFlickerIntensity = -1;
 
-    // FPS text
     private FormattedText? _fpsText;
     private int            _cachedFpsValue = -1;
+
+    // ── Constructor ───────────────────────────────────────────────────────────────────
+
+    public CrtDisplay()
+    {
+        _overlay = new CrtEffectsLayer(this);
+        // Keep _overlay last in Children so it always renders on top of user content.
+        Children.CollectionChanged += EnsureOverlayIsLast;
+        Children.Add(_overlay);
+    }
 
     // ── Static constructor ────────────────────────────────────────────────────────────
 
     static CrtDisplay()
     {
-        AffectsRender<CrtDisplay>(
-            EnableScanlinesProperty, ScanlineColorProperty, ScanlineSpacingProperty,
-            ScanlineHeightProperty, ScanlineOpacityProperty, EnableScanlineAnimationProperty,
-            EnableScanBeamProperty, ScanBeamColorProperty, ScanBeamHeightProperty,
-            EnableScanBeamGradientProperty, ScanBeamSpeedProperty,
-            EnableNoiseProperty, NoiseDensityProperty, NoiseOpacityProperty, NoisePixelSizeProperty,
-            EnableVignetteProperty, VignetteIntensityProperty,
-            EnableFlickerProperty, FlickerIntensityProperty,
-            ShowFpsProperty);
-
-        // Cache invalidation — scanline pen
         ScanlineColorProperty  .Changed.AddClassHandler<CrtDisplay>((c, _) => c._scanlinePen = null);
         ScanlineHeightProperty .Changed.AddClassHandler<CrtDisplay>((c, _) => c._scanlinePen = null);
         ScanlineOpacityProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => c._scanlinePen = null);
 
-        // Cache invalidation — noise brush array
         NoiseOpacityProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => c._cachedNoiseAlpha = -1);
 
-        // Cache invalidation — noise dots (positional, depend on density/size)
-        NoiseDensityProperty .Changed.AddClassHandler<CrtDisplay>((c, _) => c.RebuildNoise());
+        NoiseDensityProperty  .Changed.AddClassHandler<CrtDisplay>((c, _) => c.RebuildNoise());
         NoisePixelSizeProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => c.RebuildNoise());
 
-        // Cache invalidation — scan beam brush
-        ScanBeamColorProperty       .Changed.AddClassHandler<CrtDisplay>((c, _) => c._scanBeamBrush = null);
+        ScanBeamColorProperty         .Changed.AddClassHandler<CrtDisplay>((c, _) => c._scanBeamBrush = null);
         EnableScanBeamGradientProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => c._scanBeamBrush = null);
 
-        // Cache invalidation — vignette & flicker
         VignetteIntensityProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => c._vignetteBrush = null);
         FlickerIntensityProperty .Changed.AddClassHandler<CrtDisplay>((c, _) => c._cachedFlickerIntensity = -1);
 
-        // Timer management
         EnableScanlineAnimationProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => c.UpdateAnimTimer());
         EnableScanBeamProperty         .Changed.AddClassHandler<CrtDisplay>((c, _) => c.UpdateAnimTimer());
         EnableFlickerProperty          .Changed.AddClassHandler<CrtDisplay>((c, _) => c.UpdateAnimTimer());
         ShowFpsProperty                .Changed.AddClassHandler<CrtDisplay>((c, _) => c.UpdateAnimTimer());
         EnableNoiseProperty            .Changed.AddClassHandler<CrtDisplay>((c, _) => c.UpdateNoiseTimer());
         NoiseRefreshIntervalMsProperty .Changed.AddClassHandler<CrtDisplay>((c, _) => c.UpdateNoiseTimer());
+    }
+
+    // ── Keep overlay last in Children ─────────────────────────────────────────────────
+
+    private void EnsureOverlayIsLast(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (Children.Count == 0 || Children[^1] == _overlay) return;
+
+        Children.CollectionChanged -= EnsureOverlayIsLast;
+        try
+        {
+            Children.Remove(_overlay);
+            Children.Add(_overlay);
+        }
+        finally
+        {
+            Children.CollectionChanged += EnsureOverlayIsLast;
+        }
+    }
+
+    // ── Property changes → invalidate overlay ─────────────────────────────────────────
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+
+        if (change.Property.OwnerType == typeof(CrtDisplay))
+            _overlay.InvalidateVisual();
+    }
+
+    // ── Layout — stretch all children (including overlay) to fill the slot ────────────
+
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        Size contentDesired = default;
+        foreach (var child in Children)
+        {
+            child.Measure(availableSize);
+            if (child != _overlay)
+            {
+                var ds = child.DesiredSize;
+                contentDesired = new Size(
+                    Math.Max(contentDesired.Width,  ds.Width),
+                    Math.Max(contentDesired.Height, ds.Height));
+            }
+        }
+        return contentDesired;
+    }
+
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        var rect = new Rect(finalSize);
+        foreach (var child in Children)
+            child.Arrange(rect);
+        return finalSize;
     }
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────────────
@@ -382,7 +455,6 @@ public class CrtDisplay : Decorator
     protected override void OnSizeChanged(SizeChangedEventArgs e)
     {
         base.OnSizeChanged(e);
-        // Noise dots are positioned by pixel grid; must be rebuilt when size changes.
         RebuildNoise();
     }
 
@@ -450,11 +522,9 @@ public class CrtDisplay : Decorator
     private void OnAnimTick(object? sender, EventArgs e)
     {
         var now = _sw.Elapsed;
-        // Cap dt to avoid a huge jump after a debugger break or OS sleep.
         double dt = Math.Min((now - _lastAnimTick).TotalSeconds, 0.1);
         _lastAnimTick = now;
 
-        // FPS counter
         _frameCount++;
         double totalSec = now.TotalSeconds;
         if (totalSec - _lastFpsUpdateSec >= 1.0)
@@ -465,20 +535,19 @@ public class CrtDisplay : Decorator
             _lastFpsUpdateSec = totalSec;
         }
 
-        // Advance scanline scroll
         if (EnableScanlineAnimation)
         {
             double spacing = Math.Max(1.0, ScanlineSpacing);
             _scanlineOffset = PositiveMod(_scanlineOffset + ScanlineAnimSpeed * dt, spacing);
         }
 
-        InvalidateVisual();
+        _overlay.InvalidateVisual();
     }
 
     private void OnNoiseTick(object? sender, EventArgs e)
     {
         RebuildNoise();
-        InvalidateVisual();
+        _overlay.InvalidateVisual();
     }
 
     // ── Noise pre-computation ─────────────────────────────────────────────────────────
@@ -499,7 +568,6 @@ public class CrtDisplay : Decorator
         int    cols    = (int)(w / pixel);
         int    rows    = (int)(h / pixel);
 
-        // Pre-allocate a worst-case buffer, then trim to actual count.
         var buffer = new NoiseDot[Math.Max(1, (int)(cols * rows * density * 1.2) + cols)];
         int count  = 0;
 
@@ -508,7 +576,7 @@ public class CrtDisplay : Decorator
             for (int row = 0; row < rows; row++)
             {
                 if (_rng.NextDouble() >= density) continue;
-                if (count >= buffer.Length) break; // safety guard
+                if (count >= buffer.Length) break;
                 buffer[count++] = new NoiseDot(
                     (float)(col * pixel), (float)(row * pixel), (byte)_rng.Next(256));
             }
@@ -526,33 +594,13 @@ public class CrtDisplay : Decorator
         }
     }
 
-    // ── Render ────────────────────────────────────────────────────────────────────────
-
-    /// <inheritdoc/>
-    public override void Render(DrawingContext context)
-    {
-        base.Render(context); // draws child first
-
-        var bounds = new Rect(0, 0, Bounds.Width, Bounds.Height);
-        if (bounds.Width <= 0 || bounds.Height <= 0) return;
-
-        if (EnableScanlines) DrawScanlines(context, bounds);
-        if (EnableNoise)     DrawNoise(context);
-        if (EnableScanBeam)  DrawScanBeam(context, bounds);
-        if (EnableVignette)  DrawVignette(context, bounds);
-        if (EnableFlicker)   DrawFlicker(context, bounds);
-        if (ShowFps)         DrawFps(context, bounds);
-    }
-
-    // ── Effect renderers ──────────────────────────────────────────────────────────────
+    // ── Effect renderers (called from CrtEffectsLayer.Render) ─────────────────────────
 
     private void DrawScanlines(DrawingContext context, Rect bounds)
     {
         var    pen     = GetScanlinePen();
         double spacing = Math.Max(1.0, ScanlineSpacing);
-
-        // Start at or just above y=0 so the animated wrap-around is seamless.
-        double startY = EnableScanlineAnimation ? -_scanlineOffset : 0.0;
+        double startY  = EnableScanlineAnimation ? -_scanlineOffset : 0.0;
 
         for (double y = startY; y < bounds.Height; y += spacing)
             context.DrawLine(pen, new Point(0, y), new Point(bounds.Width, y));
@@ -560,7 +608,7 @@ public class CrtDisplay : Decorator
 
     private void DrawNoise(DrawingContext context)
     {
-        var dots = _noiseDots; // local ref — safe: both timer and Render run on the UI thread
+        var dots = _noiseDots;
         if (dots.Length == 0) return;
 
         EnsureNoiseBrushes();
@@ -575,7 +623,6 @@ public class CrtDisplay : Decorator
     {
         double bh    = Math.Max(1.0, ScanBeamHeight);
         double range = bounds.Height + bh;
-        // Beam position is time-based for smooth frame-rate-independent motion.
         double beamY = PositiveMod(_sw.Elapsed.TotalSeconds * ScanBeamSpeed, range) - bh;
 
         if (beamY + bh < 0 || beamY > bounds.Height) return;
@@ -594,9 +641,7 @@ public class CrtDisplay : Decorator
     {
         EnsureFlickerBrushes();
         if (_flickerBrushes.Length == 0) return;
-        // Mostly pick index 0 (transparent) so flicker is subtle rather than constant.
-        var brush = _flickerBrushes[_rng.Next(_flickerBrushes.Length)];
-        context.DrawRectangle(brush, null, bounds);
+        context.DrawRectangle(_flickerBrushes[_rng.Next(_flickerBrushes.Length)], null, bounds);
     }
 
     private void DrawFps(DrawingContext context, Rect bounds)
@@ -685,7 +730,7 @@ public class CrtDisplay : Decorator
             return _vignetteBrush;
 
         _cachedVignetteIntensity = intensity;
-        byte alpha = (byte)(intensity * 220); // max ~220 so content stays legible at corners
+        byte alpha = (byte)(intensity * 220);
         var brush = new RadialGradientBrush
         {
             Center         = new RelativePoint(0.5, 0.5, RelativeUnit.Relative),
@@ -705,13 +750,12 @@ public class CrtDisplay : Decorator
         if (Math.Abs(_cachedFlickerIntensity - intensity) <= 0.001 && _flickerBrushes.Length > 0) return;
 
         _cachedFlickerIntensity = intensity;
-        // Index 0 is fully transparent (most frames → no dimming).
         _flickerBrushes = new ImmutableSolidColorBrush[FlickerLevels + 1];
         for (int i = 0; i <= FlickerLevels; i++)
         {
-            double alpha = (double)i / FlickerLevels * intensity;
+            double a = (double)i / FlickerLevels * intensity;
             _flickerBrushes[i] = new ImmutableSolidColorBrush(
-                Color.FromArgb((byte)(alpha * 255), 0, 0, 0));
+                Color.FromArgb((byte)(a * 255), 0, 0, 0));
         }
     }
 
