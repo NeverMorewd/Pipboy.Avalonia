@@ -5,6 +5,128 @@ namespace Pipboy.Avalonia.Tests;
 
 public class PipboyCountdownTests
 {
+    // ── Precision defaults ────────────────────────────────────────────────────
+
+    [Fact]
+    public void Precision_Default_IsSeconds()
+    {
+        var cd = new PipboyCountdown();
+        Assert.Equal(TimePrecision.Seconds, cd.Precision);
+    }
+
+    [Theory]
+    [InlineData(TimePrecision.Hours,        @"hh\:mm\:ss")]
+    [InlineData(TimePrecision.Seconds,      @"mm\:ss")]
+    [InlineData(TimePrecision.Milliseconds, @"mm\:ss\.fff")]
+    public void GetDefaultFormat_ReturnsCorrectFormat(TimePrecision precision, string expected)
+        => Assert.Equal(expected, PipboyCountdown.GetDefaultFormat(precision));
+
+    [Theory]
+    [InlineData(TimePrecision.Hours,        1000)]   // 1 s
+    [InlineData(TimePrecision.Seconds,      1000)]   // 1 s
+    [InlineData(TimePrecision.Milliseconds,   50)]   // 50 ms
+    public void GetTickInterval_ReturnsCorrectMs(TimePrecision precision, int expectedMs)
+        => Assert.Equal(
+            TimeSpan.FromMilliseconds(expectedMs),
+            PipboyCountdown.GetTickInterval(precision));
+
+    // ── Precision → Format auto-sync ─────────────────────────────────────────
+
+    [Fact]
+    public void Setting_Precision_Hours_UpdatesFormat()
+    {
+        var cd = new PipboyCountdown { Precision = TimePrecision.Hours };
+        Assert.Equal(@"hh\:mm\:ss", cd.Format);
+    }
+
+    [Fact]
+    public void Setting_Precision_Seconds_UpdatesFormat()
+    {
+        var cd = new PipboyCountdown { Precision = TimePrecision.Hours };
+        cd.Precision = TimePrecision.Seconds;
+        Assert.Equal(@"mm\:ss", cd.Format);
+    }
+
+    [Fact]
+    public void Setting_Precision_Milliseconds_UpdatesFormat()
+    {
+        var cd = new PipboyCountdown { Precision = TimePrecision.Milliseconds };
+        Assert.Equal(@"mm\:ss\.fff", cd.Format);
+    }
+
+    [Fact]
+    public void Format_CanBeOverridden_AfterPrecision()
+    {
+        var cd = new PipboyCountdown { Precision = TimePrecision.Milliseconds, Format = @"ss\.ff" };
+        Assert.Equal(@"ss\.ff", cd.Format);
+    }
+
+    // ── DisplayTime with each precision ──────────────────────────────────────
+
+    [Fact]
+    public void DisplayTime_Hours_FormatsCorrectly()
+    {
+        var cd = new PipboyCountdown
+        {
+            Precision = TimePrecision.Hours,
+            Duration  = TimeSpan.FromHours(1) + TimeSpan.FromMinutes(5),
+        };
+        Assert.Equal("01:05:00", cd.DisplayTime);
+    }
+
+    [Fact]
+    public void DisplayTime_Milliseconds_ContainsDot()
+    {
+        var cd = new PipboyCountdown
+        {
+            Precision = TimePrecision.Milliseconds,
+            Duration  = TimeSpan.FromSeconds(30),
+        };
+        Assert.Contains(".", cd.DisplayTime);
+    }
+
+    [Fact]
+    public void DisplayTime_Milliseconds_HasThreeFractionalDigits()
+    {
+        var cd = new PipboyCountdown
+        {
+            Precision = TimePrecision.Milliseconds,
+            Duration  = TimeSpan.FromSeconds(5),
+        };
+        int dotIndex = cd.DisplayTime.IndexOf('.');
+        Assert.True(dotIndex >= 0, "DisplayTime should contain '.' for Milliseconds precision");
+        Assert.Equal(3, cd.DisplayTime[(dotIndex + 1)..].Length);
+    }
+
+    // ── Precision preserves Start/Stop/Reset behaviour ────────────────────────
+
+    [Fact]
+    public void Start_Works_WithMillisecondsPrecision()
+    {
+        var cd = new PipboyCountdown { Precision = TimePrecision.Milliseconds, Duration = TimeSpan.FromSeconds(5) };
+        cd.Start();
+        Assert.True(cd.IsRunning);
+        cd.Stop();
+        Assert.False(cd.IsRunning);
+    }
+
+    [Fact]
+    public void Reset_Works_WithMillisecondsPrecision()
+    {
+        var cd = new PipboyCountdown { Precision = TimePrecision.Milliseconds, Duration = TimeSpan.FromSeconds(5) };
+        cd.Start();
+        cd.Reset();
+        Assert.False(cd.IsRunning);
+        Assert.Equal(TimeSpan.FromSeconds(5), cd.RemainingTime);
+    }
+
+    [Fact]
+    public void ElapsedFraction_IsZero_WithMillisecondsPrecision()
+    {
+        var cd = new PipboyCountdown { Precision = TimePrecision.Milliseconds, Duration = TimeSpan.FromSeconds(10) };
+        Assert.Equal(0.0, cd.ElapsedFraction);
+    }
+
     // ── Initial state ─────────────────────────────────────────────────────────
 
     [Fact]

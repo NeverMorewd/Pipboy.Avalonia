@@ -26,7 +26,7 @@
                                                             Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                 Text="{TemplateBinding Label}" />
 
-                            <!--  Time display — large, monospaced  -->
+                            <!--  Time display  -->
                             <Border Name="PART_TimeRoot">
                                 <TextBlock
                                     Name="PART_TimeText"
@@ -36,21 +36,8 @@
                                     Text="{TemplateBinding DisplayTime}" />
                             </Border>
 
-                            <!--
-                                Remaining-time bar.
-                                Full = time remaining; Empty = expired.
-                                ElapsedFraction drives a reverse-fill: we display
-                                (1 - ElapsedFraction) as progress on a 0–1 scale.
-                                Easiest approach: use Maximum=1, Value = remaining fraction
-                                derived inline. Since TemplateBinding cannot do arithmetic we
-                                expose a RemainingTime / Duration ratio indirectly:
-                                Value  = Duration.TotalSeconds - ElapsedFraction * Duration.TotalSeconds
-                                  … which simplifies to RemainingTime.TotalSeconds.
-                                The ProgressBar uses the inherited ProgressBar.slim class style
-                                from the main theme and is bound to the raw remaining seconds.
-                            -->
+                            <!--  Remaining-time progress bar  -->
                             <Grid RowDefinitions="Auto,2,Auto">
-                                <!--  Remaining label  -->
                                 <StackPanel
                                     Grid.Row="0"
                                     HorizontalAlignment="Right"
@@ -62,7 +49,6 @@
                                         FontSize="10"
                                         Text="REMAINING" />
                                 </StackPanel>
-                                <!--  Slim progress bar — full when time remains, empty when done  -->
                                 <ProgressBar
                                     Name="PART_RemainingBar"
                                     Grid.Row="2"
@@ -78,7 +64,18 @@
                 </ControlTemplate>
             </Setter>
 
-            <!--  Running: accent border to indicate active countdown  -->
+            <!--  ── Precision: font-size adjustments ─────────────────────────────
+                  Milliseconds adds ".fff" — 9+ chars at 32 px overflows narrow widgets.
+                  Hours adds "hh:" prefix — also slightly longer.
+                  ────────────────────────────────────────────────────────────────  -->
+            <Style Selector="^:milliseconds /template/ TextBlock#PART_TimeText">
+                <Setter Property="FontSize" Value="24" />
+            </Style>
+            <Style Selector="^:hours /template/ TextBlock#PART_TimeText">
+                <Setter Property="FontSize" Value="28" />
+            </Style>
+
+            <!--  Running: accent border  -->
             <Style Selector="^:running">
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
             </Style>

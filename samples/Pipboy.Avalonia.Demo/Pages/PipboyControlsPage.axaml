@@ -240,52 +240,66 @@
 
             <!--  ══════════════════════════════════════════
                   PIPBOY COUNTDOWN
-                  Start / Stop / Reset buttons exercise all
-                  three public control methods interactively.
+                  Three rows:
+                  1. Seconds (default) — 3-minute self-destruct
+                  2. Hours precision   — vault lockdown
+                  3. Milliseconds      — fast game timer
                   ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="PIPBOY COUNTDOWN" />
-                <TextBlock Classes="dim" Text="Pip-Boy styled countdown timer — Start, Stop, and Reset via the buttons below." />
+                <TextBlock Classes="dim" Text="TimePrecision controls display format and tick rate. Use Start/Stop/Reset to interact." />
 
-                <StackPanel HorizontalAlignment="Left" Spacing="16">
+                <Grid ColumnDefinitions="220,24,220,24,240" HorizontalAlignment="Left">
 
-                    <!--  Interactive countdown  -->
-                    <StackPanel Spacing="10" Width="220">
+                    <!--  Col 0: Seconds (default) — interactive  -->
+                    <StackPanel Grid.Column="0" Spacing="8">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="10"
+                            Text="PRECISION: SECONDS" />
                         <pipboy:PipboyCountdown
                             x:Name="DemoCountdown"
                             Duration="0:3:00"
-                            Label="SELF DESTRUCT" />
-
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <Button
-                                Width="68"
-                                Click="OnCountdownStart"
-                                Content="START" />
-                            <Button
-                                Width="68"
-                                Click="OnCountdownStop"
-                                Content="STOP" />
-                            <Button
-                                Width="68"
-                                Click="OnCountdownReset"
-                                Content="RESET" />
+                            Label="SELF DESTRUCT"
+                            Precision="Seconds" />
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Button Width="60" Click="OnCountdownStart"  Content="START"  />
+                            <Button Width="60" Click="OnCountdownStop"   Content="STOP"   />
+                            <Button Width="60" Click="OnCountdownReset"  Content="RESET"  />
                         </StackPanel>
                     </StackPanel>
 
-                    <!--  Static examples  -->
-                    <StackPanel Orientation="Horizontal" Spacing="16">
+                    <!--  Col 2: Hours precision — static  -->
+                    <StackPanel Grid.Column="2" Spacing="8">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="10"
+                            Text="PRECISION: HOURS" />
                         <pipboy:PipboyCountdown
-                            Width="180"
                             Duration="1:30:00"
-                            Format="hh\:mm\:ss"
-                            Label="VAULT LOCKDOWN" />
-                        <pipboy:PipboyCountdown
-                            Width="180"
-                            Duration="0:0:0"
-                            Label="EXPIRED" />
+                            Label="VAULT LOCKDOWN"
+                            Precision="Hours" />
                     </StackPanel>
 
-                </StackPanel>
+                    <!--  Col 4: Milliseconds — interactive  -->
+                    <StackPanel Grid.Column="4" Spacing="8">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="10"
+                            Text="PRECISION: MILLISECONDS  (50 ms tick)" />
+                        <pipboy:PipboyCountdown
+                            x:Name="MsCountdown"
+                            Duration="0:0:30"
+                            Label="ROUND TIMER"
+                            Precision="Milliseconds" />
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Button Width="60" Click="OnMsCountdownStart"  Content="START"  />
+                            <Button Width="60" Click="OnMsCountdownStop"   Content="STOP"   />
+                            <Button Width="60" Click="OnMsCountdownReset"  Content="RESET"  />
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
                 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-pipboycountdown.png -->
             </StackPanel>
 

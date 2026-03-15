@@ -11,8 +11,18 @@ namespace Pipboy.Avalonia;
 /// <para>
 /// Drive it with <see cref="Start"/>, <see cref="Stop"/> and <see cref="Reset"/>, or set
 /// <see cref="AutoStart"/> to begin as soon as the control is attached to the visual tree.
-/// Subscribe to <see cref="Tick"/> for per-second callbacks and <see cref="Completed"/>
+/// Subscribe to <see cref="Tick"/> for per-tick callbacks and <see cref="Completed"/>
 /// for the moment the counter reaches zero.
+/// </para>
+/// <para>
+/// Use <see cref="Precision"/> to select the display granularity and matching tick rate:
+/// <list type="bullet">
+///   <item><see cref="TimePrecision.Hours"/> — <c>hh:mm:ss</c>, 1 s interval</item>
+///   <item><see cref="TimePrecision.Seconds"/> — <c>mm:ss</c>, 1 s interval (default)</item>
+///   <item><see cref="TimePrecision.Milliseconds"/> — <c>mm:ss.fff</c>, 50 ms interval</item>
+/// </list>
+/// Setting <see cref="Precision"/> automatically updates <see cref="Format"/> to the
+/// matching default. Override <see cref="Format"/> afterwards for custom formatting.
 /// </para>
 /// <para>
 /// Uses <see cref="DispatcherTimer"/> internally — fully compatible with WASM and AOT builds.
@@ -33,11 +43,19 @@ public class PipboyCountdown : TemplatedControl
 
     /// <summary>
     /// <see cref="TimeSpan.ToString(string)"/> format used to render the remaining time.
-    /// Defaults to <c>"mm\\:ss"</c> which produces e.g. <c>04:59</c>.
-    /// Use <c>"hh\\:mm\\:ss"</c> for hours.
+    /// Automatically set by <see cref="Precision"/> but can be overridden freely.
+    /// Default: <c>"mm\\:ss"</c>.
     /// </summary>
     public static readonly StyledProperty<string> FormatProperty =
         AvaloniaProperty.Register<PipboyCountdown, string>(nameof(Format), defaultValue: @"mm\:ss");
+
+    /// <summary>
+    /// Controls display granularity and matching timer tick interval.
+    /// Setting this property automatically updates <see cref="Format"/> to a sensible default.
+    /// </summary>
+    public static readonly StyledProperty<TimePrecision> PrecisionProperty =
+        AvaloniaProperty.Register<PipboyCountdown, TimePrecision>(
+            nameof(Precision), defaultValue: TimePrecision.Seconds);
 
     /// <summary>
     /// When <see langword="true"/> the countdown starts automatically once the control
@@ -48,7 +66,7 @@ public class PipboyCountdown : TemplatedControl
 
     // ── Direct (computed / state) properties ─────────────────────────────────
 
-    /// <summary>Gets the remaining time. Decrements each second while <see cref="IsRunning"/> is true.</summary>
+    /// <summary>Gets the remaining time. Decrements each tick while <see cref="IsRunning"/> is true.</summary>
     public static readonly DirectProperty<PipboyCountdown, TimeSpan> RemainingTimeProperty =
         AvaloniaProperty.RegisterDirect<PipboyCountdown, TimeSpan>(
             nameof(RemainingTime), o => o.RemainingTime);
@@ -59,8 +77,8 @@ public class PipboyCountdown : TemplatedControl
             nameof(DisplayTime), o => o.DisplayTime);
 
     /// <summary>
-    /// Gets the elapsed seconds as a fraction of <see cref="Duration"/> for the internal
-    /// progress bar (0 = full remaining → bar is full; 1 = expired → bar is empty).
+    /// Gets the elapsed time as a fraction of <see cref="Duration"/> (0 = full remaining, 1 = expired).
+    /// Used by the internal progress bar.
     /// </summary>
     public static readonly DirectProperty<PipboyCountdown, double> ElapsedFractionProperty =
         AvaloniaProperty.RegisterDirect<PipboyCountdown, double>(
@@ -76,7 +94,7 @@ public class PipboyCountdown : TemplatedControl
 
     // ── Events ────────────────────────────────────────────────────────────────
 
-    /// <summary>Raised once per second while the countdown is running.</summary>
+    /// <summary>Raised on every timer tick while the countdown is running.</summary>
     public event EventHandler? Tick;
 
     /// <summary>Raised when <see cref="RemainingTime"/> reaches <see cref="TimeSpan.Zero"/>.</summary>
@@ -88,6 +106,8 @@ public class PipboyCountdown : TemplatedControl
     {
         DurationProperty.Changed.AddClassHandler<PipboyCountdown>((x, _) => x.OnDurationChanged());
         FormatProperty.Changed.AddClassHandler<PipboyCountdown>((x, _) => x.RefreshDisplayTime());
+        PrecisionProperty.Changed.AddClassHandler<PipboyCountdown>((x, e) =>
+            x.OnPrecisionChanged((TimePrecision)e.NewValue!));
     }
 
     // ── Constructor ───────────────────────────────────────────────────────────
@@ -120,6 +140,16 @@ public class PipboyCountdown : TemplatedControl
     {
         get => GetValue(FormatProperty);
         set => SetValue(FormatProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the display precision.
+    /// Automatically updates <see cref="Format"/> and the internal tick interval.
+    /// </summary>
+    public TimePrecision Precision
+    {
+        get => GetValue(PrecisionProperty);
+        set => SetValue(PrecisionProperty, value);
     }
 
     /// <summary>Gets or sets whether the timer starts automatically on visual-tree attachment.</summary>
@@ -162,7 +192,7 @@ public class PipboyCountdown : TemplatedControl
     public bool IsRunning => _timer is not null;
 
     /// <summary>
-    /// Gets whether the countdown has completed (remaining time has reached zero).
+    /// Gets whether the countdown has completed (remaining time reached zero).
     /// Resets to <see langword="false"/> after calling <see cref="Reset"/>.
     /// </summary>
     public bool IsCompleted => _completed;
@@ -174,7 +204,7 @@ public class PipboyCountdown : TemplatedControl
     {
         if (_timer is not null || _completed || _remainingTime <= TimeSpan.Zero) return;
 
-        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+        _timer = new DispatcherTimer { Interval = GetTickInterval(Precision) };
         _timer.Tick += OnTimerTick;
         _timer.Start();
         PseudoClasses.Set(":running", true);
@@ -189,7 +219,6 @@ public class PipboyCountdown : TemplatedControl
 
     /// <summary>
     /// Resets <see cref="RemainingTime"/> to <see cref="Duration"/> and stops the timer.
-    /// Clears the <c>:completed</c> pseudo-class.
     /// </summary>
     public void Reset()
     {
@@ -211,7 +240,7 @@ public class PipboyCountdown : TemplatedControl
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnDetachedFromVisualTree(e);
-        // Pause but don't reset — allows resuming if reattached.
+        // Pause but don't reset — resumes correctly if reattached.
         StopTimer();
     }
 
@@ -219,7 +248,8 @@ public class PipboyCountdown : TemplatedControl
 
     private void OnTimerTick(object? sender, EventArgs e)
     {
-        TimeSpan next = _remainingTime - TimeSpan.FromSeconds(1);
+        TimeSpan decrement = GetTickInterval(Precision);
+        TimeSpan next = _remainingTime - decrement;
 
         if (next <= TimeSpan.Zero)
         {
@@ -238,6 +268,25 @@ public class PipboyCountdown : TemplatedControl
         }
     }
 
+    private void OnPrecisionChanged(TimePrecision precision)
+    {
+        // Sync the format to the new precision's default.
+        Format = GetDefaultFormat(precision);
+
+        // Update pseudo-class for template font-size styling.
+        PseudoClasses.Set(":milliseconds", precision == TimePrecision.Milliseconds);
+        PseudoClasses.Set(":hours", precision == TimePrecision.Hours);
+
+        // If currently running, restart with the new tick interval.
+        if (_timer is not null)
+        {
+            StopTimer();
+            _timer = new DispatcherTimer { Interval = GetTickInterval(precision) };
+            _timer.Tick += OnTimerTick;
+            _timer.Start();
+        }
+    }
+
     private void StopTimer()
     {
         if (_timer is null) return;
@@ -248,7 +297,6 @@ public class PipboyCountdown : TemplatedControl
 
     private void OnDurationChanged()
     {
-        // If not yet started, re-sync RemainingTime to the new Duration.
         if (_timer is null && !_completed)
         {
             _completed = false;
@@ -265,16 +313,32 @@ public class PipboyCountdown : TemplatedControl
         }
         catch (FormatException)
         {
-            // Fall back to a safe default if the user supplies an invalid format.
             DisplayTime = _remainingTime.ToString(@"mm\:ss");
         }
     }
 
     private void RefreshElapsedFraction()
     {
-        double total = Duration.TotalSeconds;
+        double total = Duration.TotalMilliseconds;
         ElapsedFraction = total > 0
-            ? 1.0 - Math.Clamp(_remainingTime.TotalSeconds / total, 0.0, 1.0)
+            ? 1.0 - Math.Clamp(_remainingTime.TotalMilliseconds / total, 0.0, 1.0)
             : 1.0;
     }
+
+    // ── Precision helpers ─────────────────────────────────────────────────────
+
+    /// <summary>Returns the default <see cref="TimeSpan.ToString(string)"/> format for a precision level.</summary>
+    public static string GetDefaultFormat(TimePrecision precision) => precision switch
+    {
+        TimePrecision.Hours        => @"hh\:mm\:ss",
+        TimePrecision.Milliseconds => @"mm\:ss\.fff",
+        _                          => @"mm\:ss",       // Seconds (default)
+    };
+
+    /// <summary>Returns the timer tick interval for a precision level.</summary>
+    public static TimeSpan GetTickInterval(TimePrecision precision) => precision switch
+    {
+        TimePrecision.Milliseconds => TimeSpan.FromMilliseconds(50),
+        _                          => TimeSpan.FromSeconds(1),
+    };
 }

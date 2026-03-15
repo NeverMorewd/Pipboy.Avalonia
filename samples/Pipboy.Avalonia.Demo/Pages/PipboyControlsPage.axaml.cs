@@ -10,7 +10,7 @@ public partial class PipboyControlsPage : UserControl
         InitializeComponent();
     }
 
-    // ── PipboyCountdown controls ──────────────────────────────────────────────
+    // ── PipboyCountdown (Seconds) ─────────────────────────────────────────────
 
     private void OnCountdownStart(object? sender, RoutedEventArgs e)
         => DemoCountdown.Start();
@@ -20,6 +20,17 @@ public partial class PipboyControlsPage : UserControl
 
     private void OnCountdownReset(object? sender, RoutedEventArgs e)
         => DemoCountdown.Reset();
+
+    // ── PipboyCountdown (Milliseconds) ───────────────────────────────────────
+
+    private void OnMsCountdownStart(object? sender, RoutedEventArgs e)
+        => MsCountdown.Start();
+
+    private void OnMsCountdownStop(object? sender, RoutedEventArgs e)
+        => MsCountdown.Stop();
+
+    private void OnMsCountdownReset(object? sender, RoutedEventArgs e)
+        => MsCountdown.Reset();
 
     // ── TerminalPanel typewriter replay ──────────────────────────────────────
 
