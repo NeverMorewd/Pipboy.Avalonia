@@ -27,7 +27,13 @@
                                 VerticalAlignment="Center"
                                 Foreground="{DynamicResource PipboyPrimaryBrush}"
                                 Opacity="0"
-                                Text="[" />
+                                Text="[">
+                                <TextBlock.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="Opacity" Duration="0:0:0.12" Easing="LinearEasing" />
+                                    </Transitions>
+                                </TextBlock.Transitions>
+                            </TextBlock>
 
                             <ContentPresenter
                                 Name="PART_ContentPresenter"
@@ -44,7 +50,13 @@
                                 VerticalAlignment="Center"
                                 Foreground="{DynamicResource PipboyPrimaryBrush}"
                                 Opacity="0"
-                                Text="]" />
+                                Text="]">
+                                <TextBlock.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="Opacity" Duration="0:0:0.12" Easing="LinearEasing" />
+                                    </Transitions>
+                                </TextBlock.Transitions>
+                            </TextBlock>
 
                         </Grid>
                     </Border>
@@ -59,7 +71,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             </Style>
 
-            <!--  Selected: bottom border + brackets fade in  -->
+            <!--  Selected: bottom border accent + brackets at full opacity  -->
             <Style Selector="^:selected /template/ Border#PART_Root">
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
                 <Setter Property="Background" Value="{DynamicResource PipboyPrimaryDarkBrush}" />
@@ -67,14 +79,10 @@
             <Style Selector="^:selected">
                 <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             </Style>
+            <!--  Plain Setter — Transition on the template element handles fade in/out  -->
             <Style Selector="^:selected /template/ TextBlock#PART_BracketLeft,
                              ^:selected /template/ TextBlock#PART_BracketRight">
-                <Style.Animations>
-                    <Animation Duration="0:0:0.12" FillMode="Forward">
-                        <KeyFrame Cue="0%"><Setter Property="Opacity" Value="0" /></KeyFrame>
-                        <KeyFrame Cue="100%"><Setter Property="Opacity" Value="1" /></KeyFrame>
-                    </Animation>
-                </Style.Animations>
+                <Setter Property="Opacity" Value="1" />
             </Style>
 
             <Style Selector="^:disabled">

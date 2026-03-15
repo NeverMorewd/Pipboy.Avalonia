@@ -9,72 +9,100 @@
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="pipboy:BracketHighlight">
-                    <Grid ColumnDefinitions="14,*,14">
+                    <Border
+                        Name="PART_Root"
+                        Background="{TemplateBinding Background}">
+                        <Border.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Background" Duration="0:0:0.1" />
+                            </Transitions>
+                        </Border.Transitions>
+                        <Grid ColumnDefinitions="14,*,14">
 
-                        <TextBlock
-                            Name="PART_BracketLeft"
-                            Grid.Column="0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Foreground="{DynamicResource PipboyPrimaryBrush}"
-                            Opacity="0"
-                            Text="&gt;" />
+                            <!--
+                                Brackets start at Opacity=0.
+                                A DoubleTransition handles both the fade-in (when Opacity→1 via a
+                                Setter) and the fade-out (when the Setter is removed and Opacity
+                                reverts to the base value of 0).  This avoids the FillMode="Forward"
+                                trap where a completed animation locks its final value even after the
+                                Style condition becomes false.
+                            -->
+                            <TextBlock
+                                Name="PART_BracketLeft"
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource PipboyPrimaryBrush}"
+                                Opacity="0"
+                                Text="&gt;">
+                                <TextBlock.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="Opacity" Duration="0:0:0.12" Easing="LinearEasing" />
+                                    </Transitions>
+                                </TextBlock.Transitions>
+                            </TextBlock>
 
-                        <ContentPresenter
-                            Name="PART_ContentPresenter"
-                            Grid.Column="1"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            <ContentPresenter
+                                Name="PART_ContentPresenter"
+                                Grid.Column="1"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}" />
 
-                        <TextBlock
-                            Name="PART_BracketRight"
-                            Grid.Column="2"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Foreground="{DynamicResource PipboyPrimaryBrush}"
-                            Opacity="0"
-                            Text="&lt;" />
+                            <TextBlock
+                                Name="PART_BracketRight"
+                                Grid.Column="2"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource PipboyPrimaryBrush}"
+                                Opacity="0"
+                                Text="&lt;">
+                                <TextBlock.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="Opacity" Duration="0:0:0.12" Easing="LinearEasing" />
+                                    </Transitions>
+                                </TextBlock.Transitions>
+                            </TextBlock>
 
-                    </Grid>
+                        </Grid>
+                    </Border>
                 </ControlTemplate>
             </Setter>
 
-            <!--  Show brackets when selected  -->
+            <!--
+                ── Selected ─────────────────────────────────────────────────────
+                Full-brightness brackets + accent background.
+                Plain Setter — Transition on the template element handles
+                the smooth enter / exit automatically.
+            -->
             <Style Selector="^:selected /template/ TextBlock#PART_BracketLeft,
                              ^:selected /template/ TextBlock#PART_BracketRight">
-                <Style.Animations>
-                    <Animation Duration="0:0:0.12" FillMode="Forward">
-                        <KeyFrame Cue="0%">
-                            <Setter Property="Opacity" Value="0" />
-                        </KeyFrame>
-                        <KeyFrame Cue="100%">
-                            <Setter Property="Opacity" Value="1" />
-                        </KeyFrame>
-                    </Animation>
-                </Style.Animations>
+                <Setter Property="Opacity" Value="1" />
+            </Style>
+            <Style Selector="^:selected /template/ Border#PART_Root">
+                <Setter Property="Background" Value="{DynamicResource PipboySelectionBrush}" />
             </Style>
 
-            <!--  Show brackets on hover too  -->
-            <Style Selector="^:pointerover /template/ TextBlock#PART_BracketLeft,
-                             ^:pointerover /template/ TextBlock#PART_BracketRight">
-                <Style.Animations>
-                    <Animation Duration="0:0:0.12" FillMode="Forward">
-                        <KeyFrame Cue="0%">
-                            <Setter Property="Opacity" Value="0" />
-                        </KeyFrame>
-                        <KeyFrame Cue="100%">
-                            <Setter Property="Opacity" Value="1" />
-                        </KeyFrame>
-                    </Animation>
-                </Style.Animations>
+            <!--
+                ── Hover (not selected) ──────────────────────────────────────────
+                Dim brackets at 0.4 give a visual hint that the item is interactive
+                without implying it is already chosen.  Background changes to the
+                standard hover brush.
+                Using :pointerover:not(:selected) avoids overriding the accent
+                background when the item is already selected and the mouse enters.
+            -->
+            <Style Selector="^:pointerover:not(:selected) /template/ TextBlock#PART_BracketLeft,
+                             ^:pointerover:not(:selected) /template/ TextBlock#PART_BracketRight">
+                <Setter Property="Opacity" Value="0.4" />
             </Style>
-
-            <Style Selector="^:pointerover">
+            <Style Selector="^:pointerover:not(:selected) /template/ Border#PART_Root">
                 <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
             </Style>
 
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
         </ControlTheme>
 
     </Styles.Resources>
