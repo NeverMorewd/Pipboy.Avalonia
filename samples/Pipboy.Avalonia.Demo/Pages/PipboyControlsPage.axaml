@@ -12,11 +12,11 @@
             <!--  SegmentedBar  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="SEGMENTED BAR" />
-                <TextBlock Classes="dim" Text="Discrete segment status bars — HP / AP / RAD style." />
+                <TextBlock Classes="dim" Text="Discrete segment bars. Set ShowProgressBar=True for an exact fractional underbar." />
                 <StackPanel Spacing="6" Width="320" HorizontalAlignment="Left">
-                    <pipboy:SegmentedBar Label="HP"  Value="78"  Maximum="100" SegmentCount="20" />
-                    <pipboy:SegmentedBar Label="AP"  Value="45"  Maximum="100" SegmentCount="20" />
-                    <pipboy:SegmentedBar Label="RAD" Value="23"  Maximum="100" SegmentCount="20" />
+                    <pipboy:SegmentedBar Label="HP"  Value="78"  Maximum="100" SegmentCount="20" ShowProgressBar="True" />
+                    <pipboy:SegmentedBar Label="AP"  Value="45"  Maximum="100" SegmentCount="20" ShowProgressBar="True" />
+                    <pipboy:SegmentedBar Label="RAD" Value="23"  Maximum="100" SegmentCount="20" ShowProgressBar="True" />
                     <pipboy:SegmentedBar             Value="100" Maximum="100" SegmentCount="10" />
                     <pipboy:SegmentedBar             Value="0"   Maximum="100" SegmentCount="10" />
                 </StackPanel>
@@ -123,6 +123,39 @@
                         Content="ACCESSING VAULT-TEC MAINFRAME...&#x0a;CONNECTION ESTABLISHED.&#x0a;WELCOME, OVERSEER." />
                 </StackPanel>
                 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-terminalpanel.png -->
+            </StackPanel>
+
+            <!--  PipboyCountdown  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="PIPBOY COUNTDOWN" />
+                <TextBlock Classes="dim" Text="Pip-Boy styled countdown timer. Call Start() / Stop() / Reset() or set AutoStart=True." />
+                <StackPanel
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    Spacing="16">
+
+                    <!--  Short countdown — starts immediately in demo  -->
+                    <pipboy:PipboyCountdown
+                        Width="180"
+                        AutoStart="True"
+                        Duration="0:5:00"
+                        Label="SELF DESTRUCT" />
+
+                    <!--  Long-form hours display  -->
+                    <pipboy:PipboyCountdown
+                        Width="180"
+                        Duration="1:30:00"
+                        Format="hh\:mm\:ss"
+                        Label="VAULT LOCKDOWN" />
+
+                    <!--  Already-expired display  -->
+                    <pipboy:PipboyCountdown
+                        Width="180"
+                        Duration="0:0:0"
+                        Label="EXPIRED" />
+
+                </StackPanel>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-pipboycountdown.png -->
             </StackPanel>
 
         </StackPanel>

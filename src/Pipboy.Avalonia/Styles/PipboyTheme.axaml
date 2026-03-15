@@ -52,5 +52,6 @@
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/BracketHighlight.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/PipboyTabStrip.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TerminalPanel.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/PipboyCountdown.axaml" />
 
 </Styles>

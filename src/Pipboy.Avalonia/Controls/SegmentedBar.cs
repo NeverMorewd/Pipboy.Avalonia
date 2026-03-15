@@ -8,6 +8,11 @@ namespace Pipboy.Avalonia;
 /// <summary>
 /// A Pip-Boy style status bar made of discrete rectangular segments.
 /// Ideal for HP, AP, RAD and other game stat displays.
+/// <para>
+/// When <see cref="ShowProgressBar"/> is <see langword="true"/>, a slim continuous
+/// progress indicator is also rendered below the segments, showing the exact
+/// fractional value rather than the rounded segment count.
+/// </para>
 /// </summary>
 public class SegmentedBar : TemplatedControl
 {
@@ -22,6 +27,14 @@ public class SegmentedBar : TemplatedControl
 
     public static readonly StyledProperty<string> LabelProperty =
         AvaloniaProperty.Register<SegmentedBar, string>(nameof(Label), defaultValue: string.Empty);
+
+    /// <summary>
+    /// When <see langword="true"/>, a slim continuous <c>ProgressBar</c> is rendered
+    /// below the segments to show the exact fractional fill value.
+    /// Defaults to <see langword="false"/>.
+    /// </summary>
+    public static readonly StyledProperty<bool> ShowProgressBarProperty =
+        AvaloniaProperty.Register<SegmentedBar, bool>(nameof(ShowProgressBar), defaultValue: false);
 
     public static readonly DirectProperty<SegmentedBar, IReadOnlyList<SegmentItem>> SegmentsProperty =
         AvaloniaProperty.RegisterDirect<SegmentedBar, IReadOnlyList<SegmentItem>>(
@@ -64,6 +77,15 @@ public class SegmentedBar : TemplatedControl
     {
         get => GetValue(LabelProperty);
         set => SetValue(LabelProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets whether a slim continuous progress bar is rendered below the segments.
+    /// </summary>
+    public bool ShowProgressBar
+    {
+        get => GetValue(ShowProgressBarProperty);
+        set => SetValue(ShowProgressBarProperty, value);
     }
 
     /// <summary>Gets the computed list of segment states used by the template.</summary>

@@ -75,4 +75,37 @@ public class SegmentedBarTests
         var bar = new SegmentedBar();
         Assert.Equal(string.Empty, bar.Label);
     }
+
+    // ── ShowProgressBar ───────────────────────────────────────────────────────
+
+    [Fact]
+    public void ShowProgressBar_Default_IsFalse()
+    {
+        var bar = new SegmentedBar();
+        Assert.False(bar.ShowProgressBar);
+    }
+
+    [Fact]
+    public void ShowProgressBar_CanBeSetTrue()
+    {
+        var bar = new SegmentedBar { ShowProgressBar = true };
+        Assert.True(bar.ShowProgressBar);
+    }
+
+    [Fact]
+    public void ShowProgressBar_DoesNotAffectSegments()
+    {
+        // Enabling the progress bar must not change the segment count or fill.
+        var bar = new SegmentedBar { SegmentCount = 10, Value = 40, Maximum = 100 };
+        int filledBefore = 0;
+        foreach (var s in bar.Segments) if (s.IsFilled) filledBefore++;
+
+        bar.ShowProgressBar = true;
+
+        int filledAfter = 0;
+        foreach (var s in bar.Segments) if (s.IsFilled) filledAfter++;
+
+        Assert.Equal(filledBefore, filledAfter);
+        Assert.Equal(10, bar.Segments.Count);
+    }
 }
