@@ -132,6 +132,85 @@
             </StackPanel>
 
             <!--  ══════════════════════════════════════════
+                  HEADERED CONTENT CONTROL
+                  Default (caption label) + groupbox variant
+                  + groupbox accent (primary-colour border).
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="HEADERED CONTENT CONTROL" />
+                <TextBlock Classes="dim" Text="Default: dim caption above content.  Classes=&quot;groupbox&quot;: bordered container with floating header notch.  Classes=&quot;groupbox accent&quot;: primary-colour border for highlighted sections." />
+
+                <Grid ColumnDefinitions="*,16,*,16,*" HorizontalAlignment="Left" Width="640">
+
+                    <!--  Default (caption + content)  -->
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="DEFAULT" />
+                        <HeaderedContentControl Header="VAULT OVERSEER">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="NAME: NATE" />
+                                <TextBlock Text="LEVEL: 42" />
+                                <TextBlock Text="LOCATION: SANCTUARY" />
+                            </StackPanel>
+                        </HeaderedContentControl>
+                        <HeaderedContentControl Margin="0,8,0,0" Header="CURRENT WEAPON">
+                            <TextBlock Text="10MM PISTOL" />
+                        </HeaderedContentControl>
+                    </StackPanel>
+
+                    <!--  groupbox  -->
+                    <StackPanel Grid.Column="2" Spacing="2">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="GROUPBOX" />
+                        <HeaderedContentControl Classes="groupbox" Header="INVENTORY">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="STIMPAK          x 12" />
+                                <TextBlock Text="NUKA-COLA        x 4" />
+                                <TextBlock Text="BOBBY PIN        x 30" />
+                                <TextBlock Text="BOTTLE CAP       x 843" />
+                            </StackPanel>
+                        </HeaderedContentControl>
+                        <HeaderedContentControl
+                            Margin="0,8,0,0"
+                            Classes="groupbox"
+                            Header="DISABLED"
+                            IsEnabled="False">
+                            <TextBlock Text="SECTION OFFLINE" />
+                        </HeaderedContentControl>
+                    </StackPanel>
+
+                    <!--  groupbox accent  -->
+                    <StackPanel Grid.Column="4" Spacing="2">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="GROUPBOX ACCENT" />
+                        <HeaderedContentControl Classes="groupbox accent" Header="ACTIVE QUEST">
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="accent" Text="THE NUCLEAR OPTION" />
+                                <TextBlock Classes="dim" Text="Reach the Institute relay room." />
+                            </StackPanel>
+                        </HeaderedContentControl>
+                        <HeaderedContentControl
+                            Margin="0,8,0,0"
+                            Classes="groupbox accent"
+                            Header="CRITICAL ALERT">
+                            <TextBlock Text="RADIATION LEVEL HIGH" />
+                        </HeaderedContentControl>
+                    </StackPanel>
+
+                </Grid>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-headeredcontentcontrol.png -->
+            </StackPanel>
+
+            <!--  ══════════════════════════════════════════
                   BRACKET HIGHLIGHT — SELECTION GROUP
                   Click any item; the group auto-deselects
                   all others (RadioButton-style).

@@ -1,0 +1,135 @@
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+
+        <!--
+            Default HeaderedContentControl theme.
+            Renders a small dim caption above the content — use for labelled
+            data sections, stat groups and any "field with heading" pattern.
+        -->
+        <ControlTheme x:Key="{x:Type HeaderedContentControl}" TargetType="HeaderedContentControl">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="HeaderedContentControl">
+                    <StackPanel Spacing="4">
+
+                        <!--  Caption row: dim, slightly smaller label  -->
+                        <ContentPresenter
+                            Content="{TemplateBinding Header}"
+                            ContentTemplate="{TemplateBinding HeaderTemplate}"
+                            Foreground="{DynamicResource PipboyTextDimBrush}"
+                            FontSize="{DynamicResource PipboyFontSizeSmall}" />
+
+                        <!--  Main content  -->
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}" />
+
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
+
+    </Styles.Resources>
+
+    <!--
+        ── groupbox variant ─────────────────────────────────────────────────────
+        Classic GroupBox-style bordered container with the header title floating
+        over the top-left edge of the border (the "notch" effect).
+
+        The notch Border binds its Background to {TemplateBinding Background}
+        so it always matches the content fill — the erase colour is never
+        hard-coded, which means placing the control on any parent background
+        still renders correctly as long as Background is set appropriately.
+
+        The content Border binds its BorderBrush to {TemplateBinding BorderBrush}
+        so the accent variant below can change the outline with a single Setter.
+
+        Usage:
+            <HeaderedContentControl Classes="groupbox" Header="VAULT STATUS">
+                ...
+            </HeaderedContentControl>
+    -->
+    <Style Selector="HeaderedContentControl.groupbox">
+        <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+        <Setter Property="Padding" Value="12,10" />
+        <Setter Property="Template">
+            <ControlTemplate TargetType="HeaderedContentControl">
+                <Grid>
+
+                    <!--
+                        Content border — Margin="0,9,0,0" clears the floating
+                        header row (half the header height above top edge).
+                        BorderBrush is template-bound so class variants can
+                        override it with a plain Setter.
+                    -->
+                    <Border
+                        Name="PART_Border"
+                        Margin="0,9,0,0"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+
+                    <!--
+                        Floating header notch.
+                        Background is bound to the same {TemplateBinding Background}
+                        as the content border so the erase colour always matches,
+                        even if the consumer overrides Background on the element.
+                        Padding="4,0" gives horizontal breathing room.
+                    -->
+                    <Border
+                        Margin="12,0,0,0"
+                        Padding="4,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Background="{TemplateBinding Background}">
+                        <ContentPresenter
+                            Name="PART_HeaderPresenter"
+                            Content="{TemplateBinding Header}"
+                            ContentTemplate="{TemplateBinding HeaderTemplate}"
+                            Foreground="{DynamicResource PipboyPrimaryBrush}"
+                            FontSize="{DynamicResource PipboyFontSizeSmall}" />
+                    </Border>
+
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <!--
+        ── groupbox accent: primary-colour border + dark accent fill ────────────
+        Use for highlighted / active sections (active quest, selected loadout,
+        critical alert, etc.).  Both Background and BorderBrush are overridden
+        here; the template-bindings in the groupbox template pick them up
+        automatically — no template duplication required.
+
+        Usage:
+            <HeaderedContentControl Classes="groupbox accent" Header="ACTIVE QUEST">
+    -->
+    <Style Selector="HeaderedContentControl.groupbox.accent">
+        <Setter Property="Background" Value="{DynamicResource PipboyPrimaryDarkBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+    </Style>
+
+</Styles>
