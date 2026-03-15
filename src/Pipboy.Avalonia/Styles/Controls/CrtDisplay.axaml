@@ -4,13 +4,11 @@
     xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
 
     <!--
-        Default property values for CrtDisplay.
-        ScanlineColor and ScanBeamColor are bound to the Pip-Boy primary palette so that
-        theme changes automatically propagate to the CRT overlay.
-        All other defaults are left at their coded values.
+        Default style for CrtDisplay.
+        All property defaults are defined in C# code; no theme overrides needed
+        since black scanlines work universally across light and dark backgrounds.
+        To opt in to the green phosphor look, set ScanlineColor to PipboyPrimaryColor.
     -->
-    <Style Selector="pipboy|CrtDisplay">
-        <Setter Property="ScanlineColor" Value="{DynamicResource PipboyPrimaryColor}" />
-    </Style>
+    <Style Selector="pipboy|CrtDisplay" />
 
 </Styles>

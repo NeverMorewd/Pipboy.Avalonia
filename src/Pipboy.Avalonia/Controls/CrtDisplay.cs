@@ -38,7 +38,7 @@ public class CrtDisplay : Decorator
     /// The Pip-Boy theme automatically overrides this to <c>PipboyPrimaryColor</c>.</summary>
     public static readonly StyledProperty<Color> ScanlineColorProperty =
         AvaloniaProperty.Register<CrtDisplay, Color>(nameof(ScanlineColor),
-            defaultValue: Color.FromArgb(255, 0, 230, 60));
+            defaultValue: Colors.Black);
 
     /// <summary>Gets or sets the vertical distance between scanlines in logical pixels (minimum 1).</summary>
     public static readonly StyledProperty<double> ScanlineSpacingProperty =
@@ -50,7 +50,7 @@ public class CrtDisplay : Decorator
 
     /// <summary>Gets or sets the opacity of the scanlines (0–1).</summary>
     public static readonly StyledProperty<double> ScanlineOpacityProperty =
-        AvaloniaProperty.Register<CrtDisplay, double>(nameof(ScanlineOpacity), defaultValue: 0.12);
+        AvaloniaProperty.Register<CrtDisplay, double>(nameof(ScanlineOpacity), defaultValue: 0.3);
 
     /// <summary>Gets or sets whether the scanlines scroll upward (animated CRT refresh sweep).</summary>
     public static readonly StyledProperty<bool> EnableScanlineAnimationProperty =
@@ -58,7 +58,7 @@ public class CrtDisplay : Decorator
 
     /// <summary>Gets or sets the scroll speed of the animated scanlines in logical pixels per second.</summary>
     public static readonly StyledProperty<double> ScanlineAnimSpeedProperty =
-        AvaloniaProperty.Register<CrtDisplay, double>(nameof(ScanlineAnimSpeed), defaultValue: 40.0);
+        AvaloniaProperty.Register<CrtDisplay, double>(nameof(ScanlineAnimSpeed), defaultValue: 30.0);
 
     // ── Scan beam ─────────────────────────────────────────────────────────────────────
 
@@ -69,11 +69,11 @@ public class CrtDisplay : Decorator
     /// <summary>Gets or sets the colour (including alpha) of the scan beam glow.</summary>
     public static readonly StyledProperty<Color> ScanBeamColorProperty =
         AvaloniaProperty.Register<CrtDisplay, Color>(nameof(ScanBeamColor),
-            defaultValue: Color.FromArgb(30, 0, 230, 60));
+            defaultValue: Color.FromArgb(40, 0, 230, 60));
 
     /// <summary>Gets or sets the vertical height of the scan beam in logical pixels.</summary>
     public static readonly StyledProperty<double> ScanBeamHeightProperty =
-        AvaloniaProperty.Register<CrtDisplay, double>(nameof(ScanBeamHeight), defaultValue: 60.0);
+        AvaloniaProperty.Register<CrtDisplay, double>(nameof(ScanBeamHeight), defaultValue: 40.0);
 
     /// <summary>Gets or sets whether the scan beam uses a soft radial gradient (true) or a flat solid colour.</summary>
     public static readonly StyledProperty<bool> EnableScanBeamGradientProperty =
@@ -81,7 +81,7 @@ public class CrtDisplay : Decorator
 
     /// <summary>Gets or sets how fast the scan beam travels downward in logical pixels per second.</summary>
     public static readonly StyledProperty<double> ScanBeamSpeedProperty =
-        AvaloniaProperty.Register<CrtDisplay, double>(nameof(ScanBeamSpeed), defaultValue: 80.0);
+        AvaloniaProperty.Register<CrtDisplay, double>(nameof(ScanBeamSpeed), defaultValue: 60.0);
 
     // ── Noise ─────────────────────────────────────────────────────────────────────────
 
@@ -96,7 +96,7 @@ public class CrtDisplay : Decorator
 
     /// <summary>Gets or sets the opacity of the noise dots (0–1).</summary>
     public static readonly StyledProperty<double> NoiseOpacityProperty =
-        AvaloniaProperty.Register<CrtDisplay, double>(nameof(NoiseOpacity), defaultValue: 0.08);
+        AvaloniaProperty.Register<CrtDisplay, double>(nameof(NoiseOpacity), defaultValue: 0.05);
 
     /// <summary>Gets or sets the logical pixel size of each noise dot (minimum 1).
     /// Larger values produce a coarser, retro look.</summary>

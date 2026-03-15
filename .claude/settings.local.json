@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l /c/Users/wangd/source/repos/Pipboy.Avalonia/src/Pipboy.Avalonia/Styles/Controls/*.axaml)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(gh api:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet test:*)",
+      "Bash(git fetch:*)",
+      "mcp__filesystem__read_text_file",
+      "mcp__Desktop_Commander__list_directory",
+      "mcp__Desktop_Commander__read_file",
+      "Bash(dotnet script:*)",
+      "Bash(dotnet --version)",
+      "Bash(dotnet fsi:*)",
+      "Bash(/tmp/reflect2.fsx:*)",
+      "Bash(/tmp/reflect3.fsx:*)",
+      "Bash(/tmp/reflect4.fsx:*)",
+      "Bash(/tmp/reflect5.fsx:*)",
+      "Bash(/tmp/reflect6.fsx:*)",
+      "Bash(/tmp/reflect7.fsx:*)",
+      "Bash(/tmp/reflect8.fsx:*)",
+      "Bash(/tmp/reflect9.fsx:*)",
+      "Bash(/tmp/reflect10.fsx:*)",
+      "Bash(/tmp/reflect11.fsx:*)",
+      "Bash(xargs grep:*)",
+      "Bash(/tmp/reflect13.fsx:*)",
+      "Bash(/tmp/reflect14.fsx:*)",
+      "Bash(/tmp/reflect15.fsx:*)",
+      "Bash(/tmp/testspan.fsx:*)"
+    ]
+  }
+}
