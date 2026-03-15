@@ -382,6 +382,115 @@
                 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-pipboycountdown.png -->
             </StackPanel>
 
+            <!--  ══════════════════════════════════════════
+                  CRT DISPLAY
+                  Full animated CRT overlay: scanlines,
+                  scan beam, noise, vignette, flicker.
+                  Toggle each effect independently.
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="CRT DISPLAY" />
+                <TextBlock
+                    Classes="dim"
+                    Text="Animated CRT overlay — scanlines, scan beam, static noise, vignette, and flicker. Toggle effects below." />
+
+                <Grid ColumnDefinitions="340,24,Auto" HorizontalAlignment="Left">
+
+                    <!--  Col 0: live preview  -->
+                    <pipboy:CrtDisplay
+                        x:Name="DemoCrt"
+                        Grid.Column="0"
+                        Width="340"
+                        Height="200"
+                        HorizontalAlignment="Left"
+                        EnableFlicker="{Binding IsChecked, ElementName=FlickerToggle}"
+                        EnableNoise="{Binding IsChecked, ElementName=NoiseToggle}"
+                        EnableScanBeam="{Binding IsChecked, ElementName=BeamToggle}"
+                        EnableScanlines="{Binding IsChecked, ElementName=ScanlineToggle}"
+                        EnableVignette="{Binding IsChecked, ElementName=VignetteToggle}"
+                        ShowFps="{Binding IsChecked, ElementName=FpsToggle}">
+                        <Border Background="{DynamicResource PipboySurfaceBrush}" Padding="16">
+                            <StackPanel Spacing="6">
+                                <TextBlock Classes="h2" Text="ROBCO INDUSTRIES" />
+                                <TextBlock Classes="dim" Text="UNIFIED OPERATING SYSTEM" />
+                                <TextBlock Text="COPYRIGHT 2075 ROBCO INDUSTRIES" />
+                                <TextBlock Text="─────────────────────────────" />
+                                <TextBlock Text="&gt; INITIATING BOOT SEQUENCE..." />
+                                <TextBlock Text="&gt; LOADING SUBSYSTEMS......OK" />
+                                <TextBlock Text="&gt; WELCOME, USER_" />
+                            </StackPanel>
+                        </Border>
+                    </pipboy:CrtDisplay>
+
+                    <!--  Col 2: toggle panel  -->
+                    <StackPanel
+                        Grid.Column="2"
+                        Width="200"
+                        VerticalAlignment="Center"
+                        Spacing="4">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="EFFECTS" />
+                        <ToggleSwitch
+                            x:Name="ScanlineToggle"
+                            IsChecked="True"
+                            OffContent="SCANLINES: OFF"
+                            OnContent="SCANLINES: ON" />
+                        <ToggleSwitch
+                            x:Name="BeamToggle"
+                            IsChecked="True"
+                            OffContent="SCAN BEAM: OFF"
+                            OnContent="SCAN BEAM: ON" />
+                        <ToggleSwitch
+                            x:Name="NoiseToggle"
+                            IsChecked="True"
+                            OffContent="NOISE: OFF"
+                            OnContent="NOISE: ON" />
+                        <ToggleSwitch
+                            x:Name="VignetteToggle"
+                            IsChecked="True"
+                            OffContent="VIGNETTE: OFF"
+                            OnContent="VIGNETTE: ON" />
+                        <ToggleSwitch
+                            x:Name="FlickerToggle"
+                            IsChecked="False"
+                            OffContent="FLICKER: OFF"
+                            OnContent="FLICKER: ON" />
+                        <ToggleSwitch
+                            x:Name="FpsToggle"
+                            IsChecked="False"
+                            OffContent="FPS OVERLAY: OFF"
+                            OnContent="FPS OVERLAY: ON" />
+                    </StackPanel>
+
+                </Grid>
+
+                <!--  Heavy noise variant for comparison  -->
+                <TextBlock
+                    Margin="0,8,0,0"
+                    Classes="dim"
+                    FontSize="10"
+                    Text="HEAVY NOISE VARIANT  (NoiseDensity=0.06, NoisePixelSize=2)" />
+                <pipboy:CrtDisplay
+                    Width="340"
+                    Height="80"
+                    HorizontalAlignment="Left"
+                    EnableScanBeam="False"
+                    EnableVignette="False"
+                    NoiseDensity="0.06"
+                    NoisePixelSize="2"
+                    ScanlineOpacity="0.18"
+                    ScanlineSpacing="4">
+                    <Border Background="{DynamicResource PipboySurfaceBrush}" Padding="12">
+                        <TextBlock Classes="dim" Text="SIGNAL DEGRADED — INTERFERENCE DETECTED" />
+                    </Border>
+                </pipboy:CrtDisplay>
+
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-crtdisplay.png -->
+            </StackPanel>
+
         </StackPanel>
     </ScrollViewer>
 </UserControl>

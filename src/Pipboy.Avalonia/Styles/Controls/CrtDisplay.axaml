@@ -1,0 +1,16 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+
+    <!--
+        Default property values for CrtDisplay.
+        ScanlineColor and ScanBeamColor are bound to the Pip-Boy primary palette so that
+        theme changes automatically propagate to the CRT overlay.
+        All other defaults are left at their coded values.
+    -->
+    <Style Selector="pipboy|CrtDisplay">
+        <Setter Property="ScanlineColor" Value="{DynamicResource PipboyPrimaryColor}" />
+    </Style>
+
+</Styles>
