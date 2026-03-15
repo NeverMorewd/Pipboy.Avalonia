@@ -213,6 +213,15 @@
             <pages:WindowPage />
         </TabItem>
 
+        <!--  PIPBOY CONTROLS  -->
+        <TabItem Header="PIPBOY CONTROLS" Theme="{StaticResource NavCategory}" />
+        <TabItem Header="Pipboy Controls" Theme="{StaticResource NavTabItem}">
+            <pages:PipboyControlsPage />
+        </TabItem>
+        <TabItem Header="CRT Display" Theme="{StaticResource NavTabItem}">
+            <pages:CrtDisplayPage />
+        </TabItem>
+
         <!--  THEME  -->
         <TabItem Header="THEME" Theme="{StaticResource NavCategory}" />
         <TabItem Header="Colors" Theme="{StaticResource NavTabItem}">

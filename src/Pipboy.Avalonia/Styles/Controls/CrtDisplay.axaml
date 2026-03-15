@@ -1,0 +1,14 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+
+    <!--
+        Default style for CrtDisplay.
+        All property defaults are defined in C# code; no theme overrides needed
+        since black scanlines work universally across light and dark backgrounds.
+        To opt in to the green phosphor look, set ScanlineColor to PipboyPrimaryColor.
+    -->
+    <Style Selector="pipboy|CrtDisplay" />
+
+</Styles>

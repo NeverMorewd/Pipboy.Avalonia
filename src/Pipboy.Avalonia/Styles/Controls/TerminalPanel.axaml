@@ -1,0 +1,67 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    <Styles.Resources>
+
+        <ControlTheme x:Key="{x:Type pipboy:TerminalPanel}" TargetType="pipboy:TerminalPanel">
+            <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="16,12" />
+            <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="pipboy:TerminalPanel">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <Grid Margin="{TemplateBinding Padding}" RowDefinitions="Auto,*">
+
+                            <!--  Scanline overlay over everything  -->
+                            <pipboy:ScanlineOverlay
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                LineOpacity="0.06"
+                                LineSpacing="3"
+                                IsHitTestVisible="False" />
+
+                            <!--  Normal content (no typewriter)  -->
+                            <ContentPresenter
+                                Name="PART_ContentPresenter"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Foreground="{TemplateBinding Foreground}"
+                                IsVisible="{TemplateBinding TypewriterEffect, Converter={x:Static BoolConverters.Not}}" />
+
+                            <!--  Typewriter text output  -->
+                            <TextBlock
+                                Name="PART_TypewriterText"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Foreground="{TemplateBinding Foreground}"
+                                IsVisible="{TemplateBinding TypewriterEffect}"
+                                Text="{TemplateBinding DisplayedText}"
+                                TextWrapping="Wrap" />
+
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
+
+    </Styles.Resources>
+</Styles>

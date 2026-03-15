@@ -1,0 +1,228 @@
+<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.CrtDisplayPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
+    x:CompileBindings="False">
+
+    <Grid ColumnDefinitions="*,1,260">
+
+        <!--  ── Left: full-area CRT display  ── -->
+        <pipboy:CrtDisplay
+            x:Name="MainCrt"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            EnableFlicker="{Binding IsChecked, ElementName=FlickerToggle}"
+            EnableNoise="{Binding IsChecked, ElementName=NoiseToggle}"
+            EnableScanBeam="{Binding IsChecked, ElementName=BeamToggle}"
+            EnableScanlineAnimation="{Binding IsChecked, ElementName=AnimToggle}"
+            EnableScanlines="{Binding IsChecked, ElementName=ScanlineToggle}"
+            EnableVignette="{Binding IsChecked, ElementName=VignetteToggle}"
+            ShowFps="{Binding IsChecked, ElementName=FpsToggle}">
+
+            <Border Background="{DynamicResource PipboySurfaceBrush}">
+                <ScrollViewer Padding="24,20">
+                    <StackPanel Spacing="6">
+
+                        <TextBlock Classes="h2" Text="ROBCO INDUSTRIES (TM)" />
+                        <TextBlock Classes="dim" Text="UNIFIED OPERATING SYSTEM  COPYRIGHT 2075" />
+                        <TextBlock Text="──────────────────────────────────────────────────" />
+                        <TextBlock Text="" />
+                        <TextBlock Text="&gt; INITIATING VAULT-TEC LINK PROTOCOL..." />
+                        <TextBlock Text="&gt; VERIFYING ENCRYPTION KEYS..........OK" />
+                        <TextBlock Text="&gt; HANDSHAKE SEQUENCE COMPLETE" />
+                        <TextBlock Text="&gt; VAULT 111 MAINFRAME ONLINE" />
+                        <TextBlock Text="" />
+                        <TextBlock Classes="accent" Text="OVERSEER TERMINAL — CLASSIFIED" />
+                        <TextBlock Text="──────────────────────────────────────────────────" />
+                        <TextBlock Text="" />
+
+                        <pipboy:RatedAttribute Label="STRENGTH"     Value="8" />
+                        <pipboy:RatedAttribute Label="PERCEPTION"   Value="5" />
+                        <pipboy:RatedAttribute Label="ENDURANCE"    Value="7" />
+                        <pipboy:RatedAttribute Label="CHARISMA"     Value="4" />
+                        <pipboy:RatedAttribute Label="INTELLIGENCE" Value="9" />
+                        <pipboy:RatedAttribute Label="AGILITY"      Value="6" />
+                        <pipboy:RatedAttribute Label="LUCK"         Value="3" />
+
+                        <TextBlock Text="" />
+                        <TextBlock Text="──────────────────────────────────────────────────" />
+
+                        <pipboy:SegmentedBar
+                            Label="HP"
+                            Maximum="100"
+                            SegmentCount="20"
+                            ShowProgressBar="True"
+                            Value="72" />
+                        <pipboy:SegmentedBar
+                            Label="AP"
+                            Maximum="100"
+                            SegmentCount="20"
+                            ShowProgressBar="True"
+                            Value="45" />
+                        <pipboy:SegmentedBar
+                            Label="RAD"
+                            Maximum="100"
+                            SegmentCount="20"
+                            ShowProgressBar="True"
+                            Value="18" />
+
+                        <TextBlock Text="" />
+                        <TextBlock Text="──────────────────────────────────────────────────" />
+                        <TextBlock Text="&gt; ACTIVE QUESTS:" />
+                        <TextBlock Classes="accent" Text="  [!] THE NUCLEAR OPTION" />
+                        <TextBlock Classes="dim" Text="      Reach the Institute relay room." />
+                        <TextBlock Classes="accent" Text="  [!] TRADECRAFT" />
+                        <TextBlock Classes="dim" Text="      Meet Deacon at the Old North Church." />
+                        <TextBlock Text="" />
+                        <TextBlock Classes="dim" Text="  [ ] DANGEROUS MINDS" />
+                        <TextBlock Classes="dim" Text="  [ ] THE GLOWING SEA" />
+                        <TextBlock Text="" />
+                        <TextBlock Text="──────────────────────────────────────────────────" />
+                        <pipboy:BlinkText IsBlinking="True">
+                            <TextBlock Classes="accent" Text="&gt; AWAITING INPUT_" />
+                        </pipboy:BlinkText>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+        </pipboy:CrtDisplay>
+
+        <!--  ── Divider  ── -->
+        <Rectangle
+            Grid.Column="1"
+            Fill="{DynamicResource PipboyBorderBrush}" />
+
+        <!--  ── Right: control panel  ── -->
+        <Border
+            Grid.Column="2"
+            Background="{DynamicResource PipboySurfaceBrush}">
+            <ScrollViewer>
+                <StackPanel Margin="16" Spacing="10">
+
+                    <!--  Effect toggles  -->
+                    <TextBlock
+                        Margin="0,0,0,2"
+                        Classes="dim"
+                        FontSize="10"
+                        Text="EFFECTS" />
+                    <ToggleSwitch
+                        x:Name="ScanlineToggle"
+                        IsChecked="True"
+                        OffContent="SCANLINES: OFF"
+                        OnContent="SCANLINES: ON" />
+                    <ToggleSwitch
+                        x:Name="AnimToggle"
+                        IsChecked="True"
+                        OffContent="SCANLINE SCROLL: OFF"
+                        OnContent="SCANLINE SCROLL: ON" />
+                    <ToggleSwitch
+                        x:Name="BeamToggle"
+                        IsChecked="True"
+                        OffContent="SCAN BEAM: OFF"
+                        OnContent="SCAN BEAM: ON" />
+                    <ToggleSwitch
+                        x:Name="NoiseToggle"
+                        IsChecked="True"
+                        OffContent="NOISE: OFF"
+                        OnContent="NOISE: ON" />
+                    <ToggleSwitch
+                        x:Name="VignetteToggle"
+                        IsChecked="True"
+                        OffContent="VIGNETTE: OFF"
+                        OnContent="VIGNETTE: ON" />
+                    <ToggleSwitch
+                        x:Name="FlickerToggle"
+                        IsChecked="False"
+                        OffContent="FLICKER: OFF"
+                        OnContent="FLICKER: ON" />
+                    <ToggleSwitch
+                        x:Name="FpsToggle"
+                        IsChecked="False"
+                        OffContent="FPS OVERLAY: OFF"
+                        OnContent="FPS OVERLAY: ON" />
+
+                    <!--  Sliders  -->
+                    <TextBlock
+                        Margin="0,8,0,2"
+                        Classes="dim"
+                        FontSize="10"
+                        Text="PARAMETERS" />
+
+                    <TextBlock Classes="dim" FontSize="10" Text="SCANLINE OPACITY" />
+                    <Slider
+                        x:Name="ScanlineOpacitySlider"
+                        Maximum="0.6"
+                        Minimum="0"
+                        TickFrequency="0.05"
+                        Value="{Binding ScanlineOpacity, ElementName=MainCrt, Mode=TwoWay}" />
+
+                    <TextBlock Classes="dim" FontSize="10" Text="SCANLINE SPACING" />
+                    <Slider
+                        x:Name="ScanlineSpacingSlider"
+                        Maximum="8"
+                        Minimum="2"
+                        TickFrequency="1"
+                        Value="{Binding ScanlineSpacing, ElementName=MainCrt, Mode=TwoWay}" />
+
+                    <TextBlock Classes="dim" FontSize="10" Text="NOISE OPACITY" />
+                    <Slider
+                        Maximum="0.3"
+                        Minimum="0"
+                        TickFrequency="0.01"
+                        Value="{Binding NoiseOpacity, ElementName=MainCrt, Mode=TwoWay}" />
+
+                    <TextBlock Classes="dim" FontSize="10" Text="NOISE DENSITY" />
+                    <Slider
+                        Maximum="0.1"
+                        Minimum="0"
+                        TickFrequency="0.005"
+                        Value="{Binding NoiseDensity, ElementName=MainCrt, Mode=TwoWay}" />
+
+                    <TextBlock Classes="dim" FontSize="10" Text="VIGNETTE INTENSITY" />
+                    <Slider
+                        Maximum="0.8"
+                        Minimum="0"
+                        TickFrequency="0.05"
+                        Value="{Binding VignetteIntensity, ElementName=MainCrt, Mode=TwoWay}" />
+
+                    <TextBlock Classes="dim" FontSize="10" Text="SCAN BEAM HEIGHT" />
+                    <Slider
+                        Maximum="120"
+                        Minimum="10"
+                        TickFrequency="10"
+                        Value="{Binding ScanBeamHeight, ElementName=MainCrt, Mode=TwoWay}" />
+
+                    <!--  Presets  -->
+                    <TextBlock
+                        Margin="0,8,0,2"
+                        Classes="dim"
+                        FontSize="10"
+                        Text="PRESETS" />
+
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Click="OnPresetClassic"
+                        Content="CLASSIC CRT" />
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Click="OnPresetPhosphor"
+                        Content="PHOSPHOR TERMINAL" />
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Click="OnPresetHeavyStatic"
+                        Content="HEAVY STATIC" />
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Click="OnPresetMinimal"
+                        Content="MINIMAL" />
+
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+    </Grid>
+
+</UserControl>

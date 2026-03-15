@@ -1,0 +1,65 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    <Styles.Resources>
+
+        <ControlTheme x:Key="{x:Type pipboy:RatedAttribute}" TargetType="pipboy:RatedAttribute">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="pipboy:RatedAttribute">
+                    <Grid ColumnDefinitions="120,*,Auto">
+
+                        <!--  Attribute name  -->
+                        <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PipboyTextDimBrush}"
+                            Text="{TemplateBinding Label}" />
+
+                        <!--  Dot row  -->
+                        <ItemsControl
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            ItemsSource="{TemplateBinding Dots}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="3" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="pipboy:DotItem">
+                                    <Panel Width="10" Height="10">
+                                        <Border
+                                            Background="{DynamicResource PipboyPrimaryBrush}"
+                                            IsVisible="{Binding IsFilled}" />
+                                        <Border
+                                            Background="Transparent"
+                                            BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                            BorderThickness="1"
+                                            IsVisible="{Binding !IsFilled}" />
+                                    </Panel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!--  Numeric value  -->
+                        <TextBlock
+                            Grid.Column="2"
+                            Width="24"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PipboyTextBrush}"
+                            Text="{TemplateBinding Value}"
+                            TextAlignment="Right" />
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
+
+    </Styles.Resources>
+</Styles>

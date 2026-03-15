@@ -35,6 +35,7 @@
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DateTimePicker.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/FlyoutPresenter.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Miscellaneous.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/HeaderedContentControl.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Window.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/EmbeddableControlRoot.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RepeatButton.axaml" />
@@ -43,5 +44,16 @@
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DataValidationErrors.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Icons.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Notification.axaml" />
+
+    <!--  Pipboy custom controls  -->
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SegmentedBar.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RatedAttribute.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/BlinkText.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ScanlineOverlay.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/BracketHighlight.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/PipboyTabStrip.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TerminalPanel.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/PipboyCountdown.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/CrtDisplay.axaml" />
 
 </Styles>
