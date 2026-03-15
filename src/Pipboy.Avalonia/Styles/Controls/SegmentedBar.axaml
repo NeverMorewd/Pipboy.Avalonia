@@ -1,0 +1,63 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    <Styles.Resources>
+
+        <ControlTheme x:Key="{x:Type pipboy:SegmentedBar}" TargetType="pipboy:SegmentedBar">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="pipboy:SegmentedBar">
+                    <StackPanel Spacing="3">
+
+                        <!--  Optional label row  -->
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock
+                                Grid.Column="0"
+                                Foreground="{DynamicResource PipboyTextDimBrush}"
+                                Text="{TemplateBinding Label}"
+                                IsVisible="{TemplateBinding Label, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Foreground="{DynamicResource PipboyTextBrush}"
+                                IsVisible="{TemplateBinding Label, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <Run Text="{TemplateBinding Value}" />
+                                <Run Foreground="{DynamicResource PipboyTextDimBrush}" Text="/" />
+                                <Run Foreground="{DynamicResource PipboyTextDimBrush}" Text="{TemplateBinding Maximum}" />
+                            </TextBlock>
+                        </Grid>
+
+                        <!--  Segment bar  -->
+                        <ItemsControl ItemsSource="{TemplateBinding Segments}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="2" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="pipboy:SegmentItem">
+                                    <Panel Width="14" Height="16">
+                                        <Border
+                                            Background="{DynamicResource PipboyPrimaryBrush}"
+                                            IsVisible="{Binding IsFilled}" />
+                                        <Border
+                                            Background="{DynamicResource PipboySurfaceBrush}"
+                                            BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                            BorderThickness="1"
+                                            IsVisible="{Binding !IsFilled}" />
+                                    </Panel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
+
+    </Styles.Resources>
+</Styles>

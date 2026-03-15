@@ -1,0 +1,130 @@
+<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.PipboyControlsPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    <ScrollViewer>
+        <StackPanel
+            Margin="24"
+            HorizontalAlignment="Left"
+            Spacing="32">
+
+            <!--  SegmentedBar  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="SEGMENTED BAR" />
+                <TextBlock Classes="dim" Text="Discrete segment status bars — HP / AP / RAD style." />
+                <StackPanel Spacing="6" Width="320" HorizontalAlignment="Left">
+                    <pipboy:SegmentedBar Label="HP"  Value="78"  Maximum="100" SegmentCount="20" />
+                    <pipboy:SegmentedBar Label="AP"  Value="45"  Maximum="100" SegmentCount="20" />
+                    <pipboy:SegmentedBar Label="RAD" Value="23"  Maximum="100" SegmentCount="20" />
+                    <pipboy:SegmentedBar             Value="100" Maximum="100" SegmentCount="10" />
+                    <pipboy:SegmentedBar             Value="0"   Maximum="100" SegmentCount="10" />
+                </StackPanel>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-segmentedbar.png -->
+            </StackPanel>
+
+            <!--  RatedAttribute  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="RATED ATTRIBUTE" />
+                <TextBlock Classes="dim" Text="S.P.E.C.I.A.L. dot-based attribute display." />
+                <StackPanel Spacing="4" Width="320" HorizontalAlignment="Left">
+                    <pipboy:RatedAttribute Label="STRENGTH"    Value="8"  />
+                    <pipboy:RatedAttribute Label="PERCEPTION"  Value="5"  />
+                    <pipboy:RatedAttribute Label="ENDURANCE"   Value="7"  />
+                    <pipboy:RatedAttribute Label="CHARISMA"    Value="4"  />
+                    <pipboy:RatedAttribute Label="INTELLIGENCE" Value="9" />
+                    <pipboy:RatedAttribute Label="AGILITY"     Value="6"  />
+                    <pipboy:RatedAttribute Label="LUCK"        Value="3"  />
+                </StackPanel>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-ratedattribute.png -->
+            </StackPanel>
+
+            <!--  BlinkText  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="BLINK TEXT" />
+                <TextBlock Classes="dim" Text="Content that blinks at ~530 ms intervals (Fallout cursor rate)." />
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <pipboy:BlinkText IsBlinking="True">
+                        <TextBlock Classes="accent" Text="PRESS ENTER TO CONTINUE" />
+                    </pipboy:BlinkText>
+                    <pipboy:BlinkText IsBlinking="False">
+                        <TextBlock Classes="dim" Text="(not blinking)" />
+                    </pipboy:BlinkText>
+                </StackPanel>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-blinktext.png -->
+            </StackPanel>
+
+            <!--  ScanlineOverlay  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="SCANLINE OVERLAY" />
+                <TextBlock Classes="dim" Text="CRT monitor effect — wraps any content with horizontal scanlines." />
+                <pipboy:ScanlineOverlay Width="320" HorizontalAlignment="Left">
+                    <Border
+                        Background="{DynamicResource PipboySurfaceBrush}"
+                        BorderBrush="{DynamicResource PipboyBorderBrush}"
+                        BorderThickness="1"
+                        Padding="16">
+                        <StackPanel Spacing="4">
+                            <TextBlock Classes="h2" Text="ROBCO INDUSTRIES" />
+                            <TextBlock Classes="dim" Text="UNIFIED OPERATING SYSTEM" />
+                            <TextBlock Text="COPYRIGHT 2075 ROBCO INDUSTRIES" />
+                        </StackPanel>
+                    </Border>
+                </pipboy:ScanlineOverlay>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-scanlineoverlay.png -->
+            </StackPanel>
+
+            <!--  BracketHighlight  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="BRACKET HIGHLIGHT" />
+                <TextBlock Classes="dim" Text="Fallout-style &gt; ... &lt; selection brackets. Hover or set IsSelected." />
+                <StackPanel Spacing="4" Width="240" HorizontalAlignment="Left">
+                    <pipboy:BracketHighlight IsSelected="True">
+                        <TextBlock Text="INVENTORY" />
+                    </pipboy:BracketHighlight>
+                    <pipboy:BracketHighlight>
+                        <TextBlock Text="STATUS" />
+                    </pipboy:BracketHighlight>
+                    <pipboy:BracketHighlight>
+                        <TextBlock Text="MAP" />
+                    </pipboy:BracketHighlight>
+                    <pipboy:BracketHighlight IsSelected="False">
+                        <TextBlock Text="RADIO" />
+                    </pipboy:BracketHighlight>
+                </StackPanel>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-brackethighlight.png -->
+            </StackPanel>
+
+            <!--  PipboyTabStrip  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="PIPBOY TAB STRIP" />
+                <TextBlock Classes="dim" Text="Horizontal tab navigation — D-Pad Left/Right to navigate." />
+                <pipboy:PipboyTabStrip Width="400" HorizontalAlignment="Left" SelectedIndex="0">
+                    <pipboy:PipboyTabStripItem Content="STAT" />
+                    <pipboy:PipboyTabStripItem Content="INV" />
+                    <pipboy:PipboyTabStripItem Content="DATA" />
+                    <pipboy:PipboyTabStripItem Content="MAP" />
+                    <pipboy:PipboyTabStripItem Content="RADIO" />
+                </pipboy:PipboyTabStrip>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-pipboytabstrip.png -->
+            </StackPanel>
+
+            <!--  TerminalPanel  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="TERMINAL PANEL" />
+                <TextBlock Classes="dim" Text="CRT terminal container. Enable TypewriterEffect for character-by-character reveal." />
+                <StackPanel Spacing="12" Width="420" HorizontalAlignment="Left">
+                    <pipboy:TerminalPanel
+                        TypewriterEffect="False"
+                        Content="ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL&#x0a;ENTER PASSWORD NOW&#x0a;&#x0a;> _" />
+                    <pipboy:TerminalPanel
+                        TypewriterEffect="True"
+                        TypewriterDelayMs="40"
+                        Content="ACCESSING VAULT-TEC MAINFRAME...&#x0a;CONNECTION ESTABLISHED.&#x0a;WELCOME, OVERSEER." />
+                </StackPanel>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-terminalpanel.png -->
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

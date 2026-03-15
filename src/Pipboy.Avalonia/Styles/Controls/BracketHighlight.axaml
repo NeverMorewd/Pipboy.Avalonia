@@ -1,0 +1,81 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    <Styles.Resources>
+
+        <ControlTheme x:Key="{x:Type pipboy:BracketHighlight}" TargetType="pipboy:BracketHighlight">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="pipboy:BracketHighlight">
+                    <Grid ColumnDefinitions="14,*,14">
+
+                        <TextBlock
+                            Name="PART_BracketLeft"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PipboyPrimaryBrush}"
+                            Opacity="0"
+                            Text="&gt;" />
+
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Grid.Column="1"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                        <TextBlock
+                            Name="PART_BracketRight"
+                            Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource PipboyPrimaryBrush}"
+                            Opacity="0"
+                            Text="&lt;" />
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+
+            <!--  Show brackets when selected  -->
+            <Style Selector="^:selected /template/ TextBlock#PART_BracketLeft,
+                             ^:selected /template/ TextBlock#PART_BracketRight">
+                <Style.Animations>
+                    <Animation Duration="0:0:0.12" FillMode="Forward">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="Opacity" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="Opacity" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+
+            <!--  Show brackets on hover too  -->
+            <Style Selector="^:pointerover /template/ TextBlock#PART_BracketLeft,
+                             ^:pointerover /template/ TextBlock#PART_BracketRight">
+                <Style.Animations>
+                    <Animation Duration="0:0:0.12" FillMode="Forward">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="Opacity" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="Opacity" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+
+        </ControlTheme>
+
+    </Styles.Resources>
+</Styles>

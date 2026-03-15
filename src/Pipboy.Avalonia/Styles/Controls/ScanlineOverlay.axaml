@@ -1,0 +1,12 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+
+    <!--  Default property values for ScanlineOverlay (Decorator — no ControlTheme needed)  -->
+    <Style Selector="pipboy|ScanlineOverlay">
+        <Setter Property="LineSpacing" Value="4" />
+        <Setter Property="LineOpacity" Value="0.08" />
+    </Style>
+
+</Styles>

@@ -134,6 +134,97 @@ Apply on `Border`:
 
 ---
 
+## Custom Controls
+
+Pipboy.Avalonia ships purpose-built controls that go beyond Avalonia's built-in set.
+
+### SegmentedBar
+
+Displays a value as discrete rectangular segments — the iconic Fallout HP/AP/RAD bar style.
+
+```xml
+<pipboy:SegmentedBar Label="HP" Value="78" Maximum="100" SegmentCount="20" />
+```
+
+<!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-segmentedbar.png -->
+
+### RatedAttribute
+
+Shows a named attribute with filled/empty dot indicators — S.P.E.C.I.A.L. style.
+
+```xml
+<pipboy:RatedAttribute Label="STRENGTH" Value="8" Maximum="10" />
+```
+
+<!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-ratedattribute.png -->
+
+### BlinkText
+
+Wraps any content with a configurable blink animation (pure XAML — WASM safe).
+
+```xml
+<pipboy:BlinkText IsBlinking="True">
+    <TextBlock Classes="accent" Text="PRESS ENTER TO CONTINUE" />
+</pipboy:BlinkText>
+```
+
+<!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-blinktext.png -->
+
+### ScanlineOverlay
+
+A `Decorator` that draws repeating CRT-style horizontal scanlines over its child using `DrawingContext` (no unsafe code, WASM safe).
+
+```xml
+<pipboy:ScanlineOverlay LineSpacing="4" LineOpacity="0.08">
+    <Border Classes="pipboy-panel">
+        <TextBlock Text="ROBCO INDUSTRIES" />
+    </Border>
+</pipboy:ScanlineOverlay>
+```
+
+<!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-scanlineoverlay.png -->
+
+### BracketHighlight
+
+Wraps content with animated `> ... <` bracket indicators on hover or when `IsSelected=true`.
+
+```xml
+<pipboy:BracketHighlight IsSelected="True">
+    <TextBlock Text="INVENTORY" />
+</pipboy:BracketHighlight>
+```
+
+<!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-brackethighlight.png -->
+
+### PipboyTabStrip
+
+Horizontal tab-strip navigation with bracket indicators and D-Pad Left/Right keyboard support for gamepad use.
+
+```xml
+<pipboy:PipboyTabStrip SelectedIndex="0">
+    <pipboy:PipboyTabStripItem Content="STAT" />
+    <pipboy:PipboyTabStripItem Content="INV" />
+    <pipboy:PipboyTabStripItem Content="DATA" />
+    <pipboy:PipboyTabStripItem Content="MAP" />
+    <pipboy:PipboyTabStripItem Content="RADIO" />
+</pipboy:PipboyTabStrip>
+```
+
+<!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-pipboytabstrip.png -->
+
+### TerminalPanel
+
+A container styled as a Fallout terminal screen. Supports `TypewriterEffect` for character-by-character text reveal using `DispatcherTimer` (WASM safe).
+
+```xml
+<pipboy:TerminalPanel TypewriterEffect="True" TypewriterDelayMs="40"
+    Content="ACCESSING VAULT-TEC MAINFRAME...&#x0a;CONNECTION ESTABLISHED." />
+```
+
+<!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-terminalpanel.png -->
+
+---
+
 ## Design Tokens
 
 All tokens are available as `{DynamicResource}` in XAML.
