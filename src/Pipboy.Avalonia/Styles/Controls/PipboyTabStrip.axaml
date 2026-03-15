@@ -1,0 +1,110 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    <Styles.Resources>
+
+        <!--  Individual tab item  -->
+        <ControlTheme x:Key="{x:Type pipboy:PipboyTabStripItem}" TargetType="pipboy:PipboyTabStripItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
+            <Setter Property="Padding" Value="14,8" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="pipboy:PipboyTabStripItem">
+                    <Border
+                        Name="PART_Root"
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="Transparent"
+                        BorderThickness="0,0,0,2">
+                        <Grid ColumnDefinitions="14,*,14">
+
+                            <TextBlock
+                                Name="PART_BracketLeft"
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource PipboyPrimaryBrush}"
+                                Opacity="0"
+                                Text="[" />
+
+                            <ContentPresenter
+                                Name="PART_ContentPresenter"
+                                Grid.Column="1"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="{TemplateBinding Content}"
+                                Foreground="{TemplateBinding Foreground}" />
+
+                            <TextBlock
+                                Name="PART_BracketRight"
+                                Grid.Column="2"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource PipboyPrimaryBrush}"
+                                Opacity="0"
+                                Text="]" />
+
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <!--  Hover  -->
+            <Style Selector="^:pointerover /template/ Border#PART_Root">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+            <Style Selector="^:pointerover">
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            </Style>
+
+            <!--  Selected: bottom border + brackets fade in  -->
+            <Style Selector="^:selected /template/ Border#PART_Root">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryDarkBrush}" />
+            </Style>
+            <Style Selector="^:selected">
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            </Style>
+            <Style Selector="^:selected /template/ TextBlock#PART_BracketLeft,
+                             ^:selected /template/ TextBlock#PART_BracketRight">
+                <Style.Animations>
+                    <Animation Duration="0:0:0.12" FillMode="Forward">
+                        <KeyFrame Cue="0%"><Setter Property="Opacity" Value="0" /></KeyFrame>
+                        <KeyFrame Cue="100%"><Setter Property="Opacity" Value="1" /></KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
+
+        <!--  Tab strip container  -->
+        <ControlTheme x:Key="{x:Type pipboy:PipboyTabStrip}" TargetType="pipboy:PipboyTabStrip">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="ItemsPanel">
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter>
+            <Setter Property="Template">
+                <ControlTemplate TargetType="pipboy:PipboyTabStrip">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                            <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+    </Styles.Resources>
+</Styles>

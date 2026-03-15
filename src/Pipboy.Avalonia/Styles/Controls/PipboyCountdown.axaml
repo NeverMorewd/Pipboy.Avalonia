@@ -1,0 +1,119 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    <Styles.Resources>
+
+        <ControlTheme x:Key="{x:Type pipboy:PipboyCountdown}" TargetType="pipboy:PipboyCountdown">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="12,10" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="pipboy:PipboyCountdown">
+                    <Border
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel Spacing="6">
+
+                            <!--  Optional label  -->
+                            <TextBlock
+                                Foreground="{DynamicResource PipboyTextDimBrush}"
+                                IsVisible="{TemplateBinding Label,
+                                                            Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                Text="{TemplateBinding Label}" />
+
+                            <!--  Time display — large, monospaced  -->
+                            <Border Name="PART_TimeRoot">
+                                <TextBlock
+                                    Name="PART_TimeText"
+                                    FontSize="32"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource PipboyPrimaryBrush}"
+                                    Text="{TemplateBinding DisplayTime}" />
+                            </Border>
+
+                            <!--
+                                Remaining-time bar.
+                                Full = time remaining; Empty = expired.
+                                ElapsedFraction drives a reverse-fill: we display
+                                (1 - ElapsedFraction) as progress on a 0–1 scale.
+                                Easiest approach: use Maximum=1, Value = remaining fraction
+                                derived inline. Since TemplateBinding cannot do arithmetic we
+                                expose a RemainingTime / Duration ratio indirectly:
+                                Value  = Duration.TotalSeconds - ElapsedFraction * Duration.TotalSeconds
+                                  … which simplifies to RemainingTime.TotalSeconds.
+                                The ProgressBar uses the inherited ProgressBar.slim class style
+                                from the main theme and is bound to the raw remaining seconds.
+                            -->
+                            <Grid RowDefinitions="Auto,2,Auto">
+                                <!--  Remaining label  -->
+                                <StackPanel
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Right"
+                                    Orientation="Horizontal"
+                                    Spacing="4">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Classes="dim"
+                                        FontSize="10"
+                                        Text="REMAINING" />
+                                </StackPanel>
+                                <!--  Slim progress bar — full when time remains, empty when done  -->
+                                <ProgressBar
+                                    Name="PART_RemainingBar"
+                                    Grid.Row="2"
+                                    Classes="slim"
+                                    Maximum="{TemplateBinding Duration,
+                                                              Converter={x:Static pipboy:TimeSpanToSecondsConverter.Instance}}"
+                                    Value="{TemplateBinding RemainingTime,
+                                                            Converter={x:Static pipboy:TimeSpanToSecondsConverter.Instance}}" />
+                            </Grid>
+
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <!--  Running: accent border to indicate active countdown  -->
+            <Style Selector="^:running">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+
+            <!--  Completed: blink the time display  -->
+            <Style Selector="^:completed /template/ Border#PART_TimeRoot">
+                <Style.Animations>
+                    <Animation
+                        IterationCount="INFINITE"
+                        Duration="0:0:1.06">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="Opacity" Value="1" />
+                        </KeyFrame>
+                        <KeyFrame Cue="49%">
+                            <Setter Property="Opacity" Value="1" />
+                        </KeyFrame>
+                        <KeyFrame Cue="50%">
+                            <Setter Property="Opacity" Value="0" />
+                        </KeyFrame>
+                        <KeyFrame Cue="99%">
+                            <Setter Property="Opacity" Value="0" />
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+
+            <!--  Completed: progress bar turns dim  -->
+            <Style Selector="^:completed /template/ ProgressBar#PART_RemainingBar">
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
+            </Style>
+
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+        </ControlTheme>
+
+    </Styles.Resources>
+</Styles>
