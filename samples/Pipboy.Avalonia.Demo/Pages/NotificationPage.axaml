@@ -1,196 +1,236 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.NotificationPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  Static notification cards  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="NOTIFICATION TYPES" />
-                <TextBlock Classes="dim" Text="Four semantic variants distinguished by icon. All share the same monochromatic color." />
-                <StackPanel
-                    Width="360"
-                    HorizontalAlignment="Left"
-                    Spacing="8">
-
-                    <!--  Shared card style: same border/background for all types  -->
-
-                    <!--  Information — circle "i" icon (PipboyIconInformation)  -->
-                    <Border
-                        Background="{DynamicResource PipboySurfaceBrush}"
-                        BorderBrush="{DynamicResource PipboyBorderBrush}"
-                        BorderThickness="1">
-                        <DockPanel>
-                            <Border
-                                Width="3"
-                                Background="{DynamicResource PipboyBorderBrush}"
-                                DockPanel.Dock="Left" />
-                            <DockPanel Margin="10,10,10,10">
-                                <Path
-                                    Width="16"
-                                    Height="16"
-                                    Margin="0,2,10,0"
-                                    VerticalAlignment="Top"
-                                    Data="{DynamicResource PipboyIconInformation}"
-                                    DockPanel.Dock="Left"
-                                    Fill="Transparent"
-                                    Stretch="Uniform"
-                                    Stroke="{DynamicResource PipboyTextBrush}"
-                                    StrokeJoin="Miter"
-                                    StrokeLineCap="Square"
-                                    StrokeThickness="1.5" />
-                                <StackPanel Spacing="2">
-                                    <TextBlock FontWeight="Bold" Text="SYSTEM INFO" />
-                                    <TextBlock
-                                        Classes="dim"
-                                        Text="Pip-Boy OS v4.2.1 loaded. All subsystems nominal."
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-                            </DockPanel>
-                        </DockPanel>
-                    </Border>
-
-                    <!--  Success — checkmark icon (PipboyIconSuccess)  -->
-                    <Border
-                        Background="{DynamicResource PipboySurfaceBrush}"
-                        BorderBrush="{DynamicResource PipboyBorderBrush}"
-                        BorderThickness="1">
-                        <DockPanel>
-                            <Border
-                                Width="3"
-                                Background="{DynamicResource PipboyBorderBrush}"
-                                DockPanel.Dock="Left" />
-                            <DockPanel Margin="10,10,10,10">
-                                <Path
-                                    Width="16"
-                                    Height="16"
-                                    Margin="0,2,10,0"
-                                    VerticalAlignment="Top"
-                                    Data="{DynamicResource PipboyIconSuccess}"
-                                    DockPanel.Dock="Left"
-                                    Fill="Transparent"
-                                    Stretch="Uniform"
-                                    Stroke="{DynamicResource PipboyTextBrush}"
-                                    StrokeJoin="Miter"
-                                    StrokeLineCap="Square"
-                                    StrokeThickness="1.5" />
-                                <StackPanel Spacing="2">
-                                    <TextBlock FontWeight="Bold" Text="QUEST COMPLETE" />
-                                    <TextBlock
-                                        Classes="dim"
-                                        Text="&quot;The Nuclear Option&quot; finished. 500 XP earned."
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-                            </DockPanel>
-                        </DockPanel>
-                    </Border>
-
-                    <!--  Warning — triangle "!" icon (PipboyIconWarning)  -->
-                    <Border
-                        Background="{DynamicResource PipboySurfaceBrush}"
-                        BorderBrush="{DynamicResource PipboyBorderBrush}"
-                        BorderThickness="1">
-                        <DockPanel>
-                            <Border
-                                Width="3"
-                                Background="{DynamicResource PipboyBorderBrush}"
-                                DockPanel.Dock="Left" />
-                            <DockPanel Margin="10,10,10,10">
-                                <Path
-                                    Width="16"
-                                    Height="16"
-                                    Margin="0,2,10,0"
-                                    VerticalAlignment="Top"
-                                    Data="{DynamicResource PipboyIconWarning}"
-                                    DockPanel.Dock="Left"
-                                    Fill="Transparent"
-                                    Stretch="Uniform"
-                                    Stroke="{DynamicResource PipboyTextBrush}"
-                                    StrokeJoin="Miter"
-                                    StrokeLineCap="Square"
-                                    StrokeThickness="1.5" />
-                                <StackPanel Spacing="2">
-                                    <TextBlock FontWeight="Bold" Text="LOW AMMO" />
-                                    <TextBlock
-                                        Classes="dim"
-                                        Text="10mm rounds: 8 remaining. Find ammo or switch weapon."
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-                            </DockPanel>
-                        </DockPanel>
-                    </Border>
-
-                    <!--  Error — X cross icon (PipboyIconError)  -->
-                    <Border
-                        Background="{DynamicResource PipboySurfaceBrush}"
-                        BorderBrush="{DynamicResource PipboyBorderBrush}"
-                        BorderThickness="1">
-                        <DockPanel>
-                            <Border
-                                Width="3"
-                                Background="{DynamicResource PipboyBorderBrush}"
-                                DockPanel.Dock="Left" />
-                            <DockPanel Margin="10,10,10,10">
-                                <Path
-                                    Width="16"
-                                    Height="16"
-                                    Margin="0,2,10,0"
-                                    VerticalAlignment="Top"
-                                    Data="{DynamicResource PipboyIconError}"
-                                    DockPanel.Dock="Left"
-                                    Fill="Transparent"
-                                    Stretch="Uniform"
-                                    Stroke="{DynamicResource PipboyTextBrush}"
-                                    StrokeJoin="Miter"
-                                    StrokeLineCap="Square"
-                                    StrokeThickness="1.5" />
-                                <StackPanel Spacing="2">
-                                    <TextBlock FontWeight="Bold" Text="RADIATION ALERT" />
-                                    <TextBlock
-                                        Classes="dim"
-                                        Text="RAD level critical: 950 rads. Take RadAway immediately."
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-                            </DockPanel>
-                        </DockPanel>
-                    </Border>
-
-                </StackPanel>
-            </StackPanel>
-
-            <!--  Toast notifications via WindowNotificationManager  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="TOAST NOTIFICATIONS" />
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="NOTIFICATIONS" />
                 <TextBlock
-                    MaxWidth="420"
                     Classes="dim"
-                    Text="WindowNotificationManager displays toasts in a corner of the window. Click a button to trigger one."
-                    TextWrapping="Wrap" />
-                <WrapPanel>
-                    <Button
-                        Margin="0,0,8,0"
-                        Click="OnShowInfo"
-                        Content="INFO" />
-                    <Button
-                        Margin="0,0,8,0"
-                        Click="OnShowSuccess"
-                        Content="SUCCESS" />
-                    <Button
-                        Margin="0,0,8,0"
-                        Click="OnShowWarning"
-                        Content="WARNING" />
-                    <Button Click="OnShowError" Content="ERROR" />
-                </WrapPanel>
-                <TextBlock
-                    Name="ToastStatus"
-                    Classes="dim"
-                    Text="Toasts appear in the bottom-right corner." />
+                    FontSize="11"
+                    Text="Static notification cards (Info, Success, Warning, Error) and WindowNotificationManager toast notifications." />
             </StackPanel>
+        </Border>
 
-        </StackPanel>
-    </ScrollViewer>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── Notification Cards + Toast in two columns ── -->
+                <Grid ColumnDefinitions="*,20,320">
+
+                    <!--  Left: notification card gallery  -->
+                    <HeaderedContentControl Grid.Column="0" Classes="groupbox" Header="NOTIFICATION CARD TYPES">
+                        <StackPanel Spacing="10">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Four semantic variants — distinguished by icon (Information, Success, Warning, Error). All use the same monochromatic color palette."
+                                TextWrapping="Wrap" />
+                            <StackPanel Spacing="8">
+
+                                <!--  Information  -->
+                                <Border
+                                    Background="{DynamicResource PipboySurfaceBrush}"
+                                    BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                    BorderThickness="1">
+                                    <DockPanel>
+                                        <Border
+                                            Width="3"
+                                            Background="{DynamicResource PipboyBorderBrush}"
+                                            DockPanel.Dock="Left" />
+                                        <DockPanel Margin="10">
+                                            <Path
+                                                Width="16"
+                                                Height="16"
+                                                Margin="0,2,10,0"
+                                                VerticalAlignment="Top"
+                                                Data="{DynamicResource PipboyIconInformation}"
+                                                DockPanel.Dock="Left"
+                                                Fill="Transparent"
+                                                Stretch="Uniform"
+                                                Stroke="{DynamicResource PipboyTextBrush}"
+                                                StrokeJoin="Miter"
+                                                StrokeLineCap="Square"
+                                                StrokeThickness="1.5" />
+                                            <StackPanel Spacing="2">
+                                                <TextBlock FontWeight="Bold" Text="SYSTEM INFO" />
+                                                <TextBlock
+                                                    Classes="dim"
+                                                    Text="Pip-Boy OS v4.2.1 loaded. All subsystems nominal."
+                                                    TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </DockPanel>
+                                </Border>
+
+                                <!--  Success  -->
+                                <Border
+                                    Background="{DynamicResource PipboySurfaceBrush}"
+                                    BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                    BorderThickness="1">
+                                    <DockPanel>
+                                        <Border
+                                            Width="3"
+                                            Background="{DynamicResource PipboyBorderBrush}"
+                                            DockPanel.Dock="Left" />
+                                        <DockPanel Margin="10">
+                                            <Path
+                                                Width="16"
+                                                Height="16"
+                                                Margin="0,2,10,0"
+                                                VerticalAlignment="Top"
+                                                Data="{DynamicResource PipboyIconSuccess}"
+                                                DockPanel.Dock="Left"
+                                                Fill="Transparent"
+                                                Stretch="Uniform"
+                                                Stroke="{DynamicResource PipboyTextBrush}"
+                                                StrokeJoin="Miter"
+                                                StrokeLineCap="Square"
+                                                StrokeThickness="1.5" />
+                                            <StackPanel Spacing="2">
+                                                <TextBlock FontWeight="Bold" Text="QUEST COMPLETE" />
+                                                <TextBlock
+                                                    Classes="dim"
+                                                    Text="&quot;The Nuclear Option&quot; finished. 500 XP earned."
+                                                    TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </DockPanel>
+                                </Border>
+
+                                <!--  Warning  -->
+                                <Border
+                                    Background="{DynamicResource PipboySurfaceBrush}"
+                                    BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                    BorderThickness="1">
+                                    <DockPanel>
+                                        <Border
+                                            Width="3"
+                                            Background="{DynamicResource PipboyBorderBrush}"
+                                            DockPanel.Dock="Left" />
+                                        <DockPanel Margin="10">
+                                            <Path
+                                                Width="16"
+                                                Height="16"
+                                                Margin="0,2,10,0"
+                                                VerticalAlignment="Top"
+                                                Data="{DynamicResource PipboyIconWarning}"
+                                                DockPanel.Dock="Left"
+                                                Fill="Transparent"
+                                                Stretch="Uniform"
+                                                Stroke="{DynamicResource PipboyTextBrush}"
+                                                StrokeJoin="Miter"
+                                                StrokeLineCap="Square"
+                                                StrokeThickness="1.5" />
+                                            <StackPanel Spacing="2">
+                                                <TextBlock FontWeight="Bold" Text="LOW AMMO" />
+                                                <TextBlock
+                                                    Classes="dim"
+                                                    Text="10mm rounds: 8 remaining. Find ammo or switch weapon."
+                                                    TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </DockPanel>
+                                </Border>
+
+                                <!--  Error  -->
+                                <Border
+                                    Background="{DynamicResource PipboySurfaceBrush}"
+                                    BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                    BorderThickness="1">
+                                    <DockPanel>
+                                        <Border
+                                            Width="3"
+                                            Background="{DynamicResource PipboyBorderBrush}"
+                                            DockPanel.Dock="Left" />
+                                        <DockPanel Margin="10">
+                                            <Path
+                                                Width="16"
+                                                Height="16"
+                                                Margin="0,2,10,0"
+                                                VerticalAlignment="Top"
+                                                Data="{DynamicResource PipboyIconError}"
+                                                DockPanel.Dock="Left"
+                                                Fill="Transparent"
+                                                Stretch="Uniform"
+                                                Stroke="{DynamicResource PipboyTextBrush}"
+                                                StrokeJoin="Miter"
+                                                StrokeLineCap="Square"
+                                                StrokeThickness="1.5" />
+                                            <StackPanel Spacing="2">
+                                                <TextBlock FontWeight="Bold" Text="RADIATION ALERT" />
+                                                <TextBlock
+                                                    Classes="dim"
+                                                    Text="RAD level critical: 950 rads. Take RadAway immediately."
+                                                    TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </DockPanel>
+                                </Border>
+
+                            </StackPanel>
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                    <!--  Right: toast trigger panel  -->
+                    <HeaderedContentControl Grid.Column="2" Classes="groupbox" Header="TOAST NOTIFICATIONS">
+                        <StackPanel Spacing="12">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="WindowNotificationManager displays transient toasts in a corner of the window. Toasts auto-dismiss after a configurable timeout."
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Click a button below to trigger a toast:"
+                                TextWrapping="Wrap" />
+                            <StackPanel Spacing="8">
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Click="OnShowInfo"
+                                    Content="SHOW  INFO" />
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Click="OnShowSuccess"
+                                    Content="SHOW  SUCCESS" />
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Click="OnShowWarning"
+                                    Content="SHOW  WARNING" />
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Click="OnShowError"
+                                    Content="SHOW  ERROR" />
+                            </StackPanel>
+                            <TextBlock
+                                Name="ToastStatus"
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Toasts appear in the bottom-right corner."
+                                TextWrapping="Wrap" />
+                            <Rectangle
+                                Height="1"
+                                Fill="{DynamicResource PipboyBorderBrush}" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="For MVVM: inject INotificationManager via DI and call Show() from your ViewModel."
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
 </UserControl>

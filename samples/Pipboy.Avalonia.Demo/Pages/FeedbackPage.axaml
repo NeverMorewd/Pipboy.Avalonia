@@ -1,106 +1,178 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.FeedbackPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  ToolTip  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="TOOLTIP" />
-                <TextBlock Classes="dim" Text="Hover over the controls to see tooltips." />
-                <WrapPanel>
-                    <Button Margin="0,0,8,8" Content="HOVER — TEXT TIP">
-                        <ToolTip.Tip>Pip-Boy tooltip. Provides contextual info on hover.</ToolTip.Tip>
-                    </Button>
-                    <Button Margin="0,0,8,8" Content="HOVER — MULTI-LINE">
-                        <ToolTip.Tip>
-                            <TextBlock Text="Line one: HP 78/100&#x0a;Line two: AP 52/100&#x0a;Line three: RAD 23" />
-                        </ToolTip.Tip>
-                    </Button>
-                    <TextBlock
-                        Margin="0,0,8,8"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="← hover the button">
-                        <ToolTip.Tip>You found the tooltip on a TextBlock!</ToolTip.Tip>
-                    </TextBlock>
-                </WrapPanel>
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="TOOLTIPS &amp; FLYOUTS" />
+                <TextBlock
+                    Classes="dim"
+                    FontSize="11"
+                    Text="ToolTip for hover hints, Flyout for rich popup panels, and data validation patterns." />
             </StackPanel>
+        </Border>
 
-            <!--  Popup Flyout  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="POPUP FLYOUT" />
-                <TextBlock Classes="dim" Text="Custom content panel. Dismiss by confirming, cancelling, pressing Esc, or clicking outside." />
-                <WrapPanel>
-                    <Button
-                        Name="PopupFlyoutBtn"
-                        Margin="0,0,8,8"
-                        Content="CONFIRM ACTION">
-                        <Button.Flyout>
-                            <Flyout OverlayDismissEventPassThrough="False" Placement="Bottom">
-                                <Border MinWidth="260" MaxWidth="340">
-                                    <StackPanel Spacing="0">
-                                        <Grid Margin="0,0,0,8" ColumnDefinitions="*,Auto">
-                                            <TextBlock
-                                                Grid.Column="0"
-                                                VerticalAlignment="Center"
-                                                Classes="h2"
-                                                Text="CONFIRM ACTION" />
-                                            <Button
-                                                Name="FlyoutCloseBtn"
-                                                Grid.Column="1"
-                                                Padding="6,2"
-                                                Click="OnFlyoutClose"
-                                                Content="✕" />
-                                        </Grid>
-                                        <TextBlock
-                                            Margin="0,0,0,16"
-                                            Classes="dim"
-                                            Text="Initiate self-destruct sequence on target? This action cannot be undone."
-                                            TextWrapping="Wrap" />
-                                        <StackPanel
-                                            HorizontalAlignment="Right"
-                                            Orientation="Horizontal"
-                                            Spacing="8">
-                                            <Button
-                                                Name="FlyoutCancelBtn"
-                                                Click="OnFlyoutClose"
-                                                Content="CANCEL" />
-                                            <Button
-                                                Name="FlyoutConfirmBtn"
-                                                Click="OnFlyoutConfirm"
-                                                Content="CONFIRM" />
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── ToolTip ── -->
+                <HeaderedContentControl Classes="groupbox" Header="TOOLTIP">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Attach ToolTip.Tip to any control. Supports plain strings or rich content. Shown after a short hover delay; hidden on pointer leave."
+                            TextWrapping="Wrap" />
+                        <WrapPanel>
+                            <StackPanel Margin="0,0,24,0" Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="STRING TIP" />
+                                <Button Content="HOVER ME — SIMPLE TIP">
+                                    <ToolTip.Tip>Pip-Boy tooltip. Provides contextual info on hover.</ToolTip.Tip>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel Margin="0,0,24,0" Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="RICH CONTENT TIP" />
+                                <Button Content="HOVER ME — MULTI-LINE">
+                                    <ToolTip.Tip>
+                                        <StackPanel Spacing="2">
+                                            <TextBlock Classes="accent" Text="CHARACTER VITALS" />
+                                            <TextBlock Classes="dim" Text="HP:  78 / 100" />
+                                            <TextBlock Classes="dim" Text="AP:  52 / 100" />
+                                            <TextBlock Classes="dim" Text="RAD: 23 / 1000" />
                                         </StackPanel>
-                                    </StackPanel>
-                                </Border>
-                            </Flyout>
-                        </Button.Flyout>
-                    </Button>
-                </WrapPanel>
-                <TextBlock
-                    Name="FlyoutStatusText"
-                    Classes="dim"
-                    Text="No action taken." />
-            </StackPanel>
+                                    </ToolTip.Tip>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="TIP ON TEXT" />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Classes="dim"
+                                    Text="Hover this text ←">
+                                    <ToolTip.Tip>Tooltips work on any control, including TextBlock!</ToolTip.Tip>
+                                </TextBlock>
+                            </StackPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </HeaderedContentControl>
 
-            <!--  DataValidation  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="DATA VALIDATION" />
-                <TextBlock
-                    MaxWidth="420"
-                    Classes="dim"
-                    Text="Bind TextBox controls with data annotations or INotifyDataErrorInfo to show inline validation messages."
-                    TextWrapping="Wrap" />
-                <StackPanel Width="340" Spacing="6">
-                    <TextBox Watermark="Enter target name (required)" />
-                    <TextBox Watermark="Enter range 0–9999" />
-                </StackPanel>
-            </StackPanel>
+                <!--  ── Popup Flyout ── -->
+                <HeaderedContentControl Classes="groupbox" Header="POPUP FLYOUT">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Custom-content popup anchored to a control. Dismiss by confirming, cancelling, pressing Esc, or clicking outside. Set Placement to control the anchor direction."
+                            TextWrapping="Wrap" />
+                        <Grid ColumnDefinitions="Auto,*">
+                            <StackPanel Grid.Column="0" Spacing="8">
+                                <TextBlock Classes="dim" FontSize="10" Text="CONFIRMATION DIALOG" />
+                                <Button
+                                    Name="PopupFlyoutBtn"
+                                    Content="INITIATE SELF-DESTRUCT">
+                                    <Button.Flyout>
+                                        <Flyout OverlayDismissEventPassThrough="False" Placement="Bottom">
+                                            <Border MinWidth="280" MaxWidth="360">
+                                                <StackPanel Spacing="0">
+                                                    <Grid Margin="0,0,0,10" ColumnDefinitions="*,Auto">
+                                                        <TextBlock
+                                                            Grid.Column="0"
+                                                            VerticalAlignment="Center"
+                                                            Classes="h2"
+                                                            Text="CONFIRM ACTION" />
+                                                        <Button
+                                                            Name="FlyoutCloseBtn"
+                                                            Grid.Column="1"
+                                                            Padding="6,2"
+                                                            Click="OnFlyoutClose"
+                                                            Content="✕" />
+                                                    </Grid>
+                                                    <TextBlock
+                                                        Margin="0,0,0,16"
+                                                        Classes="dim"
+                                                        Text="Initiate self-destruct sequence on target? This action cannot be undone."
+                                                        TextWrapping="Wrap" />
+                                                    <StackPanel
+                                                        HorizontalAlignment="Right"
+                                                        Orientation="Horizontal"
+                                                        Spacing="8">
+                                                        <Button
+                                                            Name="FlyoutCancelBtn"
+                                                            Click="OnFlyoutClose"
+                                                            Content="CANCEL" />
+                                                        <Button
+                                                            Name="FlyoutConfirmBtn"
+                                                            Click="OnFlyoutConfirm"
+                                                            Content="CONFIRM" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                                <TextBlock
+                                    Name="FlyoutStatusText"
+                                    Classes="dim"
+                                    FontSize="11"
+                                    Text="No action taken." />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="32,0,0,0" Spacing="8">
+                                <TextBlock Classes="dim" FontSize="10" Text="USAGE" />
+                                <TextBlock
+                                    Classes="dim"
+                                    FontSize="11"
+                                    Text="Attach Button.Flyout with a Flyout element. The Flyout wraps any content. Set Placement (Bottom, Top, Left, Right, Auto) to control anchor direction."
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Classes="dim"
+                                    FontSize="11"
+                                    Text="For MVVM: bind FlyoutBase.AttachedFlyout and trigger with FlyoutBase.ShowAttachedFlyout(control)."
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </HeaderedContentControl>
 
-        </StackPanel>
-    </ScrollViewer>
+                <!--  ── Data Validation ── -->
+                <HeaderedContentControl Classes="groupbox" Header="DATA VALIDATION">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Bind TextBox controls to a ViewModel implementing INotifyDataErrorInfo (or use data annotations) to display inline validation error messages below the field."
+                            TextWrapping="Wrap" />
+                        <Grid ColumnDefinitions="*,*">
+                            <StackPanel Grid.Column="0" Spacing="8">
+                                <StackPanel Spacing="4">
+                                    <TextBlock Classes="dim" FontSize="10" Text="REQUIRED FIELD" />
+                                    <TextBox Watermark="Enter target name (required)" />
+                                </StackPanel>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Classes="dim" FontSize="10" Text="NUMERIC RANGE  (0–9999)" />
+                                    <TextBox Watermark="Enter value 0–9999" />
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="16,0,0,0" Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="HOW IT WORKS" />
+                                <TextBlock
+                                    Classes="dim"
+                                    FontSize="11"
+                                    Text="Avalonia automatically shows a styled error panel below the TextBox when the bound property has validation errors. No extra template work required."
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </HeaderedContentControl>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
 </UserControl>

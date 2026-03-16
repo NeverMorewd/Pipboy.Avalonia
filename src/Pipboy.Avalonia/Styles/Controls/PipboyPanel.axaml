@@ -1,0 +1,148 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    <Styles.Resources>
+
+        <ControlTheme x:Key="{x:Type pipboy:PipboyPanel}" TargetType="pipboy:PipboyPanel">
+
+            <Setter Property="Background"      Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="BorderBrush"     Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding"         Value="14,10" />
+            <Setter Property="MinWidth"        Value="160" />
+
+            <Setter Property="Template">
+                <ControlTemplate TargetType="pipboy:PipboyPanel">
+
+                    <!--  Panel + corner decorations  -->
+                    <Grid>
+
+                        <!--  Main panel  -->
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <DockPanel>
+
+                                <!--  ── Title bar  ── -->
+                                <Border
+                                    Background="{DynamicResource PipboyPrimaryDarkBrush}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="0,0,0,1"
+                                    DockPanel.Dock="Top"
+                                    Padding="10,5,8,5">
+                                    <Grid ColumnDefinitions="*,Auto">
+
+                                        <!--  [ TITLE ]  -->
+                                        <StackPanel
+                                            Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Spacing="0">
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Classes="dim"
+                                                FontSize="10"
+                                                Text="─[ " />
+                                            <ContentPresenter
+                                                VerticalAlignment="Center"
+                                                Content="{TemplateBinding Header}"
+                                                FontSize="11"
+                                                FontWeight="Bold"
+                                                Foreground="{DynamicResource PipboyTextBrush}" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Classes="dim"
+                                                FontSize="10"
+                                                Text=" ]─" />
+                                        </StackPanel>
+
+                                        <!--  [X] close button  -->
+                                        <Button
+                                            Name="PART_CloseButton"
+                                            Grid.Column="1"
+                                            Padding="6,1"
+                                            VerticalAlignment="Center"
+                                            Content="[X]"
+                                            FontSize="10"
+                                            IsVisible="{TemplateBinding IsClosable}" />
+
+                                    </Grid>
+                                </Border>
+
+                                <!--  ── Footer  ── -->
+                                <Border
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="0,1,0,0"
+                                    DockPanel.Dock="Bottom"
+                                    IsVisible="{TemplateBinding Footer, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                    Padding="12,8">
+                                    <ContentPresenter Content="{TemplateBinding Footer}" />
+                                </Border>
+
+                                <!--  ── Content  ── -->
+                                <ContentPresenter
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                            </DockPanel>
+                        </Border>
+
+                        <!--  Corner decoration squares  -->
+                        <Border
+                            Width="6"
+                            Height="6"
+                            Margin="-1,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Background="{TemplateBinding BorderBrush}" />
+                        <Border
+                            Width="6"
+                            Height="6"
+                            Margin="0,0,-1,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Background="{TemplateBinding BorderBrush}" />
+                        <Border
+                            Width="6"
+                            Height="6"
+                            Margin="-1,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Background="{TemplateBinding BorderBrush}" />
+                        <Border
+                            Width="6"
+                            Height="6"
+                            Margin="0,0,-1,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Background="{TemplateBinding BorderBrush}" />
+
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter>
+
+            <!--  accent: bright primary border + corners  -->
+            <Style Selector="^.accent">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+
+            <!--  warning: amber-tinted border for alerts  -->
+            <Style Selector="^.warning">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyWarningBrush}" />
+            </Style>
+
+            <!--  disabled  -->
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="0.45" />
+            </Style>
+
+        </ControlTheme>
+
+    </Styles.Resources>
+</Styles>

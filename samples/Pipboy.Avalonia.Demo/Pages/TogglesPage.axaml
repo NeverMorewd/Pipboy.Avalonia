@@ -1,108 +1,215 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.TogglesPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  CheckBox  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="CHECK BOX" />
-                <StackPanel Orientation="Horizontal" Spacing="16">
-                    <StackPanel Spacing="6">
-                        <CheckBox Content="VATS ENABLED" IsChecked="True" />
-                        <CheckBox Content="AUTO-SAVE" IsChecked="False" />
-                        <CheckBox Content="INDETERMINATE" IsChecked="{x:Null}" />
-                        <CheckBox Content="DISABLED" IsEnabled="False" />
-                        <CheckBox
-                            Content="DISABLED ON"
-                            IsChecked="True"
-                            IsEnabled="False" />
-                    </StackPanel>
-                </StackPanel>
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="TOGGLES" />
+                <TextBlock
+                    Classes="dim"
+                    FontSize="11"
+                    Text="CheckBox, RadioButton, and ToggleSwitch — boolean and mutually exclusive selection controls." />
             </StackPanel>
+        </Border>
 
-            <!--  RadioButton  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="RADIO BUTTON" />
-                <StackPanel Orientation="Horizontal" Spacing="32">
-                    <StackPanel Spacing="6">
-                        <TextBlock Classes="dim" Text="DIFFICULTY" />
-                        <RadioButton Content="VERY EASY" GroupName="diff" />
-                        <RadioButton
-                            Content="NORMAL"
-                            GroupName="diff"
-                            IsChecked="True" />
-                        <RadioButton Content="HARD" GroupName="diff" />
-                        <RadioButton Content="SURVIVAL" GroupName="diff" />
-                        <RadioButton
-                            Content="DISABLED"
-                            GroupName="diff2"
-                            IsEnabled="False" />
-                    </StackPanel>
-                    <StackPanel Spacing="6">
-                        <TextBlock Classes="dim" Text="FACTION" />
-                        <RadioButton
-                            Content="Brotherhood"
-                            GroupName="fac"
-                            IsChecked="True" />
-                        <RadioButton Content="Railroad" GroupName="fac" />
-                        <RadioButton Content="Minutemen" GroupName="fac" />
-                        <RadioButton Content="Institute" GroupName="fac" />
-                    </StackPanel>
-                </StackPanel>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── CheckBox ── -->
+                <HeaderedContentControl Classes="groupbox" Header="CHECK BOX">
+                    <Grid ColumnDefinitions="*,*,*">
+                        <StackPanel Grid.Column="0" Spacing="8">
+                            <TextBlock Classes="dim" FontSize="10" Text="INTERACTIVE STATES" />
+                            <CheckBox Content="VATS ENABLED" IsChecked="True" />
+                            <CheckBox Content="AUTO-SAVE" IsChecked="False" />
+                            <CheckBox Content="INDETERMINATE" IsChecked="{x:Null}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="8">
+                            <TextBlock Classes="dim" FontSize="10" Text="DISABLED STATES" />
+                            <CheckBox Content="DISABLED UNCHECKED" IsEnabled="False" />
+                            <CheckBox
+                                Content="DISABLED CHECKED"
+                                IsChecked="True"
+                                IsEnabled="False" />
+                            <CheckBox
+                                Content="DISABLED INDETERMINATE"
+                                IsChecked="{x:Null}"
+                                IsEnabled="False" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Spacing="8">
+                            <TextBlock Classes="dim" FontSize="10" Text="GAME SETTINGS EXAMPLE" />
+                            <CheckBox Content="HARDCORE MODE" IsChecked="False" />
+                            <CheckBox Content="SUBTITLES" IsChecked="True" />
+                            <CheckBox Content="HEAD BOB" IsChecked="True" />
+                            <CheckBox Content="MOTION BLUR" IsChecked="False" />
+                        </StackPanel>
+                    </Grid>
+                </HeaderedContentControl>
+
+                <!--  ── RadioButton ── -->
+                <HeaderedContentControl Classes="groupbox" Header="RADIO BUTTON">
+                    <Grid ColumnDefinitions="*,*,*">
+                        <StackPanel Grid.Column="0" Spacing="6">
+                            <TextBlock Classes="dim" FontSize="10" Text="DIFFICULTY  (GroupName=diff)" />
+                            <RadioButton Content="VERY EASY" GroupName="diff" />
+                            <RadioButton
+                                Content="NORMAL"
+                                GroupName="diff"
+                                IsChecked="True" />
+                            <RadioButton Content="HARD" GroupName="diff" />
+                            <RadioButton Content="SURVIVAL" GroupName="diff" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="6">
+                            <TextBlock Classes="dim" FontSize="10" Text="FACTION  (GroupName=fac)" />
+                            <RadioButton
+                                Content="Brotherhood of Steel"
+                                GroupName="fac"
+                                IsChecked="True" />
+                            <RadioButton Content="Railroad" GroupName="fac" />
+                            <RadioButton Content="Minutemen" GroupName="fac" />
+                            <RadioButton Content="Institute" GroupName="fac" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Spacing="6">
+                            <TextBlock Classes="dim" FontSize="10" Text="DISABLED STATE" />
+                            <RadioButton Content="OPTION A" GroupName="dis" IsEnabled="False" />
+                            <RadioButton
+                                Content="OPTION B (checked)"
+                                GroupName="dis"
+                                IsChecked="True"
+                                IsEnabled="False" />
+                            <TextBlock
+                                Margin="0,8,0,0"
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Use GroupName to enforce mutual exclusion within a panel. Bind IsChecked for MVVM."
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+                </HeaderedContentControl>
+
+                <!--  ── ToggleSwitch ── -->
+                <HeaderedContentControl Classes="groupbox" Header="TOGGLE SWITCH">
+                    <Grid ColumnDefinitions="*,*">
+                        <StackPanel Grid.Column="0" Spacing="4">
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                Classes="dim"
+                                FontSize="10"
+                                Text="SYSTEM SETTINGS" />
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="HUD ENABLED" />
+                                <ToggleSwitch
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    IsChecked="True"
+                                    OffContent="OFF"
+                                    OnContent="ON" />
+
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="SUBTITLES" />
+                                <ToggleSwitch
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    IsChecked="False"
+                                    OffContent="OFF"
+                                    OnContent="ON" />
+
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="GOD MODE" />
+                                <ToggleSwitch
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    IsChecked="True"
+                                    OffContent="OFF"
+                                    OnContent="ON" />
+
+                                <TextBlock
+                                    Grid.Row="6"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Classes="dim"
+                                    Text="DISABLED" />
+                                <ToggleSwitch
+                                    Grid.Row="6"
+                                    Grid.Column="1"
+                                    IsEnabled="False"
+                                    OffContent="OFF"
+                                    OnContent="ON" />
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Spacing="4">
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                Classes="dim"
+                                FontSize="10"
+                                Text="CUSTOM CONTENT LABELS" />
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,8,Auto,8,Auto">
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="VATS" />
+                                <ToggleSwitch
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    IsChecked="True"
+                                    OffContent="OFFLINE"
+                                    OnContent="ACTIVE" />
+
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="RADIO" />
+                                <ToggleSwitch
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    IsChecked="True"
+                                    OffContent="SILENT"
+                                    OnContent="BROADCASTING" />
+
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="POWER ARMOR" />
+                                <ToggleSwitch
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    IsChecked="False"
+                                    OffContent="UNPOWERED"
+                                    OnContent="POWERED" />
+                            </Grid>
+                            <TextBlock
+                                Margin="0,16,0,0"
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Set OnContent and OffContent to customize the label shown in each state."
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+                </HeaderedContentControl>
+
             </StackPanel>
+        </ScrollViewer>
 
-            <!--  ToggleSwitch  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="TOGGLE SWITCH" />
-                <Grid ColumnDefinitions="200,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="HUD ENABLED" />
-                    <ToggleSwitch
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        IsChecked="True" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="SUBTITLES" />
-                    <ToggleSwitch
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        IsChecked="False" />
-                    <TextBlock
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="GOD MODE" />
-                    <ToggleSwitch
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        IsChecked="True" />
-                    <TextBlock
-                        Grid.Row="6"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="DISABLED" />
-                    <ToggleSwitch
-                        Grid.Row="6"
-                        Grid.Column="1"
-                        IsEnabled="False" />
-                </Grid>
-            </StackPanel>
-
-        </StackPanel>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

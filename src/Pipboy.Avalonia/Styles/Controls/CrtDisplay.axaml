@@ -1,0 +1,16 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+
+    <!--
+        Default style for CrtDisplay.
+        ScanBeamColor tracks the theme primary colour (alpha 40 ≈ 16% opacity) so the
+        phosphor glow updates automatically when the palette changes at runtime.
+        Override ScanBeamColor on the element to pin a custom colour.
+    -->
+    <Style Selector="pipboy|CrtDisplay">
+        <Setter Property="ScanBeamColor" Value="{DynamicResource PipboyScanBeamColor}" />
+    </Style>
+
+</Styles>

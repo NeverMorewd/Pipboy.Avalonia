@@ -1,161 +1,171 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.ExpanderPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  Expander  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="EXPANDER" />
-                <StackPanel Width="440" Spacing="6">
-                    <Expander Header="WEAPON STATS" IsExpanded="True">
-                        <Grid
-                            Margin="8"
-                            ColumnDefinitions="120,*"
-                            RowDefinitions="Auto,4,Auto,4,Auto,4,Auto">
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Classes="dim"
-                                Text="Damage:" />
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                Text="85" />
-                            <TextBlock
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                Classes="dim"
-                                Text="Fire Rate:" />
-                            <TextBlock
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                Text="6" />
-                            <TextBlock
-                                Grid.Row="4"
-                                Grid.Column="0"
-                                Classes="dim"
-                                Text="Range:" />
-                            <TextBlock
-                                Grid.Row="4"
-                                Grid.Column="1"
-                                Text="119" />
-                            <TextBlock
-                                Grid.Row="6"
-                                Grid.Column="0"
-                                Classes="dim"
-                                Text="Accuracy:" />
-                            <TextBlock
-                                Grid.Row="6"
-                                Grid.Column="1"
-                                Text="69" />
-                        </Grid>
-                    </Expander>
-                    <Expander Header="ARMOR STATS">
-                        <Grid
-                            Margin="8"
-                            ColumnDefinitions="120,*"
-                            RowDefinitions="Auto,4,Auto,4,Auto">
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Classes="dim"
-                                Text="Ballistic:" />
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                Text="42" />
-                            <TextBlock
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                Classes="dim"
-                                Text="Energy:" />
-                            <TextBlock
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                Text="38" />
-                            <TextBlock
-                                Grid.Row="4"
-                                Grid.Column="0"
-                                Classes="dim"
-                                Text="Radiation:" />
-                            <TextBlock
-                                Grid.Row="4"
-                                Grid.Column="1"
-                                Text="15" />
-                        </Grid>
-                    </Expander>
-                    <Expander Header="COMPANION DATA (disabled)" IsEnabled="False" />
-                    <Expander Header="CLOSED SECTION" />
-                </StackPanel>
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="COLLAPSIBLE PANELS" />
+                <TextBlock
+                    Classes="dim"
+                    FontSize="11"
+                    Text="Expander, SplitView, and GridSplitter — progressive disclosure and resizable layout controls." />
             </StackPanel>
+        </Border>
 
-            <!--  SplitView  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="SPLIT VIEW" />
-                <Border
-                    Width="440"
-                    Height="150"
-                    BorderBrush="{DynamicResource PipboyBorderBrush}"
-                    BorderThickness="1">
-                    <SplitView
-                        DisplayMode="Inline"
-                        IsPaneOpen="True"
-                        OpenPaneLength="140">
-                        <SplitView.Pane>
-                            <StackPanel Margin="10">
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── Expander ── -->
+                <HeaderedContentControl Classes="groupbox" Header="EXPANDER">
+                    <Grid ColumnDefinitions="*,20,*">
+
+                        <StackPanel Grid.Column="0" Spacing="6">
+                            <TextBlock
+                                Margin="0,0,0,4"
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Click the header to expand / collapse. Set IsExpanded=True to start open."
+                                TextWrapping="Wrap" />
+                            <Expander Header="WEAPON STATS" IsExpanded="True">
+                                <Grid
+                                    Margin="8,4"
+                                    ColumnDefinitions="120,*"
+                                    RowDefinitions="Auto,4,Auto,4,Auto,4,Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="Damage:" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="85" />
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="Fire Rate:" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="6" />
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="Range:" />
+                                    <TextBlock Grid.Row="4" Grid.Column="1" Text="119" />
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Classes="dim" Text="Accuracy:" />
+                                    <TextBlock Grid.Row="6" Grid.Column="1" Text="69" />
+                                </Grid>
+                            </Expander>
+                            <Expander Header="ARMOR STATS">
+                                <Grid
+                                    Margin="8,4"
+                                    ColumnDefinitions="120,*"
+                                    RowDefinitions="Auto,4,Auto,4,Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Classes="dim" Text="Ballistic DR:" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="42" />
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Classes="dim" Text="Energy DR:" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="38" />
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Classes="dim" Text="Radiation DR:" />
+                                    <TextBlock Grid.Row="4" Grid.Column="1" Text="15" />
+                                </Grid>
+                            </Expander>
+                            <Expander Header="COMPANION DATA  (disabled)" IsEnabled="False" />
+                            <Expander Header="EXTRA MODS  (collapsed by default)" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Spacing="12">
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="accent" FontSize="11" Text="ACCORDION PATTERN" />
                                 <TextBlock
-                                    Margin="0,0,0,6"
                                     Classes="dim"
-                                    FontSize="10"
-                                    Text="NAVIGATION" />
-                                <TextBlock Margin="0,0,0,4" Text="STATUS" />
-                                <TextBlock Margin="0,0,0,4" Text="INVENTORY" />
-                                <TextBlock Margin="0,0,0,4" Text="QUESTS" />
-                                <TextBlock Text="MAP" />
+                                    FontSize="11"
+                                    Text="Stack multiple Expanders to build a settings-style accordion. Each expands independently unless you manage IsExpanded in code."
+                                    TextWrapping="Wrap" />
                             </StackPanel>
-                        </SplitView.Pane>
-                        <TextBlock
-                            Margin="14"
-                            Text="Main content area. SplitView provides a collapsible side panel for navigation or detail views."
-                            TextWrapping="Wrap" />
-                    </SplitView>
-                </Border>
-            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="accent" FontSize="11" Text="PROPERTIES" />
+                                <TextBlock
+                                    Classes="dim"
+                                    FontSize="11"
+                                    Text="Header — the toggle label. IsExpanded — open/closed state (bindable). ExpandDirection — Down (default), Up, Left, Right."
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
 
-            <!--  GridSplitter  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="GRID SPLITTER" />
-                <Border
-                    Width="440"
-                    Height="120"
-                    BorderBrush="{DynamicResource PipboyBorderBrush}"
-                    BorderThickness="1">
-                    <Grid ColumnDefinitions="*,5,*">
-                        <TextBlock
-                            Grid.Column="0"
-                            Margin="10"
-                            Classes="dim"
-                            Text="Left panel — Drag the splitter to resize."
-                            TextWrapping="Wrap" />
-                        <GridSplitter
-                            Grid.Column="1"
-                            Width="5"
-                            ResizeDirection="Columns" />
-                        <TextBlock
-                            Grid.Column="2"
-                            Margin="10"
-                            Classes="dim"
-                            Text="Right panel content area."
-                            TextWrapping="Wrap" />
                     </Grid>
-                </Border>
-            </StackPanel>
+                </HeaderedContentControl>
 
-        </StackPanel>
-    </ScrollViewer>
+                <!--  ── SplitView ── -->
+                <HeaderedContentControl Classes="groupbox" Header="SPLIT VIEW">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Provides a collapsible side pane alongside a main content area. DisplayMode: Inline (pane shifts content) or Overlay (pane floats above content). Toggle IsPaneOpen to show/hide."
+                            TextWrapping="Wrap" />
+                        <Border
+                            Height="160"
+                            BorderBrush="{DynamicResource PipboyBorderBrush}"
+                            BorderThickness="1">
+                            <SplitView
+                                DisplayMode="Inline"
+                                IsPaneOpen="True"
+                                OpenPaneLength="150">
+                                <SplitView.Pane>
+                                    <StackPanel Margin="12,10" Spacing="2">
+                                        <TextBlock
+                                            Margin="0,0,0,6"
+                                            Classes="dim"
+                                            FontSize="10"
+                                            Text="NAVIGATION" />
+                                        <TextBlock Text="STATUS" />
+                                        <TextBlock Text="INVENTORY" />
+                                        <TextBlock Text="QUESTS" />
+                                        <TextBlock Text="MAP" />
+                                        <TextBlock Text="RADIO" />
+                                    </StackPanel>
+                                </SplitView.Pane>
+                                <TextBlock
+                                    Margin="16"
+                                    VerticalAlignment="Center"
+                                    Classes="dim"
+                                    Text="Main content area — SplitView shifts this region when the pane opens in Inline mode."
+                                    TextWrapping="Wrap" />
+                            </SplitView>
+                        </Border>
+                    </StackPanel>
+                </HeaderedContentControl>
+
+                <!--  ── GridSplitter ── -->
+                <HeaderedContentControl Classes="groupbox" Header="GRID SPLITTER">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Drag the splitter bar to resize adjacent Grid columns or rows interactively. Place in a Grid cell between the resizable regions."
+                            TextWrapping="Wrap" />
+                        <Border
+                            Height="130"
+                            BorderBrush="{DynamicResource PipboyBorderBrush}"
+                            BorderThickness="1">
+                            <Grid ColumnDefinitions="*,5,*">
+                                <StackPanel Grid.Column="0" Margin="12,10" Spacing="4">
+                                    <TextBlock Classes="dim" FontSize="10" Text="LEFT PANEL" />
+                                    <TextBlock
+                                        Classes="dim"
+                                        Text="Drag the divider right to give more space to this panel."
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                                <GridSplitter
+                                    Grid.Column="1"
+                                    Width="5"
+                                    ResizeDirection="Columns" />
+                                <StackPanel Grid.Column="2" Margin="12,10" Spacing="4">
+                                    <TextBlock Classes="dim" FontSize="10" Text="RIGHT PANEL" />
+                                    <TextBlock
+                                        Classes="dim"
+                                        Text="Drag left to give more space here."
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </HeaderedContentControl>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
 </UserControl>

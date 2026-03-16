@@ -209,8 +209,17 @@
         <TabItem Header="Notification" Theme="{StaticResource NavTabItem}">
             <pages:NotificationPage />
         </TabItem>
-        <TabItem Header="Dialog" Theme="{StaticResource NavTabItem}">
+        <TabItem Header="Window" Theme="{StaticResource NavTabItem}">
             <pages:WindowPage />
+        </TabItem>
+
+        <!--  PIPBOY CONTROLS  -->
+        <TabItem Header="PIPBOY CONTROLS" Theme="{StaticResource NavCategory}" />
+        <TabItem Header="Pipboy Controls" Theme="{StaticResource NavTabItem}">
+            <pages:PipboyControlsPage />
+        </TabItem>
+        <TabItem Header="CRT Display" Theme="{StaticResource NavTabItem}">
+            <pages:CrtDisplayPage />
         </TabItem>
 
         <!--  THEME  -->

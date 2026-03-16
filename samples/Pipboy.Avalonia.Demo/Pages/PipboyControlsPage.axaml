@@ -1,0 +1,497 @@
+<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.PipboyControlsPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
+    x:CompileBindings="True">
+    <ScrollViewer>
+        <StackPanel
+            Margin="24"
+            HorizontalAlignment="Left"
+            Spacing="32">
+
+            <!--  ══════════════════════════════════════════
+                  SEGMENTED BAR
+                  Drag the HP slider to see both the discrete
+                  segments and the precision progress bar update.
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="SEGMENTED BAR" />
+                <TextBlock Classes="dim" Text="Discrete segment bars. ShowProgressBar=True adds an exact fractional underbar — drag the HP slider to compare." TextWrapping="Wrap" />
+
+                <StackPanel Spacing="6" Width="340" HorizontalAlignment="Left">
+
+                    <!--  Interactive HP bar  -->
+                    <pipboy:SegmentedBar
+                        Label="HP"
+                        Maximum="100"
+                        SegmentCount="20"
+                        ShowProgressBar="True"
+                        Value="{Binding #HpSlider.Value}" />
+                    <Slider
+                        x:Name="HpSlider"
+                        Maximum="100"
+                        Minimum="0"
+                        Value="78" />
+
+                    <!--  Static bars  -->
+                    <pipboy:SegmentedBar
+                        Label="AP"
+                        Maximum="100"
+                        SegmentCount="20"
+                        ShowProgressBar="True"
+                        Value="45" />
+                    <pipboy:SegmentedBar
+                        Label="RAD"
+                        Maximum="100"
+                        SegmentCount="20"
+                        ShowProgressBar="True"
+                        Value="23" />
+
+                    <!--  No progress bar variants  -->
+                    <pipboy:SegmentedBar
+                        Maximum="100"
+                        SegmentCount="10"
+                        Value="100" />
+                    <pipboy:SegmentedBar
+                        Maximum="100"
+                        SegmentCount="10"
+                        Value="0" />
+                </StackPanel>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-segmentedbar.png -->
+            </StackPanel>
+
+            <!--  ══════════════════════════════════════════
+                  RATED ATTRIBUTE
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="RATED ATTRIBUTE" />
+                <TextBlock Classes="dim" Text="S.P.E.C.I.A.L. dot-based attribute display." />
+                <StackPanel Spacing="4" Width="320" HorizontalAlignment="Left">
+                    <pipboy:RatedAttribute Label="STRENGTH"     Value="8" />
+                    <pipboy:RatedAttribute Label="PERCEPTION"   Value="5" />
+                    <pipboy:RatedAttribute Label="ENDURANCE"    Value="7" />
+                    <pipboy:RatedAttribute Label="CHARISMA"     Value="4" />
+                    <pipboy:RatedAttribute Label="INTELLIGENCE" Value="9" />
+                    <pipboy:RatedAttribute Label="AGILITY"      Value="6" />
+                    <pipboy:RatedAttribute Label="LUCK"         Value="3" />
+                </StackPanel>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-ratedattribute.png -->
+            </StackPanel>
+
+            <!--  ══════════════════════════════════════════
+                  BLINK TEXT
+                  Toggle switch controls IsBlinking at runtime.
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="BLINK TEXT" />
+                <TextBlock Classes="dim" Text="Wraps content with a ~530 ms blink animation. Toggle the switch below." TextWrapping="Wrap" />
+
+                <StackPanel Spacing="10" HorizontalAlignment="Left">
+
+                    <pipboy:BlinkText IsBlinking="{Binding #BlinkToggle.IsChecked}">
+                        <TextBlock Classes="accent" Text="PRESS ENTER TO CONTINUE" />
+                    </pipboy:BlinkText>
+
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <ToggleSwitch
+                            x:Name="BlinkToggle"
+                            IsChecked="True"
+                            OffContent="BLINKING: OFF"
+                            OnContent="BLINKING: ON" />
+                    </StackPanel>
+
+                    <pipboy:BlinkText IsBlinking="False">
+                        <TextBlock Classes="dim" Text="(always visible — IsBlinking=False)" />
+                    </pipboy:BlinkText>
+
+                </StackPanel>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-blinktext.png -->
+            </StackPanel>
+
+            <!--  ══════════════════════════════════════════
+                  SCANLINE OVERLAY
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="SCANLINE OVERLAY" />
+                <TextBlock Classes="dim" Text="CRT monitor effect — wraps any content with horizontal scanlines." />
+                <pipboy:ScanlineOverlay Width="320" HorizontalAlignment="Left">
+                    <Border
+                        Background="{DynamicResource PipboySurfaceBrush}"
+                        BorderBrush="{DynamicResource PipboyBorderBrush}"
+                        BorderThickness="1"
+                        Padding="16">
+                        <StackPanel Spacing="4">
+                            <TextBlock Classes="h2" Text="ROBCO INDUSTRIES" />
+                            <TextBlock Classes="dim" Text="UNIFIED OPERATING SYSTEM" />
+                            <TextBlock Text="COPYRIGHT 2075 ROBCO INDUSTRIES" />
+                        </StackPanel>
+                    </Border>
+                </pipboy:ScanlineOverlay>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-scanlineoverlay.png -->
+            </StackPanel>
+
+            <!--  ══════════════════════════════════════════
+                  HEADERED CONTENT CONTROL
+                  Default (caption label) + groupbox variant
+                  + groupbox accent (primary-colour border).
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="HEADERED CONTENT CONTROL" />
+                <TextBlock Classes="dim" Text="Default: dim caption above content.  Classes=&quot;groupbox&quot;: bordered container with floating header notch.  Classes=&quot;groupbox accent&quot;: primary-colour border for highlighted sections." TextWrapping="Wrap" />
+
+                <Grid ColumnDefinitions="*,16,*,16,*" HorizontalAlignment="Left" Width="640">
+
+                    <!--  Default (caption + content)  -->
+                    <StackPanel Grid.Column="0" Spacing="2">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="DEFAULT" />
+                        <HeaderedContentControl Header="VAULT OVERSEER">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="NAME: NATE" />
+                                <TextBlock Text="LEVEL: 42" />
+                                <TextBlock Text="LOCATION: SANCTUARY" />
+                            </StackPanel>
+                        </HeaderedContentControl>
+                        <HeaderedContentControl Margin="0,8,0,0" Header="CURRENT WEAPON">
+                            <TextBlock Text="10MM PISTOL" />
+                        </HeaderedContentControl>
+                    </StackPanel>
+
+                    <!--  groupbox  -->
+                    <StackPanel Grid.Column="2" Spacing="2">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="GROUPBOX" />
+                        <HeaderedContentControl Classes="groupbox" Header="INVENTORY">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="STIMPAK          x 12" />
+                                <TextBlock Text="NUKA-COLA        x 4" />
+                                <TextBlock Text="BOBBY PIN        x 30" />
+                                <TextBlock Text="BOTTLE CAP       x 843" />
+                            </StackPanel>
+                        </HeaderedContentControl>
+                        <HeaderedContentControl
+                            Margin="0,8,0,0"
+                            Classes="groupbox"
+                            Header="DISABLED"
+                            IsEnabled="False">
+                            <TextBlock Text="SECTION OFFLINE" />
+                        </HeaderedContentControl>
+                    </StackPanel>
+
+                    <!--  groupbox accent  -->
+                    <StackPanel Grid.Column="4" Spacing="2">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="GROUPBOX ACCENT" />
+                        <HeaderedContentControl Classes="groupbox accent" Header="ACTIVE QUEST">
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="accent" Text="THE NUCLEAR OPTION" />
+                                <TextBlock Classes="dim" Text="Reach the Institute relay room." />
+                            </StackPanel>
+                        </HeaderedContentControl>
+                        <HeaderedContentControl
+                            Margin="0,8,0,0"
+                            Classes="groupbox accent"
+                            Header="CRITICAL ALERT">
+                            <TextBlock Text="RADIATION LEVEL HIGH" />
+                        </HeaderedContentControl>
+                    </StackPanel>
+
+                </Grid>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-headeredcontentcontrol.png -->
+            </StackPanel>
+
+            <!--  ══════════════════════════════════════════
+                  BRACKET HIGHLIGHT — SELECTION GROUP
+                  Click any item; the group auto-deselects
+                  all others (RadioButton-style).
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="BRACKET HIGHLIGHT" />
+                <TextBlock Classes="dim" Text="Click any item — SelectionGroup makes selection mutually exclusive." />
+
+                <Grid ColumnDefinitions="*,32,*" HorizontalAlignment="Left">
+
+                    <!--  Left: grouped menu (mutual exclusion)  -->
+                    <StackPanel Grid.Column="0" Spacing="2" Width="200">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="GROUPED (click to select)" />
+                        <pipboy:BracketHighlight
+                            IsSelected="True"
+                            SelectionGroup="mainMenu">
+                            <TextBlock Text="INVENTORY" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight SelectionGroup="mainMenu">
+                            <TextBlock Text="STATUS" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight SelectionGroup="mainMenu">
+                            <TextBlock Text="MAP" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight SelectionGroup="mainMenu">
+                            <TextBlock Text="RADIO" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight SelectionGroup="mainMenu">
+                            <TextBlock Text="DATA" />
+                        </pipboy:BracketHighlight>
+                    </StackPanel>
+
+                    <!--  Right: standalone (no group — hover only)  -->
+                    <StackPanel Grid.Column="2" Spacing="2" Width="200">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="STANDALONE (hover only)" />
+                        <pipboy:BracketHighlight>
+                            <TextBlock Text="ACCESS FILES" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight>
+                            <TextBlock Text="UNLOCK DOOR" />
+                        </pipboy:BracketHighlight>
+                        <pipboy:BracketHighlight IsSelected="True">
+                            <TextBlock Text="SELF DESTRUCT" />
+                        </pipboy:BracketHighlight>
+                    </StackPanel>
+
+                </Grid>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-brackethighlight.png -->
+            </StackPanel>
+
+            <!--  ══════════════════════════════════════════
+                  PIPBOY TAB STRIP
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="PIPBOY TAB STRIP" />
+                <TextBlock Classes="dim" Text="Horizontal tab navigation — D-Pad Left/Right or click to navigate." />
+                <pipboy:PipboyTabStrip
+                    Width="400"
+                    HorizontalAlignment="Left"
+                    SelectedIndex="0">
+                    <pipboy:PipboyTabStripItem Content="STAT" />
+                    <pipboy:PipboyTabStripItem Content="INV" />
+                    <pipboy:PipboyTabStripItem Content="DATA" />
+                    <pipboy:PipboyTabStripItem Content="MAP" />
+                    <pipboy:PipboyTabStripItem Content="RADIO" />
+                </pipboy:PipboyTabStrip>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-pipboytabstrip.png -->
+            </StackPanel>
+
+            <!--  ══════════════════════════════════════════
+                  TERMINAL PANEL
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="TERMINAL PANEL" />
+                <TextBlock Classes="dim" Text="CRT terminal container. TypewriterEffect reveals text character-by-character." TextWrapping="Wrap" />
+
+                <StackPanel Spacing="12" Width="420" HorizontalAlignment="Left">
+
+                    <pipboy:TerminalPanel
+                        Content="ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL&#x0a;ENTER PASSWORD NOW&#x0a;&#x0a;> _"
+                        TypewriterEffect="False" />
+
+                    <StackPanel Spacing="6">
+                        <pipboy:TerminalPanel
+                            x:Name="TypewriterTerminal"
+                            Content="ACCESSING VAULT-TEC MAINFRAME...&#x0a;CONNECTION ESTABLISHED.&#x0a;WELCOME, OVERSEER."
+                            TypewriterDelayMs="40"
+                            TypewriterEffect="True" />
+                        <Button
+                            HorizontalAlignment="Left"
+                            Click="OnTerminalReplay"
+                            Content="REPLAY TYPEWRITER" />
+                    </StackPanel>
+
+                </StackPanel>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-terminalpanel.png -->
+            </StackPanel>
+
+            <!--  ══════════════════════════════════════════
+                  PIPBOY COUNTDOWN
+                  Three rows:
+                  1. Seconds (default) — 3-minute self-destruct
+                  2. Hours precision   — vault lockdown
+                  3. Milliseconds      — fast game timer
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="PIPBOY COUNTDOWN" />
+                <TextBlock Classes="dim" Text="TimePrecision controls display format and tick rate. Use Start/Stop/Reset to interact." TextWrapping="Wrap" />
+
+                <Grid ColumnDefinitions="220,24,220,24,240" HorizontalAlignment="Left">
+
+                    <!--  Col 0: Seconds (default) — interactive  -->
+                    <StackPanel Grid.Column="0" Spacing="8">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="10"
+                            Text="PRECISION: SECONDS" />
+                        <pipboy:PipboyCountdown
+                            x:Name="DemoCountdown"
+                            Duration="0:3:00"
+                            Label="SELF DESTRUCT"
+                            Precision="Seconds" />
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Button MinWidth="72" Click="OnCountdownStart"  Content="START"  />
+                            <Button MinWidth="72" Click="OnCountdownStop"   Content="STOP"   />
+                            <Button MinWidth="72" Click="OnCountdownReset"  Content="RESET"  />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--  Col 2: Hours precision — static  -->
+                    <StackPanel Grid.Column="2" Spacing="8">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="10"
+                            Text="PRECISION: HOURS" />
+                        <pipboy:PipboyCountdown
+                            Duration="1:30:00"
+                            Label="VAULT LOCKDOWN"
+                            Precision="Hours" />
+                    </StackPanel>
+
+                    <!--  Col 4: Milliseconds — interactive  -->
+                    <StackPanel Grid.Column="4" Spacing="8">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="10"
+                            Text="PRECISION: MILLISECONDS  (50 ms tick)" />
+                        <pipboy:PipboyCountdown
+                            x:Name="MsCountdown"
+                            Duration="0:0:30"
+                            Label="ROUND TIMER"
+                            Precision="Milliseconds" />
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Button MinWidth="72" Click="OnMsCountdownStart"  Content="START"  />
+                            <Button MinWidth="72" Click="OnMsCountdownStop"   Content="STOP"   />
+                            <Button MinWidth="72" Click="OnMsCountdownReset"  Content="RESET"  />
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-pipboycountdown.png -->
+            </StackPanel>
+
+            <!--  ══════════════════════════════════════════
+                  CRT DISPLAY
+                  Full animated CRT overlay: scanlines,
+                  scan beam, noise, vignette, flicker.
+                  Toggle each effect independently.
+                  ══════════════════════════════════════════  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="CRT DISPLAY" />
+                <TextBlock
+                    Classes="dim"
+                    Text="Animated CRT overlay — scanlines, scan beam, static noise, vignette, and flicker. Toggle effects below."
+                    TextWrapping="Wrap" />
+
+                <Grid ColumnDefinitions="340,24,Auto" HorizontalAlignment="Left">
+
+                    <!--  Col 0: live preview  -->
+                    <pipboy:CrtDisplay
+                        x:Name="DemoCrt"
+                        Grid.Column="0"
+                        Width="340"
+                        Height="200"
+                        HorizontalAlignment="Left"
+                        EnableFlicker="{Binding #FlickerToggle.IsChecked}"
+                        EnableNoise="{Binding #NoiseToggle.IsChecked}"
+                        EnableScanBeam="{Binding #BeamToggle.IsChecked}"
+                        EnableScanlines="{Binding #ScanlineToggle.IsChecked}"
+                        EnableVignette="{Binding #VignetteToggle.IsChecked}"
+                        ShowFps="{Binding #FpsToggle.IsChecked}">
+                        <Border Background="{DynamicResource PipboySurfaceBrush}" Padding="16">
+                            <StackPanel Spacing="6">
+                                <TextBlock Classes="h2" Text="ROBCO INDUSTRIES" />
+                                <TextBlock Classes="dim" Text="UNIFIED OPERATING SYSTEM" />
+                                <TextBlock Text="COPYRIGHT 2075 ROBCO INDUSTRIES" />
+                                <TextBlock Text="─────────────────────────────" />
+                                <TextBlock Text="&gt; INITIATING BOOT SEQUENCE..." />
+                                <TextBlock Text="&gt; LOADING SUBSYSTEMS......OK" />
+                                <TextBlock Text="&gt; WELCOME, USER_" />
+                            </StackPanel>
+                        </Border>
+                    </pipboy:CrtDisplay>
+
+                    <!--  Col 2: toggle panel  -->
+                    <StackPanel
+                        Grid.Column="2"
+                        Width="200"
+                        VerticalAlignment="Center"
+                        Spacing="4">
+                        <TextBlock
+                            Margin="0,0,0,4"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="EFFECTS" />
+                        <ToggleSwitch
+                            x:Name="ScanlineToggle"
+                            IsChecked="True"
+                            OffContent="SCANLINES: OFF"
+                            OnContent="SCANLINES: ON" />
+                        <ToggleSwitch
+                            x:Name="BeamToggle"
+                            IsChecked="True"
+                            OffContent="SCAN BEAM: OFF"
+                            OnContent="SCAN BEAM: ON" />
+                        <ToggleSwitch
+                            x:Name="NoiseToggle"
+                            IsChecked="True"
+                            OffContent="NOISE: OFF"
+                            OnContent="NOISE: ON" />
+                        <ToggleSwitch
+                            x:Name="VignetteToggle"
+                            IsChecked="True"
+                            OffContent="VIGNETTE: OFF"
+                            OnContent="VIGNETTE: ON" />
+                        <ToggleSwitch
+                            x:Name="FlickerToggle"
+                            IsChecked="False"
+                            OffContent="FLICKER: OFF"
+                            OnContent="FLICKER: ON" />
+                        <ToggleSwitch
+                            x:Name="FpsToggle"
+                            IsChecked="False"
+                            OffContent="FPS OVERLAY: OFF"
+                            OnContent="FPS OVERLAY: ON" />
+                    </StackPanel>
+
+                </Grid>
+
+                <!--  Heavy noise variant for comparison  -->
+                <TextBlock
+                    Margin="0,8,0,0"
+                    Classes="dim"
+                    FontSize="10"
+                    Text="HEAVY NOISE VARIANT  (NoiseDensity=0.06, NoisePixelSize=2)" />
+                <pipboy:CrtDisplay
+                    Width="340"
+                    Height="80"
+                    HorizontalAlignment="Left"
+                    EnableScanBeam="False"
+                    EnableVignette="False"
+                    NoiseDensity="0.06"
+                    NoisePixelSize="2"
+                    ScanlineOpacity="0.18"
+                    ScanlineSpacing="4">
+                    <Border Background="{DynamicResource PipboySurfaceBrush}" Padding="12">
+                        <TextBlock Classes="dim" Text="SIGNAL DEGRADED — INTERFERENCE DETECTED" />
+                    </Border>
+                </pipboy:CrtDisplay>
+
+                <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-crtdisplay.png -->
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
