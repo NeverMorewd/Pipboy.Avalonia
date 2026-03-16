@@ -15,7 +15,7 @@
         EnableNoise="True"
         EnableScanBeam="True"
         EnableScanlines="True"
-        EnableScanlineAnimation="True"
+        EnableScanlineAnimation="False"
         EnableVignette="True"
         NoiseDensity="0.015"
         NoiseOpacity="0.04"
