@@ -1,28 +1,25 @@
 name: Deploy WASM Demo → GitHub Pages
 
+# ─────────────────────────────────────────────────────────────────────────────
+# ONE-TIME MANUAL SETUP (do this once before the first run):
+#   Repository → Settings → Pages → Source → "GitHub Actions" → Save
+# After that, every push to main triggers an automatic deployment.
+# ─────────────────────────────────────────────────────────────────────────────
+
 on:
-  # Auto-deploy whenever main is updated
   push:
     branches: [ main ]
-  # Allow triggering manually from the Actions tab
   workflow_dispatch:
 
-# contents: write  — needed for configure-pages enablement: true (auto-enables Pages)
-# pages: write     — needed to upload and deploy the Pages artifact
-# id-token: write  — needed for OIDC token used by deploy-pages
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
-# Only one Pages deployment runs at a time; new runs cancel the in-progress one
+# Only one Pages deployment runs at a time; newer runs cancel the in-progress one
 concurrency:
   group: github-pages
   cancel-in-progress: true
-
-# Suppress Node.js 20 deprecation warnings from third-party actions
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 jobs:
   build-and-deploy:
@@ -33,6 +30,10 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
+
+    # Run all JS-based actions on Node 24 to suppress the Node 20 deprecation warning
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout
@@ -51,22 +52,18 @@ jobs:
       - name: Publish Browser project
         run: dotnet publish samples/Pipboy.Avalonia.Demo.Browser/Pipboy.Avalonia.Demo.Browser.csproj --configuration Release --output "${{ runner.temp }}/publish"
 
-      # .nojekyll stops GitHub Pages from running Jekyll, which would mangle
-      # Avalonia asset filenames that start with underscores (_framework, etc.)
+      # Disable Jekyll so GitHub Pages doesn't mangle _framework/* asset names
       - name: Add .nojekyll
         run: touch "${{ runner.temp }}/publish/wwwroot/.nojekyll"
 
-      # GitHub Pages returns 404 for any path that isn't a file;
-      # serving index.html as 404 lets the app handle the URL client-side.
+      # Serve index.html as the 404 page so any unknown path falls back to the app
       - name: Copy index.html → 404.html
         run: cp "${{ runner.temp }}/publish/wwwroot/index.html" "${{ runner.temp }}/publish/wwwroot/404.html"
 
-      # enablement: true — automatically enables Pages via API if not already on.
-      # Requires contents: write permission above.
+      # NOTE: enablement is intentionally omitted.
+      # Pages source must be set to "GitHub Actions" once in repo Settings → Pages.
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
