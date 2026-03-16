@@ -13,7 +13,8 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
-    <PackageProjectUrl>https://github.com/pipboy-avalonia/Pipboy.Avalonia</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/NeverMorewd/Pipboy.Avalonia</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/NeverMorewd/Pipboy.Avalonia</PackageProjectUrl>
     <!-- Compiled bindings eliminate reflection-based XAML binding — required for AOT -->
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <!-- AOT / Trimming compatibility markers -->

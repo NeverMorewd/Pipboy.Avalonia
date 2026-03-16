@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Restore dependencies
+        run: dotnet restore src/Pipboy.Avalonia/Pipboy.Avalonia.csproj
+
+      - name: Build (Release)
+        run: |
+          dotnet build src/Pipboy.Avalonia/Pipboy.Avalonia.csproj \
+            --no-restore \
+            --configuration Release
+
+      - name: Run tests
+        run: |
+          dotnet test tests/Pipboy.Avalonia.Tests/Pipboy.Avalonia.Tests.csproj \
+            --configuration Release \
+            --verbosity normal

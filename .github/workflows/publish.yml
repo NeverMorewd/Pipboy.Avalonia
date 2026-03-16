@@ -1,0 +1,79 @@
+name: Publish NuGet
+
+on:
+  # Trigger automatically when a version tag is pushed: git tag v1.2.3 && git push --tags
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-*'   # pre-release: v1.0.0-beta.1
+
+  # Allow triggering manually from the Actions tab (useful for re-publishing)
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version to publish (e.g. 1.2.3 or 1.2.3-beta.1)'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    name: Pack & Push to NuGet.org
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      # ── Resolve package version ─────────────────────────────────────────────
+      # Tag push  → strip the leading 'v'  (v1.2.3  →  1.2.3)
+      # Manual    → use the workflow_dispatch input directly
+      - name: Resolve version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          else
+            VERSION="${{ inputs.version }}"
+          fi
+          echo "Resolved version: $VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      # ── Build & Pack ─────────────────────────────────────────────────────────
+      - name: Restore
+        run: dotnet restore src/Pipboy.Avalonia/Pipboy.Avalonia.csproj
+
+      - name: Pack
+        run: |
+          dotnet pack src/Pipboy.Avalonia/Pipboy.Avalonia.csproj \
+            --no-restore \
+            --configuration Release \
+            -p:Version=${{ steps.version.outputs.version }} \
+            --output ./nupkg
+
+      - name: List produced packages
+        run: ls -lh ./nupkg/
+
+      # ── Push to NuGet.org ────────────────────────────────────────────────────
+      # Required secret: NUGET_API_KEY
+      # Set it at: GitHub repo → Settings → Secrets and variables → Actions
+      - name: Push to NuGet.org
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --api-key "${{ secrets.NUGET_API_KEY }}" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+      # ── Create GitHub Release ────────────────────────────────────────────────
+      - name: Create GitHub Release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          generate_release_notes: true
+          files: ./nupkg/*.nupkg
