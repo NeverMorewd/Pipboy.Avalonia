@@ -809,7 +809,7 @@ public class CrtDisplay : Panel
     /// <summary>
     /// Always-positive modulo. Returns 0 when <paramref name="m"/> is zero or negative.
     /// </summary>
-    private static double PositiveMod(double x, double m)
+    internal static double PositiveMod(double x, double m)
     {
         if (m <= 0) return 0;
         double r = x % m;
