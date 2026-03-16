@@ -1,4 +1,7 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
     <Styles.Resources>
 
         <!--
@@ -29,6 +32,44 @@
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </VisualLayerManager>
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+        <!--
+            PipboyWindow ControlTheme — replaces the default OS chrome with
+            a PipboyTitleBar docked to the top of the content area.
+            The Window must have ExtendClientAreaToDecorationsHint=True and
+            ExtendClientAreaChromeHints=NoChrome (set in PipboyWindow ctor).
+        -->
+        <ControlTheme x:Key="{x:Type pipboy:PipboyWindow}" TargetType="pipboy:PipboyWindow">
+            <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
+            <Setter Property="FontSize"   Value="{DynamicResource PipboyFontSize}" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="pipboy:PipboyWindow">
+                    <Panel>
+                        <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+                        <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
+                        <Panel Margin="{TemplateBinding WindowDecorationMargin}" Background="Transparent" />
+                        <VisualLayerManager>
+                            <!--  DockPanel: title bar on top, content fills the rest  -->
+                            <DockPanel>
+                                <pipboy:PipboyTitleBar
+                                    DockPanel.Dock="Top"
+                                    Title="{TemplateBinding Title}"
+                                    TitleBarContent="{TemplateBinding TitleBarContent}" />
+                                <ContentPresenter
+                                    Name="PART_ContentPresenter"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            </DockPanel>
                         </VisualLayerManager>
                     </Panel>
                 </ControlTemplate>

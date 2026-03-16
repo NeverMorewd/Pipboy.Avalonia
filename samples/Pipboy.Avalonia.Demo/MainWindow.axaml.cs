@@ -1,8 +1,8 @@
-using Avalonia.Controls;
+using Pipboy.Avalonia;
 
 namespace Pipboy.Avalonia.Demo;
 
-public partial class MainWindow : Window
+public partial class MainWindow : PipboyWindow
 {
     public MainWindow()
     {
