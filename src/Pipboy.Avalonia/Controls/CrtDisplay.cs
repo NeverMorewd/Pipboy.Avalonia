@@ -332,6 +332,11 @@ public class CrtDisplay : Panel
     private ImmutableSolidColorBrush? _scanBeamSolidBrush;
     private Color                      _cachedScanBeamColor = default;
 
+    // When true the scan-beam colour follows the theme automatically.
+    // Set to false as soon as the user explicitly assigns ScanBeamColor.
+    private bool _autoScanBeamColor   = true;
+    private bool _updatingFromTheme   = false;
+
     private RadialGradientBrush? _vignetteBrush;
     private double               _cachedVignetteIntensity = -1;
 
@@ -365,7 +370,13 @@ public class CrtDisplay : Panel
         NoiseDensityProperty  .Changed.AddClassHandler<CrtDisplay>((c, _) => c.RebuildNoise());
         NoisePixelSizeProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => c.RebuildNoise());
 
-        ScanBeamColorProperty         .Changed.AddClassHandler<CrtDisplay>((c, _) => { c._scanBeamBrush = null; c._scanBeamSolidBrush = null; });
+        ScanBeamColorProperty         .Changed.AddClassHandler<CrtDisplay>((c, _) =>
+        {
+            c._scanBeamBrush = null;
+            c._scanBeamSolidBrush = null;
+            // Any explicit assignment (AXAML, binding, code) disables auto-theme tracking.
+            if (!c._updatingFromTheme) c._autoScanBeamColor = false;
+        });
         EnableScanBeamGradientProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => { c._scanBeamBrush = null; c._scanBeamSolidBrush = null; });
 
         VignetteIntensityProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => c._vignetteBrush = null);
@@ -444,6 +455,12 @@ public class CrtDisplay : Panel
         UpdateAnimTimer();
         UpdateNoiseTimer();
         RebuildNoise();
+
+        if (_autoScanBeamColor)
+        {
+            ApplyScanBeamColorFromTheme();
+            PipboyThemeManager.Instance.ThemeColorChanged += OnThemeColorChanged;
+        }
     }
 
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
@@ -451,6 +468,21 @@ public class CrtDisplay : Panel
         base.OnDetachedFromVisualTree(e);
         StopAnimTimer();
         StopNoiseTimer();
+        PipboyThemeManager.Instance.ThemeColorChanged -= OnThemeColorChanged;
+    }
+
+    private void OnThemeColorChanged(object? sender, ThemeColorChangedEventArgs e)
+    {
+        if (!_autoScanBeamColor) return;
+        ApplyScanBeamColorFromTheme();
+    }
+
+    private void ApplyScanBeamColorFromTheme()
+    {
+        var p = PipboyThemeManager.Instance.PrimaryColor;
+        _updatingFromTheme = true;
+        ScanBeamColor = Color.FromArgb(40, p.R, p.G, p.B);
+        _updatingFromTheme = false;
     }
 
     protected override void OnSizeChanged(SizeChangedEventArgs e)

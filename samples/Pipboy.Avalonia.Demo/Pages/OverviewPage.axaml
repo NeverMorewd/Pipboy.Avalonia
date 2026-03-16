@@ -149,6 +149,46 @@
                                     Content="RESET" />
                             </StackPanel>
 
+                            <!--  Color theme picker  -->
+                            <HeaderedContentControl Classes="groupbox" Header="COLOR THEME">
+                                <StackPanel Spacing="4">
+                                    <WrapPanel Orientation="Horizontal">
+                                        <WrapPanel.Styles>
+                                            <Style Selector="Border.swatch">
+                                                <Setter Property="Width" Value="17" />
+                                                <Setter Property="Height" Value="17" />
+                                                <Setter Property="Margin" Value="0,0,4,4" />
+                                                <Setter Property="Cursor" Value="Hand" />
+                                                <Setter Property="CornerRadius" Value="2" />
+                                            </Style>
+                                        </WrapPanel.Styles>
+                                        <!--  Classic  -->
+                                        <Border Classes="swatch" Background="#15FF52" Tag="#15FF52" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="PIPBOY GREEN" />
+                                        <Border Classes="swatch" Background="#FFA500" Tag="#FFA500" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="AMBER" />
+                                        <Border Classes="swatch" Background="#00BFFF" Tag="#00BFFF" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="BLUE" />
+                                        <Border Classes="swatch" Background="#FF3030" Tag="#FF3030" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="RED" />
+                                        <Border Classes="swatch" Background="#00FFEE" Tag="#00FFEE" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="CYAN" />
+                                        <Border Classes="swatch" Background="#BB44FF" Tag="#BB44FF" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="PURPLE" />
+                                        <Border Classes="swatch" Background="#FFD700" Tag="#FFD700" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="GOLD" />
+                                        <Border Classes="swatch" Background="#FF8C00" Tag="#FF8C00" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="ORANGE" />
+                                        <!--  Modern / Geek  -->
+                                        <Border Classes="swatch" Background="#607D8B" Tag="#607D8B" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="SLATE" />
+                                        <Border Classes="swatch" Background="#9E9E9E" Tag="#9E9E9E" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="GRAPHITE" />
+                                        <Border Classes="swatch" Background="#88C0D0" Tag="#88C0D0" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="NORD" />
+                                        <Border Classes="swatch" Background="#0F52BA" Tag="#0F52BA" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="COBALT" />
+                                        <Border Classes="swatch" Background="#5C6BC0" Tag="#5C6BC0" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="INDIGO" />
+                                        <Border Classes="swatch" Background="#FF4080" Tag="#FF4080" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="ROSE" />
+                                        <Border Classes="swatch" Background="#39FF14" Tag="#39FF14" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="NEON" />
+                                        <Border Classes="swatch" Background="#FF8FAB" Tag="#FF8FAB" PointerPressed="OnSwatchPointerPressed" ToolTip.Tip="SAKURA" />
+                                    </WrapPanel>
+                                    <TextBlock
+                                        x:Name="SwatchLabel"
+                                        Classes="dim"
+                                        FontSize="10"
+                                        Text="PIPBOY GREEN  #15FF52" />
+                                </StackPanel>
+                            </HeaderedContentControl>
+
                         </StackPanel>
                     </ScrollViewer>
 

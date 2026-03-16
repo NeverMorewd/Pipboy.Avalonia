@@ -23,8 +23,10 @@ Sharp corners, monochromatic phosphor palette, retro terminal aesthetic — drop
 ## Features
 
 - **Full control coverage** — Button, RepeatButton, HyperlinkButton, SplitButton, DropDownButton, TextBox, CheckBox, RadioButton, ToggleButton, ToggleSwitch, Slider, ProgressBar, ScrollBar, ListBox, ComboBox, TreeView, TabControl, Menu, ContextMenu, Expander, NumericUpDown, AutoCompleteBox, DatePicker, TimePicker, CalendarDatePicker, SplitView, GridSplitter, ToolTip, FlyoutPresenter, DataValidationErrors, Notification, and more.
-- **Runtime color switching** — change the primary color at any time; all brush resources update instantly via `SolidColorBrush.Color` mutation — no layout passes triggered.
+- **Runtime color switching** — change the primary color at any time; all brush resources and CRT effects update instantly — no layout passes triggered.
 - **Monochromatic palette** — the entire color system is derived from a single HSL primary color. Hover, pressed, selection, border, and background variants are computed automatically.
+- **Purpose-built controls** — `CrtDisplay`, `PipboyWindow`, `PipboyTitleBar`, `PipboyCountdown`, `PipboyPanel`, `SegmentedBar`, `RatedAttribute`, `BracketHighlight`, `PipboyTabStrip`, `TerminalPanel`, `BlinkText`, `ScanlineOverlay`.
+- **MVVM-ready** — all custom controls expose `ICommand` properties (`CompletedCommand`, `ClosedCommand`) alongside routed events for pure MVVM usage.
 - **No rounded corners** — all controls use `CornerRadius="0"` by design.
 - **Zero third-party dependencies** — only `Avalonia` is referenced.
 - **AOT / trimming compatible** — compiled XAML bindings, `IsTrimmable`, and `IsAotCompatible` all enabled.
@@ -223,6 +225,55 @@ A container styled as a Fallout terminal screen. Supports `TypewriterEffect` for
 
 <!-- SCREENSHOT PLACEHOLDER: docs/images/screenshot-terminalpanel.png -->
 
+### CrtDisplay
+
+A `Panel` that layers animated CRT monitor effects over its content using only managed `DrawingContext` APIs — fully WASM-safe and AOT-compatible.
+Effects are independently toggleable: **scanlines**, **scan beam**, **static noise**, **vignette**, and **flicker**.
+The scan beam color automatically follows the active theme by default; explicitly setting `ScanBeamColor` opts out of auto-tracking.
+
+```xml
+<pipboy:CrtDisplay EnableScanBeam="True" EnableScanlines="True" EnableVignette="True"
+                   EnableNoise="True" ScanBeamSpeed="55" VignetteIntensity="0.4">
+    <Border Background="{DynamicResource PipboySurfaceBrush}">
+        <!-- your content -->
+    </Border>
+</pipboy:CrtDisplay>
+```
+
+### PipboyWindow / PipboyTitleBar
+
+A custom `Window` with a fully themed chrome: draggable title bar with `TitleBarContent` injection slot, working Minimize/Maximize/Close buttons, and a right-click system menu (Minimize / Maximize·Restore / Close). `PipboyTitleBar` is the same chrome as a standalone control for embedding inside other layouts.
+
+```xml
+<pipboy:PipboyWindow Title="VAULT-TEC OS">
+    <pipboy:PipboyWindow.TitleBarContent>
+        <pipboy:BlinkText IsBlinking="True">
+            <TextBlock Classes="accent" FontSize="10" Text="● ONLINE" />
+        </pipboy:BlinkText>
+    </pipboy:PipboyWindow.TitleBarContent>
+    <!-- window content -->
+</pipboy:PipboyWindow>
+```
+
+### PipboyCountdown
+
+A countdown timer control with configurable precision (Seconds / Minutes / Hours / Milliseconds), a label, and a `Completed` event plus `CompletedCommand` for MVVM.
+
+```xml
+<pipboy:PipboyCountdown Duration="0:3:00" Label="SELF DESTRUCT"
+                         Precision="Seconds" CompletedCommand="{Binding AlarmCommand}" />
+```
+
+### PipboyPanel
+
+A titled, closable panel container. Raises a `Closed` routed event and `ClosedCommand` when the user dismisses it.
+
+```xml
+<pipboy:PipboyPanel Header="SYSTEM ALERT" Classes="warning">
+    <TextBlock Text="Reactor core temperature critical." />
+</pipboy:PipboyPanel>
+```
+
 ---
 
 ## Design Tokens
@@ -294,7 +345,7 @@ The `samples/` directory contains a full demo app targeting all supported platfo
 
 | Page | What it shows |
 |------|--------------|
-| Overview | Side-by-side palette & key controls |
+| Overview | Live CRT dashboard — S.P.E.C.I.A.L., vitals, inventory, terminal output, and a color theme picker |
 | Buttons | Button, RepeatButton, HyperlinkButton, SplitButton, DropDownButton |
 | Text Input | TextBox, AutoCompleteBox, NumericUpDown with validation |
 | Toggles | CheckBox, RadioButton, ToggleButton, ToggleSwitch |
@@ -308,8 +359,10 @@ The `samples/` directory contains a full demo app targeting all supported platfo
 | Typography | All TextBlock classes + layout Border classes |
 | Cards | `pipboy-panel` / `pipboy-surface` layout |
 | Notifications | WindowNotificationManager (all four types) |
-| Theme | Runtime color picker |
-| Window | Window chrome, dialogs |
+| Feedback | PipboyPanel (info / warning / error), PipboyCountdown, Notification |
+| Theme | Runtime color picker with 16 presets and custom hex input |
+| CRT Display | CrtDisplay effects playground (all toggles + sliders) |
+| Window | PipboyWindow chrome, PipboyTitleBar, dialogs |
 
 ---
 
