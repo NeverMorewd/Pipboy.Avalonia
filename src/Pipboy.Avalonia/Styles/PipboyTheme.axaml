@@ -55,5 +55,6 @@
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TerminalPanel.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/PipboyCountdown.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/CrtDisplay.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/PipboyPanel.axaml" />
 
 </Styles>

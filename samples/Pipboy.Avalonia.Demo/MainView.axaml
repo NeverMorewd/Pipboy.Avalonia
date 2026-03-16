@@ -209,7 +209,7 @@
         <TabItem Header="Notification" Theme="{StaticResource NavTabItem}">
             <pages:NotificationPage />
         </TabItem>
-        <TabItem Header="Dialog" Theme="{StaticResource NavTabItem}">
+        <TabItem Header="Window" Theme="{StaticResource NavTabItem}">
             <pages:WindowPage />
         </TabItem>
 
