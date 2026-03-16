@@ -1,25 +1,35 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
+using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Platform;
 
 namespace Pipboy.Avalonia;
 
 /// <summary>
-/// A <see cref="Window"/> subclass pre-configured for Pip-Boy borderless chrome.
-/// Sets <c>ExtendClientAreaToDecorationsHint</c>, <c>NoChrome</c>, and keeps
-/// <c>SystemDecorations.Full</c> so OS resize handles and snap zones remain active.
-/// Pair with <see cref="PipboyTitleBar"/> (included automatically via the
-/// ControlTheme in PipboyTheme) for a complete custom title bar.
+/// A <see cref="Window"/> subclass with a Pip-Boy borderless chrome.
+/// Configures client-area extension and <c>NoChrome</c> so the built-in OS
+/// title bar is suppressed while resize handles and Win11 snap remain active.
+/// The custom title bar is defined inline in the ControlTheme (Window.axaml)
+/// and wired up here via <c>PART_*</c> template parts.
 /// </summary>
+[PseudoClasses(":maximized")]
 public class PipboyWindow : Window
 {
-    /// <summary>
-    /// Optional extra content placed in the centre of the title bar.
-    /// Bind or set from AXAML; the ControlTheme forwards this to <see cref="PipboyTitleBar"/>.
-    /// </summary>
     public static readonly StyledProperty<object?> TitleBarContentProperty =
         AvaloniaProperty.Register<PipboyWindow, object?>(nameof(TitleBarContent));
 
+    static PipboyWindow()
+    {
+        WindowStateProperty.Changed.AddClassHandler<PipboyWindow>(
+            (w, e) => w.PseudoClasses.Set(":maximized", e.NewValue is WindowState.Maximized));
+    }
+
+    /// <summary>
+    /// Optional extra content placed in the centre of the title bar
+    /// (e.g. status indicator, version badge, breadcrumb).
+    /// </summary>
     public object? TitleBarContent
     {
         get => GetValue(TitleBarContentProperty);
@@ -28,11 +38,46 @@ public class PipboyWindow : Window
 
     public PipboyWindow()
     {
-        // Extend client area to full window bounds, suppress OS chrome,
-        // but keep SystemDecorations.Full for resize handles and Win11 snap.
-        ExtendClientAreaToDecorationsHint = true;
-        ExtendClientAreaChromeHints       = ExtendClientAreaChromeHints.NoChrome;
+        ExtendClientAreaToDecorationsHint  = true;
+        ExtendClientAreaChromeHints        = ExtendClientAreaChromeHints.NoChrome;
         ExtendClientAreaTitleBarHeightHint = -1;
-        SystemDecorations                 = SystemDecorations.Full;
+        SystemDecorations                  = SystemDecorations.Full;
+    }
+
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+
+        if (e.NameScope.Find<Control>("PART_TitleDragArea") is { } drag)
+            drag.PointerPressed += OnDragPointerPressed;
+
+        if (e.NameScope.Find<Button>("PART_MinimizeButton") is { } min)
+            min.Click += (_, _) => WindowState = WindowState.Minimized;
+
+        if (e.NameScope.Find<Button>("PART_MaxRestoreButton") is { } maxRestore)
+            maxRestore.Click += (_, _) =>
+                WindowState = WindowState == WindowState.Maximized
+                    ? WindowState.Normal
+                    : WindowState.Maximized;
+
+        if (e.NameScope.Find<Button>("PART_CloseButton") is { } close)
+            close.Click += (_, _) => Close();
+    }
+
+    private void OnDragPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed) return;
+
+        if (e.ClickCount >= 2)
+        {
+            WindowState = WindowState == WindowState.Maximized
+                ? WindowState.Normal
+                : WindowState.Maximized;
+            e.Handled = true;
+        }
+        else
+        {
+            BeginMoveDrag(e);
+        }
     }
 }
