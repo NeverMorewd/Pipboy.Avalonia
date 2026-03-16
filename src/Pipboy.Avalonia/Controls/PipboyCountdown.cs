@@ -1,6 +1,8 @@
 using System;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Threading;
 
@@ -28,6 +30,7 @@ namespace Pipboy.Avalonia;
 /// Uses <see cref="DispatcherTimer"/> internally — fully compatible with WASM and AOT builds.
 /// </para>
 /// </summary>
+[PseudoClasses(":running", ":completed", ":hours", ":milliseconds")]
 public class PipboyCountdown : TemplatedControl
 {
     // ── Styled properties ────────────────────────────────────────────────────
@@ -91,6 +94,22 @@ public class PipboyCountdown : TemplatedControl
     private double _elapsedFraction;
     private DispatcherTimer? _timer;
     private bool _completed;
+
+    // ── MVVM command properties ───────────────────────────────────────────────
+
+    /// <summary>
+    /// Optional <see cref="ICommand"/> executed when the countdown reaches zero.
+    /// Enables MVVM-style completion handling without code-behind.
+    /// </summary>
+    public static readonly StyledProperty<ICommand?> CompletedCommandProperty =
+        AvaloniaProperty.Register<PipboyCountdown, ICommand?>(nameof(CompletedCommand));
+
+    /// <summary>Gets or sets the command executed when the countdown completes.</summary>
+    public ICommand? CompletedCommand
+    {
+        get => GetValue(CompletedCommandProperty);
+        set => SetValue(CompletedCommandProperty, value);
+    }
 
     // ── Events ────────────────────────────────────────────────────────────────
 
@@ -260,6 +279,8 @@ public class PipboyCountdown : TemplatedControl
             PseudoClasses.Set(":completed", true);
             Tick?.Invoke(this, EventArgs.Empty);
             Completed?.Invoke(this, EventArgs.Empty);
+            if (CompletedCommand?.CanExecute(null) is true)
+                CompletedCommand.Execute(null);
         }
         else
         {

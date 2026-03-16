@@ -1,85 +1,135 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.TabControlPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  TabControl top  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="TAB CONTROL — TOP (default)" />
-                <TabControl Width="440" Height="160">
-                    <TabItem Header="STATUS">
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="TAB CONTROL" />
+                <TextBlock
+                    Classes="dim"
+                    FontSize="11"
+                    Text="Tabbed content panels. TabStripPlacement sets the tab bar position: Top, Bottom, Left, or Right." />
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── Top tabs ── -->
+                <HeaderedContentControl Classes="groupbox" Header="TOP TABS  (TabStripPlacement=Top — default)">
+                    <StackPanel Spacing="8">
                         <TextBlock
-                            Margin="12"
-                            Text="Character is in good health. No active status effects. Radiation: 0 RAD."
+                            Classes="dim"
+                            FontSize="11"
+                            Text="The default placement. Keyboard: Left/Right arrows navigate tabs; Space/Enter selects. Disabled tabs are skipped."
                             TextWrapping="Wrap" />
-                    </TabItem>
-                    <TabItem Header="QUESTS">
-                        <StackPanel Margin="12" Spacing="4">
-                            <TextBlock Classes="accent" Text="● The Nuclear Option" />
-                            <TextBlock Classes="dim" Text="○ Road to Freedom" />
-                            <TextBlock Classes="dim" Text="○ Taking Independence" />
-                        </StackPanel>
-                    </TabItem>
-                    <TabItem Header="MAP">
-                        <TextBlock Margin="12" Text="Current location: The Glowing Sea — CAUTION: HIGH RADIATION" />
-                    </TabItem>
-                    <TabItem Header="DISABLED" IsEnabled="False" />
-                </TabControl>
-            </StackPanel>
+                        <TabControl Height="180">
+                            <TabItem Header="STATUS">
+                                <StackPanel Margin="12" Spacing="4">
+                                    <TextBlock Text="Character status: Healthy" />
+                                    <TextBlock Classes="dim" Text="No active effects · Radiation: 0 RAD" />
+                                    <TextBlock Classes="dim" Text="Carry weight: 24.3 / 270" />
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem Header="QUESTS">
+                                <StackPanel Margin="12" Spacing="4">
+                                    <TextBlock Classes="accent" Text="● The Nuclear Option" />
+                                    <TextBlock Classes="dim" Text="○ Road to Freedom" />
+                                    <TextBlock Classes="dim" Text="○ Taking Independence" />
+                                    <TextBlock Classes="dim" Text="○ Dangerous Minds" />
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem Header="MAP">
+                                <TextBlock Margin="12" Text="Current location: The Glowing Sea  ⚠ HIGH RADIATION ZONE" />
+                            </TabItem>
+                            <TabItem Header="RADIO">
+                                <StackPanel Margin="12" Spacing="4">
+                                    <TextBlock Classes="accent" Text="▶ Galaxy News Radio — 87.6 MHz" />
+                                    <TextBlock Classes="dim" Text="○ Diamond City Radio" />
+                                    <TextBlock Classes="dim" Text="○ Vault 81 Intercom" />
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem Header="DISABLED" IsEnabled="False" />
+                        </TabControl>
+                    </StackPanel>
+                </HeaderedContentControl>
 
-            <!--  TabControl left  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="TAB CONTROL — LEFT" />
-                <TabControl
-                    Width="440"
-                    Height="200"
-                    TabStripPlacement="Left">
-                    <TabItem Header="WEAPONS">
-                        <StackPanel Margin="12" Spacing="4">
-                            <TextBlock Text="10mm Pistol" />
-                            <TextBlock Text="Assault Rifle" />
-                            <TextBlock Text="Plasma Rifle" />
-                        </StackPanel>
-                    </TabItem>
-                    <TabItem Header="ARMOR">
-                        <TextBlock Margin="12" Text="Combat Armor — DR: 42 | ER: 38" />
-                    </TabItem>
-                    <TabItem Header="AMMO">
-                        <StackPanel Margin="12" Spacing="4">
-                            <TextBlock Text=".38 Rounds    ×324" />
-                            <TextBlock Text="5.56mm         ×156" />
-                            <TextBlock Text="Fusion Cell    ×72" />
-                        </StackPanel>
-                    </TabItem>
-                </TabControl>
-            </StackPanel>
+                <!--  ── Left + Bottom side by side ── -->
+                <Grid ColumnDefinitions="*,16,*">
 
-            <!--  Menu  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="MENU" />
-                <Menu>
-                    <MenuItem Header="_FILE">
-                        <MenuItem Header="_New" />
-                        <MenuItem Header="_Open" />
-                        <Separator />
-                        <MenuItem Header="_Exit" />
-                    </MenuItem>
-                    <MenuItem Header="_VIEW">
-                        <MenuItem Header="_Status" />
-                        <MenuItem Header="_Inventory" />
-                        <MenuItem Header="_MAP" />
-                    </MenuItem>
-                    <MenuItem Header="_HELP">
-                        <MenuItem Header="_About" />
-                    </MenuItem>
-                </Menu>
-            </StackPanel>
+                    <HeaderedContentControl Grid.Column="0" Classes="groupbox" Header="LEFT TABS  (TabStripPlacement=Left)">
+                        <StackPanel Spacing="8">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Tab strip on the left. Up/Down arrows navigate."
+                                TextWrapping="Wrap" />
+                            <TabControl Height="190" TabStripPlacement="Left">
+                                <TabItem Header="WEAPONS">
+                                    <StackPanel Margin="12" Spacing="4">
+                                        <TextBlock Text="10mm Pistol" />
+                                        <TextBlock Text="Assault Rifle" />
+                                        <TextBlock Text="Plasma Rifle" />
+                                    </StackPanel>
+                                </TabItem>
+                                <TabItem Header="ARMOR">
+                                    <StackPanel Margin="12" Spacing="4">
+                                        <TextBlock Text="Combat Armor" />
+                                        <TextBlock Classes="dim" Text="DR: 42  ER: 38" />
+                                    </StackPanel>
+                                </TabItem>
+                                <TabItem Header="AMMO">
+                                    <StackPanel Margin="12" Spacing="4">
+                                        <TextBlock Text=".38 Rounds    ×324" />
+                                        <TextBlock Text="5.56mm         ×156" />
+                                        <TextBlock Text="Fusion Cell    ×72" />
+                                    </StackPanel>
+                                </TabItem>
+                            </TabControl>
+                        </StackPanel>
+                    </HeaderedContentControl>
 
-        </StackPanel>
-    </ScrollViewer>
+                    <HeaderedContentControl Grid.Column="2" Classes="groupbox" Header="BOTTOM TABS  (TabStripPlacement=Bottom)">
+                        <StackPanel Spacing="8">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Tab strip below the content area."
+                                TextWrapping="Wrap" />
+                            <TabControl Height="190" TabStripPlacement="Bottom">
+                                <TabItem Header="STATS">
+                                    <StackPanel Margin="12" Spacing="4">
+                                        <TextBlock Text="Strength      7" />
+                                        <TextBlock Text="Perception    6" />
+                                        <TextBlock Text="Endurance     5" />
+                                        <TextBlock Text="Agility       6" />
+                                    </StackPanel>
+                                </TabItem>
+                                <TabItem Header="PERKS">
+                                    <StackPanel Margin="12" Spacing="4">
+                                        <TextBlock Text="Rifleman   Rank 3" />
+                                        <TextBlock Text="Sneak       Rank 2" />
+                                        <TextBlock Text="Hacker      Rank 2" />
+                                    </StackPanel>
+                                </TabItem>
+                                <TabItem Header="NOTES">
+                                    <TextBlock Margin="12" Text="No notes recorded." />
+                                </TabItem>
+                            </TabControl>
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
 </UserControl>

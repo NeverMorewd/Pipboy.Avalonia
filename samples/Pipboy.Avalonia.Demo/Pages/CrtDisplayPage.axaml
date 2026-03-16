@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
-    x:CompileBindings="False">
+    x:CompileBindings="True">
 
     <Grid ColumnDefinitions="*,1,260">
 
@@ -13,13 +13,13 @@
             Grid.Column="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            EnableFlicker="{Binding IsChecked, ElementName=FlickerToggle}"
-            EnableNoise="{Binding IsChecked, ElementName=NoiseToggle}"
-            EnableScanBeam="{Binding IsChecked, ElementName=BeamToggle}"
-            EnableScanlineAnimation="{Binding IsChecked, ElementName=AnimToggle}"
-            EnableScanlines="{Binding IsChecked, ElementName=ScanlineToggle}"
-            EnableVignette="{Binding IsChecked, ElementName=VignetteToggle}"
-            ShowFps="{Binding IsChecked, ElementName=FpsToggle}">
+            EnableFlicker="{Binding #FlickerToggle.IsChecked}"
+            EnableNoise="{Binding #NoiseToggle.IsChecked}"
+            EnableScanBeam="{Binding #BeamToggle.IsChecked}"
+            EnableScanlineAnimation="{Binding #AnimToggle.IsChecked}"
+            EnableScanlines="{Binding #ScanlineToggle.IsChecked}"
+            EnableVignette="{Binding #VignetteToggle.IsChecked}"
+            ShowFps="{Binding #FpsToggle.IsChecked}">
 
             <Border Background="{DynamicResource PipboySurfaceBrush}">
                 <ScrollViewer Padding="24,20">
@@ -157,7 +157,7 @@
                         Maximum="0.6"
                         Minimum="0"
                         TickFrequency="0.05"
-                        Value="{Binding ScanlineOpacity, ElementName=MainCrt, Mode=TwoWay}" />
+                        Value="{Binding #MainCrt.ScanlineOpacity, Mode=TwoWay}" />
 
                     <TextBlock Classes="dim" FontSize="10" Text="SCANLINE SPACING" />
                     <Slider
@@ -165,35 +165,35 @@
                         Maximum="8"
                         Minimum="2"
                         TickFrequency="1"
-                        Value="{Binding ScanlineSpacing, ElementName=MainCrt, Mode=TwoWay}" />
+                        Value="{Binding #MainCrt.ScanlineSpacing, Mode=TwoWay}" />
 
                     <TextBlock Classes="dim" FontSize="10" Text="NOISE OPACITY" />
                     <Slider
                         Maximum="0.3"
                         Minimum="0"
                         TickFrequency="0.01"
-                        Value="{Binding NoiseOpacity, ElementName=MainCrt, Mode=TwoWay}" />
+                        Value="{Binding #MainCrt.NoiseOpacity, Mode=TwoWay}" />
 
                     <TextBlock Classes="dim" FontSize="10" Text="NOISE DENSITY" />
                     <Slider
                         Maximum="0.1"
                         Minimum="0"
                         TickFrequency="0.005"
-                        Value="{Binding NoiseDensity, ElementName=MainCrt, Mode=TwoWay}" />
+                        Value="{Binding #MainCrt.NoiseDensity, Mode=TwoWay}" />
 
                     <TextBlock Classes="dim" FontSize="10" Text="VIGNETTE INTENSITY" />
                     <Slider
                         Maximum="0.8"
                         Minimum="0"
                         TickFrequency="0.05"
-                        Value="{Binding VignetteIntensity, ElementName=MainCrt, Mode=TwoWay}" />
+                        Value="{Binding #MainCrt.VignetteIntensity, Mode=TwoWay}" />
 
                     <TextBlock Classes="dim" FontSize="10" Text="SCAN BEAM HEIGHT" />
                     <Slider
                         Maximum="120"
                         Minimum="10"
                         TickFrequency="10"
-                        Value="{Binding ScanBeamHeight, ElementName=MainCrt, Mode=TwoWay}" />
+                        Value="{Binding #MainCrt.ScanBeamHeight, Mode=TwoWay}" />
 
                     <!--  Presets  -->
                     <TextBlock

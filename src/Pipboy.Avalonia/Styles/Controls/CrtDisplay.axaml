@@ -5,10 +5,12 @@
 
     <!--
         Default style for CrtDisplay.
-        All property defaults are defined in C# code; no theme overrides needed
-        since black scanlines work universally across light and dark backgrounds.
-        To opt in to the green phosphor look, set ScanlineColor to PipboyPrimaryColor.
+        ScanBeamColor tracks the theme primary colour (alpha 40 ≈ 16% opacity) so the
+        phosphor glow updates automatically when the palette changes at runtime.
+        Override ScanBeamColor on the element to pin a custom colour.
     -->
-    <Style Selector="pipboy|CrtDisplay" />
+    <Style Selector="pipboy|CrtDisplay">
+        <Setter Property="ScanBeamColor" Value="{DynamicResource PipboyScanBeamColor}" />
+    </Style>
 
 </Styles>

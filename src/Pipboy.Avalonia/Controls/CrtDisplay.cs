@@ -328,8 +328,14 @@ public class CrtDisplay : Panel
     private double _cachedScanlineOpacity = -1;
     private double _cachedScanlineHeight  = -1;
 
-    private LinearGradientBrush? _scanBeamBrush;
-    private Color                _cachedScanBeamColor = default;
+    private LinearGradientBrush?       _scanBeamBrush;
+    private ImmutableSolidColorBrush? _scanBeamSolidBrush;
+    private Color                      _cachedScanBeamColor = default;
+
+    // When true the scan-beam colour follows the theme automatically.
+    // Set to false as soon as the user explicitly assigns ScanBeamColor.
+    private bool _autoScanBeamColor   = true;
+    private bool _updatingFromTheme   = false;
 
     private RadialGradientBrush? _vignetteBrush;
     private double               _cachedVignetteIntensity = -1;
@@ -364,8 +370,14 @@ public class CrtDisplay : Panel
         NoiseDensityProperty  .Changed.AddClassHandler<CrtDisplay>((c, _) => c.RebuildNoise());
         NoisePixelSizeProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => c.RebuildNoise());
 
-        ScanBeamColorProperty         .Changed.AddClassHandler<CrtDisplay>((c, _) => c._scanBeamBrush = null);
-        EnableScanBeamGradientProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => c._scanBeamBrush = null);
+        ScanBeamColorProperty         .Changed.AddClassHandler<CrtDisplay>((c, _) =>
+        {
+            c._scanBeamBrush = null;
+            c._scanBeamSolidBrush = null;
+            // Any explicit assignment (AXAML, binding, code) disables auto-theme tracking.
+            if (!c._updatingFromTheme) c._autoScanBeamColor = false;
+        });
+        EnableScanBeamGradientProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => { c._scanBeamBrush = null; c._scanBeamSolidBrush = null; });
 
         VignetteIntensityProperty.Changed.AddClassHandler<CrtDisplay>((c, _) => c._vignetteBrush = null);
         FlickerIntensityProperty .Changed.AddClassHandler<CrtDisplay>((c, _) => c._cachedFlickerIntensity = -1);
@@ -443,6 +455,12 @@ public class CrtDisplay : Panel
         UpdateAnimTimer();
         UpdateNoiseTimer();
         RebuildNoise();
+
+        if (_autoScanBeamColor)
+        {
+            ApplyScanBeamColorFromTheme();
+            PipboyThemeManager.Instance.ThemeColorChanged += OnThemeColorChanged;
+        }
     }
 
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
@@ -450,6 +468,21 @@ public class CrtDisplay : Panel
         base.OnDetachedFromVisualTree(e);
         StopAnimTimer();
         StopNoiseTimer();
+        PipboyThemeManager.Instance.ThemeColorChanged -= OnThemeColorChanged;
+    }
+
+    private void OnThemeColorChanged(object? sender, ThemeColorChangedEventArgs e)
+    {
+        if (!_autoScanBeamColor) return;
+        ApplyScanBeamColorFromTheme();
+    }
+
+    private void ApplyScanBeamColorFromTheme()
+    {
+        var p = PipboyThemeManager.Instance.PrimaryColor;
+        _updatingFromTheme = true;
+        ScanBeamColor = Color.FromArgb(40, p.R, p.G, p.B);
+        _updatingFromTheme = false;
     }
 
     protected override void OnSizeChanged(SizeChangedEventArgs e)
@@ -629,7 +662,7 @@ public class CrtDisplay : Panel
 
         IBrush brush = EnableScanBeamGradient
             ? GetScanBeamGradientBrush()
-            : new ImmutableSolidColorBrush(ScanBeamColor);
+            : GetScanBeamSolidBrush();
 
         context.DrawRectangle(brush, null, new Rect(0, beamY, bounds.Width, bh));
     }
@@ -702,6 +735,18 @@ public class CrtDisplay : Panel
                 Color.FromArgb(alpha, (byte)i, (byte)i, (byte)i));
     }
 
+    private ImmutableSolidColorBrush GetScanBeamSolidBrush()
+    {
+        var color = ScanBeamColor;
+        if (_scanBeamSolidBrush is null || color != _cachedScanBeamColor)
+        {
+            _cachedScanBeamColor = color;
+            _scanBeamSolidBrush  = new ImmutableSolidColorBrush(color);
+            _scanBeamBrush       = null; // keep caches in sync
+        }
+        return _scanBeamSolidBrush;
+    }
+
     private LinearGradientBrush GetScanBeamGradientBrush()
     {
         var color = ScanBeamColor;
@@ -764,7 +809,7 @@ public class CrtDisplay : Panel
     /// <summary>
     /// Always-positive modulo. Returns 0 when <paramref name="m"/> is zero or negative.
     /// </summary>
-    public static double PositiveMod(double x, double m)
+    private static double PositiveMod(double x, double m)
     {
         if (m <= 0) return 0;
         double r = x % m;

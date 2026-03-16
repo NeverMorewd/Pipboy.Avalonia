@@ -1,70 +1,163 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.TextInputPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  TextBox  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="TEXT BOX" />
-                <TextBox Width="360" Watermark="Enter terminal command..." />
-                <TextBox Width="360" Text="Editable text field" />
-                <TextBox
-                    Width="360"
-                    PasswordChar="●"
-                    Watermark="Password" />
-                <TextBox
-                    Width="360"
-                    IsReadOnly="True"
-                    Text="Read-only field" />
-                <TextBox
-                    Width="360"
-                    Height="80"
-                    AcceptsReturn="True"
-                    TextWrapping="Wrap"
-                    Watermark="Multi-line... (Shift+Enter)" />
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="TEXT INPUT" />
+                <TextBlock
+                    Classes="dim"
+                    FontSize="11"
+                    Text="TextBox, AutoCompleteBox, and NumericUpDown — all states and configuration options." />
             </StackPanel>
+        </Border>
 
-            <!--  AutoCompleteBox  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="AUTO COMPLETE BOX" />
-                <TextBlock Classes="dim" Text="Items loaded from code-behind." />
-                <AutoCompleteBox
-                    Name="LocationAutoComplete"
-                    Width="360"
-                    Watermark="Search locations..." />
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── TextBox ── -->
+                <HeaderedContentControl Classes="groupbox" Header="TEXT BOX">
+                    <Grid ColumnDefinitions="*,16,*">
+
+                        <StackPanel Grid.Column="0" Spacing="12">
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="EMPTY — WATERMARK VISIBLE" />
+                                <TextBox Watermark="Enter terminal command..." />
+                            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="POPULATED" />
+                                <TextBox Text="Editable text field" />
+                            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="PASSWORD  (PasswordChar=●)" />
+                                <TextBox PasswordChar="●" Watermark="ACCESS CODE" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Spacing="12">
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="READ-ONLY  (IsReadOnly=True)" />
+                                <TextBox IsReadOnly="True" Text="VAULT-TEC SERIAL: VLT-111-00372" />
+                            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="DISABLED  (IsEnabled=False)" />
+                                <TextBox IsEnabled="False" Text="Locked record" />
+                            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="MULTI-LINE  (AcceptsReturn=True)" />
+                                <TextBox
+                                    Height="72"
+                                    AcceptsReturn="True"
+                                    TextWrapping="Wrap"
+                                    Watermark="Type a message... (Shift+Enter for new line)" />
+                            </StackPanel>
+                        </StackPanel>
+
+                    </Grid>
+                </HeaderedContentControl>
+
+                <!--  ── AutoCompleteBox ── -->
+                <HeaderedContentControl Classes="groupbox" Header="AUTO COMPLETE BOX">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Provides a filtered suggestion list as you type. Set ItemsSource (or Items) with the candidate values. Minimum prefix length and filter mode are configurable."
+                            TextWrapping="Wrap" />
+                        <StackPanel Spacing="4">
+                            <TextBlock Classes="dim" FontSize="10" Text="LOCATION SEARCH  (items loaded from code-behind)" />
+                            <AutoCompleteBox
+                                Name="LocationAutoComplete"
+                                MaxWidth="360"
+                                HorizontalAlignment="Left"
+                                Watermark="Search locations..." />
+                        </StackPanel>
+                        <StackPanel Spacing="4">
+                            <TextBlock Classes="dim" FontSize="10" Text="DISABLED" />
+                            <AutoCompleteBox
+                                MaxWidth="360"
+                                HorizontalAlignment="Left"
+                                IsEnabled="False"
+                                Watermark="Unavailable..." />
+                        </StackPanel>
+                    </StackPanel>
+                </HeaderedContentControl>
+
+                <!--  ── NumericUpDown ── -->
+                <HeaderedContentControl Classes="groupbox" Header="NUMERIC UP-DOWN">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Bounded integer or decimal input with spinner buttons. Configure Minimum, Maximum, Increment, and FormatString."
+                            TextWrapping="Wrap" />
+                        <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,6,Auto">
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Classes="dim"
+                                FontSize="10"
+                                Text="INTEGER  (0–100)" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Classes="dim"
+                                FontSize="10"
+                                Text="DECIMAL  (FormatString=F2)" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Classes="dim"
+                                FontSize="10"
+                                Text="NEGATIVE RANGE" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Classes="dim"
+                                FontSize="10"
+                                Text="DISABLED" />
+
+                            <NumericUpDown
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Margin="0,0,12,0"
+                                Maximum="100"
+                                Minimum="0"
+                                Value="42" />
+                            <NumericUpDown
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="0,0,12,0"
+                                FormatString="F2"
+                                Increment="0.01"
+                                Maximum="9.99"
+                                Minimum="0"
+                                Value="3.14" />
+                            <NumericUpDown
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Margin="0,0,12,0"
+                                Maximum="100"
+                                Minimum="-100"
+                                Value="-27" />
+                            <NumericUpDown
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                IsEnabled="False"
+                                Value="7" />
+                        </Grid>
+                    </StackPanel>
+                </HeaderedContentControl>
+
             </StackPanel>
+        </ScrollViewer>
 
-            <!--  NumericUpDown  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="NUMERIC UP-DOWN" />
-                <WrapPanel>
-                    <NumericUpDown
-                        Width="160"
-                        Margin="0,0,12,8"
-                        Maximum="100"
-                        Minimum="0"
-                        Value="42" />
-                    <NumericUpDown
-                        Width="160"
-                        Margin="0,0,12,8"
-                        FormatString="F2"
-                        Increment="0.01"
-                        Maximum="9.99"
-                        Minimum="0"
-                        Value="3.14" />
-                    <NumericUpDown
-                        Width="160"
-                        Margin="0,0,12,8"
-                        IsEnabled="False"
-                        Value="7" />
-                </WrapPanel>
-            </StackPanel>
-
-        </StackPanel>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

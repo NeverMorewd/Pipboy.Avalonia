@@ -1,141 +1,228 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.SliderProgressPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  ProgressBar  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="PROGRESS BAR" />
-                <Grid
-                    Width="440"
-                    HorizontalAlignment="Left"
-                    ColumnDefinitions="80,*"
-                    RowDefinitions="Auto,8,Auto,8,Auto,8,Auto,8,Auto">
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="HP:" />
-                    <ProgressBar
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Maximum="100"
-                        Value="78" />
-
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="AP:" />
-                    <ProgressBar
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Maximum="100"
-                        Value="52" />
-
-                    <TextBlock
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="RAD:" />
-                    <ProgressBar
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        Maximum="100"
-                        Value="23" />
-
-                    <TextBlock
-                        Grid.Row="6"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="LVL EXP:" />
-                    <ProgressBar
-                        Grid.Row="6"
-                        Grid.Column="1"
-                        Maximum="100"
-                        Value="67" />
-
-                    <TextBlock
-                        Grid.Row="8"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="LOADING:" />
-                    <ProgressBar
-                        Grid.Row="8"
-                        Grid.Column="1"
-                        IsIndeterminate="True" />
-                </Grid>
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="SLIDERS &amp; PROGRESS" />
+                <TextBlock
+                    Classes="dim"
+                    FontSize="11"
+                    Text="Slider for value input; ProgressBar for value display — determinate and indeterminate modes." />
             </StackPanel>
+        </Border>
 
-            <!--  Slider  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="SLIDER" />
-                <Grid
-                    Width="440"
-                    HorizontalAlignment="Left"
-                    ColumnDefinitions="80,*"
-                    RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="VOLUME:" />
-                    <Slider
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Maximum="100"
-                        Value="65" />
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
 
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="BRIGHTNESS:" />
-                    <Slider
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Maximum="100"
-                        Value="80" />
+                <!--  ── Live Demo: Sliders driving ProgressBars ── -->
+                <HeaderedContentControl Classes="groupbox" Header="LIVE DEMO — SLIDER DRIVES PROGRESS BAR">
+                    <StackPanel Spacing="4">
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Drag a slider to see the progress bar update in real time. Bind ProgressBar.Value to Slider.Value using {Binding #SliderName.Value}."
+                            TextWrapping="Wrap" />
+                        <Grid ColumnDefinitions="80,*,12,60" RowDefinitions="Auto,10,Auto,10,Auto,10,Auto">
 
-                    <TextBlock
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="GAMMA:" />
-                    <Slider
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        Maximum="100"
-                        Value="50" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Classes="dim"
+                                Text="HP" />
+                            <Slider
+                                Name="HpSlider"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Maximum="100"
+                                Value="78" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                VerticalAlignment="Center"
+                                Classes="accent"
+                                Text="{Binding #HpSlider.Value, StringFormat='{}{0:F0}'}" />
 
-                    <TextBlock
-                        Grid.Row="6"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Classes="dim"
-                        Text="DISABLED:" />
-                    <Slider
-                        Grid.Row="6"
-                        Grid.Column="1"
-                        IsEnabled="False"
-                        Maximum="100"
-                        Value="30" />
-                </Grid>
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Classes="dim"
+                                Text="AP" />
+                            <Slider
+                                Name="ApSlider"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Maximum="100"
+                                Value="52" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                VerticalAlignment="Center"
+                                Classes="accent"
+                                Text="{Binding #ApSlider.Value, StringFormat='{}{0:F0}'}" />
+
+                            <TextBlock
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Classes="dim"
+                                Text="RAD" />
+                            <Slider
+                                Name="RadSlider"
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Maximum="100"
+                                Value="23" />
+                            <TextBlock
+                                Grid.Row="4"
+                                Grid.Column="3"
+                                VerticalAlignment="Center"
+                                Classes="accent"
+                                Text="{Binding #RadSlider.Value, StringFormat='{}{0:F0}'}" />
+
+                            <TextBlock
+                                Grid.Row="6"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Classes="dim"
+                                Text="LVL EXP" />
+                            <Slider
+                                Name="ExpSlider"
+                                Grid.Row="6"
+                                Grid.Column="1"
+                                Maximum="100"
+                                Value="67" />
+                            <TextBlock
+                                Grid.Row="6"
+                                Grid.Column="3"
+                                VerticalAlignment="Center"
+                                Classes="accent"
+                                Text="{Binding #ExpSlider.Value, StringFormat='{}{0:F0}'}" />
+                        </Grid>
+
+                        <Rectangle
+                            Height="1"
+                            Margin="0,8"
+                            Fill="{DynamicResource PipboyBorderBrush}" />
+
+                        <Grid ColumnDefinitions="80,*" RowDefinitions="Auto,6,Auto,6,Auto,6,Auto,6,Auto">
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Classes="dim"
+                                FontSize="10"
+                                Text="HP" />
+                            <ProgressBar
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Maximum="100"
+                                Value="{Binding #HpSlider.Value}" />
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Classes="dim"
+                                FontSize="10"
+                                Text="AP" />
+                            <ProgressBar
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Maximum="100"
+                                Value="{Binding #ApSlider.Value}" />
+
+                            <TextBlock
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Classes="dim"
+                                FontSize="10"
+                                Text="RAD" />
+                            <ProgressBar
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Maximum="100"
+                                Value="{Binding #RadSlider.Value}" />
+
+                            <TextBlock
+                                Grid.Row="6"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Classes="dim"
+                                FontSize="10"
+                                Text="LVL EXP" />
+                            <ProgressBar
+                                Grid.Row="6"
+                                Grid.Column="1"
+                                Maximum="100"
+                                Value="{Binding #ExpSlider.Value}" />
+
+                            <TextBlock
+                                Grid.Row="8"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Classes="dim"
+                                FontSize="10"
+                                Text="LOADING" />
+                            <ProgressBar
+                                Grid.Row="8"
+                                Grid.Column="1"
+                                IsIndeterminate="True" />
+                        </Grid>
+                    </StackPanel>
+                </HeaderedContentControl>
+
+                <!--  ── Slider variants ── -->
+                <HeaderedContentControl Classes="groupbox" Header="SLIDER — VARIANTS">
+                    <Grid ColumnDefinitions="*,*">
+                        <StackPanel Grid.Column="0" Spacing="10">
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="HORIZONTAL (default)" />
+                                <Slider Maximum="100" Value="65" />
+                            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="TICK MARKS VISIBLE" />
+                                <Slider
+                                    IsSnapToTickEnabled="True"
+                                    Maximum="10"
+                                    TickFrequency="1"
+                                    TickPlacement="BottomRight"
+                                    Value="4" />
+                            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="DISABLED" />
+                                <Slider IsEnabled="False" Maximum="100" Value="30" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Column="1"
+                            Margin="16,0,0,0"
+                            Spacing="4">
+                            <TextBlock Classes="dim" FontSize="10" Text="VERTICAL" />
+                            <Slider
+                                Width="24"
+                                Height="120"
+                                HorizontalAlignment="Left"
+                                Maximum="100"
+                                Orientation="Vertical"
+                                Value="60" />
+                        </StackPanel>
+                    </Grid>
+                </HeaderedContentControl>
+
             </StackPanel>
+        </ScrollViewer>
 
-        </StackPanel>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

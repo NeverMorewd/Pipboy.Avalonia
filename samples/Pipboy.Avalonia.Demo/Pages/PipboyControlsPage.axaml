@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
-    x:CompileBindings="False">
+    x:CompileBindings="True">
     <ScrollViewer>
         <StackPanel
             Margin="24"
@@ -17,7 +17,7 @@
                   ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="SEGMENTED BAR" />
-                <TextBlock Classes="dim" Text="Discrete segment bars. ShowProgressBar=True adds an exact fractional underbar — drag the HP slider to compare." />
+                <TextBlock Classes="dim" Text="Discrete segment bars. ShowProgressBar=True adds an exact fractional underbar — drag the HP slider to compare." TextWrapping="Wrap" />
 
                 <StackPanel Spacing="6" Width="340" HorizontalAlignment="Left">
 
@@ -27,7 +27,7 @@
                         Maximum="100"
                         SegmentCount="20"
                         ShowProgressBar="True"
-                        Value="{Binding Value, ElementName=HpSlider}" />
+                        Value="{Binding #HpSlider.Value}" />
                     <Slider
                         x:Name="HpSlider"
                         Maximum="100"
@@ -85,11 +85,11 @@
                   ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="BLINK TEXT" />
-                <TextBlock Classes="dim" Text="Wraps content with a ~530 ms blink animation. Toggle the switch below." />
+                <TextBlock Classes="dim" Text="Wraps content with a ~530 ms blink animation. Toggle the switch below." TextWrapping="Wrap" />
 
                 <StackPanel Spacing="10" HorizontalAlignment="Left">
 
-                    <pipboy:BlinkText IsBlinking="{Binding IsChecked, ElementName=BlinkToggle}">
+                    <pipboy:BlinkText IsBlinking="{Binding #BlinkToggle.IsChecked}">
                         <TextBlock Classes="accent" Text="PRESS ENTER TO CONTINUE" />
                     </pipboy:BlinkText>
 
@@ -138,7 +138,7 @@
                   ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="HEADERED CONTENT CONTROL" />
-                <TextBlock Classes="dim" Text="Default: dim caption above content.  Classes=&quot;groupbox&quot;: bordered container with floating header notch.  Classes=&quot;groupbox accent&quot;: primary-colour border for highlighted sections." />
+                <TextBlock Classes="dim" Text="Default: dim caption above content.  Classes=&quot;groupbox&quot;: bordered container with floating header notch.  Classes=&quot;groupbox accent&quot;: primary-colour border for highlighted sections." TextWrapping="Wrap" />
 
                 <Grid ColumnDefinitions="*,16,*,16,*" HorizontalAlignment="Left" Width="640">
 
@@ -293,7 +293,7 @@
                   ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="TERMINAL PANEL" />
-                <TextBlock Classes="dim" Text="CRT terminal container. TypewriterEffect reveals text character-by-character." />
+                <TextBlock Classes="dim" Text="CRT terminal container. TypewriterEffect reveals text character-by-character." TextWrapping="Wrap" />
 
                 <StackPanel Spacing="12" Width="420" HorizontalAlignment="Left">
 
@@ -326,7 +326,7 @@
                   ══════════════════════════════════════════  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="PIPBOY COUNTDOWN" />
-                <TextBlock Classes="dim" Text="TimePrecision controls display format and tick rate. Use Start/Stop/Reset to interact." />
+                <TextBlock Classes="dim" Text="TimePrecision controls display format and tick rate. Use Start/Stop/Reset to interact." TextWrapping="Wrap" />
 
                 <Grid ColumnDefinitions="220,24,220,24,240" HorizontalAlignment="Left">
 
@@ -392,7 +392,8 @@
                 <TextBlock Classes="h2" Text="CRT DISPLAY" />
                 <TextBlock
                     Classes="dim"
-                    Text="Animated CRT overlay — scanlines, scan beam, static noise, vignette, and flicker. Toggle effects below." />
+                    Text="Animated CRT overlay — scanlines, scan beam, static noise, vignette, and flicker. Toggle effects below."
+                    TextWrapping="Wrap" />
 
                 <Grid ColumnDefinitions="340,24,Auto" HorizontalAlignment="Left">
 
@@ -403,12 +404,12 @@
                         Width="340"
                         Height="200"
                         HorizontalAlignment="Left"
-                        EnableFlicker="{Binding IsChecked, ElementName=FlickerToggle}"
-                        EnableNoise="{Binding IsChecked, ElementName=NoiseToggle}"
-                        EnableScanBeam="{Binding IsChecked, ElementName=BeamToggle}"
-                        EnableScanlines="{Binding IsChecked, ElementName=ScanlineToggle}"
-                        EnableVignette="{Binding IsChecked, ElementName=VignetteToggle}"
-                        ShowFps="{Binding IsChecked, ElementName=FpsToggle}">
+                        EnableFlicker="{Binding #FlickerToggle.IsChecked}"
+                        EnableNoise="{Binding #NoiseToggle.IsChecked}"
+                        EnableScanBeam="{Binding #BeamToggle.IsChecked}"
+                        EnableScanlines="{Binding #ScanlineToggle.IsChecked}"
+                        EnableVignette="{Binding #VignetteToggle.IsChecked}"
+                        ShowFps="{Binding #FpsToggle.IsChecked}">
                         <Border Background="{DynamicResource PipboySurfaceBrush}" Padding="16">
                             <StackPanel Spacing="6">
                                 <TextBlock Classes="h2" Text="ROBCO INDUSTRIES" />

@@ -1,4 +1,7 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
     <Styles.Resources>
 
         <!--
@@ -33,6 +36,189 @@
                     </Panel>
                 </ControlTemplate>
             </Setter>
+        </ControlTheme>
+
+        <!--
+            Explicit ControlTheme for chrome buttons in PipboyWindow title bar.
+            Applied via Theme="{StaticResource ChromeButtonTheme}" to guarantee
+            the theme is resolved without an implicit lookup that can silently fail.
+        -->
+        <ControlTheme x:Key="ChromeButtonTheme" TargetType="Button">
+            <Setter Property="Background"              Value="Transparent" />
+            <Setter Property="BorderThickness"         Value="0" />
+            <Setter Property="Width"                   Value="44" />
+            <Setter Property="Height"                  Value="32" />
+            <Setter Property="Padding"                 Value="0" />
+            <Setter Property="CornerRadius"            Value="0" />
+            <Setter Property="Foreground"              Value="{DynamicResource PipboyTextDimBrush}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment"   Value="Center" />
+            <Setter Property="FontSize"                Value="14" />
+            <Setter Property="Cursor"                  Value="Arrow" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            Foreground="{TemplateBinding Foreground}"
+                            FontSize="{TemplateBinding FontSize}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            </Style>
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="{DynamicResource PipboyPressedBrush}" />
+            </Style>
+        </ControlTheme>
+
+        <!--  Close button: accent fill on hover  -->
+        <ControlTheme x:Key="ChromeCloseButtonTheme" TargetType="Button">
+            <Setter Property="Background"              Value="Transparent" />
+            <Setter Property="BorderThickness"         Value="0" />
+            <Setter Property="Width"                   Value="44" />
+            <Setter Property="Height"                  Value="32" />
+            <Setter Property="Padding"                 Value="0" />
+            <Setter Property="CornerRadius"            Value="0" />
+            <Setter Property="Foreground"              Value="{DynamicResource PipboyTextDimBrush}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment"   Value="Center" />
+            <Setter Property="FontSize"                Value="14" />
+            <Setter Property="Cursor"                  Value="Arrow" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            Foreground="{TemplateBinding Foreground}"
+                            FontSize="{TemplateBinding FontSize}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="{DynamicResource PipboyPressedBrush}" />
+            </Style>
+        </ControlTheme>
+
+        <!--
+            PipboyWindow ControlTheme — all title bar UI is INLINE here.
+            No dependency on PipboyTitleBar ControlTheme lookup (which can fail
+            when created inside another control's template).
+            Interactions are wired in PipboyWindow.OnApplyTemplate via PART_* names.
+        -->
+        <ControlTheme x:Key="{x:Type pipboy:PipboyWindow}" TargetType="pipboy:PipboyWindow">
+            <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
+            <Setter Property="FontSize"   Value="{DynamicResource PipboyFontSize}" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="pipboy:PipboyWindow">
+                    <Panel>
+                        <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+                        <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
+                        <Panel Margin="{TemplateBinding WindowDecorationMargin}" Background="Transparent" />
+                        <VisualLayerManager>
+                            <DockPanel>
+
+                                <!--  ── Inline title bar  ── -->
+                                <Border
+                                    DockPanel.Dock="Top"
+                                    Height="32"
+                                    Background="{DynamicResource PipboyPrimaryDarkBrush}"
+                                    BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                    BorderThickness="0,0,0,1">
+                                    <Grid ColumnDefinitions="*,Auto">
+
+                                        <!--  Drag area  -->
+                                        <Border
+                                            Name="PART_TitleDragArea"
+                                            Grid.Column="0"
+                                            Background="Transparent"
+                                            Cursor="SizeAll"
+                                            Padding="12,0,8,0">
+                                            <StackPanel
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal"
+                                                Spacing="10">
+                                                <!--  Pip-Boy icon square  -->
+                                                <Border
+                                                    Width="8"
+                                                    Height="8"
+                                                    Background="{DynamicResource PipboyPrimaryBrush}" />
+                                                <!--  Title  -->
+                                                <TextBlock
+                                                    VerticalAlignment="Center"
+                                                    FontSize="11"
+                                                    FontWeight="Bold"
+                                                    Foreground="{DynamicResource PipboyTextBrush}"
+                                                    Text="{TemplateBinding Title}" />
+                                                <!--  Separator  -->
+                                                <TextBlock
+                                                    VerticalAlignment="Center"
+                                                    Classes="dim"
+                                                    FontSize="10"
+                                                    IsVisible="{TemplateBinding TitleBarContent, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                    Text=" ·" />
+                                                <!--  Extra title bar content  -->
+                                                <ContentPresenter
+                                                    VerticalAlignment="Center"
+                                                    Content="{TemplateBinding TitleBarContent}"
+                                                    IsVisible="{TemplateBinding TitleBarContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                            </StackPanel>
+                                        </Border>
+
+                                        <!--  System buttons  -->
+                                        <StackPanel
+                                            Grid.Column="1"
+                                            VerticalAlignment="Stretch"
+                                            Orientation="Horizontal">
+                                            <Button
+                                                Name="PART_MinimizeButton"
+                                                Theme="{StaticResource ChromeButtonTheme}"
+                                                Content="─" />
+                                            <Button
+                                                Name="PART_MaxRestoreButton"
+                                                Theme="{StaticResource ChromeButtonTheme}"
+                                                Content="□" />
+                                            <Button
+                                                Name="PART_CloseButton"
+                                                Theme="{StaticResource ChromeCloseButtonTheme}"
+                                                Content="✕" />
+                                        </StackPanel>
+
+                                    </Grid>
+                                </Border>
+
+                                <!--  Window content  -->
+                                <ContentPresenter
+                                    Name="PART_ContentPresenter"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                            </DockPanel>
+                        </VisualLayerManager>
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+
+            <!--  Maximized: swap □ → ❐  -->
+            <Style Selector="^:maximized /template/ Button#PART_MaxRestoreButton">
+                <Setter Property="Content" Value="❐" />
+            </Style>
+
         </ControlTheme>
 
     </Styles.Resources>
