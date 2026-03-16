@@ -1,6 +1,7 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
 using Avalonia.Threading;
 
 namespace Pipboy.Avalonia;
@@ -11,6 +12,7 @@ namespace Pipboy.Avalonia;
 /// is a string, the text is revealed character-by-character using a
 /// <see cref="DispatcherTimer"/> (WASM-safe).
 /// </summary>
+[PseudoClasses(":typewriter")]
 public class TerminalPanel : ContentControl
 {
     public static readonly StyledProperty<bool> TypewriterEffectProperty =

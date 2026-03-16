@@ -1,63 +1,108 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.ComboBoxPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  ComboBox  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="COMBO BOX" />
-                <TextBlock Classes="dim" Text="Single-selection dropdown. Click to expand, select an item to close." />
-                <StackPanel Spacing="8">
-                    <ComboBox Width="280" SelectedIndex="0">
-                        <ComboBoxItem Content="DIAMOND CITY" />
-                        <ComboBoxItem Content="GOODNEIGHBOR" />
-                        <ComboBoxItem Content="THE INSTITUTE" />
-                        <ComboBoxItem Content="VAULT 81" />
-                        <ComboBoxItem Content="SANCTUARY HILLS" />
-                        <ComboBoxItem Content="THE GLOWING SEA" />
-                    </ComboBox>
-                    <ComboBox Width="280" SelectedIndex="0">
-                        <ComboBoxItem Content="BROTHERHOOD OF STEEL" />
-                        <ComboBoxItem Content="MINUTEMEN" />
-                        <ComboBoxItem Content="RAILROAD" />
-                        <ComboBoxItem Content="INSTITUTE" />
-                    </ComboBox>
-                    <ComboBox
-                        Width="280"
-                        IsEnabled="False"
-                        SelectedIndex="0">
-                        <ComboBoxItem Content="DISABLED COMBO" />
-                    </ComboBox>
-                </StackPanel>
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="COMBO BOX" />
+                <TextBlock
+                    Classes="dim"
+                    FontSize="11"
+                    Text="Single-selection dropdown. Click to expand; select an item to close. Supports ItemsSource for MVVM data binding." />
             </StackPanel>
+        </Border>
 
-            <!--  ComboBox with many items (scroll)  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="COMBO BOX — MANY ITEMS" />
-                <TextBlock Classes="dim" Text="Dropdown scrolls when items exceed the max height." />
-                <ComboBox Width="280" SelectedIndex="0">
-                    <ComboBoxItem Content="1. GUNS" />
-                    <ComboBoxItem Content="2. ENERGY WEAPONS" />
-                    <ComboBoxItem Content="3. EXPLOSIVES" />
-                    <ComboBoxItem Content="4. MELEE WEAPONS" />
-                    <ComboBoxItem Content="5. UNARMED" />
-                    <ComboBoxItem Content="6. SNEAK" />
-                    <ComboBoxItem Content="7. LOCKPICK" />
-                    <ComboBoxItem Content="8. SCIENCE" />
-                    <ComboBoxItem Content="9. REPAIR" />
-                    <ComboBoxItem Content="10. MEDICINE" />
-                    <ComboBoxItem Content="11. BARTER" />
-                    <ComboBoxItem Content="12. SPEECH" />
-                    <ComboBoxItem Content="13. SURVIVAL" />
-                    <ComboBoxItem Content="14. EXPLOSIVES" />
-                </ComboBox>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── States ── -->
+                <HeaderedContentControl Classes="groupbox" Header="STATES">
+                    <Grid ColumnDefinitions="*,*,*">
+                        <StackPanel Grid.Column="0" Spacing="8">
+                            <TextBlock Classes="dim" FontSize="10" Text="DEFAULT — LOCATION" />
+                            <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0">
+                                <ComboBoxItem Content="DIAMOND CITY" />
+                                <ComboBoxItem Content="GOODNEIGHBOR" />
+                                <ComboBoxItem Content="THE INSTITUTE" />
+                                <ComboBoxItem Content="VAULT 81" />
+                                <ComboBoxItem Content="SANCTUARY HILLS" />
+                                <ComboBoxItem Content="THE GLOWING SEA" />
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="16,0" Spacing="8">
+                            <TextBlock Classes="dim" FontSize="10" Text="DEFAULT — FACTION" />
+                            <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0">
+                                <ComboBoxItem Content="BROTHERHOOD OF STEEL" />
+                                <ComboBoxItem Content="MINUTEMEN" />
+                                <ComboBoxItem Content="RAILROAD" />
+                                <ComboBoxItem Content="INSTITUTE" />
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Spacing="8">
+                            <TextBlock Classes="dim" FontSize="10" Text="DISABLED  (IsEnabled=False)" />
+                            <ComboBox
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="False"
+                                SelectedIndex="0">
+                                <ComboBoxItem Content="LOCKED SELECTION" />
+                            </ComboBox>
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Set IsEnabled=False to prevent changes while still showing the current value."
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+                </HeaderedContentControl>
+
+                <!--  ── Many Items ── -->
+                <HeaderedContentControl Classes="groupbox" Header="SCROLLABLE DROPDOWN — MANY ITEMS">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="The dropdown list automatically gains a scrollbar when items exceed the maximum height. Open the combo below to see scrolling in action."
+                            TextWrapping="Wrap" />
+                        <Grid ColumnDefinitions="Auto,*">
+                            <StackPanel Grid.Column="0" Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="14 ITEMS — SCROLLS" />
+                                <ComboBox Width="240" SelectedIndex="0">
+                                    <ComboBoxItem Content="1. GUNS" />
+                                    <ComboBoxItem Content="2. ENERGY WEAPONS" />
+                                    <ComboBoxItem Content="3. EXPLOSIVES" />
+                                    <ComboBoxItem Content="4. MELEE WEAPONS" />
+                                    <ComboBoxItem Content="5. UNARMED" />
+                                    <ComboBoxItem Content="6. SNEAK" />
+                                    <ComboBoxItem Content="7. LOCKPICK" />
+                                    <ComboBoxItem Content="8. SCIENCE" />
+                                    <ComboBoxItem Content="9. REPAIR" />
+                                    <ComboBoxItem Content="10. MEDICINE" />
+                                    <ComboBoxItem Content="11. BARTER" />
+                                    <ComboBoxItem Content="12. SPEECH" />
+                                    <ComboBoxItem Content="13. SURVIVAL" />
+                                    <ComboBoxItem Content="14. EXPLOSIVES" />
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="32,22,0,0" Spacing="4">
+                                <TextBlock
+                                    Classes="dim"
+                                    FontSize="11"
+                                    Text="For MVVM use ItemsSource with an ObservableCollection or IEnumerable. Bind SelectedItem or SelectedIndex for the current value."
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </HeaderedContentControl>
+
             </StackPanel>
+        </ScrollViewer>
 
-        </StackPanel>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

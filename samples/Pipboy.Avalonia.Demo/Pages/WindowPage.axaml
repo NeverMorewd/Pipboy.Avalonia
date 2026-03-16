@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
-    x:CompileBindings="False">
+    x:CompileBindings="True">
 
     <!--  Grid: scrollable content + modal overlay on top  -->
     <Grid>

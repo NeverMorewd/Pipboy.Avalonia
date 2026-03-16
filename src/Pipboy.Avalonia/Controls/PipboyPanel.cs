@@ -1,4 +1,5 @@
 using System;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -25,6 +26,14 @@ public class PipboyPanel : HeaderedContentControl
     public static readonly StyledProperty<bool> IsClosableProperty =
         AvaloniaProperty.Register<PipboyPanel, bool>(nameof(IsClosable), defaultValue: false);
 
+    // ── ClosedCommand ───────────────────────────────────────────────────────
+    /// <summary>
+    /// Optional <see cref="ICommand"/> executed when the close button is clicked.
+    /// Enables MVVM-style handling without code-behind.
+    /// </summary>
+    public static readonly StyledProperty<ICommand?> ClosedCommandProperty =
+        AvaloniaProperty.Register<PipboyPanel, ICommand?>(nameof(ClosedCommand));
+
     // ── Closed routed event ─────────────────────────────────────────────────
     public static readonly RoutedEvent<RoutedEventArgs> ClosedEvent =
         RoutedEvent.Register<PipboyPanel, RoutedEventArgs>(nameof(Closed), RoutingStrategies.Bubble);
@@ -40,6 +49,13 @@ public class PipboyPanel : HeaderedContentControl
     {
         get => GetValue(FooterProperty);
         set => SetValue(FooterProperty, value);
+    }
+
+    /// <summary>Gets or sets the command executed when the close button is clicked.</summary>
+    public ICommand? ClosedCommand
+    {
+        get => GetValue(ClosedCommandProperty);
+        set => SetValue(ClosedCommandProperty, value);
     }
 
     /// <summary>When <c>true</c>, shows a <c>[X]</c> close button in the title bar.</summary>
@@ -63,6 +79,11 @@ public class PipboyPanel : HeaderedContentControl
     {
         base.OnApplyTemplate(e);
         if (e.NameScope.Find<Button>("PART_CloseButton") is { } btn)
-            btn.Click += (_, _) => RaiseEvent(new RoutedEventArgs(ClosedEvent));
+            btn.Click += (_, _) =>
+            {
+                RaiseEvent(new RoutedEventArgs(ClosedEvent));
+                if (ClosedCommand?.CanExecute(null) is true)
+                    ClosedCommand.Execute(null);
+            };
     }
 }

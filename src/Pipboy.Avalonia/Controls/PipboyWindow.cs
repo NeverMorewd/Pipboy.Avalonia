@@ -56,7 +56,10 @@ public class PipboyWindow : Window
         base.OnApplyTemplate(e);
 
         if (e.NameScope.Find<Control>("PART_TitleDragArea") is { } drag)
+        {
             drag.PointerPressed += OnDragPointerPressed;
+            drag.ContextMenu = BuildTitleBarContextMenu();
+        }
 
         if (e.NameScope.Find<Button>("PART_MinimizeButton") is { } min)
             min.Click += (_, _) => WindowState = WindowState.Minimized;
@@ -69,6 +72,29 @@ public class PipboyWindow : Window
 
         if (e.NameScope.Find<Button>("PART_CloseButton") is { } close)
             close.Click += (_, _) => Close();
+    }
+
+    private ContextMenu BuildTitleBarContextMenu()
+    {
+        var miMaxRestore = new MenuItem { Header = "Maximize" };
+        var miMinimize   = new MenuItem { Header = "Minimize" };
+        var miClose      = new MenuItem { Header = "Close" };
+
+        miMinimize.Click   += (_, _) => WindowState = WindowState.Minimized;
+        miMaxRestore.Click += (_, _) =>
+            WindowState = WindowState == WindowState.Maximized
+                ? WindowState.Normal
+                : WindowState.Maximized;
+        miClose.Click += (_, _) => Close();
+
+        var menu = new ContextMenu();
+        menu.Opening += (_, _) =>
+            miMaxRestore.Header = WindowState == WindowState.Maximized ? "Restore" : "Maximize";
+        menu.Items.Add(miMinimize);
+        menu.Items.Add(miMaxRestore);
+        menu.Items.Add(new Separator());
+        menu.Items.Add(miClose);
+        return menu;
     }
 
     private void OnDragPointerPressed(object? sender, PointerPressedEventArgs e)

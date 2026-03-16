@@ -1,131 +1,263 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.ButtonPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  Button  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="BUTTON" />
-                <WrapPanel>
-                    <Button Margin="0,0,8,8" Content="PRIMARY ACTION" />
-                    <Button Margin="0,0,8,8" Content="EXECUTE" />
-                    <Button
-                        Margin="0,0,8,8"
-                        Content="DISABLED"
-                        IsEnabled="False" />
-                </WrapPanel>
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="BUTTONS" />
+                <TextBlock
+                    Classes="dim"
+                    FontSize="11"
+                    Text="Command controls — standard, toggle, repeat, split-action, drop-down, and hyperlink variants. All states shown." />
             </StackPanel>
+        </Border>
 
-            <!--  ToggleButton  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="TOGGLE BUTTON" />
-                <WrapPanel>
-                    <ToggleButton Margin="0,0,8,8" Content="VATS: OFF" />
-                    <ToggleButton
-                        Margin="0,0,8,8"
-                        Content="VATS: ON"
-                        IsChecked="True" />
-                    <ToggleButton
-                        Margin="0,0,8,8"
-                        Content="DISABLED"
-                        IsEnabled="False" />
-                    <ToggleButton
-                        Margin="0,0,8,8"
-                        Content="DISABLED ON"
-                        IsChecked="True"
-                        IsEnabled="False" />
-                </WrapPanel>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── Button ── -->
+                <HeaderedContentControl Classes="groupbox" Header="BUTTON">
+                    <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,6,Auto,6,Auto">
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="DEFAULT" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="DISABLED  (IsEnabled=False)" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="USAGE" />
+
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="PRIMARY ACTION" />
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Content="PRIMARY ACTION"
+                            IsEnabled="False" />
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Raises Click. Bind Command for MVVM. Supports any Content — text, icon, or complex template."
+                            TextWrapping="Wrap" />
+
+                        <Button
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="EXECUTE" />
+                        <Button
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Content="EXECUTE"
+                            IsEnabled="False" />
+                    </Grid>
+                </HeaderedContentControl>
+
+                <!--  ── ToggleButton ── -->
+                <HeaderedContentControl Classes="groupbox" Header="TOGGLE BUTTON">
+                    <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,6,Auto,6,Auto">
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="UNCHECKED" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="CHECKED" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="DISABLED OFF" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Classes="dim"
+                            FontSize="10"
+                            Text="DISABLED ON" />
+
+                        <ToggleButton
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="VATS: OFF" />
+                        <ToggleButton
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Content="VATS: ON"
+                            IsChecked="True" />
+                        <ToggleButton
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            Content="STEALTH"
+                            IsEnabled="False" />
+                        <ToggleButton
+                            Grid.Row="2"
+                            Grid.Column="3"
+                            HorizontalAlignment="Left"
+                            Content="STEALTH"
+                            IsChecked="True"
+                            IsEnabled="False" />
+
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="4"
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Bind IsChecked for two-state MVVM flags. Unlike CheckBox, renders as a full button." />
+                    </Grid>
+                </HeaderedContentControl>
+
+                <!--  ── RepeatButton ── -->
+                <HeaderedContentControl Classes="groupbox" Header="REPEAT BUTTON">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Fires Click repeatedly while held. Delay (ms) sets the initial pause; Interval (ms) sets the repeat rate. Ideal for numeric increment / decrement controls."
+                            TextWrapping="Wrap" />
+                        <WrapPanel>
+                            <StackPanel Margin="0,0,32,0" Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="Delay=400 · Interval=150" />
+                                <WrapPanel>
+                                    <RepeatButton
+                                        Margin="0,0,8,0"
+                                        Content="◀  DECREMENT"
+                                        Delay="400"
+                                        Interval="150" />
+                                    <RepeatButton
+                                        Content="INCREMENT  ▶"
+                                        Delay="400"
+                                        Interval="150" />
+                                </WrapPanel>
+                            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="dim" FontSize="10" Text="DISABLED" />
+                                <RepeatButton Content="HOLD ME" IsEnabled="False" />
+                            </StackPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </HeaderedContentControl>
+
+                <!--  ── SplitButton + DropDownButton side by side ── -->
+                <Grid ColumnDefinitions="*,16,*">
+
+                    <HeaderedContentControl Grid.Column="0" Classes="groupbox" Header="SPLIT BUTTON">
+                        <StackPanel Spacing="10">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Left zone triggers the primary action; right chevron opens a MenuFlyout for alternate choices."
+                                TextWrapping="Wrap" />
+                            <WrapPanel>
+                                <SplitButton Margin="0,0,8,8" Content="SELECT FACTION">
+                                    <SplitButton.Flyout>
+                                        <MenuFlyout>
+                                            <MenuItem Header="Brotherhood of Steel" />
+                                            <MenuItem Header="Railroad" />
+                                            <MenuItem Header="Minutemen" />
+                                            <MenuItem Header="Institute" />
+                                        </MenuFlyout>
+                                    </SplitButton.Flyout>
+                                </SplitButton>
+                                <SplitButton
+                                    Margin="0,0,8,8"
+                                    Content="DISABLED"
+                                    IsEnabled="False">
+                                    <SplitButton.Flyout>
+                                        <MenuFlyout>
+                                            <MenuItem Header="Item" />
+                                        </MenuFlyout>
+                                    </SplitButton.Flyout>
+                                </SplitButton>
+                            </WrapPanel>
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                    <HeaderedContentControl Grid.Column="2" Classes="groupbox" Header="DROP-DOWN BUTTON">
+                        <StackPanel Spacing="10">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="The entire button surface opens a MenuFlyout — no primary action. Use when all choices are equivalent."
+                                TextWrapping="Wrap" />
+                            <WrapPanel>
+                                <DropDownButton Margin="0,0,8,8" Content="SELECT LOCATION">
+                                    <DropDownButton.Flyout>
+                                        <MenuFlyout>
+                                            <MenuItem Header="Diamond City" />
+                                            <MenuItem Header="Goodneighbor" />
+                                            <MenuItem Header="Vault 81" />
+                                            <MenuItem Header="Sanctuary Hills" />
+                                        </MenuFlyout>
+                                    </DropDownButton.Flyout>
+                                </DropDownButton>
+                                <DropDownButton
+                                    Margin="0,0,8,8"
+                                    Content="DISABLED"
+                                    IsEnabled="False">
+                                    <DropDownButton.Flyout>
+                                        <MenuFlyout>
+                                            <MenuItem Header="Item" />
+                                        </MenuFlyout>
+                                    </DropDownButton.Flyout>
+                                </DropDownButton>
+                            </WrapPanel>
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                </Grid>
+
+                <!--  ── HyperlinkButton ── -->
+                <HeaderedContentControl Classes="groupbox" Header="HYPERLINK BUTTON">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Renders as styled inline text. Set NavigateUri to open a URL in the default browser; omit it and handle Click in code for in-app navigation."
+                            TextWrapping="Wrap" />
+                        <StackPanel Spacing="6">
+                            <HyperlinkButton Content="Open Vault-Tec field manual (NavigateUri set)" NavigateUri="https://www.fallout.com" />
+                            <HyperlinkButton Content="View SPECIAL stats reference (no NavigateUri — handle Click)" />
+                            <HyperlinkButton Content="Disabled link — IsEnabled=False" IsEnabled="False" />
+                        </StackPanel>
+                    </StackPanel>
+                </HeaderedContentControl>
+
             </StackPanel>
+        </ScrollViewer>
 
-            <!--  RepeatButton  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="REPEAT BUTTON" />
-                <TextBlock Classes="dim" Text="Fires continuously while held. Use for increment / decrement." />
-                <WrapPanel>
-                    <RepeatButton
-                        Margin="0,0,8,8"
-                        Content="◀ HOLD"
-                        Delay="300"
-                        Interval="100" />
-                    <RepeatButton
-                        Margin="0,0,8,8"
-                        Content="▶ HOLD"
-                        Delay="300"
-                        Interval="100" />
-                    <RepeatButton
-                        Margin="0,0,8,8"
-                        Content="DISABLED"
-                        IsEnabled="False" />
-                </WrapPanel>
-            </StackPanel>
-
-            <!--  SplitButton  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="SPLIT BUTTON" />
-                <WrapPanel>
-                    <SplitButton Margin="0,0,8,8" Content="SELECT FACTION">
-                        <SplitButton.Flyout>
-                            <MenuFlyout>
-                                <MenuItem Header="Brotherhood of Steel" />
-                                <MenuItem Header="Railroad" />
-                                <MenuItem Header="Minutemen" />
-                                <MenuItem Header="Institute" />
-                            </MenuFlyout>
-                        </SplitButton.Flyout>
-                    </SplitButton>
-                    <SplitButton
-                        Margin="0,0,8,8"
-                        Content="DISABLED"
-                        IsEnabled="False">
-                        <SplitButton.Flyout>
-                            <MenuFlyout>
-                                <MenuItem Header="Item" />
-                            </MenuFlyout>
-                        </SplitButton.Flyout>
-                    </SplitButton>
-                </WrapPanel>
-            </StackPanel>
-
-            <!--  DropDownButton  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="DROP-DOWN BUTTON" />
-                <WrapPanel>
-                    <DropDownButton Margin="0,0,8,8" Content="SELECT LOCATION">
-                        <DropDownButton.Flyout>
-                            <MenuFlyout>
-                                <MenuItem Header="Diamond City" />
-                                <MenuItem Header="Goodneighbor" />
-                                <MenuItem Header="Vault 81" />
-                                <MenuItem Header="Sanctuary Hills" />
-                            </MenuFlyout>
-                        </DropDownButton.Flyout>
-                    </DropDownButton>
-                    <DropDownButton
-                        Margin="0,0,8,8"
-                        Content="DISABLED"
-                        IsEnabled="False">
-                        <DropDownButton.Flyout>
-                            <MenuFlyout>
-                                <MenuItem Header="Item" />
-                            </MenuFlyout>
-                        </DropDownButton.Flyout>
-                    </DropDownButton>
-                </WrapPanel>
-            </StackPanel>
-
-            <!--  HyperlinkButton  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="HYPERLINK BUTTON" />
-                <HyperlinkButton Content="Open Vault-Tec official records" NavigateUri="https://www.fallout.com" />
-                <HyperlinkButton Content="Check SPECIAL stats" />
-                <HyperlinkButton Content="Disabled link" IsEnabled="False" />
-            </StackPanel>
-
-        </StackPanel>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

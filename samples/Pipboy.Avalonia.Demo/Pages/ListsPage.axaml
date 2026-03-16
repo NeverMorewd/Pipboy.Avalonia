@@ -1,43 +1,126 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.ListsPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  ListBox  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="LIST BOX — INVENTORY" />
-                <ListBox Width="340" Height="180">
-                    <ListBoxItem Content="10mm Pistol          ×1" />
-                    <ListBoxItem Content="Stimpak              ×12" />
-                    <ListBoxItem Content="RadAway              ×4" />
-                    <ListBoxItem Content="Nuka-Cola             ×7" />
-                    <ListBoxItem Content="Fusion Core           ×2" />
-                    <ListBoxItem Content="Bobby Pin             ×99" />
-                    <ListBoxItem Content="Jet                   ×3" />
-                    <ListBoxItem Content="Psycho                ×1" />
-                </ListBox>
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="LIST BOX" />
+                <TextBlock
+                    Classes="dim"
+                    FontSize="11"
+                    Text="Scrollable item list with single or multi-selection. Bind ItemsSource for MVVM; use SelectionMode for multi-select." />
             </StackPanel>
+        </Border>
 
-            <!--  Second ListBox  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="LIST BOX — PERKS" />
-                <ListBox Width="340" Height="200">
-                    <ListBoxItem Content="Rifleman        Rank 3" />
-                    <ListBoxItem Content="Sneak           Rank 2" />
-                    <ListBoxItem Content="Hacker          Rank 2" />
-                    <ListBoxItem Content="Locksmith       Rank 1" />
-                    <ListBoxItem Content="Medic           Rank 1" />
-                    <ListBoxItem Content="Toughness       Rank 2" />
-                    <ListBoxItem Content="Gun Nut         Rank 3" />
-                    <ListBoxItem Content="Science!        Rank 1" />
-                </ListBox>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── Side-by-side ListBoxes ── -->
+                <Grid ColumnDefinitions="*,16,*">
+
+                    <HeaderedContentControl Grid.Column="0" Classes="groupbox" Header="INVENTORY">
+                        <StackPanel Spacing="8">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Single-selection (default). Click or keyboard to navigate."
+                                TextWrapping="Wrap" />
+                            <ListBox Height="200">
+                                <ListBoxItem Content="10mm Pistol          ×1" />
+                                <ListBoxItem Content="Stimpak              ×12" />
+                                <ListBoxItem Content="RadAway              ×4" />
+                                <ListBoxItem Content="Nuka-Cola             ×7" />
+                                <ListBoxItem Content="Fusion Core           ×2" />
+                                <ListBoxItem Content="Bobby Pin             ×99" />
+                                <ListBoxItem Content="Jet                   ×3" />
+                                <ListBoxItem Content="Psycho                ×1" />
+                                <ListBoxItem Content="Mentats               ×5" />
+                                <ListBoxItem Content="Vault Suit            ×1" />
+                            </ListBox>
+                            <TextBlock Classes="dim" FontSize="10" Text="WEIGHT: 24.3 / 270   CAPS: 843" />
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                    <HeaderedContentControl Grid.Column="2" Classes="groupbox" Header="ACTIVE QUESTS">
+                        <StackPanel Spacing="8">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Multi-selection (SelectionMode=Multiple). Hold Ctrl or Shift to select several items."
+                                TextWrapping="Wrap" />
+                            <ListBox Height="200" SelectionMode="Multiple">
+                                <ListBoxItem Content="[!] The Nuclear Option" />
+                                <ListBoxItem Content="[!] Tradecraft" />
+                                <ListBoxItem Content="[ ] Dangerous Minds" />
+                                <ListBoxItem Content="[ ] The Glowing Sea" />
+                                <ListBoxItem Content="[ ] Road to Freedom" />
+                                <ListBoxItem Content="[ ] Taking Independence" />
+                                <ListBoxItem Content="[ ] Reunions" />
+                                <ListBoxItem Content="[ ] Getting a Clue" />
+                            </ListBox>
+                            <TextBlock Classes="dim" FontSize="10" Text="HOLD CTRL TO SELECT MULTIPLE" />
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                </Grid>
+
+                <!--  ── Perks (full width) ── -->
+                <HeaderedContentControl Classes="groupbox" Header="PERK LIST — FULL WIDTH">
+                    <StackPanel Spacing="8">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="ListBox fills the available width. Use HorizontalAlignment=Stretch (default) and let the parent control the width."
+                            TextWrapping="Wrap" />
+                        <ListBox Height="150">
+                            <ListBoxItem>
+                                <Grid ColumnDefinitions="*,80,80">
+                                    <TextBlock Grid.Column="0" Text="Rifleman" />
+                                    <TextBlock Grid.Column="1" Classes="dim" Text="Rank 3 / 5" />
+                                    <TextBlock Grid.Column="2" Classes="accent" Text="+60% dmg" />
+                                </Grid>
+                            </ListBoxItem>
+                            <ListBoxItem>
+                                <Grid ColumnDefinitions="*,80,80">
+                                    <TextBlock Grid.Column="0" Text="Sneak" />
+                                    <TextBlock Grid.Column="1" Classes="dim" Text="Rank 2 / 4" />
+                                    <TextBlock Grid.Column="2" Classes="accent" Text="No noise" />
+                                </Grid>
+                            </ListBoxItem>
+                            <ListBoxItem>
+                                <Grid ColumnDefinitions="*,80,80">
+                                    <TextBlock Grid.Column="0" Text="Hacker" />
+                                    <TextBlock Grid.Column="1" Classes="dim" Text="Rank 2 / 3" />
+                                    <TextBlock Grid.Column="2" Classes="accent" Text="Advanced" />
+                                </Grid>
+                            </ListBoxItem>
+                            <ListBoxItem>
+                                <Grid ColumnDefinitions="*,80,80">
+                                    <TextBlock Grid.Column="0" Text="Locksmith" />
+                                    <TextBlock Grid.Column="1" Classes="dim" Text="Rank 1 / 4" />
+                                    <TextBlock Grid.Column="2" Classes="accent" Text="Novice" />
+                                </Grid>
+                            </ListBoxItem>
+                            <ListBoxItem>
+                                <Grid ColumnDefinitions="*,80,80">
+                                    <TextBlock Grid.Column="0" Text="Gun Nut" />
+                                    <TextBlock Grid.Column="1" Classes="dim" Text="Rank 3 / 4" />
+                                    <TextBlock Grid.Column="2" Classes="accent" Text="Mod tier 3" />
+                                </Grid>
+                            </ListBoxItem>
+                        </ListBox>
+                    </StackPanel>
+                </HeaderedContentControl>
+
             </StackPanel>
+        </ScrollViewer>
 
-        </StackPanel>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

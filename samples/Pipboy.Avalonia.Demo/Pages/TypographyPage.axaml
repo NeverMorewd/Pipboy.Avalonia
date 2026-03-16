@@ -1,56 +1,123 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.TypographyPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  TextBlock variants  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="TEXT BLOCK" />
-                <TextBlock Classes="h1" Text="HEADING LEVEL 1 — VAULT-TEC" />
-                <TextBlock Classes="h2" Text="Heading Level 2 — Status Report" />
-                <TextBlock Text="Body text — Regular paragraph content. Welcome to the Capital Wasteland. Current radiation level: moderate." />
-                <TextBlock Classes="dim" Text="Dim text — Secondary labels, hints, and supplemental info." />
-                <TextBlock Classes="accent" Text="Accent text — Primary color highlight for important values." />
-            </StackPanel>
-
-            <!--  SelectableTextBlock  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="SELECTABLE TEXT BLOCK" />
-                <SelectableTextBlock Text="This text can be selected and copied — useful for IDs, coordinates, and data output." />
-                <SelectableTextBlock Classes="dim" Text="LOCATION: 38°53′42″N 77°02′12″W — SECTOR 7-G" />
-                <SelectableTextBlock Classes="accent" Text="SERIAL: VLT-111-OVERSEER-UNIT" />
-            </StackPanel>
-
-            <!--  Font sizes  -->
-            <StackPanel Spacing="4">
-                <TextBlock Classes="h2" Text="FONT SCALE" />
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="TYPOGRAPHY" />
                 <TextBlock
-                    FontSize="28"
-                    FontWeight="Bold"
-                    Text="28px — H1 Display" />
-                <TextBlock
-                    FontSize="20"
-                    FontWeight="Bold"
-                    Text="20px — H2 Section" />
-                <TextBlock FontSize="14" Text="14px — Body (default)" />
-                <TextBlock FontSize="12" Text="12px — Small / captions" />
-                <TextBlock FontSize="10" Text="10px — Micro / status labels" />
+                    Classes="dim"
+                    FontSize="11"
+                    Text="TextBlock style classes, font scale, SelectableTextBlock, and text wrapping &amp; trimming options." />
             </StackPanel>
+        </Border>
 
-            <!--  Text wrapping  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="TEXT WRAPPING" />
-                <TextBlock
-                    MaxWidth="400"
-                    Text="Long-form wrapped text. The Pip-Boy 3000 is a personal computing device manufactured by Vault-Tec Corporation. It is used to manage character stats, inventory, quests, and the map of the wasteland."
-                    TextWrapping="Wrap" />
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── Style Classes ── -->
+                <HeaderedContentControl Classes="groupbox" Header="TEXT STYLE CLASSES">
+                    <Grid ColumnDefinitions="*,*">
+                        <StackPanel Grid.Column="0" Spacing="10">
+                            <StackPanel Spacing="2">
+                                <TextBlock Classes="dim" FontSize="10" Text="Classes=&quot;h1&quot;  —  page title / major section" />
+                                <TextBlock Classes="h1" Text="HEADING LEVEL 1" />
+                            </StackPanel>
+                            <StackPanel Spacing="2">
+                                <TextBlock Classes="dim" FontSize="10" Text="Classes=&quot;h2&quot;  —  sub-section heading" />
+                                <TextBlock Classes="h2" Text="Heading Level 2" />
+                            </StackPanel>
+                            <StackPanel Spacing="2">
+                                <TextBlock Classes="dim" FontSize="10" Text="(no class)  —  body / primary content" />
+                                <TextBlock Text="Body text — Regular paragraph content." />
+                            </StackPanel>
+                            <StackPanel Spacing="2">
+                                <TextBlock Classes="dim" FontSize="10" Text="Classes=&quot;dim&quot;  —  labels, hints, metadata" />
+                                <TextBlock Classes="dim" Text="Dim text — secondary labels and supplemental info." />
+                            </StackPanel>
+                            <StackPanel Spacing="2">
+                                <TextBlock Classes="dim" FontSize="10" Text="Classes=&quot;accent&quot;  —  emphasis, important values" />
+                                <TextBlock Classes="accent" Text="Accent text — primary color highlight." />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="24,0,0,0" Spacing="4">
+                            <TextBlock Classes="dim" FontSize="10" Text="FONT SCALE" />
+                            <TextBlock
+                                FontSize="28"
+                                FontWeight="Bold"
+                                Text="28px — H1 Display" />
+                            <TextBlock
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Text="20px — H2 Section" />
+                            <TextBlock FontSize="14" Text="14px — Body (default)" />
+                            <TextBlock FontSize="12" Text="12px — Small / captions" />
+                            <TextBlock FontSize="10" Text="10px — Micro / status labels" />
+                        </StackPanel>
+                    </Grid>
+                </HeaderedContentControl>
+
+                <!--  ── SelectableTextBlock ── -->
+                <HeaderedContentControl Classes="groupbox" Header="SELECTABLE TEXT BLOCK">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="SelectableTextBlock allows the user to highlight and copy text — useful for IDs, coordinates, serial numbers, and terminal output. Supports all the same style classes as TextBlock."
+                            TextWrapping="Wrap" />
+                        <StackPanel Spacing="8">
+                            <StackPanel Spacing="2">
+                                <TextBlock Classes="dim" FontSize="10" Text="BODY — SELECT AND Ctrl+C TO COPY" />
+                                <SelectableTextBlock Text="This text can be selected and copied. Useful for displaying data the user might want to use elsewhere." />
+                            </StackPanel>
+                            <StackPanel Spacing="2">
+                                <TextBlock Classes="dim" FontSize="10" Text="DIM — COORDINATES" />
+                                <SelectableTextBlock Classes="dim" Text="LOCATION: 38°53′42″N  77°02′12″W  —  SECTOR 7-G" />
+                            </StackPanel>
+                            <StackPanel Spacing="2">
+                                <TextBlock Classes="dim" FontSize="10" Text="ACCENT — SERIAL NUMBER" />
+                                <SelectableTextBlock Classes="accent" Text="SERIAL: VLT-111-OVERSEER-UNIT-00372" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </HeaderedContentControl>
+
+                <!--  ── Wrapping + Trimming ── -->
+                <HeaderedContentControl Classes="groupbox" Header="TEXT WRAPPING &amp; TRIMMING">
+                    <Grid ColumnDefinitions="*,*,*">
+                        <StackPanel Grid.Column="0" Spacing="6">
+                            <TextBlock Classes="dim" FontSize="10" Text="TextWrapping=Wrap" />
+                            <TextBlock
+                                Classes="dim"
+                                Text="The Pip-Boy 3000 is a personal computing device manufactured by Vault-Tec. It manages character stats, inventory, quests, and the wasteland map."
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="16,0" Spacing="6">
+                            <TextBlock Classes="dim" FontSize="10" Text="TextTrimming=CharacterEllipsis" />
+                            <TextBlock
+                                Classes="dim"
+                                Text="ROBCO INDUSTRIES (TM) UNIFIED OPERATING SYSTEM COPYRIGHT 2075 ALL RIGHTS RESERVED"
+                                TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Spacing="6">
+                            <TextBlock Classes="dim" FontSize="10" Text="TextTrimming=WordEllipsis" />
+                            <TextBlock
+                                Classes="dim"
+                                Text="ROBCO INDUSTRIES (TM) UNIFIED OPERATING SYSTEM COPYRIGHT 2075 ALL RIGHTS RESERVED"
+                                TextTrimming="WordEllipsis" />
+                        </StackPanel>
+                    </Grid>
+                </HeaderedContentControl>
+
             </StackPanel>
+        </ScrollViewer>
 
-        </StackPanel>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

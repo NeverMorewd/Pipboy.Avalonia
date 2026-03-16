@@ -102,8 +102,8 @@
                 </ControlTemplate>
             </Setter>
             <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}" />
-                <Setter Property="Foreground" Value="{DynamicResource PipboyBackgroundBrush}" />
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
             </Style>
             <Style Selector="^:pressed">
                 <Setter Property="Background" Value="{DynamicResource PipboyPressedBrush}" />
@@ -143,6 +143,7 @@
                                         <Border
                                             Name="PART_TitleDragArea"
                                             Grid.Column="0"
+                                            Background="Transparent"
                                             Cursor="SizeAll"
                                             Padding="12,0,8,0">
                                             <StackPanel

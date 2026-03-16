@@ -134,7 +134,7 @@
 
             <!--  warning: amber-tinted border for alerts  -->
             <Style Selector="^.warning">
-                <Setter Property="BorderBrush" Value="{DynamicResource PipboyAccentBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyWarningBrush}" />
             </Style>
 
             <!--  disabled  -->

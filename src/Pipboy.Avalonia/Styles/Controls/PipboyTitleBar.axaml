@@ -25,6 +25,7 @@
                             <Border
                                 Name="PART_DragArea"
                                 Grid.Column="0"
+                                Background="Transparent"
                                 Cursor="SizeAll"
                                 Padding="12,0,8,0">
                                 <StackPanel

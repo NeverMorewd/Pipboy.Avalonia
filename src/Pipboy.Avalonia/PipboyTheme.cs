@@ -97,9 +97,10 @@ public partial class PipboyTheme : Styles, IDisposable
         Resources["PipboySuccessBrush"] = _successBrush;
 
         // Also expose raw Color values for advanced use
-        Resources["PipboyPrimaryColor"] = p.Primary;
+        Resources["PipboyPrimaryColor"]    = p.Primary;
         Resources["PipboyBackgroundColor"] = p.Background;
-        Resources["PipboyTextColor"] = p.Text;
+        Resources["PipboyTextColor"]       = p.Text;
+        Resources["PipboyScanBeamColor"]   = Color.FromArgb(40, p.Primary.R, p.Primary.G, p.Primary.B);
 
         // Font design tokens
         Resources["PipboyFontFamily"]   = new FontFamily("Consolas,Courier New,monospace");
@@ -147,6 +148,7 @@ public partial class PipboyTheme : Styles, IDisposable
         Resources["PipboyPrimaryColor"]    = p.Primary;
         Resources["PipboyBackgroundColor"] = p.Background;
         Resources["PipboyTextColor"]       = p.Text;
+        Resources["PipboyScanBeamColor"]   = Color.FromArgb(40, p.Primary.R, p.Primary.G, p.Primary.B);
     }
 
     public void Dispose()

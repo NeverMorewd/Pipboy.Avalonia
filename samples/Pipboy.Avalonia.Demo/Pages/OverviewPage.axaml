@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
-    x:CompileBindings="False">
+    x:CompileBindings="True">
 
     <!--  The entire overview is wrapped in a CrtDisplay — scanlines, vignette and
           scan beam give the page its Pip-Boy terminal feel.  -->
@@ -41,7 +41,8 @@
                             <TextBlock
                                 Classes="dim"
                                 FontSize="10"
-                                Text="ROBCO INDUSTRIES (TM)  ·  UNIFIED OPERATING SYSTEM  ·  COPYRIGHT 2075" />
+                                Text="ROBCO INDUSTRIES (TM)  ·  UNIFIED OPERATING SYSTEM  ·  COPYRIGHT 2075"
+                            TextTrimming="CharacterEllipsis" />
                         </StackPanel>
 
                         <StackPanel

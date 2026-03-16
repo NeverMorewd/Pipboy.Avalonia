@@ -1,43 +1,110 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.DateTimePage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  DatePicker  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="DATE PICKER" />
-                <DatePicker Name="DatePicker1" />
-                <DatePicker Name="DatePicker2" IsEnabled="False" />
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="DATE &amp; TIME" />
+                <TextBlock
+                    Classes="dim"
+                    FontSize="11"
+                    Text="DatePicker, TimePicker, CalendarDatePicker, and Calendar — date and time selection controls." />
             </StackPanel>
+        </Border>
 
-            <!--  TimePicker  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="TIME PICKER" />
-                <TimePicker />
-                <TimePicker IsEnabled="False" />
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── Spinners side by side ── -->
+                <Grid ColumnDefinitions="*,16,*">
+
+                    <HeaderedContentControl Grid.Column="0" Classes="groupbox" Header="DATE PICKER">
+                        <StackPanel Spacing="10">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Spinner-style date input with separate day / month / year columns. Bind SelectedDate for the chosen value."
+                                TextWrapping="Wrap" />
+                            <StackPanel Spacing="8">
+                                <StackPanel Spacing="4">
+                                    <TextBlock Classes="dim" FontSize="10" Text="ENABLED" />
+                                    <DatePicker Name="DatePicker1" />
+                                </StackPanel>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Classes="dim" FontSize="10" Text="DISABLED  (IsEnabled=False)" />
+                                    <DatePicker Name="DatePicker2" IsEnabled="False" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                    <HeaderedContentControl Grid.Column="2" Classes="groupbox" Header="TIME PICKER">
+                        <StackPanel Spacing="10">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Spinner-style time input with hour / minute / second columns. Bind SelectedTime. Use ClockIdentifier to switch 12h/24h."
+                                TextWrapping="Wrap" />
+                            <StackPanel Spacing="8">
+                                <StackPanel Spacing="4">
+                                    <TextBlock Classes="dim" FontSize="10" Text="ENABLED" />
+                                    <TimePicker />
+                                </StackPanel>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Classes="dim" FontSize="10" Text="DISABLED  (IsEnabled=False)" />
+                                    <TimePicker IsEnabled="False" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                </Grid>
+
+                <!--  ── CalendarDatePicker + Calendar ── -->
+                <Grid ColumnDefinitions="*,16,*">
+
+                    <HeaderedContentControl Grid.Column="0" Classes="groupbox" Header="CALENDAR DATE PICKER">
+                        <StackPanel Spacing="10">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="TextBox that opens a Calendar popup on click. Bind SelectedDate. Optional date range via DisplayDateStart / DisplayDateEnd."
+                                TextWrapping="Wrap" />
+                            <StackPanel Spacing="8">
+                                <StackPanel Spacing="4">
+                                    <TextBlock Classes="dim" FontSize="10" Text="ENABLED" />
+                                    <CalendarDatePicker Watermark="Select mission date..." />
+                                </StackPanel>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Classes="dim" FontSize="10" Text="DISABLED" />
+                                    <CalendarDatePicker IsEnabled="False" Watermark="Locked" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                    <HeaderedContentControl Grid.Column="2" Classes="groupbox" Header="CALENDAR">
+                        <StackPanel Spacing="10">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Inline calendar for visible month navigation. Bind SelectedDate or SelectedDates. SelectionMode: SingleDate, SingleRange, or MultipleRange."
+                                TextWrapping="Wrap" />
+                            <Calendar />
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                </Grid>
+
             </StackPanel>
+        </ScrollViewer>
 
-            <!--  CalendarDatePicker  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="CALENDAR DATE PICKER" />
-                <CalendarDatePicker Width="220" Watermark="Select a date" />
-                <CalendarDatePicker
-                    Width="220"
-                    IsEnabled="False"
-                    Watermark="Disabled" />
-            </StackPanel>
-
-            <!--  Calendar  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="CALENDAR" />
-                <Calendar />
-            </StackPanel>
-
-        </StackPanel>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

@@ -1,145 +1,184 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.MenuPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-        <StackPanel
-            Margin="24"
-            HorizontalAlignment="Left"
-            Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:CompileBindings="True">
+    <Grid RowDefinitions="Auto,*">
 
-            <!--  Menu Bar  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="MENU BAR" />
-                <TextBlock Classes="dim" Text="Top-level items open downward. Hover across items to switch menus. Supports unlimited submenu depth." />
-                <Menu>
-                    <MenuItem Header="FILE">
-                        <MenuItem Header="New" InputGesture="Ctrl+N" />
-                        <MenuItem Header="Open" InputGesture="Ctrl+O" />
-                        <MenuItem Header="Open Recent">
-                            <MenuItem Header="vault_save_01.pip" />
-                            <MenuItem Header="vault_save_02.pip" />
-                            <MenuItem Header="wasteland_log.pip" />
-                        </MenuItem>
-                        <Separator />
-                        <MenuItem Header="Save" InputGesture="Ctrl+S" />
-                        <MenuItem Header="Save As…" InputGesture="Ctrl+Shift+S" />
-                        <Separator />
-                        <MenuItem Header="Exit" />
-                    </MenuItem>
-                    <MenuItem Header="EDIT">
-                        <MenuItem Header="Undo" InputGesture="Ctrl+Z" />
-                        <MenuItem Header="Redo" InputGesture="Ctrl+Y" />
-                        <Separator />
-                        <MenuItem Header="Cut" InputGesture="Ctrl+X" />
-                        <MenuItem Header="Copy" InputGesture="Ctrl+C" />
-                        <MenuItem Header="Paste" InputGesture="Ctrl+V" />
-                        <Separator />
-                        <MenuItem Header="Select All" InputGesture="Ctrl+A" />
-                    </MenuItem>
-                    <MenuItem Header="VIEW">
-                        <MenuItem Header="Zoom">
-                            <MenuItem Header="Zoom In" InputGesture="Ctrl+Add" />
-                            <MenuItem Header="Zoom Out" InputGesture="Ctrl+Subtract" />
-                            <MenuItem Header="Reset" InputGesture="Ctrl+D0" />
-                        </MenuItem>
-                        <MenuItem Header="Theme">
-                            <MenuItem Header="Pipboy Green" />
-                            <MenuItem Header="Amber" />
-                            <MenuItem Header="Nord" />
-                            <MenuItem Header="Cobalt" />
-                        </MenuItem>
-                        <Separator />
-                        <MenuItem Header="Full Screen" InputGesture="F11" />
-                    </MenuItem>
-                    <MenuItem Header="HELP" IsEnabled="False" />
-                </Menu>
-            </StackPanel>
-
-            <!--  Context Menu  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="CONTEXT MENU" />
-                <TextBlock Classes="dim" Text="Right-click the target area below to open the context menu with nested submenus." />
-                <Border
-                    Width="320"
-                    Padding="16,12"
-                    HorizontalAlignment="Left"
-                    Background="{DynamicResource PipboySurfaceBrush}"
-                    BorderBrush="{DynamicResource PipboyBorderBrush}"
-                    BorderThickness="1">
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        Classes="dim"
-                        Text="› RIGHT-CLICK HERE ‹" />
-                    <Border.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Click="OnMenuItemClick" Header="Inspect" />
-                            <MenuItem Click="OnMenuItemClick" Header="Mark Target" />
-                            <MenuItem Header="Tag As">
-                                <MenuItem Click="OnMenuItemClick" Header="Enemy" />
-                                <MenuItem Click="OnMenuItemClick" Header="Neutral" />
-                                <MenuItem Header="Friendly">
-                                    <MenuItem Click="OnMenuItemClick" Header="Brotherhood" />
-                                    <MenuItem Click="OnMenuItemClick" Header="Minutemen" />
-                                    <MenuItem Click="OnMenuItemClick" Header="Railroad" />
-                                </MenuItem>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Click="OnMenuItemClick" Header="Properties…" />
-                            <MenuItem
-                                Click="OnMenuItemClick"
-                                Header="Delete"
-                                IsEnabled="False" />
-                        </ContextMenu>
-                    </Border.ContextMenu>
-                </Border>
+        <Border
+            Grid.Row="0"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Padding="24,16">
+            <StackPanel Spacing="3">
+                <TextBlock Classes="h1" Text="MENUS" />
                 <TextBlock
-                    Name="MenuStatusText"
                     Classes="dim"
-                    Text="No item selected." />
+                    FontSize="11"
+                    Text="Menu bar, context menu, and menu flyout — all supporting unlimited submenu nesting, keyboard shortcuts, and separators." />
             </StackPanel>
+        </Border>
 
-            <!--  Menu Flyout  -->
-            <StackPanel Spacing="8">
-                <TextBlock Classes="h2" Text="MENU FLYOUT" />
-                <TextBlock Classes="dim" Text="Button-triggered menu with submenus. Dismiss by selecting an item, pressing Esc, or clicking outside." />
-                <WrapPanel>
-                    <Button
-                        Name="MenuFlyoutBtn"
-                        Margin="0,0,8,8"
-                        Click="OnMenuFlyoutBtnClick"
-                        Content="ACTIONS ▾">
-                        <Button.Flyout>
-                            <MenuFlyout Placement="Bottom">
-                                <MenuItem Click="OnMenuItemClick" Header="Take item" />
-                                <MenuItem Click="OnMenuItemClick" Header="Inspect" />
-                                <MenuItem Header="Send to">
-                                    <MenuItem Click="OnMenuItemClick" Header="Inventory" />
-                                    <MenuItem Click="OnMenuItemClick" Header="Workbench" />
-                                    <MenuItem Header="Companion">
-                                        <MenuItem Click="OnMenuItemClick" Header="Dogmeat" />
-                                        <MenuItem Click="OnMenuItemClick" Header="Codsworth" />
-                                        <MenuItem Click="OnMenuItemClick" Header="Piper" />
-                                    </MenuItem>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="24,20" Spacing="20">
+
+                <!--  ── Menu Bar ── -->
+                <HeaderedContentControl Classes="groupbox" Header="MENU BAR">
+                    <StackPanel Spacing="10">
+                        <TextBlock
+                            Classes="dim"
+                            FontSize="11"
+                            Text="Top-level items open downward. Hover across items to switch menus. Set InputGesture to show keyboard shortcuts. Supports unlimited submenu depth."
+                            TextWrapping="Wrap" />
+                        <Menu>
+                            <MenuItem Header="FILE">
+                                <MenuItem Header="New" InputGesture="Ctrl+N" />
+                                <MenuItem Header="Open" InputGesture="Ctrl+O" />
+                                <MenuItem Header="Open Recent">
+                                    <MenuItem Header="vault_save_01.pip" />
+                                    <MenuItem Header="vault_save_02.pip" />
+                                    <MenuItem Header="wasteland_log.pip" />
                                 </MenuItem>
                                 <Separator />
-                                <MenuItem Click="OnMenuItemClick" Header="Discard" />
-                            </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
-                    <Button
-                        Margin="0,0,8,8"
-                        Content="DISABLED ▾"
-                        IsEnabled="False">
-                        <Button.Flyout>
-                            <MenuFlyout>
-                                <MenuItem Header="Not reachable" />
-                            </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
-                </WrapPanel>
-            </StackPanel>
+                                <MenuItem Header="Save" InputGesture="Ctrl+S" />
+                                <MenuItem Header="Save As…" InputGesture="Ctrl+Shift+S" />
+                                <Separator />
+                                <MenuItem Header="Exit" />
+                            </MenuItem>
+                            <MenuItem Header="EDIT">
+                                <MenuItem Header="Undo" InputGesture="Ctrl+Z" />
+                                <MenuItem Header="Redo" InputGesture="Ctrl+Y" />
+                                <Separator />
+                                <MenuItem Header="Cut" InputGesture="Ctrl+X" />
+                                <MenuItem Header="Copy" InputGesture="Ctrl+C" />
+                                <MenuItem Header="Paste" InputGesture="Ctrl+V" />
+                                <Separator />
+                                <MenuItem Header="Select All" InputGesture="Ctrl+A" />
+                            </MenuItem>
+                            <MenuItem Header="VIEW">
+                                <MenuItem Header="Zoom">
+                                    <MenuItem Header="Zoom In" InputGesture="Ctrl+Add" />
+                                    <MenuItem Header="Zoom Out" InputGesture="Ctrl+Subtract" />
+                                    <MenuItem Header="Reset" InputGesture="Ctrl+D0" />
+                                </MenuItem>
+                                <MenuItem Header="Theme">
+                                    <MenuItem Header="Pipboy Green" />
+                                    <MenuItem Header="Amber" />
+                                    <MenuItem Header="Nord" />
+                                    <MenuItem Header="Cobalt" />
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="Full Screen" InputGesture="F11" />
+                            </MenuItem>
+                            <MenuItem Header="HELP" IsEnabled="False" />
+                        </Menu>
+                    </StackPanel>
+                </HeaderedContentControl>
 
-        </StackPanel>
-    </ScrollViewer>
+                <!--  ── Context Menu + Flyout side by side ── -->
+                <Grid ColumnDefinitions="*,16,*">
+
+                    <HeaderedContentControl Grid.Column="0" Classes="groupbox" Header="CONTEXT MENU">
+                        <StackPanel Spacing="10">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Attach via Border.ContextMenu. Right-click the target to open. Supports submenus, separators, and disabled items."
+                                TextWrapping="Wrap" />
+                            <Border
+                                Padding="16,20"
+                                Background="{DynamicResource PipboySurfaceBrush}"
+                                BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                BorderThickness="1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Classes="dim"
+                                    Text="›  RIGHT-CLICK THIS AREA  ‹" />
+                                <Border.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Click="OnMenuItemClick" Header="Inspect" />
+                                        <MenuItem Click="OnMenuItemClick" Header="Mark Target" />
+                                        <MenuItem Header="Tag As">
+                                            <MenuItem Click="OnMenuItemClick" Header="Enemy" />
+                                            <MenuItem Click="OnMenuItemClick" Header="Neutral" />
+                                            <MenuItem Header="Friendly">
+                                                <MenuItem Click="OnMenuItemClick" Header="Brotherhood" />
+                                                <MenuItem Click="OnMenuItemClick" Header="Minutemen" />
+                                                <MenuItem Click="OnMenuItemClick" Header="Railroad" />
+                                            </MenuItem>
+                                        </MenuItem>
+                                        <Separator />
+                                        <MenuItem Click="OnMenuItemClick" Header="Properties…" />
+                                        <MenuItem
+                                            Click="OnMenuItemClick"
+                                            Header="Delete"
+                                            IsEnabled="False" />
+                                    </ContextMenu>
+                                </Border.ContextMenu>
+                            </Border>
+                            <TextBlock
+                                Name="MenuStatusText"
+                                Classes="dim"
+                                FontSize="11"
+                                Text="No item selected." />
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                    <HeaderedContentControl Grid.Column="2" Classes="groupbox" Header="MENU FLYOUT">
+                        <StackPanel Spacing="10">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Button-triggered menu. Dismiss by selecting an item, pressing Esc, or clicking outside. Set Placement to control position."
+                                TextWrapping="Wrap" />
+                            <WrapPanel>
+                                <Button
+                                    Name="MenuFlyoutBtn"
+                                    Margin="0,0,8,8"
+                                    Click="OnMenuFlyoutBtnClick"
+                                    Content="ACTIONS  ▾">
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="Bottom">
+                                            <MenuItem Click="OnMenuItemClick" Header="Take item" />
+                                            <MenuItem Click="OnMenuItemClick" Header="Inspect" />
+                                            <MenuItem Header="Send to">
+                                                <MenuItem Click="OnMenuItemClick" Header="Inventory" />
+                                                <MenuItem Click="OnMenuItemClick" Header="Workbench" />
+                                                <MenuItem Header="Companion">
+                                                    <MenuItem Click="OnMenuItemClick" Header="Dogmeat" />
+                                                    <MenuItem Click="OnMenuItemClick" Header="Codsworth" />
+                                                    <MenuItem Click="OnMenuItemClick" Header="Piper" />
+                                                </MenuItem>
+                                            </MenuItem>
+                                            <Separator />
+                                            <MenuItem Click="OnMenuItemClick" Header="Discard" />
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                                <Button
+                                    Margin="0,0,8,8"
+                                    Content="DISABLED  ▾"
+                                    IsEnabled="False">
+                                    <Button.Flyout>
+                                        <MenuFlyout>
+                                            <MenuItem Header="Not reachable" />
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </WrapPanel>
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="11"
+                                Text="Last action: "
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </HeaderedContentControl>
+
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
 </UserControl>
