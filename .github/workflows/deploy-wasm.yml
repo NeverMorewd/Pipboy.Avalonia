@@ -1,0 +1,72 @@
+name: Deploy WASM Demo → GitHub Pages
+
+on:
+  # Auto-deploy whenever main is updated
+  push:
+    branches: [ main ]
+  # Allow triggering manually from the Actions tab
+  workflow_dispatch:
+
+# Required for the deploy-pages action
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deployment runs at a time; new runs cancel the in-progress one
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    name: Build WASM & Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+
+    # Exposes the live URL in the Actions summary
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      # wasm-tools is required for Avalonia Browser / Blazor-style WASM publishing
+      - name: Install WASM workload
+        run: dotnet workload install wasm-tools
+
+      # Publish produces the runnable site under <output>/wwwroot
+      - name: Publish Browser project
+        run: |
+          dotnet publish samples/Pipboy.Avalonia.Demo.Browser/Pipboy.Avalonia.Demo.Browser.csproj \
+            --configuration Release \
+            --output ${{ runner.temp }}/publish
+
+      # .nojekyll stops GitHub Pages from running Jekyll, which would mangle
+      # Blazor/Avalonia asset filenames that start with underscores.
+      - name: Add .nojekyll
+        run: touch ${{ runner.temp }}/publish/wwwroot/.nojekyll
+
+      # GitHub Pages returns 404 for deep links; serving index.html as the 404
+      # page lets Avalonia's own router (if any) handle the path client-side.
+      - name: Copy index.html → 404.html
+        run: cp ${{ runner.temp }}/publish/wwwroot/index.html \
+                ${{ runner.temp }}/publish/wwwroot/404.html
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/publish/wwwroot
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
