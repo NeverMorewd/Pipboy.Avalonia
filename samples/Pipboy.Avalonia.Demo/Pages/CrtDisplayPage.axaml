@@ -108,41 +108,34 @@
                         Classes="dim"
                         FontSize="10"
                         Text="EFFECTS" />
-                    <ToggleSwitch
-                        x:Name="ScanlineToggle"
-                        IsChecked="True"
-                        OffContent="SCANLINES: OFF"
-                        OnContent="SCANLINES: ON" />
-                    <ToggleSwitch
-                        x:Name="AnimToggle"
-                        IsChecked="True"
-                        OffContent="SCANLINE SCROLL: OFF"
-                        OnContent="SCANLINE SCROLL: ON" />
-                    <ToggleSwitch
-                        x:Name="BeamToggle"
-                        IsChecked="True"
-                        OffContent="SCAN BEAM: OFF"
-                        OnContent="SCAN BEAM: ON" />
-                    <ToggleSwitch
-                        x:Name="NoiseToggle"
-                        IsChecked="True"
-                        OffContent="NOISE: OFF"
-                        OnContent="NOISE: ON" />
-                    <ToggleSwitch
-                        x:Name="VignetteToggle"
-                        IsChecked="True"
-                        OffContent="VIGNETTE: OFF"
-                        OnContent="VIGNETTE: ON" />
-                    <ToggleSwitch
-                        x:Name="FlickerToggle"
-                        IsChecked="False"
-                        OffContent="FLICKER: OFF"
-                        OnContent="FLICKER: ON" />
-                    <ToggleSwitch
-                        x:Name="FpsToggle"
-                        IsChecked="False"
-                        OffContent="FPS OVERLAY: OFF"
-                        OnContent="FPS OVERLAY: ON" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="SCANLINES" />
+                        <ToggleSwitch x:Name="ScanlineToggle" Grid.Column="1" IsChecked="True" OffContent="OFF" OnContent="ON" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="SCANLINE SCROLL" />
+                        <ToggleSwitch x:Name="AnimToggle" Grid.Column="1" IsChecked="True" OffContent="OFF" OnContent="ON" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="SCAN BEAM" />
+                        <ToggleSwitch x:Name="BeamToggle" Grid.Column="1" IsChecked="True" OffContent="OFF" OnContent="ON" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="NOISE" />
+                        <ToggleSwitch x:Name="NoiseToggle" Grid.Column="1" IsChecked="True" OffContent="OFF" OnContent="ON" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="VIGNETTE" />
+                        <ToggleSwitch x:Name="VignetteToggle" Grid.Column="1" IsChecked="True" OffContent="OFF" OnContent="ON" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="FLICKER" />
+                        <ToggleSwitch x:Name="FlickerToggle" Grid.Column="1" IsChecked="False" OffContent="OFF" OnContent="ON" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="FPS OVERLAY" />
+                        <ToggleSwitch x:Name="FpsToggle" Grid.Column="1" IsChecked="False" OffContent="OFF" OnContent="ON" />
+                    </Grid>
 
                     <!--  Sliders  -->
                     <TextBlock
