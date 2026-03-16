@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -35,6 +36,12 @@ public class PipboyWindow : Window
         get => GetValue(TitleBarContentProperty);
         set => SetValue(TitleBarContentProperty, value);
     }
+
+    /// <summary>
+    /// Overriding StyleKeyOverride is CRITICAL: Window base class returns typeof(Window),
+    /// which causes Avalonia to apply the Window ControlTheme instead of ours.
+    /// </summary>
+    protected override Type StyleKeyOverride => typeof(PipboyWindow);
 
     public PipboyWindow()
     {
