@@ -43,10 +43,7 @@ jobs:
 
       # Publish produces the runnable site under <output>/wwwroot
       - name: Publish Browser project
-        run: |
-          dotnet publish samples/Pipboy.Avalonia.Demo.Browser/Pipboy.Avalonia.Demo.Browser.csproj \
-            --configuration Release \
-            --output ${{ runner.temp }}/publish
+        run: dotnet publish samples/Pipboy.Avalonia.Demo.Browser/Pipboy.Avalonia.Demo.Browser.csproj --configuration Release --output "${{ runner.temp }}/publish"
 
       # .nojekyll stops GitHub Pages from running Jekyll, which would mangle
       # Blazor/Avalonia asset filenames that start with underscores.
@@ -56,8 +53,7 @@ jobs:
       # GitHub Pages returns 404 for deep links; serving index.html as the 404
       # page lets Avalonia's own router (if any) handle the path client-side.
       - name: Copy index.html → 404.html
-        run: cp ${{ runner.temp }}/publish/wwwroot/index.html \
-                ${{ runner.temp }}/publish/wwwroot/404.html
+        run: cp "${{ runner.temp }}/publish/wwwroot/index.html" "${{ runner.temp }}/publish/wwwroot/404.html"
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
