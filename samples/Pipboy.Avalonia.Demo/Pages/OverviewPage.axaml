@@ -1,115 +1,374 @@
-﻿<UserControl
+<UserControl
     x:Class="Pipboy.Avalonia.Demo.Pages.OverviewPage"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <StackPanel Margin="24" Spacing="24">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
+    x:CompileBindings="False">
 
-            <!--  Hero  -->
-            <StackPanel HorizontalAlignment="Center" Spacing="6">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    Classes="h1"
-                    Text="PIPBOY OS v3.0" />
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    Classes="dim"
-                    Text="Avalonia UI control theme inspired by Fallout's Pip-Boy terminal aesthetic." />
-                <StackPanel
-                    Margin="0,8,0,0"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal"
-                    Spacing="16">
-                    <TextBlock Classes="accent" Text="MONOSPACE" />
-                    <TextBlock Classes="dim" Text="·" />
-                    <TextBlock Classes="accent" Text="CRT GREEN" />
-                    <TextBlock Classes="dim" Text="·" />
-                    <TextBlock Classes="accent" Text="RETRO-FUTURIST" />
-                </StackPanel>
-            </StackPanel>
+    <!--  The entire overview is wrapped in a CrtDisplay — scanlines, vignette and
+          scan beam give the page its Pip-Boy terminal feel.  -->
+    <pipboy:CrtDisplay
+        x:Name="OverviewCrt"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        EnableFlicker="False"
+        EnableNoise="True"
+        EnableScanBeam="True"
+        EnableScanlines="True"
+        EnableScanlineAnimation="True"
+        EnableVignette="True"
+        NoiseDensity="0.015"
+        NoiseOpacity="0.04"
+        ScanBeamHeight="50"
+        ScanBeamSpeed="55"
+        ScanlineOpacity="0.22"
+        ScanlineSpacing="3"
+        VignetteIntensity="0.38">
 
-            <!--  Controls preview grid  -->
-            <Grid ColumnDefinitions="*,16,*,16,*">
+        <Border Background="{DynamicResource PipboySurfaceBrush}">
+            <Grid RowDefinitions="Auto,Auto,*,Auto">
 
-                <!--  Column 1  -->
-                <StackPanel Grid.Column="0" Spacing="8">
-                    <TextBlock Classes="h2" Text="BUTTONS" />
-                    <Button Content="PRIMARY ACTION" />
-                    <Button Content="DISABLED" IsEnabled="False" />
-                    <ToggleButton Content="TOGGLE ON" IsChecked="True" />
-                    <SplitButton Content="SPLIT ACTION">
-                        <SplitButton.Flyout>
-                            <MenuFlyout>
-                                <MenuItem Header="Option A" />
-                                <MenuItem Header="Option B" />
-                            </MenuFlyout>
-                        </SplitButton.Flyout>
-                    </SplitButton>
+                <!--  ── Row 0: Header bar  ── -->
+                <Border
+                    Grid.Row="0"
+                    BorderBrush="{DynamicResource PipboyBorderBrush}"
+                    BorderThickness="0,0,0,1"
+                    Padding="20,10,20,10">
+                    <Grid ColumnDefinitions="*,Auto">
 
-                    <TextBlock
-                        Margin="0,8,0,0"
-                        Classes="h2"
-                        Text="TOGGLES" />
-                    <CheckBox Content="VATS ENABLED" IsChecked="True" />
-                    <CheckBox Content="AUTO-SAVE" IsChecked="False" />
-                    <CheckBox Content="INDETERMINATE" IsChecked="{x:Null}" />
-                    <RadioButton
-                        Content="NORMAL"
-                        GroupName="ovDiff"
-                        IsChecked="True" />
-                    <RadioButton Content="SURVIVAL" GroupName="ovDiff" />
-                    <ToggleSwitch IsChecked="True" />
-                </StackPanel>
+                        <StackPanel Grid.Column="0" Spacing="2">
+                            <TextBlock Classes="h1" Text="PIPBOY OS v4.0" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="ROBCO INDUSTRIES (TM)  ·  UNIFIED OPERATING SYSTEM  ·  COPYRIGHT 2075" />
+                        </StackPanel>
 
-                <!--  Column 2  -->
-                <StackPanel Grid.Column="2" Spacing="8">
-                    <TextBlock Classes="h2" Text="INPUT" />
-                    <TextBox Watermark="Enter terminal command..." />
-                    <TextBox Text="Editable field" />
-                    <TextBox PasswordChar="●" Watermark="Password" />
-                    <NumericUpDown
-                        Maximum="100"
-                        Minimum="0"
-                        Value="42" />
-                    <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0">
-                        <ComboBoxItem Content="DIAMOND CITY" />
-                        <ComboBoxItem Content="GOODNEIGHBOR" />
-                        <ComboBoxItem Content="VAULT 81" />
-                    </ComboBox>
+                        <StackPanel
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Spacing="2">
+                            <pipboy:BlinkText IsBlinking="True">
+                                <TextBlock
+                                    Classes="accent"
+                                    FontSize="10"
+                                    Text="● SYSTEM ONLINE" />
+                            </pipboy:BlinkText>
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="VAULT-TEC LINK: ACTIVE" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="SIGNAL: ████████░░  82%" />
+                        </StackPanel>
 
-                    <TextBlock
-                        Margin="0,8,0,0"
-                        Classes="h2"
-                        Text="METERS" />
-                    <ProgressBar Maximum="100" Value="75" />
-                    <ProgressBar Maximum="100" Value="45" />
-                    <ProgressBar IsIndeterminate="True" />
-                    <Slider Maximum="100" Value="65" />
-                </StackPanel>
+                    </Grid>
+                </Border>
 
-                <!--  Column 3  -->
-                <StackPanel Grid.Column="4" Spacing="8">
-                    <TextBlock Classes="h2" Text="LISTS" />
-                    <ListBox Height="120">
-                        <ListBoxItem Content="10mm Pistol  ×1" />
-                        <ListBoxItem Content="Stimpak      ×12" />
-                        <ListBoxItem Content="RadAway      ×4" />
-                        <ListBoxItem Content="Fusion Core  ×2" />
-                    </ListBox>
+                <!--  ── Row 1: PipboyTabStrip nav  ── -->
+                <Border
+                    Grid.Row="1"
+                    BorderBrush="{DynamicResource PipboyBorderBrush}"
+                    BorderThickness="0,0,0,1"
+                    Padding="16,0">
+                    <pipboy:PipboyTabStrip SelectedIndex="0">
+                        <pipboy:PipboyTabStripItem Content="STAT" />
+                        <pipboy:PipboyTabStripItem Content="INV" />
+                        <pipboy:PipboyTabStripItem Content="DATA" />
+                        <pipboy:PipboyTabStripItem Content="MAP" />
+                        <pipboy:PipboyTabStripItem Content="RADIO" />
+                    </pipboy:PipboyTabStrip>
+                </Border>
 
-                    <TextBlock
-                        Margin="0,8,0,0"
-                        Classes="h2"
-                        Text="TYPOGRAPHY" />
-                    <TextBlock Classes="h1" Text="HEADING 1" />
-                    <TextBlock Classes="h2" Text="Heading 2" />
-                    <TextBlock Text="Body — Regular paragraph text." />
-                    <TextBlock Classes="dim" Text="Dim / secondary hint text." />
-                    <TextBlock Classes="accent" Text="Accent primary highlight." />
-                </StackPanel>
+                <!--  ── Row 2: Three-column dashboard  ── -->
+                <Grid Grid.Row="2" ColumnDefinitions="220,1,*,1,220">
+
+                    <!--  ─ LEFT: S.P.E.C.I.A.L. + Vitals + Countdown  ─ -->
+                    <ScrollViewer Grid.Column="0">
+                        <StackPanel Margin="14,12" Spacing="12">
+
+                            <HeaderedContentControl Classes="groupbox" Header="S.P.E.C.I.A.L.">
+                                <StackPanel Spacing="3">
+                                    <pipboy:RatedAttribute Label="STRENGTH"     Value="8" />
+                                    <pipboy:RatedAttribute Label="PERCEPTION"   Value="5" />
+                                    <pipboy:RatedAttribute Label="ENDURANCE"    Value="7" />
+                                    <pipboy:RatedAttribute Label="CHARISMA"     Value="4" />
+                                    <pipboy:RatedAttribute Label="INTELLIGENCE" Value="9" />
+                                    <pipboy:RatedAttribute Label="AGILITY"      Value="6" />
+                                    <pipboy:RatedAttribute Label="LUCK"         Value="3" />
+                                </StackPanel>
+                            </HeaderedContentControl>
+
+                            <HeaderedContentControl Classes="groupbox" Header="VITAL SIGNS">
+                                <StackPanel Spacing="5">
+                                    <pipboy:SegmentedBar
+                                        Label="HP"
+                                        Maximum="100"
+                                        SegmentCount="16"
+                                        ShowProgressBar="True"
+                                        Value="72" />
+                                    <pipboy:SegmentedBar
+                                        Label="AP"
+                                        Maximum="100"
+                                        SegmentCount="16"
+                                        ShowProgressBar="True"
+                                        Value="45" />
+                                    <pipboy:SegmentedBar
+                                        Label="RAD"
+                                        Maximum="100"
+                                        SegmentCount="16"
+                                        ShowProgressBar="True"
+                                        Value="18" />
+                                </StackPanel>
+                            </HeaderedContentControl>
+
+                            <HeaderedContentControl Classes="groupbox accent" Header="CRITICAL TIMER">
+                                <pipboy:PipboyCountdown
+                                    x:Name="OverviewCountdown"
+                                    Duration="0:3:00"
+                                    Label="SELF DESTRUCT"
+                                    Precision="Seconds" />
+                            </HeaderedContentControl>
+
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <Button
+                                    MinWidth="56"
+                                    Click="OnCountdownStart"
+                                    Content="START" />
+                                <Button
+                                    MinWidth="56"
+                                    Click="OnCountdownStop"
+                                    Content="STOP" />
+                                <Button
+                                    MinWidth="56"
+                                    Click="OnCountdownReset"
+                                    Content="RESET" />
+                            </StackPanel>
+
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Rectangle Grid.Column="1" Fill="{DynamicResource PipboyBorderBrush}" />
+
+                    <!--  ─ CENTER: Controls showcase  ─ -->
+                    <ScrollViewer Grid.Column="2">
+                        <StackPanel Margin="20,12" Spacing="16">
+
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="CONTROL SYSTEMS OVERVIEW" />
+
+                            <!--  Buttons row  -->
+                            <HeaderedContentControl Classes="groupbox" Header="INPUT DEVICES">
+                                <WrapPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                    <WrapPanel.Styles>
+                                        <Style Selector="Button, ToggleButton, ToggleSwitch, CheckBox, RadioButton">
+                                            <Setter Property="Margin" Value="0,0,8,6" />
+                                        </Style>
+                                    </WrapPanel.Styles>
+                                    <Button Content="PRIMARY ACTION" />
+                                    <Button Content="DISABLED" IsEnabled="False" />
+                                    <ToggleButton Content="ARMED" IsChecked="True" />
+                                    <ToggleSwitch IsChecked="True" OnContent="VATS ON" OffContent="VATS OFF"/>
+                                    <CheckBox Content="AUTO-SAVE" IsChecked="True" />
+                                    <CheckBox Content="HARDCORE" IsChecked="False" />
+                                    <RadioButton Content="NORMAL" GroupName="ovDiff" IsChecked="True" />
+                                    <RadioButton Content="SURVIVAL" GroupName="ovDiff" />
+                                </WrapPanel>
+                            </HeaderedContentControl>
+
+                            <!--  Input fields  -->
+                            <HeaderedContentControl Classes="groupbox" Header="TERMINAL INPUT">
+                                <Grid ColumnDefinitions="*,12,*" RowDefinitions="Auto,8,Auto,8,Auto">
+                                    <TextBox
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Watermark="Enter command..." />
+                                    <TextBox
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        PasswordChar="●"
+                                        Watermark="ACCESS CODE" />
+                                    <ComboBox
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Stretch"
+                                        SelectedIndex="0">
+                                        <ComboBoxItem Content="DIAMOND CITY" />
+                                        <ComboBoxItem Content="GOODNEIGHBOR" />
+                                        <ComboBoxItem Content="VAULT 81" />
+                                    </ComboBox>
+                                    <NumericUpDown
+                                        Grid.Row="2"
+                                        Grid.Column="2"
+                                        Maximum="100"
+                                        Minimum="0"
+                                        Value="42" />
+                                    <Slider
+                                        Grid.Row="4"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="3"
+                                        Maximum="100"
+                                        Value="65" />
+                                </Grid>
+                            </HeaderedContentControl>
+
+                            <!--  Terminal panel  -->
+                            <HeaderedContentControl Classes="groupbox" Header="TERMINAL OUTPUT">
+                                <pipboy:TerminalPanel
+                                    x:Name="OverviewTerminal"
+                                    Content="ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL&#x0a;ENTER PASSWORD NOW&#x0a;&#x0a;&gt; ACCESSING MAINFRAME...&#x0a;&gt; CONNECTION ESTABLISHED.&#x0a;&gt; WELCOME, OVERSEER."
+                                    TypewriterDelayMs="35"
+                                    TypewriterEffect="True" />
+                            </HeaderedContentControl>
+
+                            <!--  Typography row  -->
+                            <HeaderedContentControl Classes="groupbox" Header="TYPOGRAPHY">
+                                <Grid ColumnDefinitions="*,16,*">
+                                    <StackPanel Grid.Column="0" Spacing="4">
+                                        <TextBlock Classes="h1" Text="HEADING 1" />
+                                        <TextBlock Classes="h2" Text="Heading 2" />
+                                        <TextBlock Text="Body — Regular text." />
+                                        <TextBlock Classes="dim" Text="Dim / secondary hint." />
+                                        <TextBlock Classes="accent" Text="Accent highlight." />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2" Spacing="5">
+                                        <ProgressBar Maximum="100" Value="75" />
+                                        <ProgressBar Maximum="100" Value="45" />
+                                        <ProgressBar IsIndeterminate="True" />
+                                        <pipboy:BlinkText IsBlinking="True">
+                                            <TextBlock Classes="accent" Text="PRESS ENTER TO CONTINUE" />
+                                        </pipboy:BlinkText>
+                                    </StackPanel>
+                                </Grid>
+                            </HeaderedContentControl>
+
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Rectangle Grid.Column="3" Fill="{DynamicResource PipboyBorderBrush}" />
+
+                    <!--  ─ RIGHT: Navigation + Inventory + Quests  ─ -->
+                    <ScrollViewer Grid.Column="4">
+                        <StackPanel Margin="14,12" Spacing="12">
+
+                            <HeaderedContentControl Classes="groupbox" Header="MAIN MENU">
+                                <StackPanel Spacing="2">
+                                    <pipboy:BracketHighlight IsSelected="True" SelectionGroup="ovMenu">
+                                        <TextBlock Text="INVENTORY" />
+                                    </pipboy:BracketHighlight>
+                                    <pipboy:BracketHighlight SelectionGroup="ovMenu">
+                                        <TextBlock Text="STATUS" />
+                                    </pipboy:BracketHighlight>
+                                    <pipboy:BracketHighlight SelectionGroup="ovMenu">
+                                        <TextBlock Text="MAP" />
+                                    </pipboy:BracketHighlight>
+                                    <pipboy:BracketHighlight SelectionGroup="ovMenu">
+                                        <TextBlock Text="RADIO" />
+                                    </pipboy:BracketHighlight>
+                                    <pipboy:BracketHighlight SelectionGroup="ovMenu">
+                                        <TextBlock Text="DATA" />
+                                    </pipboy:BracketHighlight>
+                                    <pipboy:BracketHighlight SelectionGroup="ovMenu">
+                                        <TextBlock Text="SETTINGS" />
+                                    </pipboy:BracketHighlight>
+                                </StackPanel>
+                            </HeaderedContentControl>
+
+                            <HeaderedContentControl Classes="groupbox" Header="INVENTORY">
+                                <StackPanel Spacing="3">
+                                    <TextBlock Text="10mm Pistol       ×1" />
+                                    <TextBlock Text="Stimpak           ×12" />
+                                    <TextBlock Text="RadAway           ×4" />
+                                    <TextBlock Text="Fusion Core       ×2" />
+                                    <TextBlock Text="Nuka-Cola         ×7" />
+                                    <TextBlock Classes="dim" Text="────────────────────" />
+                                    <TextBlock Classes="dim" Text="WEIGHT: 24.3 / 270" />
+                                    <TextBlock Classes="accent" Text="CAPS: 843" />
+                                </StackPanel>
+                            </HeaderedContentControl>
+
+                            <HeaderedContentControl Classes="groupbox accent" Header="ACTIVE QUESTS">
+                                <StackPanel Spacing="4">
+                                    <TextBlock Classes="accent" Text="[!] THE NUCLEAR OPTION" />
+                                    <TextBlock
+                                        Classes="dim"
+                                        FontSize="10"
+                                        Text="Reach the Institute relay room." />
+                                    <TextBlock Classes="accent" Text="[!] TRADECRAFT" />
+                                    <TextBlock
+                                        Classes="dim"
+                                        FontSize="10"
+                                        Text="Meet Deacon at the Old North Church." />
+                                    <TextBlock Classes="dim" Text="[ ] DANGEROUS MINDS" />
+                                    <TextBlock Classes="dim" Text="[ ] THE GLOWING SEA" />
+                                </StackPanel>
+                            </HeaderedContentControl>
+
+                            <!--  ListBox  -->
+                            <HeaderedContentControl Classes="groupbox" Header="RECENT LOG">
+                                <ListBox Height="110">
+                                    <ListBoxItem Content="[12:04] Location discovered" />
+                                    <ListBoxItem Content="[11:58] Level up! LVL 42" />
+                                    <ListBoxItem Content="[11:42] Quest updated" />
+                                    <ListBoxItem Content="[11:30] Enemy defeated" />
+                                    <ListBoxItem Content="[11:10] Vault 111 exited" />
+                                </ListBox>
+                            </HeaderedContentControl>
+
+                        </StackPanel>
+                    </ScrollViewer>
+
+                </Grid>
+
+                <!--  ── Row 3: Status bar  ── -->
+                <Border
+                    Grid.Row="3"
+                    BorderBrush="{DynamicResource PipboyBorderBrush}"
+                    BorderThickness="0,1,0,0"
+                    Padding="20,6">
+                    <Grid ColumnDefinitions="*,Auto">
+
+                        <pipboy:BlinkText
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            IsBlinking="True">
+                            <TextBlock Classes="accent" Text="> AWAITING INPUT_" />
+                        </pipboy:BlinkText>
+
+                        <StackPanel
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="20">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="HP: 72/100" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="AP: 45/100" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="RAD: 18/100" />
+                            <TextBlock
+                                Classes="accent"
+                                FontSize="10"
+                                Text="LVL 42" />
+                        </StackPanel>
+
+                    </Grid>
+                </Border>
 
             </Grid>
+        </Border>
 
-        </StackPanel>
-    </ScrollViewer>
+    </pipboy:CrtDisplay>
+
 </UserControl>
