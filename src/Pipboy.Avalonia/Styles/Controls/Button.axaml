@@ -46,7 +46,6 @@
             </Style>
             <Style Selector="^:focus-visible /template/ Border#PART_Border">
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />
-                <Setter Property="BorderThickness" Value="2" />
             </Style>
         </ControlTheme>
 
