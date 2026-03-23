@@ -1,0 +1,169 @@
+<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.MapPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!--  ══ Header toolbar ══════════════════════════════════════════════  -->
+        <Border
+            Grid.Row="0"
+            Padding="16,10"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1">
+            <DockPanel>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Classes="h2"
+                    DockPanel.Dock="Left"
+                    Text="[ WORLD MAP ]" />
+
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    DockPanel.Dock="Right"
+                    Orientation="Horizontal"
+                    Spacing="8">
+
+                    <!--  Zoom controls  -->
+                    <Button
+                        x:Name="BtnZoomOut"
+                        Width="32"
+                        Height="32"
+                        Padding="0"
+                        Click="OnZoomOut"
+                        Content="─"
+                        ToolTip.Tip="Zoom Out" />
+                    <Button
+                        x:Name="BtnFit"
+                        Height="32"
+                        Padding="8,0"
+                        Click="OnFitToView"
+                        Content="FIT"
+                        ToolTip.Tip="Fit to View" />
+                    <Button
+                        x:Name="BtnZoomIn"
+                        Width="32"
+                        Height="32"
+                        Padding="0"
+                        Click="OnZoomIn"
+                        Content="+"
+                        ToolTip.Tip="Zoom In" />
+
+                    <Rectangle
+                        Width="1"
+                        Margin="4,0"
+                        Fill="{DynamicResource PipboyBorderBrush}" />
+
+                    <!--  Toggle crosshair  -->
+                    <ToggleButton
+                        x:Name="BtnCrosshair"
+                        Height="32"
+                        Padding="8,0"
+                        IsChecked="{Binding #TheMap.ShowCrosshair, Mode=TwoWay}"
+                        ToolTip.Tip="Toggle Crosshair">
+                        <TextBlock Text="⊕ CROSSHAIR" />
+                    </ToggleButton>
+
+                    <!--  Toggle grid  -->
+                    <ToggleButton
+                        x:Name="BtnGrid"
+                        Height="32"
+                        Padding="8,0"
+                        IsChecked="{Binding #TheMap.ShowGrid, Mode=TwoWay}"
+                        ToolTip.Tip="Toggle Grid">
+                        <TextBlock Text="⊞ GRID" />
+                    </ToggleButton>
+
+                    <!--  Toggle labels  -->
+                    <ToggleButton
+                        x:Name="BtnLabels"
+                        Height="32"
+                        Padding="8,0"
+                        IsChecked="{Binding #TheMap.ShowTileLabels, Mode=TwoWay}"
+                        ToolTip.Tip="Toggle Labels">
+                        <TextBlock Text="Aa LABELS" />
+                    </ToggleButton>
+
+                    <Rectangle
+                        Width="1"
+                        Margin="4,0"
+                        Fill="{DynamicResource PipboyBorderBrush}" />
+
+                    <!--  Marker kind selector  -->
+                    <TextBlock VerticalAlignment="Center" Classes="dim" Text="MARKER:" />
+                    <ComboBox
+                        x:Name="MarkerKindCombo"
+                        Height="32"
+                        MinWidth="110"
+                        SelectedIndex="0"
+                        SelectionChanged="OnMarkerKindChanged">
+                        <ComboBoxItem Content="[ PIN ]" />
+                        <ComboBoxItem Content="[ FLAG ]" />
+                        <ComboBoxItem Content="[ STAR ]" />
+                        <ComboBoxItem Content="[ SKULL ]" />
+                        <ComboBoxItem Content="[ DIAMOND ]" />
+                        <ComboBoxItem Content="[ CIRCLE ]" />
+                        <ComboBoxItem Content="[ CROSS ]" />
+                        <ComboBoxItem Content="[ QUEST ]" />
+                    </ComboBox>
+
+                    <Button
+                        Height="32"
+                        Padding="8,0"
+                        Classes="danger"
+                        Click="OnClearMarkers"
+                        Content="CLEAR MARKERS" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!--  ══ Map ════════════════════════════════════════════════════════  -->
+        <pipboy:PipboyMap
+            x:Name="TheMap"
+            Grid.Row="1"
+            ShowCrosshair="True"
+            ShowGrid="True"
+            ShowTileLabels="True"
+            ShowScaleBar="True"
+            IsMarkerPlacementEnabled="True"
+            IsPanEnabled="True"
+            IsZoomEnabled="True"
+            MinZoom="0.3"
+            MaxZoom="12" />
+
+        <!--  ══ Status bar ═════════════════════════════════════════════════  -->
+        <Border
+            Grid.Row="2"
+            Padding="16,8"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,1,0,0">
+            <DockPanel>
+                <!--  Selected tile info  -->
+                <StackPanel
+                    DockPanel.Dock="Left"
+                    Orientation="Horizontal"
+                    Spacing="16">
+                    <TextBlock Classes="dim" Text="SELECTED:" />
+                    <TextBlock
+                        x:Name="LblSelected"
+                        Foreground="{DynamicResource PipboyPrimaryBrush}"
+                        Text="—" />
+                </StackPanel>
+
+                <!--  Marker count  -->
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    DockPanel.Dock="Right"
+                    Orientation="Horizontal"
+                    Spacing="6">
+                    <TextBlock Classes="dim" Text="MARKERS:" />
+                    <TextBlock x:Name="LblMarkerCount" Text="0" />
+                    <TextBlock Classes="dim" Text="│ RIGHT-CLICK MAP TO PLACE MARKER │ SCROLL TO ZOOM │ DRAG TO PAN" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+    </Grid>
+</UserControl>
