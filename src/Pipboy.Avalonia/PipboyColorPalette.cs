@@ -43,53 +43,53 @@ public sealed class PipboyColorPalette
 
     public PipboyColorPalette(Color primaryColor)
     {
-        var hsl = HslColor.FromColor(primaryColor);
+        var hsl = new HslColor(primaryColor); //HslColor.FromColor(primaryColor);
 
         Primary = primaryColor;
 
         // Lighter / darker primary shades
-        PrimaryLight = hsl.AdjustLightness(0.25f).ToColor();
-        PrimaryDark = hsl.AdjustLightness(-0.25f).ToColor();
+        PrimaryLight = hsl.AdjustLightness(0.25f).ToRgb();
+        PrimaryDark = hsl.AdjustLightness(-0.25f).ToRgb();
 
         // Saturation scale: primaries with low saturation (greys, slates) produce
         // proportionally desaturated derived colors so there is no unwanted hue cast.
         // Primaries with S ≥ 0.25 get the full target saturation; achromatic primaries
         // (S = 0) produce a pure grey palette.
-        float ss = Math.Min(hsl.S / 0.25f, 1.0f);
+        double ss = Math.Min(hsl.S / 0.25, 1.0);
 
         // Dark backgrounds — same hue, low saturation, very low lightness
-        Background = new HslColor(hsl.H, 0.30f * ss, 0.05f).ToColor();
-        Surface    = new HslColor(hsl.H, 0.28f * ss, 0.09f).ToColor();
-        SurfaceHigh = new HslColor(hsl.H, 0.25f * ss, 0.14f).ToColor();
+        Background = new HslColor(hsl.A, hsl.H, 0.30f * ss, 0.05f).ToRgb();
+        Surface    = new HslColor( hsl.A, hsl.H, 0.28f * ss, 0.09f).ToRgb();
+        SurfaceHigh = new HslColor(hsl.A, hsl.H, 0.25f * ss, 0.14f).ToRgb();
 
         // Text — same hue, moderately saturated, high lightness
-        Text    = new HslColor(hsl.H, 0.70f * ss, 0.85f).ToColor();
-        TextDim = new HslColor(hsl.H, 0.45f * ss, 0.58f).ToColor();
+        Text    = new HslColor(hsl.A, hsl.H, 0.70f * ss, 0.85f).ToRgb();
+        TextDim = new HslColor( hsl.A, hsl.H, 0.45f * ss, 0.58f).ToRgb();
 
         // Interactive states — fixed dark lightness so all hues (green, yellow,
         // cyan, orange…) stay dark enough for Text (L=0.85) to be readable.
-        Hover    = new HslColor(hsl.H, Math.Min(hsl.S * 0.60f, 0.55f), 0.20f).ToColor();
-        Pressed  = new HslColor(hsl.H, Math.Min(hsl.S * 0.50f, 0.45f), 0.13f).ToColor();
-        Disabled = new HslColor(hsl.H, 0.15f * ss, 0.35f).ToColor();
+        Hover    = new HslColor(hsl.A, hsl.H, Math.Min(hsl.S * 0.60f, 0.55f), 0.20f).ToRgb();
+        Pressed  = new HslColor(hsl.A, hsl.H, Math.Min(hsl.S * 0.50f, 0.45f), 0.13f).ToRgb();
+        Disabled = new HslColor(hsl.A, hsl.H, 0.15f * ss, 0.35f).ToRgb();
 
         // Focus / selection
-        float focusL = hsl.L + 0.30f;
-        Focus = hsl.WithLightness(focusL > 0.95f ? 0.95f : focusL).ToColor();
+        double focusL = hsl.L + 0.30f;
+        Focus = hsl.WithLightness(focusL > 0.95f ? 0.95f : focusL).ToRgb();
 
-        float selL = hsl.L * 0.45f;
-        Selection = new HslColor(hsl.H, hsl.S, selL > 0.30f ? 0.30f : selL).ToColor();
+        double selL = hsl.L * 0.45f;
+        Selection = new HslColor(hsl.A, hsl.H, hsl.S, selL > 0.30f ? 0.30f : selL).ToRgb();
 
         // Borders
-        Border = hsl.AdjustLightness(-0.10f).ToColor();
-        float bfL = hsl.L + 0.25f;
-        BorderFocus = hsl.WithLightness(bfL > 0.90f ? 0.90f : bfL).ToColor();
+        Border = hsl.AdjustLightness(-0.10f).ToRgb();
+        double bfL = hsl.L + 0.25f;
+        BorderFocus = hsl.WithLightness(bfL > 0.90f ? 0.90f : bfL).ToRgb();
 
         // Semantic status — same hue as primary, varying lightness for severity tiers.
         // Keeps the monochromatic design principle: Success (mid), Warning (bright), Error (near-white).
         // The ss factor collapses saturation to 0 for gray/achromatic primaries.
-        float semS = Math.Min(hsl.S * 1.1f * ss, 0.95f);
-        Success = new HslColor(hsl.H, semS, 0.60f).ToColor();
-        Warning = new HslColor(hsl.H, semS, 0.78f).ToColor();
-        Error   = new HslColor(hsl.H, semS, 0.93f).ToColor();
+        double semS = Math.Min(hsl.S * 1.1f * ss, 0.95f);
+        Success = new HslColor(hsl.A, hsl.H, semS, 0.60f).ToRgb();
+        Warning = new HslColor(hsl.A, hsl.H, semS, 0.78f).ToRgb();
+        Error   = new HslColor(hsl.A, hsl.H, semS, 0.93f).ToRgb();
     }
 }
