@@ -67,6 +67,8 @@ public partial class MapPage : UserControl
 
     private void OnMarkerKindChanged(object? sender, SelectionChangedEventArgs e)
     {
+        // MarkerKindCombo / TheMap may be null while InitializeComponent is running
+        if (MarkerKindCombo is null || TheMap is null) return;
         if (MarkerKindCombo.SelectedIndex >= 0)
             TheMap.DefaultMarkerKind = (PipboyMapMarkerKind)MarkerKindCombo.SelectedIndex;
     }
