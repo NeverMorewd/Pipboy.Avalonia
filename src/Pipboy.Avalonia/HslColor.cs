@@ -14,7 +14,6 @@ public static class HslColorExtensions
             => color.WithLightness(color.L + delta);
 
         public HslColor WithLightness(double lightness) =>
-            new(color.A, color.H, color.S, lightness < 0 ? 0 :
-                lightness > 1 ? 1 : lightness);
+            new(color.A, color.H, color.S, lightness);
     }
 }
