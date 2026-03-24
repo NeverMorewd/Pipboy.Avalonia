@@ -28,4 +28,7 @@ public enum PipboyMapMarkerKind
 
     /// <summary>Exclamation mark inside a triangle — quest / point of interest.</summary>
     Quest,
+
+    /// <summary>Animated concentric rings that pulse outward — radar / sonar beacon.</summary>
+    Ripple,
 }

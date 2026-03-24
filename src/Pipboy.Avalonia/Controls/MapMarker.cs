@@ -70,6 +70,21 @@ public class MapMarker : AvaloniaObject
         set => SetValue(IsVisibleProperty, value);
     }
 
+    // ── Blink ────────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// When <see langword="true"/> the marker blinks on and off at 500 ms intervals.
+    /// Can be toggled off to freeze the marker in a visible state.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsBlinkingProperty =
+        AvaloniaProperty.Register<MapMarker, bool>(nameof(IsBlinking), defaultValue: false);
+
+    public bool IsBlinking
+    {
+        get => GetValue(IsBlinkingProperty);
+        set => SetValue(IsBlinkingProperty, value);
+    }
+
     // ── Arbitrary payload ───────────────────────────────────────────────────
 
     /// <summary>Application-defined data associated with this marker.</summary>

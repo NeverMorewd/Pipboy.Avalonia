@@ -14,34 +14,19 @@ namespace Pipboy.Avalonia;
 /// A retro Pip-Boy style vector map control.
 /// <para>
 /// Features: pan (drag), zoom (scroll-wheel + pinch), tile hover/click/double-click,
-/// right-click / long-press marker placement, crosshair cursor lines, latitude/longitude
-/// grid, scale bar, and full MVVM support via <see cref="ICommand"/> bindings.
+/// right-click / long-press marker placement, crosshair cursor lines, adaptive grid,
+/// magnifier lens, blinking markers, and full MVVM support.
 /// </para>
-/// <example>
-/// <code>
-/// &lt;pipboy:PipboyMap
-///     Tiles="{Binding WorldTiles}"
-///     Markers="{Binding Markers}"
-///     SelectedTile="{Binding Selected, Mode=TwoWay}"
-///     TileClickedCommand="{Binding SelectRegionCommand}"
-///     MarkerAddedCommand="{Binding AddMarkerCommand}"
-///     ShowCrosshair="True" /&gt;
-/// </code>
-/// </example>
 /// </summary>
 public partial class PipboyMap : Control
 {
     // ── Transform state ──────────────────────────────────────────────────────
-
-    /// <summary>World-to-screen transform (scale + translation).</summary>
     private Matrix _transform = Matrix.Identity;
 
     // ── Pointer / pan state ──────────────────────────────────────────────────
     private bool _isPanning;
     private Point _lastPointerPos;
     private MapTile? _hoveredTile;
-
-    /// <summary>Current mouse position in screen space (for crosshair).</summary>
     private Point _crosshairPos;
     private bool _crosshairVisible;
 
@@ -53,7 +38,28 @@ public partial class PipboyMap : Control
     // ── Double-click tracking ────────────────────────────────────────────────
     private int _lastClickCount;
 
-    // ── Cached brushes (resolved from theme) ────────────────────────────────
+    // ── Line drawing state ───────────────────────────────────────────────────
+    private bool  _isDrawingLine;
+    private Point _lineDrawStart;    // world coords at press
+    private Point _lineDrawCurrent;  // world coords at current pointer pos (preview)
+
+    // ── Animation (DashedFlow + Ripple marker) ───────────────────────────────
+    private DispatcherTimer? _animTimer;
+    private double _flowPhase;    // 0..1 — drives DashedFlow dash offset
+    private double _ripplePhase;  // 0..1 — drives Ripple ring radius / opacity
+
+    // ── Drag tracking ────────────────────────────────────────────────────────
+    /// <summary>Screen position at pointer-down; used to measure total drag distance.</summary>
+    private Point _pressStartPos;
+    /// <summary>True once pointer has moved beyond <see cref="DragThreshold"/> since press.</summary>
+    private bool _hasDragged;
+    private const double DragThreshold = 8; // pixels
+
+    // ── Blink ────────────────────────────────────────────────────────────────
+    private bool _blinkVisible = true;
+    private DispatcherTimer? _blinkTimer;
+
+    // ── Cached brushes ───────────────────────────────────────────────────────
     private IBrush? _bgBrush;
     private IBrush? _surfaceBrush;
     private IBrush? _primaryBrush;
@@ -71,17 +77,28 @@ public partial class PipboyMap : Control
         AffectsRender<PipboyMap>(
             TilesProperty,
             MarkersProperty,
+            LinesProperty,
             ShowCrosshairProperty,
             ShowGridProperty,
             ShowTileLabelsProperty,
             ShowScaleBarProperty,
+            ShowMagnifierProperty,
             ZoomProperty,
-            TileFillProperty);
+            TileFillProperty,
+            InteractionModeProperty);
 
         ZoomProperty.Changed.AddClassHandler<PipboyMap>((x, e) =>
         {
             if (e.NewValue is double z)
                 x.OnZoomPropertyChanged(z);
+        });
+
+        MarkersBlinkEnabledProperty.Changed.AddClassHandler<PipboyMap>((x, e) =>
+        {
+            if (e.NewValue is false)
+                x.StopBlinkTimer();     // stop and reset _blinkVisible = true
+            else
+                x.EnsureBlinkTimer();   // restart if any marker needs blinking
         });
     }
 
@@ -89,8 +106,6 @@ public partial class PipboyMap : Control
     {
         ClipToBounds = true;
         Focusable = true;
-
-        // Pinch-to-zoom (touch / trackpad)
         AddHandler(Gestures.PinchEvent, OnPinch);
     }
 
@@ -101,9 +116,34 @@ public partial class PipboyMap : Control
         base.OnLoaded(e);
         ResolveBrushes();
         FitToView();
-
-        // Re-resolve when theme colors change
         PipboyThemeManager.Instance.ThemeColorChanged += (_, _) => ResolveBrushes();
+    }
+
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        base.OnUnloaded(e);
+        StopBlinkTimer();
+        StopAnimTimer();
+    }
+
+    protected override void OnSizeChanged(SizeChangedEventArgs e)
+    {
+        base.OnSizeChanged(e);
+
+        // First measure: OnLoaded handles FitToView
+        if (e.PreviousSize.Width <= 0 || e.PreviousSize.Height <= 0) return;
+
+        // Keep the world point at the old viewport center pinned to the new viewport center
+        double dx = (e.NewSize.Width  - e.PreviousSize.Width)  / 2;
+        double dy = (e.NewSize.Height - e.PreviousSize.Height) / 2;
+
+        _transform = new Matrix(
+            _transform.M11, _transform.M12,
+            _transform.M21, _transform.M22,
+            _transform.M31 + dx,
+            _transform.M32 + dy);
+
+        InvalidateVisual();
     }
 
     protected override Size MeasureOverride(Size availableSize) => availableSize;
@@ -112,23 +152,22 @@ public partial class PipboyMap : Control
 
     private void ResolveBrushes()
     {
-        _bgBrush         = TryFindBrush("PipboyBackgroundBrush");
-        _surfaceBrush    = TryFindBrush("PipboySurfaceBrush");
-        _primaryBrush    = TryFindBrush("PipboyPrimaryBrush");
+        _bgBrush          = TryFindBrush("PipboyBackgroundBrush");
+        _surfaceBrush     = TryFindBrush("PipboySurfaceBrush");
+        _primaryBrush     = TryFindBrush("PipboyPrimaryBrush");
         _primaryDarkBrush = TryFindBrush("PipboyPrimaryDarkBrush");
         _primaryLightBrush = TryFindBrush("PipboyPrimaryLightBrush");
-        _textDimBrush    = TryFindBrush("PipboyTextDimBrush");
-        _borderBrush     = TryFindBrush("PipboyBorderBrush");
-        _hoverBrush      = TryFindBrush("PipboyHoverBrush");
-        _selectionBrush  = TryFindBrush("PipboySelectionBrush");
-        _textBrush       = TryFindBrush("PipboyTextBrush");
+        _textDimBrush     = TryFindBrush("PipboyTextDimBrush");
+        _borderBrush      = TryFindBrush("PipboyBorderBrush");
+        _hoverBrush       = TryFindBrush("PipboyHoverBrush");
+        _selectionBrush   = TryFindBrush("PipboySelectionBrush");
+        _textBrush        = TryFindBrush("PipboyTextBrush");
         InvalidateVisual();
     }
 
     private IBrush? TryFindBrush(string key)
     {
-        if (this.TryFindResource(key, null, out var res) && res is IBrush b)
-            return b;
+        if (this.TryFindResource(key, null, out var res) && res is IBrush b) return b;
         return null;
     }
 
@@ -136,36 +175,27 @@ public partial class PipboyMap : Control
 
     private void OnZoomPropertyChanged(double newZoom)
     {
-        // Keep transform scale in sync with the Zoom property when set externally.
         var center = new Point(Bounds.Width / 2, Bounds.Height / 2);
         ApplyZoom(newZoom / GetCurrentScale(), center);
     }
 
-    private double GetCurrentScale()
-    {
-        return _transform.M11; // uniform scale
-    }
+    private double GetCurrentScale() => _transform.M11;
 
     // ── Public API ────────────────────────────────────────────────────────────
 
-    /// <summary>
-    /// Resets the pan/zoom so that all tiles fit inside the current viewport.
-    /// </summary>
+    /// <summary>Resets the pan/zoom so that all tiles fit inside the current viewport.</summary>
     public void FitToView()
     {
-        if (Bounds.Width <= 0 || Bounds.Height <= 0)
-            return;
+        if (Bounds.Width <= 0 || Bounds.Height <= 0) return;
 
-        // Use world bounds from tiles, or default to lon/lat world extent
         var (minX, minY, maxX, maxY) = GetWorldBounds();
-
         double worldW = maxX - minX;
         double worldH = maxY - minY;
         if (worldW <= 0 || worldH <= 0) return;
 
         double scaleX = Bounds.Width  / worldW;
         double scaleY = Bounds.Height / worldH;
-        double scale  = Math.Min(scaleX, scaleY) * 0.92; // 4 % padding each side
+        double scale  = Math.Min(scaleX, scaleY) * 0.92;
 
         double tx = (Bounds.Width  - worldW * scale) / 2 - minX * scale;
         double ty = (Bounds.Height - worldH * scale) / 2 - minY * scale;
@@ -176,17 +206,14 @@ public partial class PipboyMap : Control
     }
 
     /// <summary>Zooms in by one step around the viewport center.</summary>
-    public void ZoomIn()  => StepZoom(+1.25, new Point(Bounds.Width / 2, Bounds.Height / 2));
+    public void ZoomIn()  => StepZoom(1.25,      new Point(Bounds.Width / 2, Bounds.Height / 2));
 
     /// <summary>Zooms out by one step around the viewport center.</summary>
-    public void ZoomOut() => StepZoom(1 / 1.25, new Point(Bounds.Width / 2, Bounds.Height / 2));
+    public void ZoomOut() => StepZoom(1.0 / 1.25, new Point(Bounds.Width / 2, Bounds.Height / 2));
 
     // ── Transform helpers ─────────────────────────────────────────────────────
 
-    private Point WorldToScreen(Point world)
-    {
-        return world * _transform;
-    }
+    private Point WorldToScreen(Point world) => world * _transform;
 
     private Point ScreenToWorld(Point screen)
     {
@@ -198,7 +225,7 @@ public partial class PipboyMap : Control
     {
         var tiles = Tiles;
         if (tiles == null || tiles.Count == 0)
-            return (-180, -90, 180, 90);  // full world lon/lat
+            return (0, 0, 2000, 857);
 
         double minX = double.MaxValue, minY = double.MaxValue;
         double maxX = double.MinValue, maxY = double.MinValue;
@@ -214,38 +241,82 @@ public partial class PipboyMap : Control
             maxY = Math.Max(maxY, b.Bottom);
         }
 
-        return minX == double.MaxValue
-            ? (-180, -90, 180, 90)
-            : (minX, minY, maxX, maxY);
+        return minX == double.MaxValue ? (0, 0, 2000, 857) : (minX, minY, maxX, maxY);
     }
 
     // ── Zoom / pan math ───────────────────────────────────────────────────────
 
     private void StepZoom(double factor, Point screenPivot)
     {
-        double currentScale = GetCurrentScale();
-        double target = Math.Clamp(currentScale * factor, MinZoom, MaxZoom);
-        double actualFactor = target / currentScale;
-        ApplyZoom(actualFactor, screenPivot);
+        double current = GetCurrentScale();
+        double target  = Math.Clamp(current * factor, MinZoom, MaxZoom);
+        ApplyZoom(target / current, screenPivot);
     }
 
+    /// <summary>
+    /// Zoom around <paramref name="screenPivot"/> — the world point under the pivot
+    /// stays at the same screen position after zoom (image-viewer behaviour).
+    /// </summary>
     private void ApplyZoom(double factor, Point screenPivot)
     {
         double currentScale = GetCurrentScale();
-        double newScale = Math.Clamp(currentScale * factor, MinZoom, MaxZoom);
-        double actualFactor = newScale / currentScale;
+        double newScale     = Math.Clamp(currentScale * factor, MinZoom, MaxZoom);
+        double actual       = newScale / currentScale;
 
-        // Scale around pivot: translate pivot to origin, scale, translate back
-        double tx = _transform.M31 + screenPivot.X * (1 - actualFactor);
-        double ty = _transform.M32 + screenPivot.Y * (1 - actualFactor);
+        // tx_new = pivot + (tx_old - pivot) * actual
+        double tx = screenPivot.X + (_transform.M31 - screenPivot.X) * actual;
+        double ty = screenPivot.Y + (_transform.M32 - screenPivot.Y) * actual;
 
         _transform = new Matrix(
-            _transform.M11 * actualFactor, 0,
-            0, _transform.M22 * actualFactor,
+            _transform.M11 * actual, 0,
+            0, _transform.M22 * actual,
             tx, ty);
 
         SetCurrentValue(ZoomProperty, newScale);
         InvalidateVisual();
+    }
+
+    // ── Blink timer ───────────────────────────────────────────────────────────
+
+    private void EnsureBlinkTimer()
+    {
+        if (_blinkTimer is not null) return;
+        _blinkTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
+        _blinkTimer.Tick += (_, _) =>
+        {
+            _blinkVisible = !_blinkVisible;
+            InvalidateVisual();
+        };
+        _blinkTimer.Start();
+    }
+
+    private void StopBlinkTimer()
+    {
+        _blinkTimer?.Stop();
+        _blinkTimer = null;
+        _blinkVisible = true;
+    }
+
+    // ── Animation timer (DashedFlow + Ripple) ─────────────────────────────────
+
+    private void EnsureAnimTimer()
+    {
+        if (_animTimer is not null) return;
+        _animTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(40) };
+        _animTimer.Tick += (_, _) =>
+        {
+            _flowPhase   = (_flowPhase   + 0.05) % 1.0;
+            _ripplePhase = (_ripplePhase + 0.025) % 1.0;
+            InvalidateVisual();
+        };
+        _animTimer.Start();
+    }
+
+    private void StopAnimTimer()
+    {
+        _animTimer?.Stop();
+        _animTimer = null;
+        _flowPhase = _ripplePhase = 0;
     }
 
     // ── Hit testing ───────────────────────────────────────────────────────────
@@ -257,8 +328,7 @@ public partial class PipboyMap : Control
         foreach (var tile in tiles)
         {
             if (!tile.IsEnabled) continue;
-            if (tile.Geometry is { } g && g.FillContains(worldPos))
-                return tile;
+            if (tile.Geometry is { } g && g.FillContains(worldPos)) return tile;
         }
         return null;
     }
@@ -272,8 +342,7 @@ public partial class PipboyMap : Control
             if (!m.IsVisible) continue;
             var sp = WorldToScreen(m.Position);
             var md = sp - screenPos;
-            if (Math.Sqrt(md.X * md.X + md.Y * md.Y) < 14)
-                return m;
+            if (Math.Sqrt(md.X * md.X + md.Y * md.Y) < 14) return m;
         }
         return null;
     }
@@ -290,11 +359,7 @@ public partial class PipboyMap : Control
     {
         base.OnPointerExited(e);
         _crosshairVisible = false;
-        if (_hoveredTile != null)
-        {
-            _hoveredTile.IsHovered = false;
-            _hoveredTile = null;
-        }
+        if (_hoveredTile != null) { _hoveredTile.IsHovered = false; _hoveredTile = null; }
         InvalidateVisual();
     }
 
@@ -304,35 +369,57 @@ public partial class PipboyMap : Control
         var pos = e.GetPosition(this);
         _crosshairPos = pos;
 
-        // ── Pan ──────────────────────────────────────────────────────────────
+        // Line-draw preview
+        if (_isDrawingLine)
+        {
+            var d = pos - _pressStartPos;
+            if (!_hasDragged && d.X * d.X + d.Y * d.Y > DragThreshold * DragThreshold)
+                _hasDragged = true;
+            _lineDrawCurrent = ScreenToWorld(pos);
+            InvalidateVisual();
+            return;
+        }
+
         if (_isPanning && IsPanEnabled)
         {
+            // Once the pointer travels beyond the drag threshold, commit to a drag:
+            // cancel long-press so the marker menu never fires mid-drag.
+            if (!_hasDragged)
+            {
+                var d = pos - _pressStartPos;
+                if (d.X * d.X + d.Y * d.Y > DragThreshold * DragThreshold)
+                {
+                    _hasDragged = true;
+                    _longPressTimer?.Stop();
+                }
+            }
+
             var delta = pos - _lastPointerPos;
             _transform = new Matrix(
                 _transform.M11, _transform.M12,
                 _transform.M21, _transform.M22,
                 _transform.M31 + delta.X,
                 _transform.M32 + delta.Y);
+            _lastPointerPos = pos;
             InvalidateVisual();
+            return;
         }
 
-        _lastPointerPos = pos;
-
-        // ── Hover hit-test ───────────────────────────────────────────────────
+        // Hover hit-test
         var worldPos = ScreenToWorld(pos);
-        var newHovered = HitTestTile(worldPos);
+        var hit = HitTestTile(worldPos);
 
-        if (newHovered != _hoveredTile)
+        if (hit != _hoveredTile)
         {
             if (_hoveredTile != null) _hoveredTile.IsHovered = false;
-            _hoveredTile = newHovered;
+            _hoveredTile = hit;
             if (_hoveredTile != null) _hoveredTile.IsHovered = true;
-            ToolTip.SetTip(this, _hoveredTile?.Label ?? _hoveredTile?.Name ?? null);
+            // TileHovered hook — extend via TileClickedCommand if needed
             InvalidateVisual();
         }
-        else if (ShowCrosshair)
+        else
         {
-            InvalidateVisual();
+            InvalidateVisual(); // crosshair / magnifier update
         }
     }
 
@@ -341,207 +428,192 @@ public partial class PipboyMap : Control
         base.OnPointerPressed(e);
         Focus();
         var pos = e.GetPosition(this);
-        _lastPointerPos = pos;
         var props = e.GetCurrentPoint(this).Properties;
 
         if (props.IsLeftButtonPressed)
         {
-            _lastClickCount = e.ClickCount;
-            _isPanning = IsPanEnabled;
+            _pressStartPos = pos;
+            _hasDragged    = false;
 
-            // Start long-press timer for touch / long-hold marker placement
-            if (IsMarkerPlacementEnabled)
-                StartLongPressTimer(pos);
+            if (InteractionMode == PipboyMapInteractionMode.DrawLine)
+            {
+                // Line-draw mode: capture the start world point; no panning, no long-press
+                _isDrawingLine   = true;
+                _lineDrawStart   = ScreenToWorld(pos);
+                _lineDrawCurrent = _lineDrawStart;
+                EnsureAnimTimer(); // keep preview smooth
+                e.Handled = true;
+                return;
+            }
+
+            // Default Pan mode
+            _isPanning      = true;
+            _lastPointerPos = pos;
+            _lastClickCount = e.ClickCount;
+
+            // Long-press timer (touch / stylus / accessibility)
+            _longPressScreenPos = pos;
+            _longPressTimer?.Stop();
+            _longPressTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(LongPressMs) };
+            _longPressTimer.Tick += OnLongPress;
+            _longPressTimer.Start();
+        }
+        else if (props.IsRightButtonPressed && IsMarkerPlacementEnabled)
+        {
+            ShowMarkerMenu(pos);
         }
     }
 
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
         base.OnPointerReleased(e);
-        StopLongPressTimer();
+        _longPressTimer?.Stop();
 
         var pos = e.GetPosition(this);
-        var wasPanning = _isPanning;
-        _isPanning = false;
 
-        // Only count as a click if the pointer didn't move much (not a drag)
-        var delta = pos - _lastPointerPos;
-        var moved = Math.Sqrt(delta.X * delta.X + delta.Y * delta.Y);
-        if (moved > 6) return;
-
-        var props = e.GetCurrentPoint(this).Properties;
-
-        if (props.PointerUpdateKind == PointerUpdateKind.LeftButtonReleased && !wasPanning)
+        // Finalize line drawing
+        if (_isDrawingLine)
         {
-            HandleLeftClick(pos, _lastClickCount);
+            _isDrawingLine = false;
+            if (_hasDragged) // ignore accidental taps
+            {
+                var line = new MapLine
+                {
+                    Start   = _lineDrawStart,
+                    End     = ScreenToWorld(pos),
+                    Style   = DefaultLineStyle,
+                    IsThick = DefaultLineIsThick,
+                };
+                if (Lines is IList<MapLine> ll) ll.Add(line);
+                LineAddedCommand?.Execute(line);
+                // DashedFlow and Ripple share the same anim timer
+                if (line.Style == PipboyMapLineStyle.DashedFlow)
+                    EnsureAnimTimer();
+            }
+            _hasDragged = false;
+            InvalidateVisual();
+            return;
         }
-        else if (props.PointerUpdateKind == PointerUpdateKind.RightButtonReleased)
+
+        if (_isPanning)
         {
-            ShowMarkerContextMenu(pos);
+            _isPanning = false;
+            bool wasDrag = _hasDragged;
+            _hasDragged = false;
+
+            if (!wasDrag)
+            {
+                var worldPos = ScreenToWorld(pos);
+
+                // Check marker hit first
+                var markerHit = HitTestMarker(pos);
+                if (markerHit != null)
+                {
+                    // Remove marker on click
+                    if (Markers is IList<MapMarker> ml && ml.Contains(markerHit))
+                    {
+                        ml.Remove(markerHit);
+                        MarkerRemovedCommand?.Execute(markerHit);
+                        InvalidateVisual();
+                        return;
+                    }
+                }
+
+                var tileHit = HitTestTile(worldPos);
+                if (tileHit != null)
+                {
+                    if (_lastClickCount >= 2)
+                    {
+                        TileDoubleClickedCommand?.Execute(tileHit);
+                    }
+                    else
+                    {
+                        // Toggle selection
+                        if (tileHit.IsSelected)
+                        {
+                            tileHit.IsSelected = false;
+                            if (_selectedTile == tileHit) SelectedTile = null;
+                        }
+                        else
+                        {
+                            if (_selectedTile != null) _selectedTile.IsSelected = false;
+                            tileHit.IsSelected = true;
+                            SelectedTile = tileHit;
+                        }
+                        TileClickedCommand?.Execute(tileHit);
+                        InvalidateVisual();
+                    }
+                }
+            }
         }
     }
-
-    protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e)
-    {
-        base.OnPointerCaptureLost(e);
-        _isPanning = false;
-        StopLongPressTimer();
-    }
-
-    private void HandleLeftClick(Point screenPos, int clickCount)
-    {
-        // Check marker hit first
-        var markerHit = HitTestMarker(screenPos);
-        if (markerHit is not null) return; // markers absorb clicks
-
-        var worldPos = ScreenToWorld(screenPos);
-        var tile = HitTestTile(worldPos);
-
-        if (tile == null) return;
-
-        if (clickCount >= 2)
-        {
-            // Double-click
-            tile.DoubleClickCommand?.Execute(tile.CommandParameter ?? tile);
-            TileDoubleClickedCommand?.Execute(tile);
-        }
-        else
-        {
-            // Single click — toggle selection
-            if (SelectedTile != null && SelectedTile != tile)
-                SelectedTile.IsSelected = false;
-
-            tile.IsSelected = !tile.IsSelected;
-            SelectedTile = tile.IsSelected ? tile : null;
-
-            tile.Command?.Execute(tile.CommandParameter ?? tile);
-            TileClickedCommand?.Execute(tile);
-        }
-
-        InvalidateVisual();
-    }
-
-    // ── Input: scroll wheel zoom ──────────────────────────────────────────────
 
     protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
     {
         base.OnPointerWheelChanged(e);
         if (!IsZoomEnabled) return;
-
-        var pivot = e.GetPosition(this);
-        double factor = e.Delta.Y > 0 ? 1.15 : 1.0 / 1.15;
-        StepZoom(factor, pivot);
+        double factor = e.Delta.Y > 0 ? 1.12 : 1.0 / 1.12;
+        StepZoom(factor, e.GetPosition(this));
         e.Handled = true;
     }
-
-    // ── Input: pinch gesture ──────────────────────────────────────────────────
 
     private void OnPinch(object? sender, PinchEventArgs e)
     {
         if (!IsZoomEnabled) return;
-        // Use viewport center as pivot (finger midpoint is not trivially available)
-        var center = new Point(Bounds.Width / 2, Bounds.Height / 2);
-        StepZoom(e.Scale, center);
-        e.Handled = true;
-    }
-
-    // ── Long press → marker placement ────────────────────────────────────────
-
-    private void StartLongPressTimer(Point pos)
-    {
-        StopLongPressTimer();
-        _longPressScreenPos = pos;
-        _longPressTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromMilliseconds(LongPressMs)
-        };
-        _longPressTimer.Tick += OnLongPress;
-        _longPressTimer.Start();
-    }
-
-    private void StopLongPressTimer()
-    {
-        if (_longPressTimer is null) return;
-        _longPressTimer.Stop();
-        _longPressTimer.Tick -= OnLongPress;
-        _longPressTimer = null;
+        StepZoom(e.Scale, new Point(Bounds.Width / 2, Bounds.Height / 2));
     }
 
     private void OnLongPress(object? sender, EventArgs e)
     {
-        StopLongPressTimer();
-        _isPanning = false;
-        ShowMarkerContextMenu(_longPressScreenPos);
+        _longPressTimer?.Stop();
+        if (IsMarkerPlacementEnabled && InteractionMode == PipboyMapInteractionMode.Pan)
+            ShowMarkerMenu(_longPressScreenPos);
     }
 
-    // ── Context menu: add / manage markers ────────────────────────────────────
+    // ── Marker placement context menu ─────────────────────────────────────────
 
-    private void ShowMarkerContextMenu(Point screenPos)
+    private Point _pendingMarkerScreenPos;
+
+    private void ShowMarkerMenu(Point screenPos)
     {
-        if (!IsMarkerPlacementEnabled) return;
-
-        var worldPos = ScreenToWorld(screenPos);
-        var existingMarker = HitTestMarker(screenPos);
+        _pendingMarkerScreenPos = screenPos;
 
         var menu = new ContextMenu();
 
-        if (existingMarker is not null)
+        foreach (var kind in Enum.GetValues<PipboyMapMarkerKind>())
         {
-            // Options for the tapped marker
-            var removeItem = new MenuItem { Header = $"[ REMOVE ] {existingMarker.Label ?? "MARKER"}" };
-            removeItem.Click += (_, _) =>
-            {
-                Markers.Remove(existingMarker);
-                MarkerRemovedCommand?.Execute(existingMarker);
-                InvalidateVisual();
-            };
-            menu.Items.Add(removeItem);
+            var k    = kind;
+            var item = new MenuItem { Header = $"[ {MarkerKindLabel(kind)} ]" };
+            item.Click += (_, _) => PlaceMarkerWithKind(_pendingMarkerScreenPos, k);
+            menu.Items.Add(item);
         }
-        else
-        {
-            // Separator header
-            menu.Items.Add(new MenuItem { Header = "─── ADD MARKER ───", IsEnabled = false });
 
-            foreach (PipboyMapMarkerKind kind in Enum.GetValues<PipboyMapMarkerKind>())
-            {
-                var k = kind; // capture
-                var item = new MenuItem { Header = $"[ {GetMarkerLabel(k)} ]" };
-                item.Click += (_, _) => PlaceMarker(worldPos, k);
-                menu.Items.Add(item);
-            }
-
-            // Marker already on map?  Offer bulk-clear
-            if (Markers.Count > 0)
-            {
-                menu.Items.Add(new Separator());
-                var clearItem = new MenuItem { Header = "[ CLEAR ALL MARKERS ]" };
-                clearItem.Click += (_, _) =>
-                {
-                    Markers.Clear();
-                    InvalidateVisual();
-                };
-                menu.Items.Add(clearItem);
-            }
-        }
+        menu.Items.Add(new Separator());
+        menu.Items.Add(new MenuItem { Header = "[ CANCEL ]" });
 
         ContextMenu = menu;
         menu.Open(this);
     }
 
-    private void PlaceMarker(Point worldPos, PipboyMapMarkerKind kind)
+    private void PlaceMarkerWithKind(Point screenPos, PipboyMapMarkerKind kind)
     {
+        var worldPos = ScreenToWorld(screenPos);
         var marker = new MapMarker
         {
-            Position  = worldPos,
-            Kind      = kind,
-            IsVisible = true,
+            Position   = worldPos,
+            Kind       = kind,
+            IsBlinking = true,
         };
-        Markers.Add(marker);
+
+        if (Markers is IList<MapMarker> ml) ml.Add(marker);
         MarkerAddedCommand?.Execute(marker);
+        EnsureBlinkTimer();
         InvalidateVisual();
     }
 
-    private static string GetMarkerLabel(PipboyMapMarkerKind kind) => kind switch
+    // ── Marker kind label ─────────────────────────────────────────────────────
+
+    private static string MarkerKindLabel(PipboyMapMarkerKind kind) => kind switch
     {
         PipboyMapMarkerKind.Pin     => "PIN",
         PipboyMapMarkerKind.Flag    => "FLAG",
@@ -551,6 +623,7 @@ public partial class PipboyMap : Control
         PipboyMapMarkerKind.Circle  => "CIRCLE",
         PipboyMapMarkerKind.Cross   => "CROSS",
         PipboyMapMarkerKind.Quest   => "QUEST",
+        PipboyMapMarkerKind.Ripple  => "RIPPLE",
         _                           => kind.ToString().ToUpperInvariant(),
     };
 
@@ -561,33 +634,46 @@ public partial class PipboyMap : Control
         var bounds = new Rect(Bounds.Size);
         if (bounds.Width <= 0 || bounds.Height <= 0) return;
 
-        // ── 1. Background ────────────────────────────────────────────────────
+        // Blink timer
+        bool anyBlink = Markers?.Any(m => m.IsBlinking && m.IsVisible) == true;
+        if (anyBlink) EnsureBlinkTimer();
+        else if (_blinkTimer is not null) StopBlinkTimer();
+
+        // Animation timer — needed for DashedFlow lines and Ripple markers
+        bool needsAnim = _isDrawingLine
+            || Lines?.Any(l  => l.IsVisible  && l.Style == PipboyMapLineStyle.DashedFlow) == true
+            || Markers?.Any(m => m.IsVisible && m.Kind  == PipboyMapMarkerKind.Ripple)    == true;
+        if (needsAnim) EnsureAnimTimer();
+
+        // 1. Background
         var bg = _bgBrush ?? new SolidColorBrush(Color.FromRgb(10, 18, 10));
         ctx.FillRectangle(bg, bounds);
 
-        // ── 2. Grid ──────────────────────────────────────────────────────────
-        if (ShowGrid)
-            DrawGrid(ctx, bounds);
+        // 2. Grid
+        if (ShowGrid) DrawGrid(ctx, bounds);
 
-        // ── 3. Tiles ─────────────────────────────────────────────────────────
+        // 3. Tiles
         DrawTiles(ctx);
 
-        // ── 4. Markers ───────────────────────────────────────────────────────
+        // 4. Lines (between tiles and markers so markers render on top)
+        DrawLines(ctx);
+
+        // 5. Markers
         DrawMarkers(ctx);
 
-        // ── 5. Tile labels ───────────────────────────────────────────────────
-        if (ShowTileLabels)
-            DrawTileLabels(ctx);
+        // 5. Tile labels
+        if (ShowTileLabels) DrawTileLabels(ctx);
 
-        // ── 6. Crosshair ─────────────────────────────────────────────────────
-        if (ShowCrosshair && _crosshairVisible)
-            DrawCrosshair(ctx, bounds);
+        // 6. Crosshair
+        if (ShowCrosshair && _crosshairVisible) DrawCrosshair(ctx, bounds);
 
-        // ── 7. Scale bar ─────────────────────────────────────────────────────
-        if (ShowScaleBar)
-            DrawScaleBar(ctx, bounds);
+        // 7. Magnifier (drawn after crosshair so it sits on top)
+        if (ShowMagnifier && _crosshairVisible) DrawMagnifier(ctx, bounds);
 
-        // ── 8. Zoom indicator ────────────────────────────────────────────────
+        // 8. Scale bar
+        if (ShowScaleBar) DrawScaleBar(ctx, bounds);
+
+        // 9. Zoom indicator
         DrawZoomIndicator(ctx, bounds);
     }
 
@@ -595,59 +681,82 @@ public partial class PipboyMap : Control
 
     private void DrawGrid(DrawingContext ctx, Rect bounds)
     {
+        // Convert viewport corners to world space so both the interval calculation
+        // and the loop range are based on what is actually visible right now.
+        // This means:
+        //   • Grid density adapts to zoom (zoomed-in = finer lines).
+        //   • Lines always fill the entire control — even when the map is smaller
+        //     than the viewport or panned partially off-screen.
+        var visTopLeft  = ScreenToWorld(new Point(0,            0));
+        var visBotRight = ScreenToWorld(new Point(bounds.Width, bounds.Height));
+
+        double vx1 = Math.Min(visTopLeft.X, visBotRight.X);
+        double vx2 = Math.Max(visTopLeft.X, visBotRight.X);
+        double vy1 = Math.Min(visTopLeft.Y, visBotRight.Y);
+        double vy2 = Math.Max(visTopLeft.Y, visBotRight.Y);
+
+        double visW = vx2 - vx1;
+        double visH = vy2 - vy1;
+
+        double rawInterval = Math.Min(visW, visH) / 20.0;
+        double interval    = NiceGridInterval(rawInterval);
+        if (interval <= 0) return;
+
         var pen = new Pen(_borderBrush ?? Brushes.DarkGreen, 0.4)
         {
             DashStyle = new DashStyle([4, 6], 0)
         };
 
-        // Latitude lines every 30°, longitude every 30°
-        for (double lat = -90; lat <= 90; lat += 30)
+        // Horizontal lines — span full control width, looped over visible Y range
+        for (double y = Math.Floor(vy1 / interval) * interval; y <= vy2; y += interval)
         {
-            var a = WorldToScreen(new Point(-180, lat));
-            var b = WorldToScreen(new Point(180,  lat));
-            if (b.X >= 0 && a.X <= bounds.Width)
-                ctx.DrawLine(pen, a, b);
+            double screenY = WorldToScreen(new Point(0, y)).Y;
+            ctx.DrawLine(pen, new Point(0, screenY), new Point(bounds.Width, screenY));
         }
-        for (double lon = -180; lon <= 180; lon += 30)
+
+        // Vertical lines — span full control height, looped over visible X range
+        for (double x = Math.Floor(vx1 / interval) * interval; x <= vx2; x += interval)
         {
-            var a = WorldToScreen(new Point(lon,  90));
-            var b = WorldToScreen(new Point(lon, -90));
-            if (a.Y <= bounds.Height && b.Y >= 0)
-                ctx.DrawLine(pen, a, b);
+            double screenX = WorldToScreen(new Point(x, 0)).X;
+            ctx.DrawLine(pen, new Point(screenX, 0), new Point(screenX, bounds.Height));
         }
+    }
+
+    private static double NiceGridInterval(double raw)
+    {
+        if (raw <= 0) return 1;
+        double mag        = Math.Pow(10, Math.Floor(Math.Log10(raw)));
+        double normalized = raw / mag;
+        double nice       = normalized < 1.5 ? 1 : normalized < 3.5 ? 2 : normalized < 7.5 ? 5 : 10;
+        return nice * mag;
     }
 
     // ── Draw: tiles ───────────────────────────────────────────────────────────
 
-    private void DrawTiles(DrawingContext ctx)
+    private void DrawTiles(DrawingContext ctx, Matrix? overrideTransform = null)
     {
-        using var push = ctx.PushTransform(_transform);
-
-        var defaultFill   = TileFill ?? _surfaceBrush ?? new SolidColorBrush(Color.FromArgb(180, 20, 45, 20));
-        var hoverFill     = _hoverBrush    ?? new SolidColorBrush(Color.FromArgb(180, 40, 90, 40));
-        var selectedFill  = _selectionBrush ?? new SolidColorBrush(Color.FromArgb(200, 0, 160, 80));
-        var borderPen     = new Pen(_primaryDarkBrush ?? Brushes.Green, 0.6);
-        var selectedPen   = new Pen(_primaryBrush ?? Brushes.LimeGreen, 1.2);
-
         var tiles = Tiles;
         if (tiles == null) return;
+
+        var transform    = overrideTransform ?? _transform;
+        var defaultFill  = TileFill ?? _surfaceBrush ?? new SolidColorBrush(Color.FromArgb(180, 20, 45, 20));
+        var hoverFill    = _hoverBrush   ?? new SolidColorBrush(Color.FromArgb(180, 40, 90, 40));
+        var selectedFill = _selectionBrush ?? new SolidColorBrush(Color.FromArgb(200, 0, 160, 80));
+        var borderPen    = new Pen(_primaryDarkBrush ?? Brushes.Green, 0.6);
+        var selectedPen  = new Pen(_primaryBrush ?? Brushes.LimeGreen, 1.2);
+
+        using var push = ctx.PushTransform(transform);
 
         foreach (var tile in tiles)
         {
             if (tile.Geometry is not { } geo) continue;
 
-            IBrush fill;
-            if (tile.IsSelected)
-                fill = selectedFill;
-            else if (tile.IsHovered)
-                fill = hoverFill;
-            else if (tile.FillColor.HasValue)
-                fill = new SolidColorBrush(tile.FillColor.Value);
-            else
-                fill = defaultFill;
+            IBrush fill = tile.IsSelected  ? selectedFill
+                        : tile.IsHovered   ? hoverFill
+                        : tile.FillColor.HasValue ? new SolidColorBrush(tile.FillColor.Value)
+                        : defaultFill;
 
-            var pen = tile.IsSelected ? selectedPen : borderPen;
-            ctx.DrawGeometry(fill, pen, geo);
+            ctx.DrawGeometry(fill, tile.IsSelected ? selectedPen : borderPen, geo);
         }
     }
 
@@ -659,9 +768,9 @@ public partial class PipboyMap : Control
         if (tiles == null) return;
 
         double scale = GetCurrentScale();
-        if (scale < 1.2) return; // hide labels when too zoomed out
+        if (scale < 0.5) return;
 
-        var typeface = new Typeface("Consolas,Courier New,monospace");
+        var typeface  = new Typeface("Consolas,Courier New,monospace");
         var textBrush = _textDimBrush ?? Brushes.DarkGreen;
 
         foreach (var tile in tiles)
@@ -670,7 +779,7 @@ public partial class PipboyMap : Control
             var label = tile.Label ?? tile.Name;
             if (string.IsNullOrEmpty(label)) continue;
 
-            var center = GetGeometryCentroid(geo);
+            var center       = GetGeometryCentroid(geo);
             var screenCenter = WorldToScreen(center);
 
             double fontSize = Math.Max(8, Math.Min(13, scale * 4));
@@ -682,11 +791,7 @@ public partial class PipboyMap : Control
                 fontSize,
                 tile.IsSelected ? (_primaryBrush ?? textBrush) : textBrush);
 
-            var origin = new Point(
-                screenCenter.X - ft.Width  / 2,
-                screenCenter.Y - ft.Height / 2);
-
-            ctx.DrawText(ft, origin);
+            ctx.DrawText(ft, new Point(screenCenter.X - ft.Width / 2, screenCenter.Y - ft.Height / 2));
         }
     }
 
@@ -696,9 +801,68 @@ public partial class PipboyMap : Control
         return new Point(b.X + b.Width / 2, b.Y + b.Height / 2);
     }
 
+    // ── Draw: lines ───────────────────────────────────────────────────────────
+
+    private void DrawLines(DrawingContext ctx, Matrix? overrideTransform = null)
+    {
+        var transform = overrideTransform ?? _transform;
+
+        var lines = Lines;
+        if (lines != null)
+        {
+            foreach (var line in lines)
+            {
+                if (!line.IsVisible) continue;
+
+                var sp1 = line.Start * transform;
+                var sp2 = line.End   * transform;
+
+                ctx.DrawLine(BuildLinePen(line), sp1, sp2);
+
+                // Endpoint dots
+                var dotColor  = line.Color ?? ((_primaryBrush as SolidColorBrush)?.Color ?? Color.FromRgb(0, 200, 80));
+                var dotBrush  = new SolidColorBrush(dotColor);
+                ctx.DrawEllipse(dotBrush, null, sp1, 3.5, 3.5);
+                ctx.DrawEllipse(dotBrush, null, sp2, 3.5, 3.5);
+            }
+        }
+
+        // Live preview while the user is dragging a new line
+        if (_isDrawingLine && _hasDragged)
+        {
+            var sp1 = _lineDrawStart   * transform;
+            var sp2 = _lineDrawCurrent * transform;
+            var previewPen = new Pen(
+                _primaryBrush ?? Brushes.LimeGreen, 1.5,
+                new DashStyle([6, 4], -_flowPhase * 10));
+            ctx.DrawLine(previewPen, sp1, sp2);
+            ctx.DrawEllipse(_primaryBrush ?? Brushes.LimeGreen, null, sp1, 4, 4);
+        }
+    }
+
+    private Pen BuildLinePen(MapLine line)
+    {
+        var color     = line.Color ?? ((_primaryBrush as SolidColorBrush)?.Color ?? Color.FromRgb(0, 200, 80));
+        IBrush brush  = new SolidColorBrush(color);
+        double width  = line.IsThick ? 3.0 : 1.5;
+
+        DashStyle? dash = line.Style switch
+        {
+            PipboyMapLineStyle.Solid      => null,
+            PipboyMapLineStyle.Dashed     => new DashStyle([8, 5], 0),
+            PipboyMapLineStyle.Dotted     => new DashStyle([1.5, 4], 0),
+            PipboyMapLineStyle.DashedFlow => new DashStyle([8, 5], -_flowPhase * 13), // negative offset → flows start→end
+            _                             => null,
+        };
+
+        return dash is null
+            ? new Pen(brush, width, lineCap: PenLineCap.Round)
+            : new Pen(brush, width, dash,   PenLineCap.Round);
+    }
+
     // ── Draw: markers ─────────────────────────────────────────────────────────
 
-    private void DrawMarkers(DrawingContext ctx)
+    private void DrawMarkers(DrawingContext ctx, Matrix? overrideTransform = null)
     {
         var markers = Markers;
         if (markers == null) return;
@@ -706,7 +870,10 @@ public partial class PipboyMap : Control
         foreach (var marker in markers)
         {
             if (!marker.IsVisible) continue;
-            var sp = WorldToScreen(marker.Position);
+            // Hide during the "off" phase only when the global blink switch is on
+            if (MarkersBlinkEnabled && marker.IsBlinking && !_blinkVisible) continue;
+            var transform = overrideTransform ?? _transform;
+            var sp = marker.Position * transform;
             DrawMarkerIcon(ctx, sp, marker);
         }
     }
@@ -722,45 +889,21 @@ public partial class PipboyMap : Control
             (byte)Math.Min(255, color.G + 60),
             (byte)Math.Min(255, color.B + 60)));
         var pen = new Pen(strokeBrush, 1.2);
-
-        const double S = 7; // half-size
+        const double S = 7;
 
         switch (marker.Kind)
         {
-            case PipboyMapMarkerKind.Pin:
-                DrawPin(ctx, center, S, fillBrush, pen);
-                break;
-
-            case PipboyMapMarkerKind.Flag:
-                DrawFlag(ctx, center, S, fillBrush, pen);
-                break;
-
-            case PipboyMapMarkerKind.Star:
-                DrawStar(ctx, center, S, fillBrush, pen);
-                break;
-
-            case PipboyMapMarkerKind.Skull:
-                DrawSkull(ctx, center, S, fillBrush, pen);
-                break;
-
-            case PipboyMapMarkerKind.Diamond:
-                DrawDiamond(ctx, center, S, fillBrush, pen);
-                break;
-
-            case PipboyMapMarkerKind.Circle:
-                ctx.DrawEllipse(fillBrush, pen, center, S, S);
-                break;
-
-            case PipboyMapMarkerKind.Cross:
-                DrawCrossMarker(ctx, center, S, pen);
-                break;
-
-            case PipboyMapMarkerKind.Quest:
-                DrawQuest(ctx, center, S, fillBrush, pen);
-                break;
+            case PipboyMapMarkerKind.Pin:     DrawPin(ctx, center, S, fillBrush, pen);    break;
+            case PipboyMapMarkerKind.Flag:    DrawFlag(ctx, center, S, fillBrush, pen);   break;
+            case PipboyMapMarkerKind.Star:    DrawStar(ctx, center, S, fillBrush, pen);   break;
+            case PipboyMapMarkerKind.Skull:   DrawSkull(ctx, center, S, fillBrush, pen);  break;
+            case PipboyMapMarkerKind.Diamond: DrawDiamond(ctx, center, S, fillBrush, pen);break;
+            case PipboyMapMarkerKind.Circle:  ctx.DrawEllipse(fillBrush, pen, center, S, S); break;
+            case PipboyMapMarkerKind.Cross:   DrawCrossMarker(ctx, center, S, pen);       break;
+            case PipboyMapMarkerKind.Quest:   DrawQuest(ctx, center, S, fillBrush, pen);  break;
+            case PipboyMapMarkerKind.Ripple:  DrawRipple(ctx, center, S, color);           break;
         }
 
-        // Optional label below icon
         if (!string.IsNullOrEmpty(marker.Label))
         {
             var ft = new FormattedText(
@@ -768,25 +911,40 @@ public partial class PipboyMap : Control
                 System.Globalization.CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
                 new Typeface("Consolas,Courier New,monospace"),
-                9,
-                fillBrush);
+                9, fillBrush);
             ctx.DrawText(ft, new Point(center.X - ft.Width / 2, center.Y + S + 3));
         }
     }
 
     private static void DrawPin(DrawingContext ctx, Point c, double s, IBrush fill, Pen pen)
     {
-        var geo = new StreamGeometry();
-        using (var sg = geo.Open())
+        // Classic map-pin: round head (top) + triangular needle (bottom)
+        double r    = s * 0.95;
+        var    head = new Point(c.X, c.Y - s * 0.45);   // circle centre
+        var    tip  = new Point(c.X, c.Y + s * 1.6);    // needle tip
+
+        // Needle: triangle whose base straddles the bottom of the head circle
+        double neckY    = head.Y + r * 0.72;
+        double neckHalf = r * 0.58;
+        var needle = new StreamGeometry();
+        using (var sg = needle.Open())
         {
-            sg.BeginFigure(new Point(c.X, c.Y + s * 1.8), true);
-            sg.ArcTo(new Point(c.X - s * 0.8, c.Y - s * 0.4), new Size(s, s), 0, false, SweepDirection.CounterClockwise);
-            sg.ArcTo(new Point(c.X + s * 0.8, c.Y - s * 0.4), new Size(s, s), 0, false, SweepDirection.CounterClockwise);
-            sg.LineTo(new Point(c.X, c.Y + s * 1.8));
+            sg.BeginFigure(tip, true);
+            sg.LineTo(new Point(c.X - neckHalf, neckY));
+            sg.LineTo(new Point(c.X + neckHalf, neckY));
             sg.EndFigure(true);
         }
-        ctx.DrawGeometry(fill, pen, geo);
-        ctx.DrawEllipse(Brushes.Black, null, new Point(c.X, c.Y - s * 0.1), s * 0.35, s * 0.35);
+        ctx.DrawGeometry(fill, pen, needle);
+
+        // Head circle drawn after needle so it cleanly covers the neck seam
+        ctx.DrawEllipse(fill, pen, head, r, r);
+
+        // Small inner shadow dot — offset up-left for a subtle 3-D depth effect
+        ctx.DrawEllipse(
+            new SolidColorBrush(Color.FromArgb(150, 0, 0, 0)),
+            null,
+            new Point(head.X - r * 0.18, head.Y - r * 0.12),
+            r * 0.36, r * 0.36);
     }
 
     private static void DrawFlag(DrawingContext ctx, Point c, double s, IBrush fill, Pen pen)
@@ -826,10 +984,8 @@ public partial class PipboyMap : Control
     private static void DrawSkull(DrawingContext ctx, Point c, double s, IBrush fill, Pen pen)
     {
         ctx.DrawEllipse(fill, pen, new Point(c.X, c.Y - s * 0.2), s * 0.9, s * 0.85);
-        // eye sockets
         ctx.DrawEllipse(Brushes.Black, null, new Point(c.X - s * 0.3, c.Y - s * 0.2), s * 0.22, s * 0.22);
         ctx.DrawEllipse(Brushes.Black, null, new Point(c.X + s * 0.3, c.Y - s * 0.2), s * 0.22, s * 0.22);
-        // jaw
         var jawPen = new Pen(pen.Brush, 1);
         for (int t = 0; t < 3; t++)
             ctx.DrawLine(jawPen,
@@ -842,10 +998,10 @@ public partial class PipboyMap : Control
         var geo = new StreamGeometry();
         using (var sg = geo.Open())
         {
-            sg.BeginFigure(new Point(c.X,       c.Y - s * 1.4), true);
-            sg.LineTo(new Point(c.X + s,        c.Y));
-            sg.LineTo(new Point(c.X,            c.Y + s * 1.4));
-            sg.LineTo(new Point(c.X - s,        c.Y));
+            sg.BeginFigure(new Point(c.X,     c.Y - s * 1.4), true);
+            sg.LineTo(new Point(c.X + s,      c.Y));
+            sg.LineTo(new Point(c.X,          c.Y + s * 1.4));
+            sg.LineTo(new Point(c.X - s,      c.Y));
             sg.EndFigure(true);
         }
         ctx.DrawGeometry(fill, pen, geo);
@@ -860,20 +1016,41 @@ public partial class PipboyMap : Control
 
     private static void DrawQuest(DrawingContext ctx, Point c, double s, IBrush fill, Pen pen)
     {
-        // Triangle
         var geo = new StreamGeometry();
         using (var sg = geo.Open())
         {
-            sg.BeginFigure(new Point(c.X,        c.Y - s * 1.5), true);
-            sg.LineTo(new Point(c.X + s * 1.3,   c.Y + s));
-            sg.LineTo(new Point(c.X - s * 1.3,   c.Y + s));
+            sg.BeginFigure(new Point(c.X,          c.Y - s * 1.5), true);
+            sg.LineTo(new Point(c.X + s * 1.3,     c.Y + s));
+            sg.LineTo(new Point(c.X - s * 1.3,     c.Y + s));
             sg.EndFigure(true);
         }
         ctx.DrawGeometry(fill, pen, geo);
-        // Exclamation
         var ep = new Pen(Brushes.Black, 1.5);
         ctx.DrawLine(ep, new Point(c.X, c.Y - s * 0.8), new Point(c.X, c.Y + s * 0.2));
         ctx.DrawEllipse(Brushes.Black, null, new Point(c.X, c.Y + s * 0.55), 1.5, 1.5);
+    }
+
+    /// <summary>
+    /// Animated concentric rings pulsing outward from the centre dot.
+    /// Uses <see cref="_ripplePhase"/> (0..1) advanced by the animation timer.
+    /// </summary>
+    private void DrawRipple(DrawingContext ctx, Point c, double s, Color color)
+    {
+        // Solid centre dot
+        ctx.DrawEllipse(new SolidColorBrush(color), null, c, s * 0.42, s * 0.42);
+
+        // Three rings staggered by 1/3 of the cycle
+        for (int i = 0; i < 3; i++)
+        {
+            double phase  = (_ripplePhase + i / 3.0) % 1.0;
+            double radius = s * 0.42 + phase * s * 2.8;
+            byte   alpha  = (byte)(210 * (1.0 - phase));
+            if (alpha < 6) continue;
+            ctx.DrawEllipse(
+                null,
+                new Pen(new SolidColorBrush(Color.FromArgb(alpha, color.R, color.G, color.B)), 1.5),
+                c, radius, radius);
+        }
     }
 
     // ── Draw: crosshair ───────────────────────────────────────────────────────
@@ -885,36 +1062,24 @@ public partial class PipboyMap : Control
             DashStyle = new DashStyle([6, 4], 0)
         };
 
-        // Horizontal line
-        ctx.DrawLine(pen,
-            new Point(0,             _crosshairPos.Y),
-            new Point(bounds.Width,  _crosshairPos.Y));
-
-        // Vertical line
-        ctx.DrawLine(pen,
-            new Point(_crosshairPos.X, 0),
-            new Point(_crosshairPos.X, bounds.Height));
-
-        // Center dot
+        ctx.DrawLine(pen, new Point(0, _crosshairPos.Y), new Point(bounds.Width, _crosshairPos.Y));
+        ctx.DrawLine(pen, new Point(_crosshairPos.X, 0), new Point(_crosshairPos.X, bounds.Height));
         ctx.DrawEllipse(_primaryBrush ?? Brushes.LimeGreen, null, _crosshairPos, 2, 2);
 
-        // Coordinate readout
-        var worldPos = ScreenToWorld(_crosshairPos);
-        var coordText = $"{Math.Abs(worldPos.X):F1}°{(worldPos.X >= 0 ? "E" : "W")}  " +
-                        $"{Math.Abs(worldPos.Y):F1}°{(worldPos.Y >= 0 ? "N" : "S")}";
+        // Coordinate readout (world-space X / Y)
+        var worldPos   = ScreenToWorld(_crosshairPos);
+        var coordText  = $"X:{worldPos.X:F0}  Y:{worldPos.Y:F0}";
 
-        var ft = new FormattedText(
-            coordText,
+        var ft = new FormattedText(coordText,
             System.Globalization.CultureInfo.CurrentCulture,
             FlowDirection.LeftToRight,
             new Typeface("Consolas,Courier New,monospace"),
-            10,
-            _primaryBrush ?? Brushes.LimeGreen);
+            10, _primaryBrush ?? Brushes.LimeGreen);
 
         double tx = _crosshairPos.X + 8;
         double ty = _crosshairPos.Y - ft.Height - 4;
         if (tx + ft.Width > bounds.Width)  tx = _crosshairPos.X - ft.Width - 8;
-        if (ty < 2)                         ty = _crosshairPos.Y + 6;
+        if (ty < 2)                        ty = _crosshairPos.Y + 6;
 
         // Shadow for readability
         var shadow = new FormattedText(coordText,
@@ -926,25 +1091,100 @@ public partial class PipboyMap : Control
         ctx.DrawText(ft, new Point(tx, ty));
     }
 
+    // ── Draw: magnifier ───────────────────────────────────────────────────────
+
+    private void DrawMagnifier(DrawingContext ctx, Rect bounds)
+    {
+        double radius  = MagnifierRadius;
+        double magZoom = MagnifierZoom;
+        var    center  = _crosshairPos;
+
+        // Offset the lens so it doesn't hide the cursor area
+        var lensCenter = new Point(
+            Math.Clamp(center.X + radius * 1.1, radius, bounds.Width  - radius),
+            Math.Clamp(center.Y - radius * 1.1, radius, bounds.Height - radius));
+
+        // Compute magnified transform: the world point under the cursor
+        // is shown at the centre of the lens
+        double scale  = GetCurrentScale();
+        double ms     = scale * magZoom;
+
+        // world_under_cursor in screen = _crosshairPos
+        // We want: world * magTransform = lensCenter
+        var world = ScreenToWorld(center);
+        double mtx = lensCenter.X - world.X * ms;
+        double mty = lensCenter.Y - world.Y * ms;
+
+        var magTransform = new Matrix(ms, 0, 0, ms, mtx, mty);
+
+        // Clip to circle
+        var clipRect = new Rect(lensCenter.X - radius, lensCenter.Y - radius, radius * 2, radius * 2);
+        var clipGeo  = new EllipseGeometry(clipRect);
+
+        using (ctx.PushGeometryClip(clipGeo))
+        {
+            // Background
+            var bg = _bgBrush ?? new SolidColorBrush(Color.FromRgb(10, 18, 10));
+            ctx.FillRectangle(bg, clipRect);
+
+            // Grid at magnified scale
+            if (ShowGrid)
+            {
+                var (wx1, wy1, wx2, wy2) = GetWorldBounds();
+                double rawInterval = Math.Max(wx2 - wx1, wy2 - wy1) / 20.0;
+                double interval    = NiceGridInterval(rawInterval);
+                var gridPen = new Pen(_borderBrush ?? Brushes.DarkGreen, 0.4)
+                {
+                    DashStyle = new DashStyle([4, 6], 0)
+                };
+                for (double y = Math.Floor(wy1 / interval) * interval; y <= wy2; y += interval)
+                    ctx.DrawLine(gridPen, new Point(wx1, y) * magTransform, new Point(wx2, y) * magTransform);
+                for (double x = Math.Floor(wx1 / interval) * interval; x <= wx2; x += interval)
+                    ctx.DrawLine(gridPen, new Point(x, wy1) * magTransform, new Point(x, wy2) * magTransform);
+            }
+
+            DrawTiles(ctx, magTransform);
+            DrawLines(ctx, magTransform);
+            DrawMarkers(ctx, magTransform);
+        }
+
+        // Lens border
+        ctx.DrawEllipse(null,
+            new Pen(_primaryBrush ?? Brushes.LimeGreen, 1.5),
+            lensCenter, radius, radius);
+
+        // Small crosshair dot at lens center
+        ctx.DrawEllipse(_primaryBrush ?? Brushes.LimeGreen, null, lensCenter, 2, 2);
+        var cp = new Pen(_primaryBrush ?? Brushes.LimeGreen, 0.8);
+        ctx.DrawLine(cp, new Point(lensCenter.X - 6, lensCenter.Y), new Point(lensCenter.X + 6, lensCenter.Y));
+        ctx.DrawLine(cp, new Point(lensCenter.X, lensCenter.Y - 6), new Point(lensCenter.X, lensCenter.Y + 6));
+
+        // Connector line from cursor to lens
+        var connPen = new Pen(_primaryBrush ?? Brushes.LimeGreen, 0.5)
+        {
+            DashStyle = new DashStyle([2, 3], 0)
+        };
+        ctx.DrawLine(connPen, center, lensCenter);
+    }
+
     // ── Draw: scale bar ───────────────────────────────────────────────────────
 
     private void DrawScaleBar(DrawingContext ctx, Rect bounds)
     {
-        const double margin  = 16;
-        const double barH    = 5;
-        const double barW    = 80;
+        const double margin = 16;
+        const double barH   = 5;
+        const double barW   = 80;
 
         double bx = margin;
         double by = bounds.Height - margin - barH - 16;
 
-        // How many degrees does barW pixels represent?
         double scale = GetCurrentScale();
-        double degreesPerPixel = 1.0 / scale;
-        double barDegrees = barW * degreesPerPixel;
+        double unitsPerPixel = 1.0 / scale;
+        double barUnits = barW * unitsPerPixel;
 
-        string label = barDegrees >= 1
-            ? $"{barDegrees:F0}°"
-            : $"{barDegrees * 60:F0}'";
+        string label = barUnits >= 100  ? $"{barUnits:F0}u"
+                     : barUnits >= 1    ? $"{barUnits:F1}u"
+                     : $"{barUnits:F3}u";
 
         var bg = new SolidColorBrush(Color.FromArgb(120, 0, 0, 0));
         ctx.FillRectangle(bg, new Rect(bx - 4, by - 4, barW + 8, barH + 24));
@@ -952,21 +1192,16 @@ public partial class PipboyMap : Control
         var barBrush = _primaryBrush ?? Brushes.LimeGreen;
         var barPen   = new Pen(barBrush, 1);
 
-        // Scale bar
         ctx.FillRectangle(barBrush, new Rect(bx, by, barW, barH));
+        ctx.DrawLine(barPen, new Point(bx,           by), new Point(bx,           by + barH + 3));
+        ctx.DrawLine(barPen, new Point(bx + barW,    by), new Point(bx + barW,    by + barH + 3));
+        ctx.DrawLine(barPen, new Point(bx + barW/2,  by), new Point(bx + barW/2,  by + barH + 2));
 
-        // Tick marks
-        ctx.DrawLine(barPen, new Point(bx,        by),      new Point(bx,        by + barH + 3));
-        ctx.DrawLine(barPen, new Point(bx + barW, by),      new Point(bx + barW, by + barH + 3));
-        ctx.DrawLine(barPen, new Point(bx + barW / 2, by),  new Point(bx + barW / 2, by + barH + 2));
-
-        var ft = new FormattedText(
-            label,
+        var ft = new FormattedText(label,
             System.Globalization.CultureInfo.CurrentCulture,
             FlowDirection.LeftToRight,
             new Typeface("Consolas,Courier New,monospace"),
-            9,
-            _textDimBrush ?? Brushes.Gray);
+            9, _textDimBrush ?? Brushes.Gray);
 
         ctx.DrawText(ft, new Point(bx + barW / 2 - ft.Width / 2, by + barH + 6));
     }
@@ -975,13 +1210,11 @@ public partial class PipboyMap : Control
 
     private void DrawZoomIndicator(DrawingContext ctx, Rect bounds)
     {
-        var ft = new FormattedText(
-            $"ZOOM x{GetCurrentScale():F2}",
+        var ft = new FormattedText($"ZOOM x{GetCurrentScale():F2}",
             System.Globalization.CultureInfo.CurrentCulture,
             FlowDirection.LeftToRight,
             new Typeface("Consolas,Courier New,monospace"),
-            9,
-            _textDimBrush ?? Brushes.Gray);
+            9, _textDimBrush ?? Brushes.Gray);
 
         ctx.DrawText(ft, new Point(bounds.Width - ft.Width - 10, bounds.Height - ft.Height - 8));
     }

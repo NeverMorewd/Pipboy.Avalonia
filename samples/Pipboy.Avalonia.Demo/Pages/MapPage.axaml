@@ -4,125 +4,152 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
 
-    <Grid RowDefinitions="Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
 
-        <!--  ══ Header toolbar ══════════════════════════════════════════════  -->
+        <!--  ══ Header toolbar – row 0 ═══════════════════════════════════════  -->
         <Border
             Grid.Row="0"
-            Padding="16,10"
+            Padding="16,8"
             BorderBrush="{DynamicResource PipboyBorderBrush}"
             BorderThickness="0,0,0,1">
-            <DockPanel>
-                <TextBlock
-                    VerticalAlignment="Center"
-                    Classes="h2"
-                    DockPanel.Dock="Left"
-                    Text="[ WORLD MAP ]" />
+            <WrapPanel Orientation="Horizontal">
 
-                <StackPanel
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    DockPanel.Dock="Right"
-                    Orientation="Horizontal"
-                    Spacing="8">
+                <!--  Zoom controls  -->
+                <Button
+                    Width="32" Height="32" Padding="0"
+                    Click="OnZoomOut" Content="-" ToolTip.Tip="Zoom Out" />
+                <Button
+                    Height="32" Padding="8,0" Margin="4,0"
+                    Click="OnFitToView" Content="FIT" ToolTip.Tip="Fit to View" />
+                <Button
+                    Width="32" Height="32" Padding="0"
+                    Click="OnZoomIn" Content="+" ToolTip.Tip="Zoom In" />
 
-                    <!--  Zoom controls  -->
-                    <Button
-                        x:Name="BtnZoomOut"
-                        Width="32"
-                        Height="32"
-                        Padding="0"
-                        Click="OnZoomOut"
-                        Content="─"
-                        ToolTip.Tip="Zoom Out" />
-                    <Button
-                        x:Name="BtnFit"
-                        Height="32"
-                        Padding="8,0"
-                        Click="OnFitToView"
-                        Content="FIT"
-                        ToolTip.Tip="Fit to View" />
-                    <Button
-                        x:Name="BtnZoomIn"
-                        Width="32"
-                        Height="32"
-                        Padding="0"
-                        Click="OnZoomIn"
-                        Content="+"
-                        ToolTip.Tip="Zoom In" />
+                <Rectangle Width="1" Margin="8,0" Fill="{DynamicResource PipboyBorderBrush}" />
 
-                    <Rectangle
-                        Width="1"
-                        Margin="4,0"
-                        Fill="{DynamicResource PipboyBorderBrush}" />
+                <!--  View toggles  -->
+                <ToggleButton
+                    Height="32" Padding="8,0"
+                    IsChecked="{Binding #TheMap.ShowCrosshair, Mode=TwoWay}"
+                    ToolTip.Tip="Toggle Crosshair">
+                    <TextBlock Text="[+] CROSSHAIR" />
+                </ToggleButton>
+                <ToggleButton
+                    Height="32" Padding="8,0" Margin="4,0"
+                    IsChecked="{Binding #TheMap.ShowGrid, Mode=TwoWay}"
+                    ToolTip.Tip="Toggle Grid">
+                    <TextBlock Text="[#] GRID" />
+                </ToggleButton>
+                <ToggleButton
+                    Height="32" Padding="8,0"
+                    IsChecked="{Binding #TheMap.ShowTileLabels, Mode=TwoWay}"
+                    ToolTip.Tip="Toggle Labels">
+                    <TextBlock Text="Aa LABELS" />
+                </ToggleButton>
+                <ToggleButton
+                    Height="32" Padding="8,0" Margin="4,0,0,0"
+                    IsChecked="{Binding #TheMap.ShowMagnifier, Mode=TwoWay}"
+                    ToolTip.Tip="Toggle Magnifier Lens">
+                    <TextBlock Text="[o] MAGNIFIER" />
+                </ToggleButton>
 
-                    <!--  Toggle crosshair  -->
-                    <ToggleButton
-                        x:Name="BtnCrosshair"
-                        Height="32"
-                        Padding="8,0"
-                        IsChecked="{Binding #TheMap.ShowCrosshair, Mode=TwoWay}"
-                        ToolTip.Tip="Toggle Crosshair">
-                        <TextBlock Text="⊕ CROSSHAIR" />
-                    </ToggleButton>
+                <Rectangle Width="1" Margin="8,0" Fill="{DynamicResource PipboyBorderBrush}" />
 
-                    <!--  Toggle grid  -->
-                    <ToggleButton
-                        x:Name="BtnGrid"
-                        Height="32"
-                        Padding="8,0"
-                        IsChecked="{Binding #TheMap.ShowGrid, Mode=TwoWay}"
-                        ToolTip.Tip="Toggle Grid">
-                        <TextBlock Text="⊞ GRID" />
-                    </ToggleButton>
+                <!--  Marker section  -->
+                <TextBlock VerticalAlignment="Center" Classes="dim" Text="MARKER:" />
+                <ComboBox
+                    x:Name="MarkerKindCombo"
+                    Height="32" MinWidth="110" Margin="4,0"
+                    SelectedIndex="0"
+                    SelectionChanged="OnMarkerKindChanged">
+                    <ComboBoxItem Content="[ PIN ]" />
+                    <ComboBoxItem Content="[ FLAG ]" />
+                    <ComboBoxItem Content="[ STAR ]" />
+                    <ComboBoxItem Content="[ SKULL ]" />
+                    <ComboBoxItem Content="[ DIAMOND ]" />
+                    <ComboBoxItem Content="[ CIRCLE ]" />
+                    <ComboBoxItem Content="[ CROSS ]" />
+                    <ComboBoxItem Content="[ QUEST ]" />
+                    <ComboBoxItem Content="[ RIPPLE ]" />
+                </ComboBox>
+                <ToggleButton
+                    x:Name="BtnBlink"
+                    Height="32" Padding="8,0"
+                    IsChecked="False"
+                    Click="OnToggleBlink"
+                    ToolTip.Tip="Toggle Marker Blinking">
+                    <TextBlock Text="* BLINK" />
+                </ToggleButton>
+                <Button
+                    Height="32" Padding="8,0" Margin="4,0,0,0"
+                    Classes="danger"
+                    Click="OnClearMarkers"
+                    Content="CLR MARKERS" />
 
-                    <!--  Toggle labels  -->
-                    <ToggleButton
-                        x:Name="BtnLabels"
-                        Height="32"
-                        Padding="8,0"
-                        IsChecked="{Binding #TheMap.ShowTileLabels, Mode=TwoWay}"
-                        ToolTip.Tip="Toggle Labels">
-                        <TextBlock Text="Aa LABELS" />
-                    </ToggleButton>
-
-                    <Rectangle
-                        Width="1"
-                        Margin="4,0"
-                        Fill="{DynamicResource PipboyBorderBrush}" />
-
-                    <!--  Marker kind selector  -->
-                    <TextBlock VerticalAlignment="Center" Classes="dim" Text="MARKER:" />
-                    <ComboBox
-                        x:Name="MarkerKindCombo"
-                        Height="32"
-                        MinWidth="110"
-                        SelectedIndex="0"
-                        SelectionChanged="OnMarkerKindChanged">
-                        <ComboBoxItem Content="[ PIN ]" />
-                        <ComboBoxItem Content="[ FLAG ]" />
-                        <ComboBoxItem Content="[ STAR ]" />
-                        <ComboBoxItem Content="[ SKULL ]" />
-                        <ComboBoxItem Content="[ DIAMOND ]" />
-                        <ComboBoxItem Content="[ CIRCLE ]" />
-                        <ComboBoxItem Content="[ CROSS ]" />
-                        <ComboBoxItem Content="[ QUEST ]" />
-                    </ComboBox>
-
-                    <Button
-                        Height="32"
-                        Padding="8,0"
-                        Classes="danger"
-                        Click="OnClearMarkers"
-                        Content="CLEAR MARKERS" />
-                </StackPanel>
-            </DockPanel>
+            </WrapPanel>
         </Border>
 
-        <!--  ══ Map ════════════════════════════════════════════════════════  -->
+        <!--  ══ Line-drawing toolbar – row 1 ════════════════════════════════  -->
+        <Border
+            Grid.Row="1"
+            Padding="16,6"
+            BorderBrush="{DynamicResource PipboyBorderBrush}"
+            BorderThickness="0,0,0,1">
+            <WrapPanel Orientation="Horizontal">
+
+                <!--  Mode toggle  -->
+                <TextBlock VerticalAlignment="Center" Classes="dim" Text="MODE:" />
+                <ToggleButton
+                    x:Name="BtnDrawLine"
+                    Height="30" Padding="8,0" Margin="4,0"
+                    IsChecked="False"
+                    Click="OnToggleDrawLine"
+                    ToolTip.Tip="Switch to line-drawing mode (left-drag draws a line)">
+                    <TextBlock Text="/ DRAW LINE" />
+                </ToggleButton>
+
+                <Rectangle Width="1" Margin="8,0" Fill="{DynamicResource PipboyBorderBrush}" />
+
+                <!--  Line style  -->
+                <TextBlock VerticalAlignment="Center" Classes="dim" Text="STYLE:" />
+                <ComboBox
+                    x:Name="LineStyleCombo"
+                    Height="30" MinWidth="120" Margin="4,0"
+                    SelectedIndex="0"
+                    SelectionChanged="OnLineStyleChanged"
+                    ToolTip.Tip="Line style for new lines">
+                    <ComboBoxItem Content="[ SOLID ]" />
+                    <ComboBoxItem Content="[ DASHED ]" />
+                    <ComboBoxItem Content="[ DOTTED ]" />
+                    <ComboBoxItem Content="[ FLOW ]" />
+                </ComboBox>
+
+                <!--  Thickness  -->
+                <ToggleButton
+                    x:Name="BtnThick"
+                    Height="30" Padding="8,0"
+                    IsChecked="False"
+                    Click="OnToggleThickness"
+                    ToolTip.Tip="Toggle stroke thickness (thin / thick)">
+                    <TextBlock Text="THICK" />
+                </ToggleButton>
+
+                <Rectangle Width="1" Margin="8,0" Fill="{DynamicResource PipboyBorderBrush}" />
+
+                <!--  Clear lines  -->
+                <Button
+                    Height="30" Padding="8,0"
+                    Classes="danger"
+                    Click="OnClearLines"
+                    Content="CLR LINES" />
+
+            </WrapPanel>
+        </Border>
+
+        <!--  ══ Map ═════════════════════════════════════════════════════════  -->
         <pipboy:PipboyMap
             x:Name="TheMap"
-            Grid.Row="1"
+            Grid.Row="2"
             ShowCrosshair="True"
             ShowGrid="True"
             ShowTileLabels="True"
@@ -133,34 +160,31 @@
             MinZoom="0.3"
             MaxZoom="12" />
 
-        <!--  ══ Status bar ═════════════════════════════════════════════════  -->
+        <!--  ══ Status bar ══════════════════════════════════════════════════  -->
         <Border
-            Grid.Row="2"
-            Padding="16,8"
+            Grid.Row="3"
+            Padding="16,6"
             BorderBrush="{DynamicResource PipboyBorderBrush}"
             BorderThickness="0,1,0,0">
             <DockPanel>
-                <!--  Selected tile info  -->
-                <StackPanel
-                    DockPanel.Dock="Left"
-                    Orientation="Horizontal"
-                    Spacing="16">
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="16">
                     <TextBlock Classes="dim" Text="SELECTED:" />
                     <TextBlock
                         x:Name="LblSelected"
                         Foreground="{DynamicResource PipboyPrimaryBrush}"
-                        Text="—" />
+                        Text="--" />
                 </StackPanel>
-
-                <!--  Marker count  -->
                 <StackPanel
                     HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Orientation="Horizontal"
-                    Spacing="6">
+                    Spacing="12">
                     <TextBlock Classes="dim" Text="MARKERS:" />
                     <TextBlock x:Name="LblMarkerCount" Text="0" />
-                    <TextBlock Classes="dim" Text="│ RIGHT-CLICK MAP TO PLACE MARKER │ SCROLL TO ZOOM │ DRAG TO PAN" />
+                    <TextBlock Classes="dim" Text="|" />
+                    <TextBlock Classes="dim" Text="LINES:" />
+                    <TextBlock x:Name="LblLineCount" Text="0" />
+                    <TextBlock Classes="dim" Text="| RIGHT-CLICK = PLACE MARKER | SCROLL = ZOOM | DRAG = PAN / DRAW" />
                 </StackPanel>
             </DockPanel>
         </Border>

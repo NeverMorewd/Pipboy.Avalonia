@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Media;
+using Avalonia.Controls;
 
 namespace Pipboy.Avalonia;
 
@@ -243,5 +244,121 @@ public partial class PipboyMap
     {
         get => GetValue(TileFillProperty);
         set => SetValue(TileFillProperty, value);
+    }
+
+    // ── Lines ────────────────────────────────────────────────────────────────
+
+    /// <summary>Collection of line segments drawn on the map.</summary>
+    public static readonly StyledProperty<IList<MapLine>> LinesProperty =
+        AvaloniaProperty.Register<PipboyMap, IList<MapLine>>(nameof(Lines), defaultValue: []);
+
+    public IList<MapLine> Lines
+    {
+        get => GetValue(LinesProperty);
+        set => SetValue(LinesProperty, value);
+    }
+
+    // ── Interaction mode ─────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Controls what a left-drag gesture does.
+    /// <list type="bullet">
+    /// <item><see cref="PipboyMapInteractionMode.Pan"/> — pans the map (default).</item>
+    /// <item><see cref="PipboyMapInteractionMode.DrawLine"/> — draws a line segment.</item>
+    /// </list>
+    /// </summary>
+    public static readonly StyledProperty<PipboyMapInteractionMode> InteractionModeProperty =
+        AvaloniaProperty.Register<PipboyMap, PipboyMapInteractionMode>(
+            nameof(InteractionMode), defaultValue: PipboyMapInteractionMode.Pan);
+
+    public PipboyMapInteractionMode InteractionMode
+    {
+        get => GetValue(InteractionModeProperty);
+        set => SetValue(InteractionModeProperty, value);
+    }
+
+    // ── Default line style / thickness ───────────────────────────────────────
+
+    /// <summary>Line style applied to newly drawn lines (default Solid).</summary>
+    public static readonly StyledProperty<PipboyMapLineStyle> DefaultLineStyleProperty =
+        AvaloniaProperty.Register<PipboyMap, PipboyMapLineStyle>(
+            nameof(DefaultLineStyle), defaultValue: PipboyMapLineStyle.Solid);
+
+    public PipboyMapLineStyle DefaultLineStyle
+    {
+        get => GetValue(DefaultLineStyleProperty);
+        set => SetValue(DefaultLineStyleProperty, value);
+    }
+
+    /// <summary>When true newly drawn lines use a 3 px stroke; otherwise 1.5 px (default false).</summary>
+    public static readonly StyledProperty<bool> DefaultLineIsThickProperty =
+        AvaloniaProperty.Register<PipboyMap, bool>(nameof(DefaultLineIsThick), defaultValue: false);
+
+    public bool DefaultLineIsThick
+    {
+        get => GetValue(DefaultLineIsThickProperty);
+        set => SetValue(DefaultLineIsThickProperty, value);
+    }
+
+    // ── Line MVVM command ────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Invoked when the user finishes drawing a line.
+    /// The command parameter is the newly created <see cref="MapLine"/>.
+    /// </summary>
+    public static readonly StyledProperty<ICommand?> LineAddedCommandProperty =
+        AvaloniaProperty.Register<PipboyMap, ICommand?>(nameof(LineAddedCommand));
+
+    public ICommand? LineAddedCommand
+    {
+        get => GetValue(LineAddedCommandProperty);
+        set => SetValue(LineAddedCommandProperty, value);
+    }
+
+    // ── Marker blink ─────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Global switch: when <see langword="false"/> no marker blinks, regardless of the
+    /// individual <see cref="MapMarker.IsBlinking"/> flag.  Default: <see langword="true"/>.
+    /// </summary>
+    public static readonly StyledProperty<bool> MarkersBlinkEnabledProperty =
+        AvaloniaProperty.Register<PipboyMap, bool>(nameof(MarkersBlinkEnabled), defaultValue: true);
+
+    public bool MarkersBlinkEnabled
+    {
+        get => GetValue(MarkersBlinkEnabledProperty);
+        set => SetValue(MarkersBlinkEnabledProperty, value);
+    }
+
+    // ── Magnifier ─────────────────────────────────────────────────────────────
+
+    /// <summary>Show a magnifier lens that follows the cursor (default false).</summary>
+    public static readonly StyledProperty<bool> ShowMagnifierProperty =
+        AvaloniaProperty.Register<PipboyMap, bool>(nameof(ShowMagnifier), defaultValue: false);
+
+    public bool ShowMagnifier
+    {
+        get => GetValue(ShowMagnifierProperty);
+        set => SetValue(ShowMagnifierProperty, value);
+    }
+
+    /// <summary>Zoom factor applied inside the magnifier lens (default 3.0).</summary>
+    public static readonly StyledProperty<double> MagnifierZoomProperty =
+        AvaloniaProperty.Register<PipboyMap, double>(nameof(MagnifierZoom), defaultValue: 3.0);
+
+    public double MagnifierZoom
+    {
+        get => GetValue(MagnifierZoomProperty);
+        set => SetValue(MagnifierZoomProperty, value);
+    }
+
+    /// <summary>Radius of the magnifier lens in screen pixels (default 80).</summary>
+    public static readonly StyledProperty<double> MagnifierRadiusProperty =
+        AvaloniaProperty.Register<PipboyMap, double>(nameof(MagnifierRadius), defaultValue: 80.0);
+
+    public double MagnifierRadius
+    {
+        get => GetValue(MagnifierRadiusProperty);
+        set => SetValue(MagnifierRadiusProperty, value);
     }
 }
