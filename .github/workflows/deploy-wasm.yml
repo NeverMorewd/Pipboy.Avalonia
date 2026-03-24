@@ -9,6 +9,9 @@ name: Deploy WASM Demo → GitHub Pages
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.MD'
   workflow_dispatch:
 
 permissions:
