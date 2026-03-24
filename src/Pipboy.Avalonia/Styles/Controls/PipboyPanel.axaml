@@ -43,18 +43,18 @@
                                             <TextBlock
                                                 VerticalAlignment="Center"
                                                 Classes="dim"
-                                                FontSize="10"
+                                                FontSize="{DynamicResource PipboyFontSizeXSmall}"
                                                 Text="─[ " />
                                             <ContentPresenter
                                                 VerticalAlignment="Center"
                                                 Content="{TemplateBinding Header}"
-                                                FontSize="11"
+                                                FontSize="{DynamicResource PipboyFontSizeSmall}"
                                                 FontWeight="Bold"
                                                 Foreground="{DynamicResource PipboyTextBrush}" />
                                             <TextBlock
                                                 VerticalAlignment="Center"
                                                 Classes="dim"
-                                                FontSize="10"
+                                                FontSize="{DynamicResource PipboyFontSizeXSmall}"
                                                 Text=" ]─" />
                                         </StackPanel>
 
@@ -65,7 +65,7 @@
                                             Padding="6,1"
                                             VerticalAlignment="Center"
                                             Content="[X]"
-                                            FontSize="10"
+                                            FontSize="{DynamicResource PipboyFontSizeXSmall}"
                                             IsVisible="{TemplateBinding IsClosable}" />
 
                                     </Grid>
@@ -139,7 +139,7 @@
 
             <!--  disabled  -->
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
 
         </ControlTheme>

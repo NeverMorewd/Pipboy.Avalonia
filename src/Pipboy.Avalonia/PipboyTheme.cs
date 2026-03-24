@@ -1,4 +1,5 @@
 using System;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -103,14 +104,25 @@ public partial class PipboyTheme : Styles, IDisposable
         Resources["PipboyScanBeamColor"]   = Color.FromArgb(40, p.Primary.R, p.Primary.G, p.Primary.B);
 
         // Font design tokens
-        Resources["PipboyFontFamily"]   = new FontFamily("Consolas,Courier New,monospace");
-        Resources["PipboyFontSize"]      = 13.0;
-        Resources["PipboyFontSizeSmall"] = 11.0;
-        Resources["PipboyFontSizeLarge"] = 16.0;
+        Resources["PipboyFontFamily"]      = new FontFamily("Consolas,Courier New,monospace");
+        Resources["PipboyFontSize"]        = 13.0;
+        Resources["PipboyFontSizeXSmall"]  = 10.0;
+        Resources["PipboyFontSizeSmall"]   = 11.0;
+        Resources["PipboyFontSizeLarge"]   = 16.0;
 
         // Spacing / sizing design tokens
         Resources["PipboyControlHeight"]      = 30.0;
         Resources["PipboyTreeViewItemIndent"] = 16.0;
+        Resources["PipboyPickerRowHeight"]    = new GridLength(29);
+        Resources["PipboyPickerItemHeight"]   = 40.0;
+        Resources["PipboyPopupMaxHeight"]     = 200.0;
+
+        // Opacity design tokens
+        Resources["PipboyDisabledOpacity"] = 0.45;
+        Resources["PipboyDimOpacity"]      = 0.7;
+
+        // Stroke design tokens
+        Resources["PipboyIconStrokeThickness"] = 1.5;
 
         // Load compiled AXAML styles — AvaloniaXamlLoader.Load uses the compiled (NativeAOT-safe)
         // version generated from PipboyTheme.axaml; the StyleInclude chain inside that AXAML file

@@ -31,7 +31,7 @@
                                         Name="PART_FloatingWatermark"
                                         Margin="2,2,0,0"
                                         DockPanel.Dock="Top"
-                                        FontSize="10"
+                                        FontSize="{DynamicResource PipboyFontSizeXSmall}"
                                         Foreground="{DynamicResource PipboyTextDimBrush}"
                                         IsVisible="False"
                                         Text="{TemplateBinding Watermark}" />
@@ -84,7 +84,7 @@
                 <Setter Property="BorderThickness" Value="2" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
             <Style Selector="^:empty /template/ TextBlock#PART_Watermark">
                 <Setter Property="IsVisible" Value="True" />

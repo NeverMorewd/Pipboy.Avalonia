@@ -59,7 +59,7 @@
                                     VerticalAlignment="Center"
                                     Data="M 4 5 L 9 8 L 4 11"
                                     Stroke="{DynamicResource PipboyTextDimBrush}"
-                                    StrokeThickness="1.5" />
+                                    StrokeThickness="{DynamicResource PipboyIconStrokeThickness}" />
                             </Grid>
                         </Border>
 
@@ -110,7 +110,7 @@
             </Style>
             <!--  Disabled  -->
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
             <!--  Separator role: replace template with a thin horizontal rule  -->
             <Style Selector="^:separator">
@@ -199,7 +199,7 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
         </ControlTheme>
 

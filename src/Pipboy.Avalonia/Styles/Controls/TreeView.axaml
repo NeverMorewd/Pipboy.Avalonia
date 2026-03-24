@@ -22,7 +22,7 @@
                             Data="{DynamicResource PipboyIconChevronDown}"
                             Stretch="Uniform"
                             Stroke="{DynamicResource PipboyTextDimBrush}"
-                            StrokeThickness="1.5" />
+                            StrokeThickness="{DynamicResource PipboyIconStrokeThickness}" />
                     </Border>
                 </ControlTemplate>
             </Setter>
@@ -103,7 +103,7 @@
                 <Setter Property="IsVisible" Value="False" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
         </ControlTheme>
 

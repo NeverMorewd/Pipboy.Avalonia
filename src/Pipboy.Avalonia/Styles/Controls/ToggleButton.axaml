@@ -43,7 +43,7 @@
                 <Setter Property="Background" Value="{DynamicResource PipboyPressedBrush}" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
             <Style Selector="^:focus-visible /template/ Border#PART_Border">
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />

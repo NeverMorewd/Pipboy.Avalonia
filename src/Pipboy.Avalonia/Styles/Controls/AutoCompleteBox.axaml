@@ -28,7 +28,7 @@
                             <!--  Dropdown suggestions popup  -->
                             <Popup
                                 Name="PART_Popup"
-                                MaxHeight="200"
+                                MaxHeight="{DynamicResource PipboyPopupMaxHeight}"
                                 IsLightDismissEnabled="True"
                                 IsOpen="False"
                                 Placement="BottomEdgeAlignedLeft"
@@ -40,7 +40,7 @@
                                     CornerRadius="0">
                                     <ListBox
                                         Name="PART_SelectingItemsControl"
-                                        MaxHeight="200"
+                                        MaxHeight="{DynamicResource PipboyPopupMaxHeight}"
                                         Background="Transparent"
                                         BorderThickness="0"
                                         ScrollViewer.VerticalScrollBarVisibility="Auto" />
@@ -52,7 +52,7 @@
             </Setter>
 
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
         </ControlTheme>
 
