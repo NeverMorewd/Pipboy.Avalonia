@@ -47,7 +47,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
         </ControlTheme>
 
@@ -144,7 +144,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
         </ControlTheme>
 

@@ -46,7 +46,7 @@
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         Classes="dim"
-                                        FontSize="10"
+                                        FontSize="{DynamicResource PipboyFontSizeXSmall}"
                                         Text="REMAINING" />
                                 </StackPanel>
                                 <ProgressBar
@@ -108,7 +108,7 @@
             </Style>
 
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
         </ControlTheme>
 

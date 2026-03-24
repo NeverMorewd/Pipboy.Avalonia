@@ -32,9 +32,9 @@
                                 <!--  Month host — Grid rows give bounded height to ScrollViewer  -->
                                 <Grid Name="PART_MonthHost">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                     </Grid.RowDefinitions>
                                     <RepeatButton
                                         Name="PART_MonthUpButton"
@@ -43,14 +43,14 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▲"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                     <ScrollViewer
                                         Grid.Row="1"
                                         HorizontalScrollBarVisibility="Disabled"
                                         VerticalScrollBarVisibility="Hidden">
                                         <DateTimePickerPanel
                                             Name="PART_MonthSelector"
-                                            ItemHeight="40"
+                                            ItemHeight="{DynamicResource PipboyPickerItemHeight}"
                                             PanelType="Month"
                                             ShouldLoop="True" />
                                     </ScrollViewer>
@@ -61,7 +61,7 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▼"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                 </Grid>
 
                                 <Rectangle
@@ -74,9 +74,9 @@
                                 <!--  Day host  -->
                                 <Grid Name="PART_DayHost" Grid.Column="2">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                     </Grid.RowDefinitions>
                                     <RepeatButton
                                         Name="PART_DayUpButton"
@@ -85,14 +85,14 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▲"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                     <ScrollViewer
                                         Grid.Row="1"
                                         HorizontalScrollBarVisibility="Disabled"
                                         VerticalScrollBarVisibility="Hidden">
                                         <DateTimePickerPanel
                                             Name="PART_DaySelector"
-                                            ItemHeight="40"
+                                            ItemHeight="{DynamicResource PipboyPickerItemHeight}"
                                             PanelType="Day"
                                             ShouldLoop="True" />
                                     </ScrollViewer>
@@ -103,7 +103,7 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▼"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                 </Grid>
 
                                 <Rectangle
@@ -116,9 +116,9 @@
                                 <!--  Year host  -->
                                 <Grid Name="PART_YearHost" Grid.Column="4">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                     </Grid.RowDefinitions>
                                     <RepeatButton
                                         Name="PART_YearUpButton"
@@ -127,14 +127,14 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▲"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                     <ScrollViewer
                                         Grid.Row="1"
                                         HorizontalScrollBarVisibility="Disabled"
                                         VerticalScrollBarVisibility="Hidden">
                                         <DateTimePickerPanel
                                             Name="PART_YearSelector"
-                                            ItemHeight="40"
+                                            ItemHeight="{DynamicResource PipboyPickerItemHeight}"
                                             PanelType="Year"
                                             ShouldLoop="False" />
                                     </ScrollViewer>
@@ -145,7 +145,7 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▼"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                 </Grid>
 
                             </Grid>
@@ -268,7 +268,7 @@
                 <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
             <Style Selector="^:hasnodate /template/ Button#PART_FlyoutButton TextBlock">
                 <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
@@ -306,9 +306,9 @@
                                 <!--  Hour host  -->
                                 <Grid Name="PART_HourHost" Grid.Column="0">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                     </Grid.RowDefinitions>
                                     <RepeatButton
                                         Name="PART_HourUpButton"
@@ -317,14 +317,14 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▲"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                     <ScrollViewer
                                         Grid.Row="1"
                                         HorizontalScrollBarVisibility="Disabled"
                                         VerticalScrollBarVisibility="Hidden">
                                         <DateTimePickerPanel
                                             Name="PART_HourSelector"
-                                            ItemHeight="40"
+                                            ItemHeight="{DynamicResource PipboyPickerItemHeight}"
                                             PanelType="Hour"
                                             ShouldLoop="True" />
                                     </ScrollViewer>
@@ -335,7 +335,7 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▼"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                 </Grid>
 
                                 <Rectangle
@@ -348,9 +348,9 @@
                                 <!--  Minute host  -->
                                 <Grid Name="PART_MinuteHost" Grid.Column="2">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                     </Grid.RowDefinitions>
                                     <RepeatButton
                                         Name="PART_MinuteUpButton"
@@ -359,14 +359,14 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▲"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                     <ScrollViewer
                                         Grid.Row="1"
                                         HorizontalScrollBarVisibility="Disabled"
                                         VerticalScrollBarVisibility="Hidden">
                                         <DateTimePickerPanel
                                             Name="PART_MinuteSelector"
-                                            ItemHeight="40"
+                                            ItemHeight="{DynamicResource PipboyPickerItemHeight}"
                                             PanelType="Minute"
                                             ShouldLoop="True" />
                                     </ScrollViewer>
@@ -377,7 +377,7 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▼"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                 </Grid>
 
                                 <Rectangle
@@ -390,9 +390,9 @@
                                 <!--  Second host  -->
                                 <Grid Name="PART_SecondHost" Grid.Column="4">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                     </Grid.RowDefinitions>
                                     <RepeatButton
                                         Name="PART_SecondUpButton"
@@ -401,14 +401,14 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▲"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                     <ScrollViewer
                                         Grid.Row="1"
                                         HorizontalScrollBarVisibility="Disabled"
                                         VerticalScrollBarVisibility="Hidden">
                                         <DateTimePickerPanel
                                             Name="PART_SecondSelector"
-                                            ItemHeight="40"
+                                            ItemHeight="{DynamicResource PipboyPickerItemHeight}"
                                             PanelType="Second"
                                             ShouldLoop="True" />
                                     </ScrollViewer>
@@ -419,7 +419,7 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▼"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                 </Grid>
 
                                 <Rectangle
@@ -432,9 +432,9 @@
                                 <!--  Period (AM/PM) host  -->
                                 <Grid Name="PART_PeriodHost" Grid.Column="6">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="29" />
+                                        <RowDefinition Height="{DynamicResource PipboyPickerRowHeight}" />
                                     </Grid.RowDefinitions>
                                     <RepeatButton
                                         Name="PART_PeriodUpButton"
@@ -443,14 +443,14 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▲"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                     <ScrollViewer
                                         Grid.Row="1"
                                         HorizontalScrollBarVisibility="Disabled"
                                         VerticalScrollBarVisibility="Hidden">
                                         <DateTimePickerPanel
                                             Name="PART_PeriodSelector"
-                                            ItemHeight="40"
+                                            ItemHeight="{DynamicResource PipboyPickerItemHeight}"
                                             PanelType="TimePeriod"
                                             ShouldLoop="False" />
                                     </ScrollViewer>
@@ -461,7 +461,7 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         Content="▼"
-                                        Opacity="0.7" />
+                                        Opacity="{DynamicResource PipboyDimOpacity}" />
                                 </Grid>
 
                             </Grid>
@@ -618,7 +618,7 @@
                 <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
             <Style Selector="^:hasnotime /template/ Button#PART_FlyoutButton TextBlock">
                 <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
@@ -673,7 +673,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
         </ControlTheme>
 
@@ -748,7 +748,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         x:DataType="x:String"
-                        FontSize="11"
+                        FontSize="{DynamicResource PipboyFontSizeSmall}"
                         FontWeight="SemiBold"
                         Foreground="{DynamicResource PipboyTextDimBrush}"
                         Text="{Binding}" />
@@ -784,7 +784,7 @@
                                     <Path
                                         Data="M 9 4 L 4 8 L 9 12"
                                         Stroke="{DynamicResource PipboyTextBrush}"
-                                        StrokeThickness="1.5" />
+                                        StrokeThickness="{DynamicResource PipboyIconStrokeThickness}" />
                                 </RepeatButton>
                                 <Button
                                     Name="PART_HeaderButton"
@@ -807,7 +807,7 @@
                                     <Path
                                         Data="M 4 4 L 9 8 L 4 12"
                                         Stroke="{DynamicResource PipboyTextBrush}"
-                                        StrokeThickness="1.5" />
+                                        StrokeThickness="{DynamicResource PipboyIconStrokeThickness}" />
                                 </RepeatButton>
                             </Grid>
 
@@ -945,7 +945,7 @@
                 <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
         </ControlTheme>
 

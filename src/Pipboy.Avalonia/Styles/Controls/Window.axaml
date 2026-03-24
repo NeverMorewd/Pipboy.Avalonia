@@ -158,7 +158,7 @@
                                                 <!--  Title  -->
                                                 <TextBlock
                                                     VerticalAlignment="Center"
-                                                    FontSize="11"
+                                                    FontSize="{DynamicResource PipboyFontSizeSmall}"
                                                     FontWeight="Bold"
                                                     Foreground="{DynamicResource PipboyTextBrush}"
                                                     Text="{TemplateBinding Title}" />
@@ -166,7 +166,7 @@
                                                 <TextBlock
                                                     VerticalAlignment="Center"
                                                     Classes="dim"
-                                                    FontSize="10"
+                                                    FontSize="{DynamicResource PipboyFontSizeXSmall}"
                                                     IsVisible="{TemplateBinding TitleBarContent, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                     Text=" ·" />
                                                 <!--  Extra title bar content  -->
@@ -296,7 +296,7 @@
 
     <Style Selector="TextBlock.label">
         <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
-        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontSize" Value="{DynamicResource PipboyFontSizeXSmall}" />
         <Setter Property="LetterSpacing" Value="1.5" />
     </Style>
 

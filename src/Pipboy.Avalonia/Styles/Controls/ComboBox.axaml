@@ -83,7 +83,7 @@
                                             VerticalAlignment="Center"
                                             Data="M 4 6 L 8 10 L 12 6"
                                             Stroke="{DynamicResource PipboyTextDimBrush}"
-                                            StrokeThickness="1.5" />
+                                            StrokeThickness="{DynamicResource PipboyIconStrokeThickness}" />
                                     </Border>
                                 </Grid>
                             </Border>
@@ -118,7 +118,7 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
         </ControlTheme>
 

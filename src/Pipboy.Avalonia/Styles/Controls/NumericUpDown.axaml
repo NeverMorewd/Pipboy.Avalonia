@@ -29,7 +29,7 @@
                 <Setter Property="Background" Value="{DynamicResource PipboyPressedBrush}" />
             </Style>
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
         </ControlTheme>
 
@@ -70,7 +70,7 @@
                                             VerticalAlignment="Center"
                                             Data="M 4 8 L 8 4 L 12 8"
                                             Stroke="{DynamicResource PipboyTextDimBrush}"
-                                            StrokeThickness="1.5" />
+                                            StrokeThickness="{DynamicResource PipboyIconStrokeThickness}" />
                                     </RepeatButton>
                                     <RepeatButton
                                         Name="PART_DecreaseButton"
@@ -81,7 +81,7 @@
                                             VerticalAlignment="Center"
                                             Data="M 4 4 L 8 8 L 12 4"
                                             Stroke="{DynamicResource PipboyTextDimBrush}"
-                                            StrokeThickness="1.5" />
+                                            StrokeThickness="{DynamicResource PipboyIconStrokeThickness}" />
                                     </RepeatButton>
                                 </Grid>
                             </Border>
@@ -128,7 +128,7 @@
             </Setter>
 
             <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="0.45" />
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
         </ControlTheme>
 
