@@ -109,6 +109,7 @@ public partial class PipboyTheme : Styles, IDisposable
         Resources["PipboyFontSizeLarge"] = 16.0;
 
         // Spacing / sizing design tokens
+        Resources["PipboyControlHeight"]      = 30.0;
         Resources["PipboyTreeViewItemIndent"] = 16.0;
 
         // Load compiled AXAML styles — AvaloniaXamlLoader.Load uses the compiled (NativeAOT-safe)

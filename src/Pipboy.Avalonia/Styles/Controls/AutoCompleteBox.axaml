@@ -6,7 +6,7 @@
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="MinHeight" Value="{DynamicResource PipboyControlHeight}" />
             <Setter Property="Padding" Value="8,5" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="AutoCompleteBox">
