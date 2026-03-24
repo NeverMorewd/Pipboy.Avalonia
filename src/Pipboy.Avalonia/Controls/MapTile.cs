@@ -13,8 +13,10 @@ public class MapTile : AvaloniaObject
     // ── Shape ────────────────────────────────────────────────────────────────
 
     /// <summary>
-    /// The polygon / path that defines this tile in world-space coordinates
-    /// (X = longitude –180…180, Y = latitude 90…–90).
+    /// The polygon / path that defines this tile in world-space coordinates.
+    /// When using the built-in world map the coordinate space is SVG pixel units
+    /// (X: 0–2000, Y: 0–857).  For custom tile sets any consistent coordinate
+    /// system may be used.
     /// Use <see cref="StreamGeometry"/> or any <see cref="Geometry"/> subtype.
     /// </summary>
     public static readonly StyledProperty<Geometry?> GeometryProperty =
@@ -127,6 +129,4 @@ public class MapTile : AvaloniaObject
         set => SetValue(TagProperty, value);
     }
 
-    // ── Internal runtime state (set by PipboyMap renderer) ──────────────────
-    internal bool IsHovered { get; set; }
 }

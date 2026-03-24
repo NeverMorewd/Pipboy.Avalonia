@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -59,7 +60,7 @@ public partial class PipboyMap : Control
     private bool _blinkVisible = true;
     private DispatcherTimer? _blinkTimer;
 
-    // ── Cached brushes ───────────────────────────────────────────────────────
+    // ── Cached brushes (rebuilt on theme change) ──────────────────────────────
     private IBrush? _bgBrush;
     private IBrush? _surfaceBrush;
     private IBrush? _primaryBrush;
@@ -70,6 +71,24 @@ public partial class PipboyMap : Control
     private IBrush? _hoverBrush;
     private IBrush? _selectionBrush;
     private IBrush? _textBrush;
+
+    // ── Cached pens (rebuilt in ResolveBrushes) ───────────────────────────────
+    private Pen? _gridPen;
+    private Pen? _tileBorderPen;
+    private Pen? _tileSelectedPen;
+    private Pen? _crosshairPen;
+    private Pen? _magLensBorderPen;
+
+    // ── Static shared typeface and dash styles ────────────────────────────────
+    private static readonly Typeface s_monoTypeface   = new("Consolas,Courier New,monospace");
+    private static readonly DashStyle s_gridDash      = new([4, 6], 0);
+    private static readonly DashStyle s_crosshairDash = new([6, 4], 0);
+    private static readonly DashStyle s_connectorDash = new([2, 3], 0);
+    private static readonly DashStyle s_dashedStyle   = new([8, 5], 0);
+    private static readonly DashStyle s_dottedStyle   = new([1.5, 4], 0);
+
+    // ── Theme-change subscription handle ─────────────────────────────────────
+    private EventHandler<ThemeColorChangedEventArgs>? _themeChangedHandler;
 
     // ── Static constructor ───────────────────────────────────────────────────
     static PipboyMap()
@@ -100,6 +119,11 @@ public partial class PipboyMap : Control
             else
                 x.EnsureBlinkTimer();   // restart if any marker needs blinking
         });
+
+        // Re-subscribe to INotifyCollectionChanged when the collection instance changes
+        TilesProperty.Changed.AddClassHandler<PipboyMap>((x, e)   => x.OnManagedCollectionPropertyChanged(e));
+        MarkersProperty.Changed.AddClassHandler<PipboyMap>((x, e) => x.OnManagedCollectionPropertyChanged(e));
+        LinesProperty.Changed.AddClassHandler<PipboyMap>((x, e)   => x.OnManagedCollectionPropertyChanged(e));
     }
 
     public PipboyMap()
@@ -116,12 +140,18 @@ public partial class PipboyMap : Control
         base.OnLoaded(e);
         ResolveBrushes();
         FitToView();
-        PipboyThemeManager.Instance.ThemeColorChanged += (_, _) => ResolveBrushes();
+
+        // Store the handler so it can be unsubscribed in OnUnloaded (prevents leak)
+        _themeChangedHandler = (_, _) => ResolveBrushes();
+        PipboyThemeManager.Instance.ThemeColorChanged += _themeChangedHandler!;
     }
 
     protected override void OnUnloaded(RoutedEventArgs e)
     {
         base.OnUnloaded(e);
+        PipboyThemeManager.Instance.ThemeColorChanged -= _themeChangedHandler;
+        _themeChangedHandler = null;
+        _longPressTimer?.Stop();
         StopBlinkTimer();
         StopAnimTimer();
     }
@@ -152,16 +182,24 @@ public partial class PipboyMap : Control
 
     private void ResolveBrushes()
     {
-        _bgBrush          = TryFindBrush("PipboyBackgroundBrush");
-        _surfaceBrush     = TryFindBrush("PipboySurfaceBrush");
-        _primaryBrush     = TryFindBrush("PipboyPrimaryBrush");
-        _primaryDarkBrush = TryFindBrush("PipboyPrimaryDarkBrush");
+        _bgBrush           = TryFindBrush("PipboyBackgroundBrush");
+        _surfaceBrush      = TryFindBrush("PipboySurfaceBrush");
+        _primaryBrush      = TryFindBrush("PipboyPrimaryBrush");
+        _primaryDarkBrush  = TryFindBrush("PipboyPrimaryDarkBrush");
         _primaryLightBrush = TryFindBrush("PipboyPrimaryLightBrush");
-        _textDimBrush     = TryFindBrush("PipboyTextDimBrush");
-        _borderBrush      = TryFindBrush("PipboyBorderBrush");
-        _hoverBrush       = TryFindBrush("PipboyHoverBrush");
-        _selectionBrush   = TryFindBrush("PipboySelectionBrush");
-        _textBrush        = TryFindBrush("PipboyTextBrush");
+        _textDimBrush      = TryFindBrush("PipboyTextDimBrush");
+        _borderBrush       = TryFindBrush("PipboyBorderBrush");
+        _hoverBrush        = TryFindBrush("PipboyHoverBrush");
+        _selectionBrush    = TryFindBrush("PipboySelectionBrush");
+        _textBrush         = TryFindBrush("PipboyTextBrush");
+
+        // Rebuild pens that depend on the resolved brushes
+        _gridPen          = new Pen(_borderBrush  ?? Brushes.DarkGreen,  0.4) { DashStyle = s_gridDash };
+        _tileBorderPen    = new Pen(_primaryDarkBrush ?? Brushes.Green,  0.6);
+        _tileSelectedPen  = new Pen(_primaryBrush ?? Brushes.LimeGreen,  1.2);
+        _crosshairPen     = new Pen(_primaryBrush ?? Brushes.LimeGreen,  0.8) { DashStyle = s_crosshairDash };
+        _magLensBorderPen = new Pen(_primaryBrush ?? Brushes.LimeGreen,  1.5);
+
         InvalidateVisual();
     }
 
@@ -175,6 +213,7 @@ public partial class PipboyMap : Control
 
     private void OnZoomPropertyChanged(double newZoom)
     {
+        if (Bounds.Width <= 0) return; // not yet measured — FitToView will handle it
         var center = new Point(Bounds.Width / 2, Bounds.Height / 2);
         ApplyZoom(newZoom / GetCurrentScale(), center);
     }
@@ -217,7 +256,7 @@ public partial class PipboyMap : Control
 
     private Point ScreenToWorld(Point screen)
     {
-        _transform.TryInvert(out var inv);
+        if (!_transform.TryInvert(out var inv)) return default;
         return screen * inv;
     }
 
@@ -278,6 +317,13 @@ public partial class PipboyMap : Control
 
     // ── Blink timer ───────────────────────────────────────────────────────────
 
+    private void EnsureLongPressTimer()
+    {
+        if (_longPressTimer is not null) return;
+        _longPressTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(LongPressMs) };
+        _longPressTimer.Tick += OnLongPress;
+    }
+
     private void EnsureBlinkTimer()
     {
         if (_blinkTimer is not null) return;
@@ -319,6 +365,25 @@ public partial class PipboyMap : Control
         _flowPhase = _ripplePhase = 0;
     }
 
+    // ── Collection change subscriptions ───────────────────────────────────────
+
+    /// <summary>
+    /// Called by the class-level property-changed handlers for Tiles/Markers/Lines.
+    /// Unsubscribes from the old collection's change notifications and subscribes to the new one.
+    /// </summary>
+    private void OnManagedCollectionPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        if (e.OldValue is INotifyCollectionChanged oldCol)
+            oldCol.CollectionChanged -= OnCollectionChanged;
+        if (e.NewValue is INotifyCollectionChanged newCol)
+            newCol.CollectionChanged += OnCollectionChanged;
+        // No explicit InvalidateVisual here — AffectsRender already handles it
+    }
+
+    /// <summary>Invalidates visual whenever items are added, removed, or the collection is reset.</summary>
+    private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        => InvalidateVisual();
+
     // ── Hit testing ───────────────────────────────────────────────────────────
 
     private MapTile? HitTestTile(Point worldPos)
@@ -359,8 +424,8 @@ public partial class PipboyMap : Control
     {
         base.OnPointerExited(e);
         _crosshairVisible = false;
-        if (_hoveredTile != null) { _hoveredTile.IsHovered = false; _hoveredTile = null; }
-        InvalidateVisual();
+        if (_hoveredTile != null) { _hoveredTile = null; InvalidateVisual(); }
+        else InvalidateVisual();
     }
 
     protected override void OnPointerMoved(PointerEventArgs e)
@@ -411,10 +476,8 @@ public partial class PipboyMap : Control
 
         if (hit != _hoveredTile)
         {
-            if (_hoveredTile != null) _hoveredTile.IsHovered = false;
+            // No IsHovered flag on the data model — hover state lives only in _hoveredTile
             _hoveredTile = hit;
-            if (_hoveredTile != null) _hoveredTile.IsHovered = true;
-            // TileHovered hook — extend via TileClickedCommand if needed
             InvalidateVisual();
         }
         else
@@ -451,11 +514,10 @@ public partial class PipboyMap : Control
             _lastPointerPos = pos;
             _lastClickCount = e.ClickCount;
 
-            // Long-press timer (touch / stylus / accessibility)
+            // Long-press timer (touch / stylus / accessibility) — reuse single instance
             _longPressScreenPos = pos;
-            _longPressTimer?.Stop();
-            _longPressTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(LongPressMs) };
-            _longPressTimer.Tick += OnLongPress;
+            EnsureLongPressTimer();
+            _longPressTimer!.Stop();
             _longPressTimer.Start();
         }
         else if (props.IsRightButtonPressed && IsMarkerPlacementEnabled)
@@ -524,6 +586,7 @@ public partial class PipboyMap : Control
                 {
                     if (_lastClickCount >= 2)
                     {
+                        tileHit.DoubleClickCommand?.Execute(tileHit.CommandParameter ?? tileHit);
                         TileDoubleClickedCommand?.Execute(tileHit);
                     }
                     else
@@ -572,11 +635,11 @@ public partial class PipboyMap : Control
 
     // ── Marker placement context menu ─────────────────────────────────────────
 
-    private Point _pendingMarkerScreenPos;
-
     private void ShowMarkerMenu(Point screenPos)
     {
-        _pendingMarkerScreenPos = screenPos;
+        // Capture screenPos in a local so each menu item closure has the correct position,
+        // even if another right-click fires before the first menu is dismissed.
+        var capturedPos = screenPos;
 
         var menu = new ContextMenu();
 
@@ -584,7 +647,7 @@ public partial class PipboyMap : Control
         {
             var k    = kind;
             var item = new MenuItem { Header = $"[ {MarkerKindLabel(kind)} ]" };
-            item.Click += (_, _) => PlaceMarkerWithKind(_pendingMarkerScreenPos, k);
+            item.Click += (_, _) => PlaceMarkerWithKind(capturedPos, k);
             menu.Items.Add(item);
         }
 
@@ -602,7 +665,7 @@ public partial class PipboyMap : Control
         {
             Position   = worldPos,
             Kind       = kind,
-            IsBlinking = true,
+            IsBlinking = DefaultMarkerIsBlinking,
         };
 
         if (Markers is IList<MapMarker> ml) ml.Add(marker);
@@ -661,19 +724,19 @@ public partial class PipboyMap : Control
         // 5. Markers
         DrawMarkers(ctx);
 
-        // 5. Tile labels
+        // 6. Tile labels
         if (ShowTileLabels) DrawTileLabels(ctx);
 
-        // 6. Crosshair
+        // 7. Crosshair
         if (ShowCrosshair && _crosshairVisible) DrawCrosshair(ctx, bounds);
 
-        // 7. Magnifier (drawn after crosshair so it sits on top)
+        // 8. Magnifier (drawn after crosshair so it sits on top)
         if (ShowMagnifier && _crosshairVisible) DrawMagnifier(ctx, bounds);
 
-        // 8. Scale bar
+        // 9. Scale bar
         if (ShowScaleBar) DrawScaleBar(ctx, bounds);
 
-        // 9. Zoom indicator
+        // 10. Zoom indicator
         DrawZoomIndicator(ctx, bounds);
     }
 
@@ -702,10 +765,7 @@ public partial class PipboyMap : Control
         double interval    = NiceGridInterval(rawInterval);
         if (interval <= 0) return;
 
-        var pen = new Pen(_borderBrush ?? Brushes.DarkGreen, 0.4)
-        {
-            DashStyle = new DashStyle([4, 6], 0)
-        };
+        var pen = _gridPen ?? new Pen(_borderBrush ?? Brushes.DarkGreen, 0.4) { DashStyle = s_gridDash };
 
         // Horizontal lines — span full control width, looped over visible Y range
         for (double y = Math.Floor(vy1 / interval) * interval; y <= vy2; y += interval)
@@ -740,10 +800,10 @@ public partial class PipboyMap : Control
 
         var transform    = overrideTransform ?? _transform;
         var defaultFill  = TileFill ?? _surfaceBrush ?? new SolidColorBrush(Color.FromArgb(180, 20, 45, 20));
-        var hoverFill    = _hoverBrush   ?? new SolidColorBrush(Color.FromArgb(180, 40, 90, 40));
+        var hoverFill    = _hoverBrush     ?? new SolidColorBrush(Color.FromArgb(180, 40, 90, 40));
         var selectedFill = _selectionBrush ?? new SolidColorBrush(Color.FromArgb(200, 0, 160, 80));
-        var borderPen    = new Pen(_primaryDarkBrush ?? Brushes.Green, 0.6);
-        var selectedPen  = new Pen(_primaryBrush ?? Brushes.LimeGreen, 1.2);
+        var borderPen    = _tileBorderPen  ?? new Pen(_primaryDarkBrush ?? Brushes.Green, 0.6);
+        var selectedPen  = _tileSelectedPen ?? new Pen(_primaryBrush ?? Brushes.LimeGreen, 1.2);
 
         using var push = ctx.PushTransform(transform);
 
@@ -751,8 +811,9 @@ public partial class PipboyMap : Control
         {
             if (tile.Geometry is not { } geo) continue;
 
-            IBrush fill = tile.IsSelected  ? selectedFill
-                        : tile.IsHovered   ? hoverFill
+            // Use reference comparison instead of IsHovered flag on the data model
+            IBrush fill = tile.IsSelected        ? selectedFill
+                        : tile == _hoveredTile   ? hoverFill
                         : tile.FillColor.HasValue ? new SolidColorBrush(tile.FillColor.Value)
                         : defaultFill;
 
@@ -770,7 +831,7 @@ public partial class PipboyMap : Control
         double scale = GetCurrentScale();
         if (scale < 0.5) return;
 
-        var typeface  = new Typeface("Consolas,Courier New,monospace");
+        var typeface  = s_monoTypeface;
         var textBrush = _textDimBrush ?? Brushes.DarkGreen;
 
         foreach (var tile in tiles)
@@ -849,9 +910,9 @@ public partial class PipboyMap : Control
         DashStyle? dash = line.Style switch
         {
             PipboyMapLineStyle.Solid      => null,
-            PipboyMapLineStyle.Dashed     => new DashStyle([8, 5], 0),
-            PipboyMapLineStyle.Dotted     => new DashStyle([1.5, 4], 0),
-            PipboyMapLineStyle.DashedFlow => new DashStyle([8, 5], -_flowPhase * 13), // negative offset → flows start→end
+            PipboyMapLineStyle.Dashed     => s_dashedStyle,
+            PipboyMapLineStyle.Dotted     => s_dottedStyle,
+            PipboyMapLineStyle.DashedFlow => new DashStyle([8, 5], -_flowPhase * 13), // animated — must be per-frame
             _                             => null,
         };
 
@@ -910,8 +971,7 @@ public partial class PipboyMap : Control
                 marker.Label,
                 System.Globalization.CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
-                new Typeface("Consolas,Courier New,monospace"),
-                9, fillBrush);
+                s_monoTypeface, 9, fillBrush);
             ctx.DrawText(ft, new Point(center.X - ft.Width / 2, center.Y + S + 3));
         }
     }
@@ -1057,37 +1117,35 @@ public partial class PipboyMap : Control
 
     private void DrawCrosshair(DrawingContext ctx, Rect bounds)
     {
-        var pen = new Pen(_primaryBrush ?? Brushes.LimeGreen, 0.8)
-        {
-            DashStyle = new DashStyle([6, 4], 0)
-        };
+        var pen = _crosshairPen
+            ?? new Pen(_primaryBrush ?? Brushes.LimeGreen, 0.8) { DashStyle = s_crosshairDash };
 
         ctx.DrawLine(pen, new Point(0, _crosshairPos.Y), new Point(bounds.Width, _crosshairPos.Y));
         ctx.DrawLine(pen, new Point(_crosshairPos.X, 0), new Point(_crosshairPos.X, bounds.Height));
         ctx.DrawEllipse(_primaryBrush ?? Brushes.LimeGreen, null, _crosshairPos, 2, 2);
 
         // Coordinate readout (world-space X / Y)
-        var worldPos   = ScreenToWorld(_crosshairPos);
-        var coordText  = $"X:{worldPos.X:F0}  Y:{worldPos.Y:F0}";
+        var worldPos  = ScreenToWorld(_crosshairPos);
+        var coordText = $"X:{worldPos.X:F0}  Y:{worldPos.Y:F0}";
 
         var ft = new FormattedText(coordText,
             System.Globalization.CultureInfo.CurrentCulture,
             FlowDirection.LeftToRight,
-            new Typeface("Consolas,Courier New,monospace"),
-            10, _primaryBrush ?? Brushes.LimeGreen);
+            s_monoTypeface, 10, _primaryBrush ?? Brushes.LimeGreen);
 
         double tx = _crosshairPos.X + 8;
         double ty = _crosshairPos.Y - ft.Height - 4;
-        if (tx + ft.Width > bounds.Width)  tx = _crosshairPos.X - ft.Width - 8;
-        if (ty < 2)                        ty = _crosshairPos.Y + 6;
+        if (tx + ft.Width > bounds.Width) tx = _crosshairPos.X - ft.Width - 8;
+        if (ty < 2)                       ty = _crosshairPos.Y + 6;
 
-        // Shadow for readability
-        var shadow = new FormattedText(coordText,
-            System.Globalization.CultureInfo.CurrentCulture,
-            FlowDirection.LeftToRight,
-            new Typeface("Consolas,Courier New,monospace"),
-            10, _bgBrush ?? Brushes.Black);
-        ctx.DrawText(shadow, new Point(tx + 1, ty + 1));
+        // Background rect for readability (avoids allocating a second FormattedText for shadow)
+        var bgBrush = _bgBrush ?? Brushes.Black;
+        ctx.FillRectangle(
+            new SolidColorBrush(Color.FromArgb(160,
+                (bgBrush as SolidColorBrush)?.Color.R ?? 0,
+                (bgBrush as SolidColorBrush)?.Color.G ?? 0,
+                (bgBrush as SolidColorBrush)?.Color.B ?? 0)),
+            new Rect(tx - 2, ty - 1, ft.Width + 4, ft.Height + 2));
         ctx.DrawText(ft, new Point(tx, ty));
     }
 
@@ -1133,10 +1191,7 @@ public partial class PipboyMap : Control
                 var (wx1, wy1, wx2, wy2) = GetWorldBounds();
                 double rawInterval = Math.Max(wx2 - wx1, wy2 - wy1) / 20.0;
                 double interval    = NiceGridInterval(rawInterval);
-                var gridPen = new Pen(_borderBrush ?? Brushes.DarkGreen, 0.4)
-                {
-                    DashStyle = new DashStyle([4, 6], 0)
-                };
+                var gridPen = _gridPen ?? new Pen(_borderBrush ?? Brushes.DarkGreen, 0.4) { DashStyle = s_gridDash };
                 for (double y = Math.Floor(wy1 / interval) * interval; y <= wy2; y += interval)
                     ctx.DrawLine(gridPen, new Point(wx1, y) * magTransform, new Point(wx2, y) * magTransform);
                 for (double x = Math.Floor(wx1 / interval) * interval; x <= wx2; x += interval)
@@ -1150,7 +1205,7 @@ public partial class PipboyMap : Control
 
         // Lens border
         ctx.DrawEllipse(null,
-            new Pen(_primaryBrush ?? Brushes.LimeGreen, 1.5),
+            _magLensBorderPen ?? new Pen(_primaryBrush ?? Brushes.LimeGreen, 1.5),
             lensCenter, radius, radius);
 
         // Small crosshair dot at lens center
@@ -1160,10 +1215,7 @@ public partial class PipboyMap : Control
         ctx.DrawLine(cp, new Point(lensCenter.X, lensCenter.Y - 6), new Point(lensCenter.X, lensCenter.Y + 6));
 
         // Connector line from cursor to lens
-        var connPen = new Pen(_primaryBrush ?? Brushes.LimeGreen, 0.5)
-        {
-            DashStyle = new DashStyle([2, 3], 0)
-        };
+        var connPen = new Pen(_primaryBrush ?? Brushes.LimeGreen, 0.5) { DashStyle = s_connectorDash };
         ctx.DrawLine(connPen, center, lensCenter);
     }
 
@@ -1200,8 +1252,7 @@ public partial class PipboyMap : Control
         var ft = new FormattedText(label,
             System.Globalization.CultureInfo.CurrentCulture,
             FlowDirection.LeftToRight,
-            new Typeface("Consolas,Courier New,monospace"),
-            9, _textDimBrush ?? Brushes.Gray);
+            s_monoTypeface, 9, _textDimBrush ?? Brushes.Gray);
 
         ctx.DrawText(ft, new Point(bx + barW / 2 - ft.Width / 2, by + barH + 6));
     }
@@ -1213,8 +1264,7 @@ public partial class PipboyMap : Control
         var ft = new FormattedText($"ZOOM x{GetCurrentScale():F2}",
             System.Globalization.CultureInfo.CurrentCulture,
             FlowDirection.LeftToRight,
-            new Typeface("Consolas,Courier New,monospace"),
-            9, _textDimBrush ?? Brushes.Gray);
+            s_monoTypeface, 9, _textDimBrush ?? Brushes.Gray);
 
         ctx.DrawText(ft, new Point(bounds.Width - ft.Width - 10, bounds.Height - ft.Height - 8));
     }

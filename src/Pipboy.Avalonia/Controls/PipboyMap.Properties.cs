@@ -197,6 +197,21 @@ public partial class PipboyMap
         set => SetValue(DefaultMarkerKindProperty, value);
     }
 
+    /// <summary>
+    /// Whether newly placed markers start in the blinking state (default <see langword="true"/>).
+    /// The global <see cref="MarkersBlinkEnabled"/> switch must also be on for blinking to occur.
+    /// Set to <see langword="false"/> to place markers that are permanently visible regardless of
+    /// the global blink switch.
+    /// </summary>
+    public static readonly StyledProperty<bool> DefaultMarkerIsBlinkingProperty =
+        AvaloniaProperty.Register<PipboyMap, bool>(nameof(DefaultMarkerIsBlinking), defaultValue: true);
+
+    public bool DefaultMarkerIsBlinking
+    {
+        get => GetValue(DefaultMarkerIsBlinkingProperty);
+        set => SetValue(DefaultMarkerIsBlinkingProperty, value);
+    }
+
     // ── Interaction flags ────────────────────────────────────────────────────
 
     /// <summary>Allow the user to pan the map by dragging (default true).</summary>
