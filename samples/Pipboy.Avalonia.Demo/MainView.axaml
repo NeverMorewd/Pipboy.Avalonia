@@ -221,6 +221,9 @@
         <TabItem Header="CRT Display" Theme="{StaticResource NavTabItem}">
             <pages:CrtDisplayPage />
         </TabItem>
+        <TabItem Header="World Map" Theme="{StaticResource NavTabItem}">
+            <pages:MapPage />
+        </TabItem>
 
         <!--  THEME  -->
         <TabItem Header="THEME" Theme="{StaticResource NavCategory}" />
