@@ -344,30 +344,6 @@ SetPrimaryColor(color)
 
 ---
 
-## Demo App
-
-The `samples/` directory contains a full demo app targeting all supported platforms:
-
-| Page | What it shows |
-|------|--------------|
-| Overview | Live CRT dashboard — S.P.E.C.I.A.L., vitals, inventory, terminal output, and a color theme picker |
-| Buttons | Button, RepeatButton, HyperlinkButton, SplitButton, DropDownButton |
-| Text Input | TextBox, AutoCompleteBox, NumericUpDown with validation |
-| Toggles | CheckBox, RadioButton, ToggleButton, ToggleSwitch |
-| Sliders & Progress | Slider, ProgressBar (horizontal + vertical + indeterminate) |
-| Lists | ListBox, TreeView |
-| ComboBox | ComboBox with various item counts |
-| Tab Control | TabControl, TabItem |
-| Menu | MenuBar, ContextMenu, Flyout |
-| Expander | Expander, SplitView, GridSplitter |
-| Date & Time | DatePicker, TimePicker, CalendarDatePicker |
-| Typography | All TextBlock classes + layout Border classes |
-| Cards | `pipboy-panel` / `pipboy-surface` layout |
-| Notifications | WindowNotificationManager (all four types) |
-| Feedback | PipboyPanel (info / warning / error), PipboyCountdown, Notification |
-| Theme | Runtime color picker with 16 presets and custom hex input |
-| CRT Display | CrtDisplay effects playground (all toggles + sliders) |
-| Window | PipboyWindow chrome, PipboyTitleBar, dialogs |
 
 ---
 
