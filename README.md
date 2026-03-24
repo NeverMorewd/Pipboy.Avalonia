@@ -345,8 +345,6 @@ SetPrimaryColor(color)
 ---
 
 
----
-
 ## Supported Avalonia Version
 
 **11.3.12** (tested). Compatible with Avalonia 11.x.
