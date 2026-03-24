@@ -22,6 +22,7 @@ Sharp corners, monochromatic phosphor palette, retro terminal aesthetic — drop
 <!-- Runtime color switching -->
 ![Color switching](docs/images/screenshot-colors.png)
 
+![Color switching](docs/images/screenshot-map.png)
 ---
 
 ## Features
