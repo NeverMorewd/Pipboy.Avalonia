@@ -1,4 +1,5 @@
 using System;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -112,7 +113,7 @@ public partial class PipboyTheme : Styles, IDisposable
         // Spacing / sizing design tokens
         Resources["PipboyControlHeight"]      = 30.0;
         Resources["PipboyTreeViewItemIndent"] = 16.0;
-        Resources["PipboyPickerRowHeight"]    = 29.0;
+        Resources["PipboyPickerRowHeight"]    = new GridLength(29);
         Resources["PipboyPickerItemHeight"]   = 40.0;
         Resources["PipboyPopupMaxHeight"]     = 200.0;
 
