@@ -8,7 +8,7 @@
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="CornerRadius" Value="0" />
             <Setter Property="Padding" Value="8,5" />
-            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="MinHeight" Value="{DynamicResource PipboyControlHeight}" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="CaretBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
             <Setter Property="SelectionBrush" Value="{DynamicResource PipboySelectionBrush}" />
