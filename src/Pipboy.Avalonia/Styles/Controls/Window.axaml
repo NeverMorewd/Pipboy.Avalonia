@@ -137,9 +137,9 @@
                                     Background="{DynamicResource PipboyPrimaryDarkBrush}"
                                     BorderBrush="{DynamicResource PipboyBorderBrush}"
                                     BorderThickness="0,0,0,1">
-                                    <Grid ColumnDefinitions="*,Auto">
+                                    <Grid ColumnDefinitions="*,Auto,Auto">
 
-                                        <!--  Drag area  -->
+                                        <!--  Drag area (icon + title)  -->
                                         <Border
                                             Name="PART_TitleDragArea"
                                             Grid.Column="0"
@@ -152,6 +152,7 @@
                                                 Spacing="10">
                                                 <!--  Title bar icon: shows window icon when set, else Pip-Boy green square  -->
                                                 <Image
+                                                    Name="PART_TitleBarIcon"
                                                     VerticalAlignment="Stretch"
                                                     Margin="0,6"
                                                     Stretch="Uniform"
@@ -170,24 +171,20 @@
                                                     FontWeight="Bold"
                                                     Foreground="{DynamicResource PipboyTextBrush}"
                                                     Text="{TemplateBinding Title}" />
-                                                <!--  Separator  -->
-                                                <TextBlock
-                                                    VerticalAlignment="Center"
-                                                    Classes="dim"
-                                                    FontSize="{DynamicResource PipboyFontSizeXSmall}"
-                                                    IsVisible="{TemplateBinding TitleBarContent, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                    Text=" ·" />
-                                                <!--  Extra title bar content  -->
-                                                <ContentPresenter
-                                                    VerticalAlignment="Center"
-                                                    Content="{TemplateBinding TitleBarContent}"
-                                                    IsVisible="{TemplateBinding TitleBarContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
                                             </StackPanel>
                                         </Border>
 
+                                        <!--  Extra title bar content — right-aligned, beside system buttons  -->
+                                        <ContentPresenter
+                                            Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Margin="0,0,4,0"
+                                            Content="{TemplateBinding TitleBarContent}"
+                                            IsVisible="{TemplateBinding TitleBarContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
                                         <!--  System buttons  -->
                                         <StackPanel
-                                            Grid.Column="1"
+                                            Grid.Column="2"
                                             VerticalAlignment="Stretch"
                                             Orientation="Horizontal">
                                             <Button
