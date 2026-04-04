@@ -1,9 +1,12 @@
 using System;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 
 namespace Pipboy.Avalonia;
@@ -21,10 +24,16 @@ public class PipboyWindow : Window
     public static readonly StyledProperty<object?> TitleBarContentProperty =
         AvaloniaProperty.Register<PipboyWindow, object?>(nameof(TitleBarContent));
 
+    public static readonly StyledProperty<IImage?> TitleBarIconProperty =
+        AvaloniaProperty.Register<PipboyWindow, IImage?>(nameof(TitleBarIcon));
+
     static PipboyWindow()
     {
         WindowStateProperty.Changed.AddClassHandler<PipboyWindow>(
             (w, e) => w.PseudoClasses.Set(":maximized", e.NewValue is WindowState.Maximized));
+
+        IconProperty.Changed.AddClassHandler<PipboyWindow>(
+            (w, e) => w.SyncTitleBarIcon(e.NewValue as WindowIcon));
     }
 
     /// <summary>
@@ -35,6 +44,17 @@ public class PipboyWindow : Window
     {
         get => GetValue(TitleBarContentProperty);
         set => SetValue(TitleBarContentProperty, value);
+    }
+
+    /// <summary>
+    /// Icon displayed in the custom title bar. Automatically synced from
+    /// <see cref="Window.Icon"/> when that property is set; can also be
+    /// overridden independently.
+    /// </summary>
+    public IImage? TitleBarIcon
+    {
+        get => GetValue(TitleBarIconProperty);
+        set => SetValue(TitleBarIconProperty, value);
     }
 
     /// <summary>
@@ -49,6 +69,26 @@ public class PipboyWindow : Window
         ExtendClientAreaChromeHints        = ExtendClientAreaChromeHints.NoChrome;
         ExtendClientAreaTitleBarHeightHint = -1;
         SystemDecorations                  = SystemDecorations.Full;
+    }
+
+    private void SyncTitleBarIcon(WindowIcon? icon)
+    {
+        if (icon == null)
+        {
+            TitleBarIcon = null;
+            return;
+        }
+        try
+        {
+            using var stream = new MemoryStream();
+            icon.Save(stream);
+            stream.Position = 0;
+            TitleBarIcon = new Bitmap(stream);
+        }
+        catch
+        {
+            TitleBarIcon = null;
+        }
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)

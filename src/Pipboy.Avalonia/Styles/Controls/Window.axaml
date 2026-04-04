@@ -150,11 +150,18 @@
                                                 VerticalAlignment="Center"
                                                 Orientation="Horizontal"
                                                 Spacing="10">
-                                                <!--  Pip-Boy icon square  -->
+                                                <!--  Title bar icon: shows window icon when set, else Pip-Boy green square  -->
+                                                <Image
+                                                    Width="16"
+                                                    Height="16"
+                                                    Source="{TemplateBinding TitleBarIcon}"
+                                                    IsVisible="{TemplateBinding TitleBarIcon, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                    RenderOptions.BitmapInterpolationMode="HighQuality" />
                                                 <Border
                                                     Width="8"
                                                     Height="8"
-                                                    Background="{DynamicResource PipboyPrimaryBrush}" />
+                                                    Background="{DynamicResource PipboyPrimaryBrush}"
+                                                    IsVisible="{TemplateBinding TitleBarIcon, Converter={x:Static ObjectConverters.IsNull}}" />
                                                 <!--  Title  -->
                                                 <TextBlock
                                                     VerticalAlignment="Center"
