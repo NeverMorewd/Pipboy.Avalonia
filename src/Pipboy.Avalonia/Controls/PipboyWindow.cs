@@ -27,6 +27,9 @@ public class PipboyWindow : Window
     public static readonly StyledProperty<IImage?> TitleBarIconProperty =
         AvaloniaProperty.Register<PipboyWindow, IImage?>(nameof(TitleBarIcon));
 
+    public static readonly StyledProperty<double> TitleBarHeightProperty =
+        AvaloniaProperty.Register<PipboyWindow, double>(nameof(TitleBarHeight), defaultValue: 32.0);
+
     static PipboyWindow()
     {
         WindowStateProperty.Changed.AddClassHandler<PipboyWindow>(
@@ -55,6 +58,17 @@ public class PipboyWindow : Window
     {
         get => GetValue(TitleBarIconProperty);
         set => SetValue(TitleBarIconProperty, value);
+    }
+
+    /// <summary>
+    /// Height of the custom title bar row (and its chrome buttons).
+    /// The title bar icon scales automatically to fill this height.
+    /// Default is 32.
+    /// </summary>
+    public double TitleBarHeight
+    {
+        get => GetValue(TitleBarHeightProperty);
+        set => SetValue(TitleBarHeightProperty, value);
     }
 
     /// <summary>

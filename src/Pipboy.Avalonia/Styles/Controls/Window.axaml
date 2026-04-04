@@ -133,7 +133,7 @@
                                 <!--  ── Inline title bar  ── -->
                                 <Border
                                     DockPanel.Dock="Top"
-                                    Height="32"
+                                    Height="{TemplateBinding TitleBarHeight}"
                                     Background="{DynamicResource PipboyPrimaryDarkBrush}"
                                     BorderBrush="{DynamicResource PipboyBorderBrush}"
                                     BorderThickness="0,0,0,1">
@@ -152,8 +152,9 @@
                                                 Spacing="10">
                                                 <!--  Title bar icon: shows window icon when set, else Pip-Boy green square  -->
                                                 <Image
-                                                    Width="16"
-                                                    Height="16"
+                                                    VerticalAlignment="Stretch"
+                                                    Margin="0,6"
+                                                    Stretch="Uniform"
                                                     Source="{TemplateBinding TitleBarIcon}"
                                                     IsVisible="{TemplateBinding TitleBarIcon, Converter={x:Static ObjectConverters.IsNotNull}}"
                                                     RenderOptions.BitmapInterpolationMode="HighQuality" />
@@ -192,14 +193,17 @@
                                             <Button
                                                 Name="PART_MinimizeButton"
                                                 Theme="{StaticResource ChromeButtonTheme}"
+                                                Height="{TemplateBinding TitleBarHeight}"
                                                 Content="─" />
                                             <Button
                                                 Name="PART_MaxRestoreButton"
                                                 Theme="{StaticResource ChromeButtonTheme}"
+                                                Height="{TemplateBinding TitleBarHeight}"
                                                 Content="□" />
                                             <Button
                                                 Name="PART_CloseButton"
                                                 Theme="{StaticResource ChromeCloseButtonTheme}"
+                                                Height="{TemplateBinding TitleBarHeight}"
                                                 Content="✕" />
                                         </StackPanel>
 
