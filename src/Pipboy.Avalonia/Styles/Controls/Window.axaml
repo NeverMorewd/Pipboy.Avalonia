@@ -133,13 +133,13 @@
                                 <!--  ── Inline title bar  ── -->
                                 <Border
                                     DockPanel.Dock="Top"
-                                    Height="32"
+                                    Height="{TemplateBinding TitleBarHeight}"
                                     Background="{DynamicResource PipboyPrimaryDarkBrush}"
                                     BorderBrush="{DynamicResource PipboyBorderBrush}"
                                     BorderThickness="0,0,0,1">
-                                    <Grid ColumnDefinitions="*,Auto">
+                                    <Grid ColumnDefinitions="*,Auto,Auto">
 
-                                        <!--  Drag area  -->
+                                        <!--  Drag area (icon + title)  -->
                                         <Border
                                             Name="PART_TitleDragArea"
                                             Grid.Column="0"
@@ -150,11 +150,20 @@
                                                 VerticalAlignment="Center"
                                                 Orientation="Horizontal"
                                                 Spacing="10">
-                                                <!--  Pip-Boy icon square  -->
+                                                <!--  Title bar icon: shows window icon when set, else Pip-Boy green square  -->
+                                                <Image
+                                                    Name="PART_TitleBarIcon"
+                                                    VerticalAlignment="Stretch"
+                                                    Margin="0,6"
+                                                    Stretch="Uniform"
+                                                    Source="{TemplateBinding TitleBarIcon}"
+                                                    IsVisible="{TemplateBinding TitleBarIcon, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                    RenderOptions.BitmapInterpolationMode="HighQuality" />
                                                 <Border
                                                     Width="8"
                                                     Height="8"
-                                                    Background="{DynamicResource PipboyPrimaryBrush}" />
+                                                    Background="{DynamicResource PipboyPrimaryBrush}"
+                                                    IsVisible="{TemplateBinding TitleBarIcon, Converter={x:Static ObjectConverters.IsNull}}" />
                                                 <!--  Title  -->
                                                 <TextBlock
                                                     VerticalAlignment="Center"
@@ -162,37 +171,36 @@
                                                     FontWeight="Bold"
                                                     Foreground="{DynamicResource PipboyTextBrush}"
                                                     Text="{TemplateBinding Title}" />
-                                                <!--  Separator  -->
-                                                <TextBlock
-                                                    VerticalAlignment="Center"
-                                                    Classes="dim"
-                                                    FontSize="{DynamicResource PipboyFontSizeXSmall}"
-                                                    IsVisible="{TemplateBinding TitleBarContent, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                    Text=" ·" />
-                                                <!--  Extra title bar content  -->
-                                                <ContentPresenter
-                                                    VerticalAlignment="Center"
-                                                    Content="{TemplateBinding TitleBarContent}"
-                                                    IsVisible="{TemplateBinding TitleBarContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
                                             </StackPanel>
                                         </Border>
 
+                                        <!--  Extra title bar content — right-aligned, beside system buttons  -->
+                                        <ContentPresenter
+                                            Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Margin="0,0,4,0"
+                                            Content="{TemplateBinding TitleBarContent}"
+                                            IsVisible="{TemplateBinding TitleBarContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
+
                                         <!--  System buttons  -->
                                         <StackPanel
-                                            Grid.Column="1"
+                                            Grid.Column="2"
                                             VerticalAlignment="Stretch"
                                             Orientation="Horizontal">
                                             <Button
                                                 Name="PART_MinimizeButton"
                                                 Theme="{StaticResource ChromeButtonTheme}"
+                                                Height="{TemplateBinding TitleBarHeight}"
                                                 Content="─" />
                                             <Button
                                                 Name="PART_MaxRestoreButton"
                                                 Theme="{StaticResource ChromeButtonTheme}"
+                                                Height="{TemplateBinding TitleBarHeight}"
                                                 Content="□" />
                                             <Button
                                                 Name="PART_CloseButton"
                                                 Theme="{StaticResource ChromeCloseButtonTheme}"
+                                                Height="{TemplateBinding TitleBarHeight}"
                                                 Content="✕" />
                                         </StackPanel>
 
