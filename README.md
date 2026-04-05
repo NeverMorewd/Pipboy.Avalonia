@@ -108,6 +108,53 @@ Explore all controls and their properties interactively in the **[live demo](htt
 
 ---
 
+## Design Tokens
+
+All tokens are available as `{DynamicResource}` in XAML and update automatically when the primary color changes.
+
+### Brushes
+
+| Resource Key | Description |
+|---|---|
+| `PipboyPrimaryBrush` | Primary brand color |
+| `PipboyPrimaryLightBrush` | Lighter variant (+0.25 lightness) |
+| `PipboyPrimaryDarkBrush` | Darker variant (−0.25 lightness) |
+| `PipboyBackgroundBrush` | Window / deepest background |
+| `PipboySurfaceBrush` | Default control surface |
+| `PipboySurfaceHighBrush` | Elevated / prominent surface |
+| `PipboyTextBrush` | Primary text |
+| `PipboyTextDimBrush` | Secondary / label text |
+| `PipboyBorderBrush` | Default control border |
+| `PipboyBorderFocusBrush` | Focused control border |
+| `PipboyHoverBrush` | Hover state background |
+| `PipboyPressedBrush` | Pressed state background |
+| `PipboySelectionBrush` | Selected item background |
+| `PipboyFocusBrush` | Focus ring color |
+| `PipboyDisabledBrush` | Disabled foreground |
+| `PipboyErrorBrush` | Error severity |
+| `PipboyWarningBrush` | Warning severity |
+| `PipboySuccessBrush` | Success severity |
+
+### Colors (raw `Color` values)
+
+| Resource Key | Description |
+|---|---|
+| `PipboyPrimaryColor` | Raw `Color` of the primary |
+| `PipboyBackgroundColor` | Raw `Color` of the background |
+| `PipboyTextColor` | Raw `Color` of the text |
+
+### Typography
+
+| Resource Key | Value |
+|---|---|
+| `PipboyFontFamily` | `Consolas, Courier New, monospace` |
+| `PipboyFontSizeXSmall` | `10` |
+| `PipboyFontSizeSmall` | `11` |
+| `PipboyFontSize` | `13` |
+| `PipboyFontSizeLarge` | `16` |
+
+---
+
 ## Supported Avalonia Version
 
 **11.3.12** (tested). Compatible with Avalonia 11.x.
