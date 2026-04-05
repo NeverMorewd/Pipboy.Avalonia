@@ -1,0 +1,53 @@
+name: Publish Preview NuGet
+
+on:
+  push:
+    branches:
+      - 'fix/**'
+      - 'feat/**'
+      - 'preview/**'
+
+jobs:
+  publish-preview:
+    name: Pack & Push to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Resolve preview version
+        id: version
+        run: |
+          BASE=$(grep -oP '(?<=<Version>)[^<]+' src/Pipboy.Avalonia/Pipboy.Avalonia.csproj)
+          VERSION="${BASE}-preview.${{ github.run_number }}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Preview version: $VERSION"
+
+      - name: Restore
+        run: dotnet restore src/Pipboy.Avalonia/Pipboy.Avalonia.csproj
+
+      - name: Pack
+        run: |
+          dotnet pack src/Pipboy.Avalonia/Pipboy.Avalonia.csproj \
+            --no-restore \
+            --configuration Release \
+            -p:Version=${{ steps.version.outputs.version }} \
+            --output ./nupkg
+
+      - name: List produced packages
+        run: ls -lh ./nupkg/
+
+      - name: Push to GitHub Packages
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --source "https://nuget.pkg.github.com/NeverMorewd/index.json" \
+            --skip-duplicate
