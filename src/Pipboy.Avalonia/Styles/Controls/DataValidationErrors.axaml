@@ -1,7 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
-        <ControlTheme x:Key="{x:Type DataValidationErrors}" TargetType="DataValidationErrors">
+        <ControlTheme TargetType="DataValidationErrors" x:Key="{x:Type DataValidationErrors}">
             <Setter Property="ErrorTemplate">
                 <DataTemplate>
                     <ItemsControl Foreground="{DynamicResource PipboyErrorBrush}" ItemsSource="{Binding}">
@@ -18,21 +18,21 @@
                 <ControlTemplate TargetType="DataValidationErrors">
                     <DockPanel LastChildFill="True">
                         <ContentControl
-                            Name="PART_Error"
-                            Margin="0,3,0,0"
                             Content="{Binding (DataValidationErrors.Errors)}"
                             ContentTemplate="{TemplateBinding ErrorTemplate}"
                             DataContext="{TemplateBinding Owner}"
                             DockPanel.Dock="Bottom"
-                            IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
+                            IsVisible="{Binding (DataValidationErrors.HasErrors)}"
+                            Margin="0,3,0,0"
+                            Name="PART_Error" />
                         <ContentPresenter
-                            Name="PART_ContentPresenter"
-                            Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Name="PART_ContentPresenter"
+                            Padding="{TemplateBinding Padding}" />
                     </DockPanel>
                 </ControlTemplate>
             </Setter>
