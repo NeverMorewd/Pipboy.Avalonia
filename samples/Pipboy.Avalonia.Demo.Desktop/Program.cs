@@ -1,6 +1,5 @@
+﻿using Avalonia;
 using System;
-using Avalonia;
-using Pipboy.Avalonia.Demo;
 
 namespace Pipboy.Avalonia.Demo.Desktop;
 
