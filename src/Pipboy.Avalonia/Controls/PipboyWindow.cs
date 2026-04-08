@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using Avalonia;
 using Avalonia.Controls;
@@ -80,9 +80,8 @@ public class PipboyWindow : Window
     public PipboyWindow()
     {
         ExtendClientAreaToDecorationsHint  = true;
-        ExtendClientAreaChromeHints        = ExtendClientAreaChromeHints.NoChrome;
         ExtendClientAreaTitleBarHeightHint = -1;
-        SystemDecorations                  = SystemDecorations.Full;
+        WindowDecorations                  = WindowDecorations.Full;
     }
 
     private void SyncTitleBarIcon(WindowIcon? icon)

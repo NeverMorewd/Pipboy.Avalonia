@@ -55,7 +55,7 @@ public partial class App : Application
                 if (TopLevel.GetTopLevel(mainView) is not { } tl) return;
 
                 var vlm = tl.FindDescendantOfType<VisualLayerManager>();
-                var overlay = vlm?.OverlayLayer;
+                var overlay = OverlayLayer.GetOverlayLayer(vlm!);
 
                 if (overlay is not null)
                 {

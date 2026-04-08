@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -130,7 +130,7 @@ public partial class PipboyMap : Control
     {
         ClipToBounds = true;
         Focusable = true;
-        AddHandler(Gestures.PinchEvent, OnPinch);
+        AddHandler(PinchEvent, OnPinch);
     }
 
     // ── Lifecycle ────────────────────────────────────────────────────────────
