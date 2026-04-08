@@ -1,5 +1,8 @@
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Avalonia.Interactivity;
+using System;
 
 namespace Pipboy.Avalonia.Demo;
 
@@ -27,5 +30,12 @@ public partial class MainView : UserControl
         _breadcrumb.Text = MainNav.SelectedItem is TabItem tab
             ? tab.Header?.ToString() ?? string.Empty
             : string.Empty;
+    }
+
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+
+        footer.Text = $".NET:{Environment.Version} - Avalonia:{typeof(Application).Assembly.GetName().Version}";
     }
 }
