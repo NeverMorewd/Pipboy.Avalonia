@@ -235,12 +235,12 @@
 
         </TabControl>
 
+        <GridSplitter VerticalAlignment="Top" Grid.Row="1"  />
         <Panel Grid.Row="1">
-            <SelectableTextBlock
+            <TextBlock
                 Name="footer"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Foreground="{DynamicResource PipboyPrimaryDarkBrush}" />
+                VerticalAlignment="Center" />
         </Panel>
     </Grid>
 
