@@ -3,41 +3,6 @@
     xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
-
-        <!--
-            Window ControlTheme — MUST include VisualLayerManager so that the
-            AdornerLayer exists. Without this, WindowNotificationManager cannot
-            install itself and toast notifications will never appear.
-            Template mirrors Avalonia's built-in SimpleTheme Window template.
-        -->
-        <ControlTheme TargetType="Window" x:Key="{x:Type Window}">
-            <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
-            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
-            <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
-            <Setter Property="FontSize" Value="{DynamicResource PipboyFontSize}" />
-            <Setter Property="Template">
-                <ControlTemplate TargetType="Window">
-                    <Panel>
-                        <Border IsHitTestVisible="False" Name="PART_TransparencyFallback" />
-                        <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
-                        <Panel Background="Transparent" Margin="{TemplateBinding WindowDecorationMargin}" />
-                        <VisualLayerManager>
-<!--                           <VisualLayerManager.ChromeOverlayLayer> 
-                                 <TitleBar /> 
-                           </VisualLayerManager.ChromeOverlayLayer> -->
-                            <ContentPresenter
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                Margin="{TemplateBinding Padding}"
-                                Name="PART_ContentPresenter"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </VisualLayerManager>
-                    </Panel>
-                </ControlTemplate>
-            </Setter>
-        </ControlTheme>
-
         <!--
             Explicit ControlTheme for chrome buttons in PipboyWindow title bar.
             Applied via Theme="{StaticResource ChromeButtonTheme}" to guarantee
