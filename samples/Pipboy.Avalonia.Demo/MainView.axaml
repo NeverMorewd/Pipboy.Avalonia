@@ -135,102 +135,115 @@
 
     </UserControl.Resources>
 
-    <TabControl Name="MainNav" Theme="{StaticResource NavTabControl}">
-        <TabControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <StackPanel />
-            </ItemsPanelTemplate>
-        </TabControl.ItemsPanel>
+    <Grid RowDefinitions="*,30">
 
-        <!--  Overview  -->
-        <TabItem Header="OVERVIEW" Theme="{StaticResource NavTabItem}">
-            <pages:OverviewPage />
-        </TabItem>
+        <TabControl Name="MainNav" Theme="{StaticResource NavTabControl}">
+            <TabControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </TabControl.ItemsPanel>
 
-        <!--  DISPLAY  -->
-        <TabItem Header="DISPLAY" Theme="{StaticResource NavCategory}" />
-        <TabItem Header="Typography" Theme="{StaticResource NavTabItem}">
-            <pages:TypographyPage />
-        </TabItem>
-        <TabItem Header="Card &amp; Badge" Theme="{StaticResource NavTabItem}">
-            <pages:CardPage />
-        </TabItem>
+            <!--  Overview  -->
+            <TabItem Header="OVERVIEW" Theme="{StaticResource NavTabItem}">
+                <pages:OverviewPage />
+            </TabItem>
 
-        <!--  NAVIGATION  -->
-        <TabItem Header="NAVIGATION" Theme="{StaticResource NavCategory}" />
-        <TabItem Header="Menu" Theme="{StaticResource NavTabItem}">
-            <pages:MenuPage />
-        </TabItem>
-        <TabItem Header="Tab Control" Theme="{StaticResource NavTabItem}">
-            <pages:TabControlPage />
-        </TabItem>
-        <TabItem Header="TreeView" Theme="{StaticResource NavTabItem}">
-            <pages:TreeViewPage />
-        </TabItem>
+            <!--  DISPLAY  -->
+            <TabItem Header="DISPLAY" Theme="{StaticResource NavCategory}" />
+            <TabItem Header="Typography" Theme="{StaticResource NavTabItem}">
+                <pages:TypographyPage />
+            </TabItem>
+            <TabItem Header="Card &amp; Badge" Theme="{StaticResource NavTabItem}">
+                <pages:CardPage />
+            </TabItem>
 
-        <!--  INPUT  -->
-        <TabItem Header="INPUT" Theme="{StaticResource NavCategory}" />
-        <TabItem Header="Button" Theme="{StaticResource NavTabItem}">
-            <pages:ButtonPage />
-        </TabItem>
-        <TabItem Header="TextInput" Theme="{StaticResource NavTabItem}">
-            <pages:TextInputPage />
-        </TabItem>
-        <TabItem Header="ComboBox" Theme="{StaticResource NavTabItem}">
-            <pages:ComboBoxPage />
-        </TabItem>
-        <TabItem Header="Toggles" Theme="{StaticResource NavTabItem}">
-            <pages:TogglesPage />
-        </TabItem>
-        <TabItem Header="Slider &amp; Progress" Theme="{StaticResource NavTabItem}">
-            <pages:SliderProgressPage />
-        </TabItem>
-        <TabItem Header="Date &amp; Time" Theme="{StaticResource NavTabItem}">
-            <pages:DateTimePage />
-        </TabItem>
+            <!--  NAVIGATION  -->
+            <TabItem Header="NAVIGATION" Theme="{StaticResource NavCategory}" />
+            <TabItem Header="Menu" Theme="{StaticResource NavTabItem}">
+                <pages:MenuPage />
+            </TabItem>
+            <TabItem Header="Tab Control" Theme="{StaticResource NavTabItem}">
+                <pages:TabControlPage />
+            </TabItem>
+            <TabItem Header="TreeView" Theme="{StaticResource NavTabItem}">
+                <pages:TreeViewPage />
+            </TabItem>
 
-        <!--  DATA DISPLAY  -->
-        <TabItem Header="DATA DISPLAY" Theme="{StaticResource NavCategory}" />
-        <TabItem Header="ListBox" Theme="{StaticResource NavTabItem}">
-            <pages:ListsPage />
-        </TabItem>
+            <!--  INPUT  -->
+            <TabItem Header="INPUT" Theme="{StaticResource NavCategory}" />
+            <TabItem Header="Button" Theme="{StaticResource NavTabItem}">
+                <pages:ButtonPage />
+            </TabItem>
+            <TabItem Header="TextInput" Theme="{StaticResource NavTabItem}">
+                <pages:TextInputPage />
+            </TabItem>
+            <TabItem Header="ComboBox" Theme="{StaticResource NavTabItem}">
+                <pages:ComboBoxPage />
+            </TabItem>
+            <TabItem Header="Toggles" Theme="{StaticResource NavTabItem}">
+                <pages:TogglesPage />
+            </TabItem>
+            <TabItem Header="Slider &amp; Progress" Theme="{StaticResource NavTabItem}">
+                <pages:SliderProgressPage />
+            </TabItem>
+            <TabItem Header="Date &amp; Time" Theme="{StaticResource NavTabItem}">
+                <pages:DateTimePage />
+            </TabItem>
 
-        <!--  CONTAINERS  -->
-        <TabItem Header="CONTAINERS" Theme="{StaticResource NavCategory}" />
-        <TabItem Header="Expander" Theme="{StaticResource NavTabItem}">
-            <pages:ExpanderPage />
-        </TabItem>
+            <!--  DATA DISPLAY  -->
+            <TabItem Header="DATA DISPLAY" Theme="{StaticResource NavCategory}" />
+            <TabItem Header="ListBox" Theme="{StaticResource NavTabItem}">
+                <pages:ListsPage />
+            </TabItem>
 
-        <!--  FEEDBACK  -->
-        <TabItem Header="FEEDBACK" Theme="{StaticResource NavCategory}" />
-        <TabItem Header="Tooltip &amp; Flyout" Theme="{StaticResource NavTabItem}">
-            <pages:FeedbackPage />
-        </TabItem>
-        <TabItem Header="Notification" Theme="{StaticResource NavTabItem}">
-            <pages:NotificationPage />
-        </TabItem>
-        <TabItem Header="Window" Theme="{StaticResource NavTabItem}">
-            <pages:WindowPage />
-        </TabItem>
+            <!--  CONTAINERS  -->
+            <TabItem Header="CONTAINERS" Theme="{StaticResource NavCategory}" />
+            <TabItem Header="Expander" Theme="{StaticResource NavTabItem}">
+                <pages:ExpanderPage />
+            </TabItem>
 
-        <!--  PIPBOY CONTROLS  -->
-        <TabItem Header="PIPBOY CONTROLS" Theme="{StaticResource NavCategory}" />
-        <TabItem Header="Pipboy Controls" Theme="{StaticResource NavTabItem}">
-            <pages:PipboyControlsPage />
-        </TabItem>
-        <TabItem Header="CRT Display" Theme="{StaticResource NavTabItem}">
-            <pages:CrtDisplayPage />
-        </TabItem>
-        <TabItem Header="World Map" Theme="{StaticResource NavTabItem}">
-            <pages:MapPage />
-        </TabItem>
+            <!--  FEEDBACK  -->
+            <TabItem Header="FEEDBACK" Theme="{StaticResource NavCategory}" />
+            <TabItem Header="Tooltip &amp; Flyout" Theme="{StaticResource NavTabItem}">
+                <pages:FeedbackPage />
+            </TabItem>
+            <TabItem Header="Notification" Theme="{StaticResource NavTabItem}">
+                <pages:NotificationPage />
+            </TabItem>
+            <TabItem Header="Window" Theme="{StaticResource NavTabItem}">
+                <pages:WindowPage />
+            </TabItem>
 
-        <!--  THEME  -->
-        <TabItem Header="THEME" Theme="{StaticResource NavCategory}" />
-        <TabItem Header="Colors" Theme="{StaticResource NavTabItem}">
-            <pages:ThemePage />
-        </TabItem>
+            <!--  PIPBOY CONTROLS  -->
+            <TabItem Header="PIPBOY CONTROLS" Theme="{StaticResource NavCategory}" />
+            <TabItem Header="Pipboy Controls" Theme="{StaticResource NavTabItem}">
+                <pages:PipboyControlsPage />
+            </TabItem>
+            <TabItem Header="CRT Display" Theme="{StaticResource NavTabItem}">
+                <pages:CrtDisplayPage />
+            </TabItem>
+            <TabItem Header="World Map" Theme="{StaticResource NavTabItem}">
+                <pages:MapPage />
+            </TabItem>
 
-    </TabControl>
+            <!--  THEME  -->
+            <TabItem Header="THEME" Theme="{StaticResource NavCategory}" />
+            <TabItem Header="Colors" Theme="{StaticResource NavTabItem}">
+                <pages:ThemePage />
+            </TabItem>
+
+        </TabControl>
+
+        <GridSplitter VerticalAlignment="Top" Grid.Row="1"  />
+        <Panel Grid.Row="1">
+            <SelectableTextBlock
+                Name="footer"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+        </Panel>
+    </Grid>
+
+
 
 </UserControl>
