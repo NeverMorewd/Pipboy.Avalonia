@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Pipboy.Avalonia.Tests;
@@ -15,13 +16,17 @@ public class PipboyTabStripTests
     }
 
     [AvaloniaFact]
-    public void Items_CanBeAdded()
+    public async Task Items_CanBeAdded()
     {
-        var strip = new PipboyTabStrip();
-        strip.Items.Add(new PipboyTabStripItem { Content = "STAT" });
-        strip.Items.Add(new PipboyTabStripItem { Content = "INV" });
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            var strip = new PipboyTabStrip();
 
-        Assert.Equal(2, strip.ItemCount);
+            strip.Items.Add(new PipboyTabStripItem { Content = "STAT" });
+            strip.Items.Add(new PipboyTabStripItem { Content = "INV" });
+
+            Assert.Equal(2, strip.ItemCount);
+        });
     }
 
     [AvaloniaFact]
