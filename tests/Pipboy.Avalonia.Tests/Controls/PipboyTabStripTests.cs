@@ -37,6 +37,5 @@ public class PipboyTabStripTests
         strip.Items.Add(new PipboyTabStripItem { Content = "INV" });
         strip.SelectedIndex = 0;
         Assert.Equal(0, strip.SelectedIndex);
-
     }
 }
