@@ -3,9 +3,13 @@ name: Publish Preview NuGet
 on:
   push:
     branches:
-      - 'fix/**'
-      - 'feat/**'
       - 'preview/**'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version to publish (e.g. 1.2.3 or 1.2.3-beta.1)'
+        required: true
+        type: string
 
 jobs:
   publish-preview:
