@@ -1,64 +1,62 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Styles.Resources>
-            <ControlTheme x:Key="{x:Type PopupRoot}" TargetType="PopupRoot">
-                <Setter Property="Background" Value="{x:Null}" />
-                <Setter Property="TransparencyLevelHint" Value="Transparent" />
-                <Setter Property="FontSize" Value="{DynamicResource PipboyFontSize}" />
-                <!--<Setter Property="FontWeight" Value="{DynamicResource PipboyFontWeight}" />-->
-                <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
-                <Setter Property="Template">
-                    <ControlTemplate TargetType="PopupRoot">
-                        <LayoutTransformControl LayoutTransform="{TemplateBinding Transform}">
-                            <Panel>
-                                <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
-                                <VisualLayerManager Name="PART_VisualLayerManager">
-                                    <LayoutTransformControl Name="PART_LayoutTransform">
-                                        <Border
-                                            Background="{DynamicResource PipboyBackgroundBrush}"
-                                            BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                            BorderThickness="1"
-                                            CornerRadius="0">
-                                            <ContentPresenter
-                                                Name="PART_ContentPresenter"
-                                                Padding="{TemplateBinding Padding}"
-                                                Background="Transparent"
-                                                Content="{TemplateBinding Content}"
-                                                ContentTemplate="{TemplateBinding ContentTemplate}" />
-                                        </Border>
-                                    </LayoutTransformControl>
-                                </VisualLayerManager>
-                            </Panel>
-                        </LayoutTransformControl>
-                    </ControlTemplate>
-                </Setter>
-            </ControlTheme>
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTheme x:Key="{x:Type PopupRoot}" TargetType="PopupRoot">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="TransparencyLevelHint" Value="Transparent" />
+        <Setter Property="FontSize" Value="{DynamicResource PipboyFontSize}" />
+        <!--<Setter Property="FontWeight" Value="{DynamicResource PipboyFontWeight}" />-->
+        <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
+        <Setter Property="Template">
+            <ControlTemplate TargetType="PopupRoot">
+                <LayoutTransformControl LayoutTransform="{TemplateBinding Transform}">
+                    <Panel>
+                        <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+                        <VisualLayerManager Name="PART_VisualLayerManager">
+                            <LayoutTransformControl Name="PART_LayoutTransform">
+                                <Border
+                                    Background="{DynamicResource PipboyBackgroundBrush}"
+                                    BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="0">
+                                    <ContentPresenter
+                                        Name="PART_ContentPresenter"
+                                        Padding="{TemplateBinding Padding}"
+                                        Background="Transparent"
+                                        Content="{TemplateBinding Content}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                </Border>
+                            </LayoutTransformControl>
+                        </VisualLayerManager>
+                    </Panel>
+                </LayoutTransformControl>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
 
-            <ControlTheme x:Key="{x:Type OverlayPopupHost}" TargetType="OverlayPopupHost">
-                <Setter Property="FontSize" Value="{DynamicResource PipboyFontSize}" />
-                <Setter Property="FontWeight" Value="{DynamicResource PipboyFontWeight}" />
-                <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
-                <Setter Property="Template">
-                    <ControlTemplate>
-                        <LayoutTransformControl LayoutTransform="{TemplateBinding Transform}">
-                            <VisualLayerManager Name="PART_VisualLayerManager">
-                                <LayoutTransformControl Name="PART_LayoutTransform">
-                                    <Border
-                                        Background="{DynamicResource PipboyBackgroundBrush}"
-                                        BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                        BorderThickness="1"
-                                        CornerRadius="0">
-                                        <ContentPresenter
-                                            Name="PART_ContentPresenter"
-                                            Padding="{TemplateBinding Padding}"
-                                            Background="Transparent"
-                                            Content="{TemplateBinding Content}"
-                                            ContentTemplate="{TemplateBinding ContentTemplate}" />
-                                    </Border>
-                                </LayoutTransformControl>
-                            </VisualLayerManager>
+    <ControlTheme x:Key="{x:Type OverlayPopupHost}" TargetType="OverlayPopupHost">
+        <Setter Property="FontSize" Value="{DynamicResource PipboyFontSize}" />
+        <Setter Property="FontWeight" Value="{DynamicResource PipboyFontWeight}" />
+        <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <LayoutTransformControl LayoutTransform="{TemplateBinding Transform}">
+                    <VisualLayerManager Name="PART_VisualLayerManager">
+                        <LayoutTransformControl Name="PART_LayoutTransform">
+                            <Border
+                                Background="{DynamicResource PipboyBackgroundBrush}"
+                                BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="0">
+                                <ContentPresenter
+                                    Name="PART_ContentPresenter"
+                                    Padding="{TemplateBinding Padding}"
+                                    Background="Transparent"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            </Border>
                         </LayoutTransformControl>
-                    </ControlTemplate>
-                </Setter>
-            </ControlTheme>
-    </Styles.Resources>
-</Styles>
+                    </VisualLayerManager>
+                </LayoutTransformControl>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

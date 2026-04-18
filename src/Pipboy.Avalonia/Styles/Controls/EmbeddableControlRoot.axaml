@@ -1,31 +1,30 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Styles.Resources>
-        <ControlTheme x:Key="{x:Type EmbeddableControlRoot}" TargetType="EmbeddableControlRoot">
-            <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
-            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
-            <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
-            <Setter Property="FontSize" Value="{DynamicResource PipboyFontSize}" />
-            <Setter Property="Template">
-                <ControlTemplate TargetType="EmbeddableControlRoot">
-                    <Panel>
-                        <!--  Transparency fallback layer (non-interactive backdrop)  -->
-                        <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-                        <!--  Main background surface  -->
-                        <Border Background="{TemplateBinding Background}">
-                            <VisualLayerManager>
-                                <ContentPresenter
-                                    Name="PART_ContentPresenter"
-                                    Margin="{TemplateBinding Padding}"
-                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    Content="{TemplateBinding Content}"
-                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
-                            </VisualLayerManager>
-                        </Border>
-                    </Panel>
-                </ControlTemplate>
-            </Setter>
-        </ControlTheme>
-    </Styles.Resources>
-</Styles>
+	<ControlTheme x:Key="{x:Type EmbeddableControlRoot}" TargetType="EmbeddableControlRoot">
+		<Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
+		<Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+		<Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
+		<Setter Property="FontSize" Value="{DynamicResource PipboyFontSize}" />
+		<Setter Property="Template">
+			<ControlTemplate TargetType="EmbeddableControlRoot">
+				<Panel>
+					<Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+					<Border Background="{TemplateBinding Background}">
+						<VisualLayerManager>
+							<ContentPresenter
+                                Name="PART_ContentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+						</VisualLayerManager>
+					</Border>
+				</Panel>
+			</ControlTemplate>
+		</Setter>
+	</ControlTheme>
+
+</ResourceDictionary>

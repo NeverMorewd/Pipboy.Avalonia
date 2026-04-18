@@ -1,5 +1,14 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+	<Styles.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="avares://Pipboy.Avalonia/Styles/Controls/EmbeddableControlRoot.axaml" />
+				<ResourceInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Popup.axaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Styles.Resources>
+
     <!--  Global font applied to all templated controls and text blocks  -->
     <Style Selector=":is(TemplatedControl)">
         <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
@@ -37,7 +46,6 @@
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Miscellaneous.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/HeaderedContentControl.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Window.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/EmbeddableControlRoot.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RepeatButton.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/HyperlinkButton.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DropDownButton.axaml" />
@@ -46,7 +54,6 @@
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Notification.axaml" />
 	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TextBlock.axaml" />
 	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SelectableTextBlock.axaml" />
-	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Popup.axaml" />
     <!--  Pipboy custom controls  -->
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SegmentedBar.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RatedAttribute.axaml" />
