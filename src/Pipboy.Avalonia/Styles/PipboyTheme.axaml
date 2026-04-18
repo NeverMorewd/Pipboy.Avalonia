@@ -46,7 +46,7 @@
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Notification.axaml" />
 	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TextBlock.axaml" />
 	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SelectableTextBlock.axaml" />
-
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Popup.axaml" />
     <!--  Pipboy custom controls  -->
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SegmentedBar.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RatedAttribute.axaml" />

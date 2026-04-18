@@ -1,49 +1,31 @@
-﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<Styles.Resources>
-		<!--
-            EmbeddableControlRoot ControlTheme — required for WASM/Browser builds.
-            Template structure (must follow this order):
-              Panel
-              ├── Border (PART_TransparencyFallback) — transparency backdrop
-              └── Border (Background binding) — main surface
-                  └── VisualLayerManager — provides the OverlayLayer for all Popup-based controls
-                      └── ContentPresenter (PART_ContentPresenter) — renders actual page content
-            Without VisualLayerManager: all popups silently fail.
-            Without ContentPresenter: entire page content is blank.
-        -->
-		<ControlTheme x:Key="{x:Type EmbeddableControlRoot}"
-                      TargetType="EmbeddableControlRoot">
-			<Setter Property="Background"  Value="{DynamicResource PipboyBackgroundBrush}" />
-			<Setter Property="Foreground"  Value="{DynamicResource PipboyTextBrush}" />
-			<Setter Property="FontFamily"  Value="{DynamicResource PipboyFontFamily}" />
-			<Setter Property="FontSize"    Value="{DynamicResource PipboyFontSize}" />
-			<Setter Property="Template">
-				<ControlTemplate TargetType="EmbeddableControlRoot">
-					<Panel>
-						<!-- Transparency fallback layer (non-interactive backdrop) -->
-						<Border Name="PART_TransparencyFallback"
-                                IsHitTestVisible="False" />
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type EmbeddableControlRoot}" TargetType="EmbeddableControlRoot">
+            <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
+            <Setter Property="FontSize" Value="{DynamicResource PipboyFontSize}" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="EmbeddableControlRoot">
+                    <Panel>
+                        <!--  Transparency fallback layer (non-interactive backdrop)  -->
+                        <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
 
-						<!-- Main background surface -->
-						<Border Background="{TemplateBinding Background}">
-							<!--
-                                VisualLayerManager MUST wrap ContentPresenter.
-                                It registers the OverlayLayer that Popup/Flyout/
-                                ContextMenu/Notification use to render in WASM.
-                            -->
-							<VisualLayerManager>
-								<ContentPresenter Name="PART_ContentPresenter"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-							</VisualLayerManager>
-						</Border>
-					</Panel>
-				</ControlTemplate>
-			</Setter>
-		</ControlTheme>
-	</Styles.Resources>
+                        <!--  Main background surface  -->
+                        <Border Background="{TemplateBinding Background}">
+                            <VisualLayerManager>
+                                <ContentPresenter
+                                    Name="PART_ContentPresenter"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            </VisualLayerManager>
+                        </Border>
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
 </Styles>
