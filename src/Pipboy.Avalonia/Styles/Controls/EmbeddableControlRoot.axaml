@@ -1,4 +1,4 @@
-<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <!--
@@ -16,17 +16,6 @@
             <Setter Property="Template">
                 <ControlTemplate TargetType="EmbeddableControlRoot">
                     <Panel>
-                        <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
-                        <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
-                        <VisualLayerManager>
-                            <ContentPresenter
-                                Name="PART_ContentPresenter"
-                                Margin="{TemplateBinding Padding}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}" />
-                        </VisualLayerManager>
                     </Panel>
                 </ControlTemplate>
             </Setter>
