@@ -26,31 +26,6 @@ Sharp corners, monochromatic phosphor palette, retro terminal aesthetic — drop
 
 ---
 
-## Features
-
-- **Full control coverage** — Button, RepeatButton, HyperlinkButton, SplitButton, DropDownButton, TextBox, CheckBox, RadioButton, ToggleButton, ToggleSwitch, Slider, ProgressBar, ScrollBar, ListBox, ComboBox, TreeView, TabControl, Menu, ContextMenu, Expander, NumericUpDown, AutoCompleteBox, DatePicker, TimePicker, CalendarDatePicker, SplitView, GridSplitter, ToolTip, FlyoutPresenter, DataValidationErrors, Notification, and more.
-- **Runtime color switching** — change the primary color at any time; all brush resources and CRT effects update instantly.
-- **Monochromatic palette** — the entire color system is derived from a single HSL primary color.
-- **Purpose-built controls** — `CrtDisplay`, `PipboyWindow`, `PipboyTitleBar`, `PipboyCountdown`, `PipboyPanel`, `SegmentedBar`, `RatedAttribute`, `BracketHighlight`, `PipboyTabStrip`, `TerminalPanel`, `BlinkText`, `ScanlineOverlay`.
-- **MVVM-ready** — all custom controls expose `ICommand` properties alongside routed events.
-- **No rounded corners** — all controls use `CornerRadius="0"` by design.
-- **Zero third-party dependencies** — only `Avalonia` is referenced.
-- **AOT / trimming compatible** — compiled XAML bindings, `IsTrimmable`, and `IsAotCompatible` all enabled.
-- **Multi-platform** — Desktop (Windows, macOS, Linux), Browser (WASM), Android, iOS.
-
----
-
-## Platform Support
-
-| Platform | Notes |
-|----------|-------|
-| Windows / macOS / Linux | `IClassicDesktopStyleApplicationLifetime` |
-| Browser (WASM) | `Avalonia.Browser` |
-| Android | `net8.0-android` |
-| iOS | `net8.0-ios` |
-
----
-
 ## Installation
 
 ```
@@ -152,12 +127,6 @@ All tokens are available as `{DynamicResource}` in XAML and update automatically
 | `PipboyFontSizeSmall` | `11` |
 | `PipboyFontSize` | `13` |
 | `PipboyFontSizeLarge` | `16` |
-
----
-
-## Supported Avalonia Version
-
-**11.3.12** (tested). Compatible with Avalonia 11.x.
 
 ---
 
