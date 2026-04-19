@@ -3,8 +3,7 @@
 	<Styles.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceInclude Source="avares://Pipboy.Avalonia/Styles/Controls/EmbeddableControlRoot.axaml" />
-				<ResourceInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Popup.axaml" />
+				<!--reserve-->
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Styles.Resources>
@@ -20,40 +19,41 @@
     </Style>
 
     <!--  Per-control theme files  -->
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Button.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TextBox.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/CheckBox.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RadioButton.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ToggleButton.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ToggleSwitch.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ProgressBar.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Slider.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ScrollBar.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ListBox.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TreeView.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ComboBox.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Menu.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TabControl.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Expander.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/NumericUpDown.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/AutoCompleteBox.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SplitButton.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SplitView.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/GridSplitter.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ToolTip.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DateTimePicker.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/FlyoutPresenter.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Miscellaneous.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/HeaderedContentControl.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Window.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RepeatButton.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/HyperlinkButton.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DropDownButton.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DataValidationErrors.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Icons.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Notification.axaml" />
-	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TextBlock.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/AutoCompleteBox.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Button.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/CheckBox.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DataValidationErrors.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DateTimePicker.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/DropDownButton.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/EmbeddableControlRoot.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Expander.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/FlyoutPresenter.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/GridSplitter.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/HeaderedContentControl.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/HyperlinkButton.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Icons.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ListBox.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Menu.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Miscellaneous.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Notification.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/NumericUpDown.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Popup.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ProgressBar.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RadioButton.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RepeatButton.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ScrollBar.axaml" />
 	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SelectableTextBlock.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Slider.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SplitButton.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SplitView.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TabControl.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TextBlock.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TextBox.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ToggleButton.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ToggleSwitch.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ToolTip.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/TreeView.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Window.axaml" />
     <!--  Pipboy custom controls  -->
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SegmentedBar.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RatedAttribute.axaml" />
