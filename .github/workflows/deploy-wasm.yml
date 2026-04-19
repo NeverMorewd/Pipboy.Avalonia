@@ -40,7 +40,8 @@ jobs:
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
         with:
-          cache: true
+          dotnet-version: '10.x'
+          cache: true                   
 
       - name: Cache wasm-tools workload
         uses: actions/cache@v4
@@ -75,7 +76,8 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: "${{ runner.temp }}/publish/wwwroot"
-          retention-days: 1 
+          retention-days: 1
+
       - name: Deploy to GitHub Pages
         id: deploy
         uses: actions/deploy-pages@v4
