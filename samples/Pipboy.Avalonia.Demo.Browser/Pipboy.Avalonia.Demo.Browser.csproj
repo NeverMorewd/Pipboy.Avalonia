@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net10.0-browser</TargetFramework>
@@ -6,14 +6,20 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <WasmEnableThreads>false</WasmEnableThreads>
-    <DebuggerSupport>true</DebuggerSupport>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaXaml Remove="publish\**" />
+    <Compile Remove="publish\**" />
+    <Content Remove="publish\**" />
+    <EmbeddedResource Remove="publish\**" />
+    <None Remove="publish\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Browser" />
 	  <PackageReference Include="SkiaSharp" />
-	  <PackageReference Include="SkiaSharp.NativeAssets.WebAssembly"/>
+	  <PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" />
   </ItemGroup>
 
   <ItemGroup>

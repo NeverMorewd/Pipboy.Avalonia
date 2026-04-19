@@ -1,13 +1,5 @@
-<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
-
-        <!--
-            EmbeddableControlRoot ControlTheme — required for WASM/Browser builds.
-            In the browser, Avalonia uses EmbeddableControlRoot (not Window) as the
-            top-level host. This theme MUST include VisualLayerManager so that the
-            OverlayLayer exists; without it, all popup-based controls (ComboBox,
-            Menu, Flyout, Notifications) silently fail to open in WASM.
-        -->
         <ControlTheme x:Key="{x:Type EmbeddableControlRoot}" TargetType="EmbeddableControlRoot">
             <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
@@ -17,20 +9,20 @@
                 <ControlTemplate TargetType="EmbeddableControlRoot">
                     <Panel>
                         <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
-                        <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
-                        <VisualLayerManager>
-                            <ContentPresenter
-                                Name="PART_ContentPresenter"
-                                Margin="{TemplateBinding Padding}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}" />
-                        </VisualLayerManager>
+                        <Border Background="{TemplateBinding Background}">
+                            <VisualLayerManager Name="PART_VisualLayerManager">
+                                <ContentPresenter
+                                    Name="PART_ContentPresenter"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            </VisualLayerManager>
+                        </Border>
                     </Panel>
                 </ControlTemplate>
             </Setter>
         </ControlTheme>
-
     </Styles.Resources>
 </Styles>
