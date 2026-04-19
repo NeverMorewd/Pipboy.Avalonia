@@ -1,17 +1,15 @@
 name: Deploy WASM Demo → GitHub Pages
 
-# ─────────────────────────────────────────────────────────────────────────────
-# ONE-TIME MANUAL SETUP (do this once before the first run):
-#   Repository → Settings → Pages → Source → "GitHub Actions" → Save
-# After that, every push to main triggers an automatic deployment.
-# ─────────────────────────────────────────────────────────────────────────────
-
 on:
   push:
     branches: [ main ]
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.MD'
+    paths:
+      - 'samples/**'
+      - '**/*.csproj'
+      - '**/*.sln'
+      - '**/*.slnx'
+      - 'src/**'
+      - '.github/workflows/**'
   workflow_dispatch:
 
 permissions:
@@ -19,7 +17,6 @@ permissions:
   pages: write
   id-token: write
 
-# Only one Pages deployment runs at a time; newer runs cancel the in-progress one
 concurrency:
   group: github-pages
   cancel-in-progress: true
@@ -29,12 +26,10 @@ jobs:
     name: Build WASM & Deploy to GitHub Pages
     runs-on: ubuntu-latest
 
-    # Exposes the live URL in the Actions summary
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
 
-    # Run all JS-based actions on Node 24 to suppress the Node 20 deprecation warning
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -46,25 +41,34 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.x'
+          cache: true                   
 
-      # wasm-tools is required for Avalonia Browser / Blazor-style WASM publishing
+      - name: Cache wasm-tools workload
+        uses: actions/cache@v4
+        with:
+          path: ~/.dotnet/toolsets
+          key: wasm-tools-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: wasm-tools-${{ runner.os }}-
+
       - name: Install WASM workload
         run: dotnet workload install wasm-tools
 
-      # Publish produces the runnable site under <output>/wwwroot
-      - name: Publish Browser project
-        run: dotnet publish samples/Pipboy.Avalonia.Demo.Browser/Pipboy.Avalonia.Demo.Browser.csproj --configuration Release --output "${{ runner.temp }}/publish"
+      - name: Publish Browser project (AOT)
+        run: |
+          dotnet publish samples/Pipboy.Avalonia.Demo.Browser/Pipboy.Avalonia.Demo.Browser.csproj \
+            --configuration Release \
+            --output "${{ runner.temp }}/publish" \
+            -p:RunAOTCompilation=true
 
-      # Disable Jekyll so GitHub Pages doesn't mangle _framework/* asset names
+      - name: Verify publish output
+        run: test -f "${{ runner.temp }}/publish/wwwroot/index.html"
+
       - name: Add .nojekyll
         run: touch "${{ runner.temp }}/publish/wwwroot/.nojekyll"
 
-      # Serve index.html as the 404 page so any unknown path falls back to the app
       - name: Copy index.html → 404.html
         run: cp "${{ runner.temp }}/publish/wwwroot/index.html" "${{ runner.temp }}/publish/wwwroot/404.html"
 
-      # NOTE: enablement is intentionally omitted.
-      # Pages source must be set to "GitHub Actions" once in repo Settings → Pages.
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
@@ -72,6 +76,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: "${{ runner.temp }}/publish/wwwroot"
+          retention-days: 1
 
       - name: Deploy to GitHub Pages
         id: deploy
