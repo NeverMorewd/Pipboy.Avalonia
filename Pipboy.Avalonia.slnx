@@ -1,0 +1,20 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/samples/">
+    <Project Path="samples/Pipboy.Avalonia.Demo.Android/Pipboy.Avalonia.Demo.Android.csproj" />
+    <Project Path="samples/Pipboy.Avalonia.Demo.Browser/Pipboy.Avalonia.Demo.Browser.csproj" />
+    <Project Path="samples/Pipboy.Avalonia.Demo.Desktop/Pipboy.Avalonia.Demo.Desktop.csproj" />
+    <Project Path="samples/Pipboy.Avalonia.Demo.iOS/Pipboy.Avalonia.Demo.iOS.csproj" />
+    <Project Path="samples/Pipboy.Avalonia.Demo/Pipboy.Avalonia.Demo.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Pipboy.Avalonia/Pipboy.Avalonia.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Pipboy.Avalonia.Tests/Pipboy.Avalonia.Tests.csproj" />
+  </Folder>
+</Solution>
