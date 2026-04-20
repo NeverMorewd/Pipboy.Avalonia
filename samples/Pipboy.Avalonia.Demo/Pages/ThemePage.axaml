@@ -136,7 +136,7 @@
                         Name="HexColorBox"
                         Grid.Column="1"
                         Text="#15FF52"
-                        Watermark="#15FF52" />
+                        PlaceholderText="#15FF52" />
                     <Button
                         Grid.Column="2"
                         Margin="8,0,0,0"

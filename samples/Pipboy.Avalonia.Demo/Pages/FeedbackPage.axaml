@@ -152,11 +152,11 @@
                             <StackPanel Grid.Column="0" Spacing="8">
                                 <StackPanel Spacing="4">
                                     <TextBlock Classes="dim" FontSize="10" Text="REQUIRED FIELD" />
-                                    <TextBox Watermark="Enter target name (required)" />
+                                    <TextBox PlaceholderText="Enter target name (required)" />
                                 </StackPanel>
                                 <StackPanel Spacing="4">
                                     <TextBlock Classes="dim" FontSize="10" Text="NUMERIC RANGE  (0–9999)" />
-                                    <TextBox Watermark="Enter value 0–9999" />
+                                    <TextBox PlaceholderText="Enter value 0–9999" />
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel Grid.Column="1" Margin="16,0,0,0" Spacing="4">

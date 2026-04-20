@@ -80,11 +80,11 @@
                             <StackPanel Spacing="8">
                                 <StackPanel Spacing="4">
                                     <TextBlock Classes="dim" FontSize="10" Text="ENABLED" />
-                                    <CalendarDatePicker Watermark="Select mission date..." />
+                                    <CalendarDatePicker PlaceholderText="Select mission date..." />
                                 </StackPanel>
                                 <StackPanel Spacing="4">
                                     <TextBlock Classes="dim" FontSize="10" Text="DISABLED" />
-                                    <CalendarDatePicker IsEnabled="False" Watermark="Locked" />
+                                    <CalendarDatePicker IsEnabled="False" PlaceholderText="Locked" />
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>

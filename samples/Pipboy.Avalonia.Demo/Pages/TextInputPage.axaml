@@ -29,7 +29,7 @@
                         <StackPanel Grid.Column="0" Spacing="12">
                             <StackPanel Spacing="4">
                                 <TextBlock Classes="dim" FontSize="10" Text="EMPTY — WATERMARK VISIBLE" />
-                                <TextBox Watermark="Enter terminal command..." />
+                                <TextBox PlaceholderText="Enter terminal command..." />
                             </StackPanel>
                             <StackPanel Spacing="4">
                                 <TextBlock Classes="dim" FontSize="10" Text="POPULATED" />
@@ -37,7 +37,7 @@
                             </StackPanel>
                             <StackPanel Spacing="4">
                                 <TextBlock Classes="dim" FontSize="10" Text="PASSWORD  (PasswordChar=●)" />
-                                <TextBox PasswordChar="●" Watermark="ACCESS CODE" />
+                                <TextBox PasswordChar="●" PlaceholderText="ACCESS CODE" />
                             </StackPanel>
                         </StackPanel>
 
@@ -56,7 +56,7 @@
                                     Height="72"
                                     AcceptsReturn="True"
                                     TextWrapping="Wrap"
-                                    Watermark="Type a message... (Shift+Enter for new line)" />
+                                    PlaceholderText="Type a message... (Shift+Enter for new line)" />
                             </StackPanel>
                         </StackPanel>
 
@@ -77,7 +77,7 @@
                                 Name="LocationAutoComplete"
                                 MaxWidth="360"
                                 HorizontalAlignment="Left"
-                                Watermark="Search locations..." />
+                                PlaceholderText="Search locations..." />
                         </StackPanel>
                         <StackPanel Spacing="4">
                             <TextBlock Classes="dim" FontSize="10" Text="DISABLED" />
@@ -85,7 +85,7 @@
                                 MaxWidth="360"
                                 HorizontalAlignment="Left"
                                 IsEnabled="False"
-                                Watermark="Unavailable..." />
+                                PlaceholderText="Unavailable..." />
                         </StackPanel>
                     </StackPanel>
                 </HeaderedContentControl>
