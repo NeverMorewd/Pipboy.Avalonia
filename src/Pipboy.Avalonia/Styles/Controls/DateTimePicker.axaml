@@ -912,7 +912,7 @@
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Foreground="{TemplateBinding Foreground}"
-                                    Watermark="{TemplateBinding Watermark}" />
+                                    PlaceholderText="{TemplateBinding PlaceholderText}" />
                                 <Button
                                     Name="PART_Button"
                                     Grid.Column="1"

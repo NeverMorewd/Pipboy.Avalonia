@@ -24,7 +24,7 @@
                                 CaretBrush="{DynamicResource PipboyPrimaryBrush}"
                                 Foreground="{TemplateBinding Foreground}"
                                 SelectionBrush="{DynamicResource PipboySelectionBrush}"
-                                Watermark="{TemplateBinding Watermark}" />
+                                PlaceholderText="{TemplateBinding PlaceholderText}" />
                             <!--  Dropdown suggestions popup  -->
                             <Popup
                                 Name="PART_Popup"

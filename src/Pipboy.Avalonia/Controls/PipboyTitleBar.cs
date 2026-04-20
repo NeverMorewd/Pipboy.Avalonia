@@ -44,7 +44,7 @@ public class PipboyTitleBar : TemplatedControl
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
-        if (e.Root is Window w)
+        if (TopLevel.GetTopLevel(this) is Window w)
         {
             _window = w;
             _window.PropertyChanged += OnWindowPropertyChanged;
