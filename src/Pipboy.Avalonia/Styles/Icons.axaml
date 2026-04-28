@@ -1,24 +1,5 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
-
-        <!--
-      Pipboy icon geometry library.
-      All icons are designed on a 24×24 viewport, stroke-only (no fill),
-      matching the wireframe / retro-terminal aesthetic of the theme.
-
-      Usage in AXAML:
-        <Path Data="{DynamicResource PipboyIconWarning}"
-              Stroke="{DynamicResource PipboyTextBrush}"
-              StrokeThickness="1.5"
-              StrokeLineCap="Square"
-              StrokeJoin="Miter"
-              Fill="Transparent"
-              Width="16" Height="16" Stretch="Uniform"/>
-        -->
-
-        <!--  ── Notification / status ───────────────────────────────────────────  -->
-
-        <!--  Circle outline with "i": dot (short upper line) + vertical bar  -->
         <StreamGeometry x:Key="PipboyIconInformation">
             M 12,2 A 10,10 0 0,1 12,22 A 10,10 0 0,1 12,2
             M 12,7 L 12,9
