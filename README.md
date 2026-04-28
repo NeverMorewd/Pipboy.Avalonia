@@ -4,7 +4,7 @@
 [![NuGet](https://img.shields.io/nuget/v/Pipboy.Avalonia?logo=nuget)](https://www.nuget.org/packages/Pipboy.Avalonia)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen?logo=github)](https://nevermorewd.github.io/Pipboy.Avalonia/)
 
-A Fallout 4 Pip-Boy inspired theme library for [Avalonia UI](https://avaloniaui.net/).
+A Pip-Boy inspired theme library for [Avalonia UI](https://avaloniaui.net/).
 
 Sharp corners, monochromatic phosphor palette, retro terminal aesthetic — drop it in as your sole application theme and every standard control gets the Vault-Tec treatment.
 
