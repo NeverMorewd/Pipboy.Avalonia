@@ -1,4 +1,3 @@
-using System;
 using Avalonia.Media;
 
 namespace Pipboy.Avalonia;
