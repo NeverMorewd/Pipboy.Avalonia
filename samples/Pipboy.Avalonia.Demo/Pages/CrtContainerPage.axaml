@@ -14,9 +14,7 @@
         <vms:CrtContainerViewModel />
     </UserControl.DataContext>
     <Grid Margin="20" ColumnDefinitions="*, 320">
-        <!--  预览部分  -->
         <Grid Grid.Column="0" RowDefinitions="Auto, *">
-            <!--  标签占一行，自动高度  -->
             <TextBlock
                 Grid.Row="0"
                 Margin="0,0,0,12"
@@ -24,8 +22,6 @@
                 Foreground="#888888"
                 LetterSpacing="2"
                 Text="PREVIEW — REAL-TIME OPENGL SIMULATION" />
-
-            <!--  Border 占一行，使用 '*' 填满剩余所有高度  -->
             <Border
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
@@ -44,14 +40,12 @@
                     Tint="{Binding Tint}"
                     Vignette="{Binding Vignette}">
                     <Grid Background="#001409">
-                        <!--  Pip-Boy Style Content  -->
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <!--  Header  -->
                         <StackPanel
                             Grid.Row="0"
                             Margin="20,20,20,10"
