@@ -12,6 +12,7 @@
     <Project Path="samples/Pipboy.Avalonia.Demo/Pipboy.Avalonia.Demo.csproj" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/Pipboy.Avalonia.Fx/Pipboy.Avalonia.Fx.csproj" Id="c390aae1-f839-45ee-8172-042e8af79fc9" />
     <Project Path="src/Pipboy.Avalonia/Pipboy.Avalonia.csproj" />
   </Folder>
   <Folder Name="/tests/">

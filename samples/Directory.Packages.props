@@ -17,5 +17,7 @@
     <PackageVersion Include="SkiaSharp" Version="$(SkiaSharpVersion)" />
     <PackageVersion Include="SkiaSharp.NativeAssets.WebAssembly" Version="$(SkiaSharpVersion)" />
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.2.0.2" />
+    <PackageVersion Include="ReactiveUI.Avalonia" Version="12.0.1" />
+    <PackageVersion Include="ReactiveUI.SourceGenerators" Version="2.5.1" />
   </ItemGroup>
 </Project>
