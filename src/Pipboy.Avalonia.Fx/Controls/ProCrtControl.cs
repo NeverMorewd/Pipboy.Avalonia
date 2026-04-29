@@ -318,7 +318,7 @@ public class ProCrtControl : OpenGlControlBase
         _vbo = gl.GenBuffer();
         gl.BindBuffer(GL_ARRAY_BUFFER, _vbo);
         float[] vertices = { -1, -1, 1, -1, -1, 1, 1, 1 };
-        unsafe { fixed (float* p = vertices) gl.BufferData(GL_ARRAY_BUFFER, (IntPtr)(vertices.Length * 4), (IntPtr)p, GL_STATIC_DRAW); }
+        unsafe { fixed (float* p = vertices) gl.BufferData(GL_ARRAY_BUFFER, vertices.Length * 4, (IntPtr)p, GL_STATIC_DRAW); }
 
         _texture = gl.GenTexture();
         gl.BindTexture(GL_TEXTURE_2D, _texture);
@@ -333,7 +333,7 @@ public class ProCrtControl : OpenGlControlBase
 
     protected override void OnOpenGlRender(GlInterface gl, int fb)
     {
-        UpdateTextureNew(gl, (int)Bounds.Width, (int)Bounds.Height);
+        UpdateTexture(gl, (int)Bounds.Width, (int)Bounds.Height);
         gl.Viewport(0, 0, (int)Bounds.Width, (int)Bounds.Height);
         gl.ClearColor(0, 0, 0, 1);
         gl.Clear(GL_COLOR_BUFFER_BIT);
@@ -388,10 +388,8 @@ public class ProCrtControl : OpenGlControlBase
 
     // In OnOpenGlInit, after the existing Marshal.GetDelegateForFunctionPointer calls:
 
-    private unsafe void UpdateTextureNew(GlInterface gl, int w, int h)
+    private void UpdateTexture(GlInterface gl, int w, int h)
     {
-        // Recreate both bitmaps only when size actually changes
-        // (also fixes the original height-check bug)
         if (_renderBitmap == null || _bitmapWidth != w || _bitmapHeight != h)
         {
             _renderBitmap?.Dispose();
@@ -412,11 +410,7 @@ public class ProCrtControl : OpenGlControlBase
             _textureAllocated = false;
         }
 
-        // Step 1: render Avalonia content into RenderTargetBitmap (unchanged logic)
         RenderContent(w, h);
-
-        // Step 2: copy pixels RTB → WriteableBitmap, then upload to GL
-        // This replaces the PNG encode/decode entirely
         UploadToGl(gl, w, h);
     }
     private void RenderContent(int w, int h)
@@ -460,7 +454,7 @@ public class ProCrtControl : OpenGlControlBase
         _renderBitmap.Render(contentControl);
     }
 
-    private unsafe void UploadToGl(GlInterface gl, int w, int h)
+    private void UploadToGl(GlInterface gl, int w, int h)
     {
         if (_renderBitmap == null || _writeableBitmap == null) return;
 
@@ -501,84 +495,6 @@ public class ProCrtControl : OpenGlControlBase
             }
         }
     }
-    private void UpdateTexture(GlInterface gl, int w, int h)
-    {
-        if (_surface == null || _surface.Canvas.DeviceClipBounds.Width != w)
-        {
-            _surface = SKSurface.Create(new SKImageInfo(w, h, SKColorType.Rgba8888, SKAlphaType.Premul));
-            _canvas = _surface.Canvas;
-        }
-
-        _canvas!.Clear(SKColors.Black);
-
-        if (Content is Control contentControl)
-        {
-            var padding = Padding;
-            var availableWidth = Math.Max(0, w - padding.Left - padding.Right);
-            var availableHeight = Math.Max(0, h - padding.Top - padding.Bottom);
-
-            contentControl.Measure(new Size(availableWidth, availableHeight));
-            var contentSize = contentControl.DesiredSize;
-
-            double x = padding.Left;
-            double y = padding.Top;
-
-            if (HorizontalContentAlignment == HorizontalAlignment.Center)
-                x += (availableWidth - contentSize.Width) / 2;
-            else if (HorizontalContentAlignment == HorizontalAlignment.Right)
-                x += availableWidth - contentSize.Width;
-            else if (HorizontalContentAlignment == HorizontalAlignment.Stretch)
-                contentSize = contentSize.WithWidth(availableWidth);
-
-            if (VerticalContentAlignment == VerticalAlignment.Center)
-                y += (availableHeight - contentSize.Height) / 2;
-            else if (VerticalContentAlignment == VerticalAlignment.Bottom)
-                y += availableHeight - contentSize.Height;
-            else if (VerticalContentAlignment == VerticalAlignment.Stretch)
-                contentSize = contentSize.WithHeight(availableHeight);
-
-            contentControl.Arrange(new Rect(x, y, contentSize.Width, contentSize.Height));
-
-            var pixelSize = new PixelSize(w, h);
-            var dpi = new Vector(96, 96);
-            using var bitmap = new RenderTargetBitmap(pixelSize, dpi);
-            bitmap.Render(contentControl);
-
-            using var memoryStream = new MemoryStream();
-            bitmap.Save(memoryStream);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            using var skImage = SKImage.FromEncodedData(memoryStream);
-
-            _canvas!.DrawImage(skImage, 0, 0);
-        }
-        else
-        {
-            var configWatermarkText = "string.Empty";
-            float targetWidth = 300;
-            float targetHeight = 300;
-            // Fallback or default drawing if no content is set
-            _canvas!.Clear(SKColors.Black);
-            using SKTypeface typeface = SKTypeface.FromFamilyName("Arial");
-            SKFont font = new SKFont(typeface, 64.0f);
-            using var textPaint = new SKPaint { Color = SKColors.GreenYellow, IsAntialias = true };
-            float textWidth = font.MeasureText(configWatermarkText, textPaint);
-
-            float textTargetWidth = targetWidth / 6f;
-            float fontScale = textTargetWidth / textWidth;
-            font.Size *= fontScale;
-            float rightOffSet = textTargetWidth * 1.1f;
-            SKPoint skPoint = new(targetWidth - rightOffSet, targetHeight - font.Size);
-            _canvas.DrawText(configWatermarkText, skPoint, font, textPaint);
-        }
-        gl.BindTexture(GL_TEXTURE_2D, _texture);
-        using (var image = _surface.Snapshot())
-        {
-            var pixmap = image.PeekPixels();
-            gl.TexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixmap.GetPixels());
-        }
-    }
-
-
 
     private unsafe void SetUniform(GlInterface gl, string name, params float[] values)
     {
@@ -611,5 +527,9 @@ public class ProCrtControl : OpenGlControlBase
         gl.DeleteTexture(_texture);
         _surface?.Dispose();
         _surface = null;
+        _renderBitmap?.Dispose();
+        _renderBitmap = null;
+        _writeableBitmap?.Dispose();
+        _writeableBitmap = null;
     }
 }
