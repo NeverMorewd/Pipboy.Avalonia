@@ -6,16 +6,17 @@ using Avalonia.Media.Imaging;
 using Avalonia.Metadata;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
+using Avalonia.Platform;
 using Avalonia.Threading;
 using SkiaSharp;
 using System.Runtime.InteropServices;
 
 namespace PipBoy.Avalonia.Fx.Controls;
 
-public class CrtContainer : OpenGlControlBase
+public class ProCrtControl : OpenGlControlBase
 {
     public static readonly StyledProperty<object?> ContentProperty =
-        AvaloniaProperty.Register<CrtContainer, object?>(nameof(Content));
+        AvaloniaProperty.Register<ProCrtControl, object?>(nameof(Content));
 
     [Content]
     public object? Content
@@ -25,7 +26,7 @@ public class CrtContainer : OpenGlControlBase
     }
 
     public static readonly StyledProperty<Thickness> PaddingProperty =
-        AvaloniaProperty.Register<CrtContainer, Thickness>(nameof(Padding));
+        AvaloniaProperty.Register<ProCrtControl, Thickness>(nameof(Padding));
 
     public Thickness Padding
     {
@@ -34,7 +35,7 @@ public class CrtContainer : OpenGlControlBase
     }
 
     public static readonly StyledProperty<HorizontalAlignment> HorizontalContentAlignmentProperty =
-        AvaloniaProperty.Register<CrtContainer, HorizontalAlignment>(nameof(HorizontalContentAlignment), HorizontalAlignment.Stretch);
+        AvaloniaProperty.Register<ProCrtControl, HorizontalAlignment>(nameof(HorizontalContentAlignment), HorizontalAlignment.Stretch);
 
     public HorizontalAlignment HorizontalContentAlignment
     {
@@ -43,7 +44,7 @@ public class CrtContainer : OpenGlControlBase
     }
 
     public static readonly StyledProperty<VerticalAlignment> VerticalContentAlignmentProperty =
-        AvaloniaProperty.Register<CrtContainer, VerticalAlignment>(nameof(VerticalContentAlignment), VerticalAlignment.Stretch);
+        AvaloniaProperty.Register<ProCrtControl, VerticalAlignment>(nameof(VerticalContentAlignment), VerticalAlignment.Stretch);
 
     public VerticalAlignment VerticalContentAlignment
     {
@@ -52,7 +53,7 @@ public class CrtContainer : OpenGlControlBase
     }
 
     public static readonly StyledProperty<float> CurvatureProperty =
-        AvaloniaProperty.Register<CrtContainer, float>(nameof(Curvature), 0.2f);
+        AvaloniaProperty.Register<ProCrtControl, float>(nameof(Curvature), 0.2f);
 
     public float Curvature
     {
@@ -61,7 +62,7 @@ public class CrtContainer : OpenGlControlBase
     }
 
     public static readonly StyledProperty<float> ScanlinesProperty =
-        AvaloniaProperty.Register<CrtContainer, float>(nameof(Scanlines), 0.5f);
+        AvaloniaProperty.Register<ProCrtControl, float>(nameof(Scanlines), 0.5f);
 
     public float Scanlines
     {
@@ -70,7 +71,7 @@ public class CrtContainer : OpenGlControlBase
     }
 
     public static readonly StyledProperty<float> VignetteProperty =
-        AvaloniaProperty.Register<CrtContainer, float>(nameof(Vignette), 0.3f);
+        AvaloniaProperty.Register<ProCrtControl, float>(nameof(Vignette), 0.3f);
 
     public float Vignette
     {
@@ -79,7 +80,7 @@ public class CrtContainer : OpenGlControlBase
     }
 
     public static readonly StyledProperty<float> PhosphorGlowProperty =
-        AvaloniaProperty.Register<CrtContainer, float>(nameof(PhosphorGlow), 0.1f);
+        AvaloniaProperty.Register<ProCrtControl, float>(nameof(PhosphorGlow), 0.1f);
 
     public float PhosphorGlow
     {
@@ -88,7 +89,7 @@ public class CrtContainer : OpenGlControlBase
     }
 
     public static readonly StyledProperty<float> FlickerProperty =
-        AvaloniaProperty.Register<CrtContainer, float>(nameof(Flicker), 0.05f);
+        AvaloniaProperty.Register<ProCrtControl, float>(nameof(Flicker), 0.05f);
 
     public float Flicker
     {
@@ -97,7 +98,7 @@ public class CrtContainer : OpenGlControlBase
     }
 
     public static readonly StyledProperty<float> GlassReflectProperty =
-        AvaloniaProperty.Register<CrtContainer, float>(nameof(GlassReflect), 0.2f);
+        AvaloniaProperty.Register<ProCrtControl, float>(nameof(GlassReflect), 0.2f);
 
     public float GlassReflect
     {
@@ -106,7 +107,7 @@ public class CrtContainer : OpenGlControlBase
     }
 
     public static readonly StyledProperty<float[]> TintProperty =
-        AvaloniaProperty.Register<CrtContainer, float[]>(nameof(Tint), new[] { 0.5f, 1.0f, 0.5f });
+        AvaloniaProperty.Register<ProCrtControl, float[]>(nameof(Tint), new[] { 0.5f, 1.0f, 0.5f });
 
     public float[] Tint
     {
@@ -191,8 +192,7 @@ public class CrtContainer : OpenGlControlBase
             gl_Position = vec4(a, 0.0, 1.0);
         }";
 
-    // 优化后的 Fragment Shader：增加了边缘平滑过渡逻辑
-    private string FragmentShaderSource => @"
+    private static string FragmentShaderSource => @"
         precision highp float;
         varying vec2 v;
         uniform sampler2D tex;
@@ -205,11 +205,11 @@ public class CrtContainer : OpenGlControlBase
             vec2 d = uv - 0.5;
             float r2 = dot(d, d);
             
-            // 计算缩放因子以消除黑边
-            // 当 s (曲率) 增加时，边缘向内收缩，我们需要通过 scale 将其拉回
-            // 我们取四角最远点 (0.5, 0.5) 的畸变程度作为缩放基准
+            // Calculate a scaling factor to eliminate black borders
+            // As s (curvature) increases, the edges shrink inward, so we need to pull them back using scale
+            // We use the distortion at the farthest corner (0.5, 0.5) as the scaling reference
             float max_dist = 0.5;
-            float max_r2 = max_dist * max_dist * 2.0; // 四角的 r2 是 0.5
+            float max_r2 = max_dist * max_dist * 2.0;
             float scale = 1.0 / (1.0 + s * max_r2);
             
             return 0.5 + d * (1.0 + s * r2) * scale;
@@ -228,23 +228,19 @@ public class CrtContainer : OpenGlControlBase
         }
 
         float glass(vec2 uv, vec2 m) {
-            // 以鼠标位置 m 为中心的反射效果
-            // 修正坐标映射：m 是 Avalonia 坐标 (0,0 在左上)，uv 是映射后的坐标。
-            // 顶点着色器已经将 v.y 翻转过 (1.0 - uv.y)，所以这里直接使用 m 即可。
+            // Reflection effect centered at the mouse position m
+            // Correct coordinate mapping: m is in Avalonia coordinates (0,0 at top-left), uv is the mapped coordinate.
+            // The vertex shader has already flipped v.y (1.0 - uv.y), so m can be used directly here.
             vec2 targetM = vec2(m.x, m.y);
             
-            // 加入微小的随时间偏移，模拟呼吸感
             targetM += vec2(sin(time * 0.5) * 0.002, cos(time * 0.5) * 0.002);
             
-            // 主高光：模拟玻璃表面的强反射
             vec2 d1 = (uv - targetM) * vec2(1.8, 2.5);
             float r1 = exp(-dot(d1, d1) * 18.0) * 0.7;
             
-            // 次级柔和光晕：增加深度感
             vec2 d2 = (uv - targetM) * vec2(0.6, 1.0);
             float r2 = exp(-dot(d2, d2) * 3.5) * 0.2;
             
-            // 边缘条状反光：模拟玻璃侧边的折射
             float r3 = exp(-pow(abs(uv.x - targetM.x), 2.0) * 25.0) * exp(-pow(abs(uv.y - 0.5), 2.0) * 0.8) * 0.08;
             
             return clamp(r1 + r2 + r3, 0.0, 1.0);
@@ -254,16 +250,13 @@ public class CrtContainer : OpenGlControlBase
             vec2 uv = v;
             vec2 d = barrel(uv, curv);
             
-            // --- 1. 基础内容处理 ---
             vec2 sampled_d = clamp(d, 0.0, 1.0);
             vec4 col = texture2D(tex, sampled_d);
             
-            // 边缘截断处理
             float edgeFactor = smoothstep(0.0, 0.01, d.x) * (1.0 - smoothstep(0.99, 1.0, d.x)) *
                                smoothstep(0.0, 0.01, d.y) * (1.0 - smoothstep(0.99, 1.0, d.y));
             col.rgb *= edgeFactor;
 
-            // --- 2. 应用屏幕特效 ---
             if (glow > 0.001) {
                 float sp = glow * 4.0 / res.x;
                 col.rgb += (texture2D(tex, clamp(sampled_d + vec2(sp, 0.0), 0.0, 1.0)).rgb + 
@@ -273,28 +266,16 @@ public class CrtContainer : OpenGlControlBase
             col.rgb *= tint;
             col.rgb *= scanline(d.y, scan);
             
-            // --- 3. 玻璃反射 (光源计算) ---
-            float g = glass(uv, mouse) * refl;
-            
-            // 计算“手电筒”照亮强度
-            // g 是反射光强度，我们用它来抵消暗角的影响
-            float illumination = g * 1.5; 
-            
-            // --- 4. 最终合成 ---
-            // 计算暗角系数
-            float v = vignet(d, vign);
-            
-            // 关键：将暗角系数与照亮强度结合。即使 v 为 0，只要 illumination 大，内容就能显现。
+            float g = glass(uv, mouse) * refl;            
+            float illumination = g * 1.5;           
+            float v = vignet(d, vign);        
             float finalVignette = clamp(v + illumination, 0.0, 1.0);
-            
-            // 应用合并后的可见度到内容
+
             col.rgb *= finalVignette;
             
-            // 应用闪烁和色调
             float fl = 1.0 - flic * 0.05 * sin(time * 43.7) * sin(time * 17.3);
             col.rgb *= fl;
             
-            // 叠加反射光斑本身的视觉效果（光晕和高光）
             vec3 reflectionLight = vec3(0.7, 0.85, 1.0) * g * 0.5;
             vec3 reflectionHighlight = vec3(1.0) * pow(g, 2.5) * 0.6;
             
@@ -345,11 +326,14 @@ public class CrtContainer : OpenGlControlBase
         gl.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         gl.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         gl.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        _glTexSubImage2D = Marshal.GetDelegateForFunctionPointer<GlTexSubImage2DDelegate>(
+    gl.GetProcAddress("glTexSubImage2D"));
     }
 
     protected override void OnOpenGlRender(GlInterface gl, int fb)
     {
-        UpdateTexture(gl, (int)Bounds.Width, (int)Bounds.Height);
+        UpdateTextureNew(gl, (int)Bounds.Width, (int)Bounds.Height);
         gl.Viewport(0, 0, (int)Bounds.Width, (int)Bounds.Height);
         gl.ClearColor(0, 0, 0, 1);
         gl.Clear(GL_COLOR_BUFFER_BIT);
@@ -385,13 +369,138 @@ public class CrtContainer : OpenGlControlBase
         gl.BindTexture(GL_TEXTURE_2D, _texture);
         SetUniform(gl, "tex", 0);
         gl.DrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-        // 使用更稳健的方式请求重绘
-        // 在某些平台上，直接调用 RequestNextFrameRendering 可能会被节流
-        // 确保下一帧渲染始终被调度
         Dispatcher.UIThread.Post(RequestNextFrameRendering, DispatcherPriority.Render);
     }
+    private RenderTargetBitmap? _renderBitmap;   // for Avalonia rendering
+    private WriteableBitmap? _writeableBitmap;   // for raw pixel access → GL
+    private int _bitmapWidth;
+    private int _bitmapHeight;
+    private bool _textureAllocated;
 
+    private delegate void GlTexSubImage2DDelegate(
+    int target, int level,
+    int xoffset, int yoffset,
+    int width, int height,
+    int format, int type,
+    IntPtr pixels);
+
+    private GlTexSubImage2DDelegate? _glTexSubImage2D;
+
+    // In OnOpenGlInit, after the existing Marshal.GetDelegateForFunctionPointer calls:
+
+    private unsafe void UpdateTextureNew(GlInterface gl, int w, int h)
+    {
+        // Recreate both bitmaps only when size actually changes
+        // (also fixes the original height-check bug)
+        if (_renderBitmap == null || _bitmapWidth != w || _bitmapHeight != h)
+        {
+            _renderBitmap?.Dispose();
+            _writeableBitmap?.Dispose();
+
+            _renderBitmap = new RenderTargetBitmap(
+                new PixelSize(w, h),
+                new Vector(96, 96));
+
+            _writeableBitmap = new WriteableBitmap(
+                new PixelSize(w, h),
+                new Vector(96, 96),
+                PixelFormat.Rgba8888,
+                AlphaFormat.Premul);
+
+            _bitmapWidth = w;
+            _bitmapHeight = h;
+            _textureAllocated = false;
+        }
+
+        // Step 1: render Avalonia content into RenderTargetBitmap (unchanged logic)
+        RenderContent(w, h);
+
+        // Step 2: copy pixels RTB → WriteableBitmap, then upload to GL
+        // This replaces the PNG encode/decode entirely
+        UploadToGl(gl, w, h);
+    }
+    private void RenderContent(int w, int h)
+    {
+        if (_renderBitmap == null) return;
+
+        if (Content is not Control contentControl)
+        {
+            // No content: leave bitmap black (already cleared on creation)
+            return;
+        }
+
+        var padding = Padding;
+        var availableWidth = Math.Max(0, w - padding.Left - padding.Right);
+        var availableHeight = Math.Max(0, h - padding.Top - padding.Bottom);
+
+        contentControl.Measure(new Size(availableWidth, availableHeight));
+        var contentSize = contentControl.DesiredSize;
+
+        double x = padding.Left;
+        double y = padding.Top;
+
+        if (HorizontalContentAlignment == HorizontalAlignment.Center)
+            x += (availableWidth - contentSize.Width) / 2;
+        else if (HorizontalContentAlignment == HorizontalAlignment.Right)
+            x += availableWidth - contentSize.Width;
+        else if (HorizontalContentAlignment == HorizontalAlignment.Stretch)
+            contentSize = contentSize.WithWidth(availableWidth);
+
+        if (VerticalContentAlignment == VerticalAlignment.Center)
+            y += (availableHeight - contentSize.Height) / 2;
+        else if (VerticalContentAlignment == VerticalAlignment.Bottom)
+            y += availableHeight - contentSize.Height;
+        else if (VerticalContentAlignment == VerticalAlignment.Stretch)
+            contentSize = contentSize.WithHeight(availableHeight);
+
+        contentControl.Arrange(new Rect(x, y, contentSize.Width, contentSize.Height));
+
+        // Render into RenderTargetBitmap — this is the ONLY correct way
+        // to capture an Avalonia control's visual output
+        _renderBitmap.Render(contentControl);
+    }
+
+    private unsafe void UploadToGl(GlInterface gl, int w, int h)
+    {
+        if (_renderBitmap == null || _writeableBitmap == null) return;
+
+        // Lock WriteableBitmap to get raw pixel pointer
+        using (var fb = _writeableBitmap.Lock())
+        {
+            // CopyPixels: direct memory copy, no PNG encoding at all
+            // This is the replacement for the Save() → FromEncodedData() round-trip
+            _renderBitmap.CopyPixels(
+                new PixelRect(0, 0, w, h),  // source rect (full bitmap)
+                fb.Address,                  // destination: raw pointer
+                fb.RowBytes * h,             // destination buffer size in bytes
+                fb.RowBytes);                // destination stride
+
+            // Upload raw pixels directly to GPU
+            gl.BindTexture(GL_TEXTURE_2D, _texture);
+
+            if (!_textureAllocated)
+            {
+                // First frame or after resize: full GPU texture allocation
+                gl.TexImage2D(
+                    GL_TEXTURE_2D, 0, GL_RGBA,
+                    w, h, 0,
+                    GL_RGBA, GL_UNSIGNED_BYTE,
+                    fb.Address);
+                _textureAllocated = true;
+            }
+            else
+            {
+                // Subsequent frames: only update pixel data, no reallocation
+                // TexSubImage2D avoids re-allocating GPU memory every frame
+                _glTexSubImage2D?.Invoke(
+                    GL_TEXTURE_2D, 0,
+                    0, 0,           // xoffset, yoffset
+                    w, h,
+                    GL_RGBA, GL_UNSIGNED_BYTE,
+                    fb.Address);
+            }
+        }
+    }
     private void UpdateTexture(GlInterface gl, int w, int h)
     {
         if (_surface == null || _surface.Canvas.DeviceClipBounds.Width != w)
@@ -404,16 +513,13 @@ public class CrtContainer : OpenGlControlBase
 
         if (Content is Control contentControl)
         {
-            // 考虑 Padding 计算可用空间
             var padding = Padding;
             var availableWidth = Math.Max(0, w - padding.Left - padding.Right);
             var availableHeight = Math.Max(0, h - padding.Top - padding.Bottom);
 
-            // 测量内容
             contentControl.Measure(new Size(availableWidth, availableHeight));
             var contentSize = contentControl.DesiredSize;
 
-            // 根据对齐方式计算位置
             double x = padding.Left;
             double y = padding.Top;
 
@@ -431,20 +537,17 @@ public class CrtContainer : OpenGlControlBase
             else if (VerticalContentAlignment == VerticalAlignment.Stretch)
                 contentSize = contentSize.WithHeight(availableHeight);
 
-            // 安排内容位置
             contentControl.Arrange(new Rect(x, y, contentSize.Width, contentSize.Height));
 
-            // 渲染内容到位图
             var pixelSize = new PixelSize(w, h);
             var dpi = new Vector(96, 96);
             using var bitmap = new RenderTargetBitmap(pixelSize, dpi);
             bitmap.Render(contentControl);
 
-            // 将位图转换为 SKImage 并绘制到画布
-            using var memoryStream = new System.IO.MemoryStream();
+            using var memoryStream = new MemoryStream();
             bitmap.Save(memoryStream);
-            memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
-            using var skImage = SkiaSharp.SKImage.FromEncodedData(memoryStream);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            using var skImage = SKImage.FromEncodedData(memoryStream);
 
             _canvas!.DrawImage(skImage, 0, 0);
         }
@@ -498,5 +601,15 @@ public class CrtContainer : OpenGlControlBase
             int loc = gl.GetUniformLocation(_program, (IntPtr)pName);
             if (loc != -1) _glUniform1i?.Invoke(loc, value);
         }
+    }
+
+    protected override void OnOpenGlDeinit(GlInterface gl)
+    {
+        base.OnOpenGlDeinit(gl);
+        gl.DeleteProgram(_program);
+        gl.DeleteBuffer(_vbo);
+        gl.DeleteTexture(_texture);
+        _surface?.Dispose();
+        _surface = null;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Browser;
+using ReactiveUI.Avalonia;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
 
@@ -15,5 +16,6 @@ internal sealed partial class Program
 
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
-                     .LogToTrace();
+                     .LogToTrace()
+                     .UseReactiveUI(_ => { });
 }

@@ -226,8 +226,8 @@
             <TabItem Header="World Map" Theme="{StaticResource NavTabItem}">
                 <pages:MapPage />
             </TabItem>
-            <TabItem Header="CrtContainer" Theme="{StaticResource NavTabItem}">
-                <pages:CrtContainerPage />
+            <TabItem Header="ProCrtControl" Theme="{StaticResource NavTabItem}">
+                <pages:ProCrtControlPage />
             </TabItem>
             <!--  THEME  -->
             <TabItem Header="THEME" Theme="{StaticResource NavCategory}" />
@@ -245,7 +245,4 @@
                 VerticalAlignment="Center" />
         </Panel>
     </Grid>
-
-
-
 </UserControl>

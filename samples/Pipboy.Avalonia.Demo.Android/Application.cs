@@ -2,6 +2,7 @@
 using Android.Runtime;
 using Avalonia;
 using Avalonia.Android;
+using ReactiveUI.Avalonia;
 
 namespace Pipboy.Avalonia.Demo.Android;
 
@@ -13,6 +14,6 @@ public class Application : AvaloniaAndroidApplication<App>
     }
     protected override AppBuilder CustomizeAppBuilder(AppBuilder builder)
     {
-        return base.CustomizeAppBuilder(builder).LogToTrace();
+        return base.CustomizeAppBuilder(builder).LogToTrace().UseReactiveUI(_ => { });
     }
 }

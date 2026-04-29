@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using ReactiveUI.Avalonia;
 using System;
 
 namespace Pipboy.Avalonia.Demo.Desktop;
@@ -12,5 +13,6 @@ internal sealed class Program
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
                      .UsePlatformDetect()
-                     .LogToTrace();
+                     .LogToTrace()
+                     .UseReactiveUI(_ => { });
 }
