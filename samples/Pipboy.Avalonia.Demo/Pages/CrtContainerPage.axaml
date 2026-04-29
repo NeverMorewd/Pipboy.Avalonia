@@ -1,0 +1,316 @@
+<UserControl
+    x:Class="Pipboy.Avalonia.Demo.Pages.CrtContainerPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pipboy="https://github.com/NeverMorewd/Pipboy.Avalonia"
+    xmlns:vms="clr-namespace:Pipboy.Avalonia.Demo.ViewModels;assembly=Pipboy.Avalonia.Demo"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="{x:Type vms:CrtContainerViewModel}"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <vms:CrtContainerViewModel />
+    </UserControl.DataContext>
+    <Grid Margin="20" ColumnDefinitions="*, 320">
+        <!--  预览部分  -->
+        <Grid Grid.Column="0" RowDefinitions="Auto, *">
+            <!--  标签占一行，自动高度  -->
+            <TextBlock
+                Grid.Row="0"
+                Margin="0,0,0,12"
+                FontSize="11"
+                Foreground="#888888"
+                LetterSpacing="2"
+                Text="PREVIEW — REAL-TIME OPENGL SIMULATION" />
+
+            <!--  Border 占一行，使用 '*' 填满剩余所有高度  -->
+            <Border
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Black"
+                ClipToBounds="True"
+                CornerRadius="4">
+                <pipboy:CrtContainer
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    Curvature="{Binding Curvature}"
+                    Flicker="{Binding Flicker}"
+                    GlassReflect="{Binding GlassReflect}"
+                    PhosphorGlow="{Binding PhosphorGlow}"
+                    Scanlines="{Binding Scanlines}"
+                    Tint="{Binding Tint}"
+                    Vignette="{Binding Vignette}">
+                    <Grid Background="#001409">
+                        <!--  Pip-Boy Style Content  -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--  Header  -->
+                        <StackPanel
+                            Grid.Row="0"
+                            Margin="20,20,20,10"
+                            Orientation="Vertical">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontFamily="Consolas, Courier New, monospace"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Foreground="#4cff91"
+                                Text="VAULT-TEC INDUSTRIES  |  PIP-BOY 3000" />
+                            <Separator
+                                Height="2"
+                                Margin="0,5,0,0"
+                                Background="#4cff91" />
+                        </StackPanel>
+
+                        <!--  Main Content Area  -->
+                        <StackPanel
+                            Grid.Row="1"
+                            Margin="30,20,30,20"
+                            Orientation="Vertical"
+                            Spacing="15">
+                            <TextBlock
+                                FontFamily="Consolas, Courier New, monospace"
+                                FontSize="16"
+                                Foreground="#4cff91"
+                                Text="STATUS" />
+
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontFamily="Consolas, Courier New, monospace"
+                                    FontSize="14"
+                                    Foreground="#4cff91"
+                                    Text="HP" />
+                                <ProgressBar
+                                    Width="300"
+                                    Height="14"
+                                    VerticalAlignment="Center"
+                                    Background="#1a3d25"
+                                    Foreground="#4cff91"
+                                    Maximum="100"
+                                    Value="72" />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontFamily="Consolas, Courier New, monospace"
+                                    FontSize="14"
+                                    Foreground="#4cff91"
+                                    Text="72 / 100" />
+                            </StackPanel>
+
+                            <TextBlock
+                                Margin="0,20,0,0"
+                                FontFamily="Consolas, Courier New, monospace"
+                                FontSize="14"
+                                Foreground="#4cff91"
+                                Text="> SYSTEM OK" />
+                            <TextBlock
+                                FontFamily="Consolas, Courier New, monospace"
+                                FontSize="14"
+                                Foreground="#4cff91"
+                                Text="> NO CRITICAL ALERTS" />
+                        </StackPanel>
+
+                        <!--  Footer  -->
+                        <TextBlock
+                            Grid.Row="2"
+                            Margin="0,0,0,20"
+                            HorizontalAlignment="Center"
+                            FontFamily="Consolas, Courier New, monospace"
+                            FontSize="12"
+                            Foreground="#4cff91"
+                            Text="RADS: 12  |  WEIGHT: 187/200" />
+                    </Grid>
+                </pipboy:CrtContainer>
+            </Border>
+        </Grid>
+
+
+        <!--  Controls Section  -->
+        <ScrollViewer Grid.Column="1" Margin="20,0,0,0">
+            <StackPanel Spacing="15">
+                <TextBlock
+                    FontSize="10"
+                    Foreground="#444444"
+                    LetterSpacing="2"
+                    Text="DISTORTION" />
+                <StackPanel Spacing="4">
+                    <DockPanel>
+                        <TextBlock
+                            FontSize="11"
+                            Foreground="#AAAAAA"
+                            Text="Curvature" />
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Text="{Binding Curvature, StringFormat={}{0:F2}}" />
+                    </DockPanel>
+                    <Slider
+                        Foreground="#4cff91"
+                        Maximum="0.6"
+                        Minimum="0"
+                        Value="{Binding Curvature}" />
+                </StackPanel>
+
+                <Separator
+                    Height="1"
+                    Margin="0,5"
+                    Background="#222222" />
+                <TextBlock
+                    FontSize="10"
+                    Foreground="#444444"
+                    LetterSpacing="2"
+                    Text="POST-PROCESS" />
+
+                <StackPanel Spacing="4">
+                    <DockPanel>
+                        <TextBlock
+                            FontSize="11"
+                            Foreground="#AAAAAA"
+                            Text="Scanlines" />
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Text="{Binding Scanlines, StringFormat={}{0:F2}}" />
+                    </DockPanel>
+                    <Slider
+                        Foreground="#4cff91"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Scanlines}" />
+                </StackPanel>
+
+                <StackPanel Spacing="4">
+                    <DockPanel>
+                        <TextBlock
+                            FontSize="11"
+                            Foreground="#AAAAAA"
+                            Text="Vignette" />
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Text="{Binding Vignette, StringFormat={}{0:F2}}" />
+                    </DockPanel>
+                    <Slider
+                        Foreground="#4cff91"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Vignette}" />
+                </StackPanel>
+
+                <StackPanel Spacing="4">
+                    <DockPanel>
+                        <TextBlock
+                            FontSize="11"
+                            Foreground="#AAAAAA"
+                            Text="Phosphor Glow" />
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Text="{Binding PhosphorGlow, StringFormat={}{0:F2}}" />
+                    </DockPanel>
+                    <Slider
+                        Foreground="#4cff91"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding PhosphorGlow}" />
+                </StackPanel>
+
+                <Separator
+                    Height="1"
+                    Margin="0,5"
+                    Background="#222222" />
+                <TextBlock
+                    FontSize="10"
+                    Foreground="#444444"
+                    LetterSpacing="2"
+                    Text="CHARACTER" />
+
+                <StackPanel Spacing="4">
+                    <DockPanel>
+                        <TextBlock
+                            FontSize="11"
+                            Foreground="#AAAAAA"
+                            Text="Flicker" />
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Text="{Binding Flicker, StringFormat={}{0:F2}}" />
+                    </DockPanel>
+                    <Slider
+                        Foreground="#4cff91"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Flicker}" />
+                </StackPanel>
+
+                <StackPanel Spacing="4">
+                    <DockPanel>
+                        <TextBlock
+                            FontSize="11"
+                            Foreground="#AAAAAA"
+                            Text="Glass Reflect" />
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Text="{Binding GlassReflect, StringFormat={}{0:F2}}" />
+                    </DockPanel>
+                    <Slider
+                        Foreground="#4cff91"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding GlassReflect}" />
+                </StackPanel>
+
+                <Separator
+                    Height="1"
+                    Margin="0,5"
+                    Background="#222222" />
+                <TextBlock
+                    FontSize="10"
+                    Foreground="#444444"
+                    LetterSpacing="2"
+                    Text="PRESETS" />
+
+                <WrapPanel ItemWidth="90" Orientation="Horizontal">
+                    <Button
+                        Margin="2"
+                        Command="{Binding ApplyPresetCommand}"
+                        CommandParameter="pipboy"
+                        Content="PIP-BOY"
+                        FontSize="10" />
+                    <Button
+                        Margin="2"
+                        Command="{Binding ApplyPresetCommand}"
+                        CommandParameter="amber"
+                        Content="AMBER"
+                        FontSize="10" />
+                    <Button
+                        Margin="2"
+                        Command="{Binding ApplyPresetCommand}"
+                        CommandParameter="white"
+                        Content="WHITE-P"
+                        FontSize="10" />
+                    <Button
+                        Margin="2"
+                        Command="{Binding ApplyPresetCommand}"
+                        CommandParameter="arcade"
+                        Content="ARCADE"
+                        FontSize="10" />
+                    <Button
+                        Margin="2"
+                        Command="{Binding ApplyPresetCommand}"
+                        CommandParameter="flat"
+                        Content="FLAT"
+                        FontSize="10" />
+                </WrapPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
