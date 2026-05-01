@@ -1,20 +1,21 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
+using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
 using Avalonia.Input;
+using Avalonia.Layout;
 using Avalonia.Media.Imaging;
 using Avalonia.Metadata;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
 using Avalonia.Platform;
 using Avalonia.Threading;
-using Avalonia.Layout;
-using SkiaSharp;
 using System.Runtime.InteropServices;
 
 namespace PipBoy.Avalonia.Fx.Controls;
 
-public class ProCrtControl : OpenGlControlBase
+public class ProCrtControl : TemplatedControl
 {
     public static readonly StyledProperty<object?> ContentProperty =
         AvaloniaProperty.Register<ProCrtControl, object?>(nameof(Content));
@@ -25,7 +26,6 @@ public class ProCrtControl : OpenGlControlBase
         get => GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
     }
-
 
     public static readonly StyledProperty<float> CurvatureProperty =
         AvaloniaProperty.Register<ProCrtControl, float>(nameof(Curvature), 0.2f);
@@ -90,42 +90,61 @@ public class ProCrtControl : OpenGlControlBase
         set => SetValue(TintProperty, value);
     }
 
-    private Point _mousePosition = new Point(0.5, 0.5);
-
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    static ProCrtControl()
     {
-        base.OnAttachedToVisualTree(e);
-        var topLevel = TopLevel.GetTopLevel(this);
-        if (topLevel is null) return;
-        topLevel.PointerMoved += OnGlobalPointerMoved;
-    }
-
-    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
-    {
-        base.OnDetachedFromVisualTree(e);
-        var topLevel = TopLevel.GetTopLevel(this);
-        if (topLevel is null) return;
-        topLevel.PointerMoved -= OnGlobalPointerMoved;
-    }
-
-    private void OnGlobalPointerMoved(object? sender, PointerEventArgs e)
-    {
-        var pos = e.GetPosition(this);
-        if (Bounds.Width > 0 && Bounds.Height > 0)
+        TemplateProperty.OverrideDefaultValue<ProCrtControl>(new FuncControlTemplate<ProCrtControl>((parent, scope) =>
         {
-            _mousePosition = new Point(
-                Math.Clamp(pos.X / Bounds.Width, 0, 1),
-                Math.Clamp(pos.Y / Bounds.Height, 0, 1)
-            );
-        }
+            var grid = new Grid();
+
+            var contentPresenter = new ContentPresenter
+            {
+                Name = "PART_ContentPresenter",
+                [!ContentPresenter.ContentProperty] = parent[!ProCrtControl.ContentProperty],
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+
+            var effectLayer = new CrtEffectLayer
+            {
+                IsHitTestVisible = false,
+                [!CrtEffectLayer.CurvatureProperty] = parent[!ProCrtControl.CurvatureProperty],
+                [!CrtEffectLayer.ScanlinesProperty] = parent[!ProCrtControl.ScanlinesProperty],
+                [!CrtEffectLayer.VignetteProperty] = parent[!ProCrtControl.VignetteProperty],
+                [!CrtEffectLayer.PhosphorGlowProperty] = parent[!ProCrtControl.PhosphorGlowProperty],
+                [!CrtEffectLayer.FlickerProperty] = parent[!ProCrtControl.FlickerProperty],
+                [!CrtEffectLayer.GlassReflectProperty] = parent[!ProCrtControl.GlassReflectProperty],
+                [!CrtEffectLayer.TintProperty] = parent[!ProCrtControl.TintProperty],
+                SourceElement = contentPresenter
+            };
+
+            grid.Children.Add(contentPresenter);
+            grid.Children.Add(effectLayer);
+
+            return grid;
+        }));
     }
+}
+
+internal class CrtEffectLayer : OpenGlControlBase
+{
+    public static readonly StyledProperty<float> CurvatureProperty = AvaloniaProperty.Register<CrtEffectLayer, float>("Curvature");
+    public static readonly StyledProperty<float> ScanlinesProperty = AvaloniaProperty.Register<CrtEffectLayer, float>("Scanlines");
+    public static readonly StyledProperty<float> VignetteProperty = AvaloniaProperty.Register<CrtEffectLayer, float>("Vignette");
+    public static readonly StyledProperty<float> PhosphorGlowProperty = AvaloniaProperty.Register<CrtEffectLayer, float>("PhosphorGlow");
+    public static readonly StyledProperty<float> FlickerProperty = AvaloniaProperty.Register<CrtEffectLayer, float>("Flicker");
+    public static readonly StyledProperty<float> GlassReflectProperty = AvaloniaProperty.Register<CrtEffectLayer, float>("GlassReflect");
+    public static readonly StyledProperty<float[]> TintProperty = AvaloniaProperty.Register<CrtEffectLayer, float[]>("Tint");
+
+    public Visual? SourceElement { get; set; }
 
     private int _program;
     private int _vbo;
     private int _texture;
-    private SKSurface? _surface;
-    private SKCanvas? _canvas;
+    private RenderTargetBitmap? _renderBitmap;
+    private WriteableBitmap? _writeableBitmap;
+    private bool _textureAllocated;
     private DateTime _startTime = DateTime.UtcNow;
+    private Point _mousePosition = new Point(0.5, 0.5);
 
     // OpenGL Constants
     private const int GL_VERTEX_SHADER = 0x8B31;
@@ -150,140 +169,134 @@ public class ProCrtControl : OpenGlControlBase
     private delegate void glUniform2fDelegate(int location, float v0, float v1);
     private delegate void glUniform3fDelegate(int location, float v0, float v1, float v2);
     private delegate void glUniform1iDelegate(int location, int v0);
+    private delegate void glTexSubImage2DDelegate(int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, IntPtr pixels);
 
     private glUniform1fDelegate? _glUniform1f;
     private glUniform2fDelegate? _glUniform2f;
     private glUniform3fDelegate? _glUniform3f;
     private glUniform1iDelegate? _glUniform1i;
+    private glTexSubImage2DDelegate? _glTexSubImage2D;
 
-
-
-    private string VertexShaderSource => @"
-        attribute vec2 a;
-        varying vec2 v;
-        void main() {
-            vec2 uv = a * 0.5 + 0.5;
-            v = vec2(uv.x, 1.0 - uv.y); 
-            gl_Position = vec4(a, 0.0, 1.0);
-        }";
-
-    private static string FragmentShaderSource => @"
-        precision highp float;
-        varying vec2 v;
-        uniform sampler2D tex;
-        uniform vec2 res;
-        uniform vec2 mouse;
-        uniform float curv, scan, vign, glow, flic, refl, time;
-        uniform vec3 tint;
-
-        vec2 barrel(vec2 uv, float s) {
-            vec2 d = uv - 0.5;
-            float r2 = dot(d, d);
-            
-            // Calculate a scaling factor to eliminate black borders
-            // As s (curvature) increases, the edges shrink inward, so we need to pull them back using scale
-            // We use the distortion at the farthest corner (0.5, 0.5) as the scaling reference
-            float max_dist = 0.5;
-            float max_r2 = max_dist * max_dist * 2.0;
-            float scale = 1.0 / (1.0 + s * max_r2);
-            
-            return 0.5 + d * (1.0 + s * r2) * scale;
-        }
-
-        float scanline(float y, float a) {
-            float l = sin(y * res.y * 0.5 * 3.14159) * 0.5 + 0.5;
-            l = pow(l, 1.5);
-            return 1.0 - a * (1.0 - l) * 0.6;
-        }
-
-        float vignet(vec2 uv, float s) {
-            vec2 d = abs(uv - 0.5) * 2.0;
-            float r = sqrt(dot(d, d));
-            return 1.0 - s * smoothstep(0.5, 1.0, r);
-        }
-
-        float glass(vec2 uv, vec2 m) {
-            // Reflection effect centered at the mouse position m
-            // Correct coordinate mapping: m is in Avalonia coordinates (0,0 at top-left), uv is the mapped coordinate.
-            // The vertex shader has already flipped v.y (1.0 - uv.y), so m can be used directly here.
-            vec2 targetM = vec2(m.x, m.y);
-            
-            targetM += vec2(sin(time * 0.5) * 0.002, cos(time * 0.5) * 0.002);
-            
-            vec2 d1 = (uv - targetM) * vec2(1.8, 2.5);
-            float r1 = exp(-dot(d1, d1) * 18.0) * 0.7;
-            
-            vec2 d2 = (uv - targetM) * vec2(0.6, 1.0);
-            float r2 = exp(-dot(d2, d2) * 3.5) * 0.2;
-            
-            float r3 = exp(-pow(abs(uv.x - targetM.x), 2.0) * 25.0) * exp(-pow(abs(uv.y - 0.5), 2.0) * 0.8) * 0.08;
-            
-            return clamp(r1 + r2 + r3, 0.0, 1.0);
-        }
-
-        void main() {
-            vec2 uv = v;
-            vec2 d = barrel(uv, curv);
-            
-            vec2 sampled_d = clamp(d, 0.0, 1.0);
-            vec4 col = texture2D(tex, sampled_d);
-            
-            float edgeFactor = smoothstep(0.0, 0.01, d.x) * (1.0 - smoothstep(0.99, 1.0, d.x)) *
-                               smoothstep(0.0, 0.01, d.y) * (1.0 - smoothstep(0.99, 1.0, d.y));
-            col.rgb *= edgeFactor;
-
-            if (glow > 0.001) {
-                float sp = glow * 4.0 / res.x;
-                col.rgb += (texture2D(tex, clamp(sampled_d + vec2(sp, 0.0), 0.0, 1.0)).rgb + 
-                            texture2D(tex, clamp(sampled_d - vec2(sp, 0.0), 0.0, 1.0)).rgb) * glow;
-            }
-
-            col.rgb *= tint;
-            col.rgb *= scanline(d.y, scan);
-            
-            float g = glass(uv, mouse) * refl;            
-            float illumination = g * 1.5;           
-            float v = vignet(d, vign);        
-            float finalVignette = clamp(v + illumination, 0.0, 1.0);
-
-            col.rgb *= finalVignette;
-            
-            float fl = 1.0 - flic * 0.05 * sin(time * 43.7) * sin(time * 17.3);
-            col.rgb *= fl;
-            
-            vec3 reflectionLight = vec3(0.7, 0.85, 1.0) * g * 0.5;
-            vec3 reflectionHighlight = vec3(1.0) * pow(g, 2.5) * 0.6;
-            
-            vec3 finalColor = col.rgb + reflectionLight + reflectionHighlight;
-            
-            gl_FragColor = vec4(finalColor, 1.0);
-        }";
-
-    private unsafe void CompileShader(GlInterface gl, int shader, string source)
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
-        var bytes = System.Text.Encoding.UTF8.GetBytes(source);
-        fixed (byte* ptr = bytes)
+        base.OnAttachedToVisualTree(e);
+        var topLevel = TopLevel.GetTopLevel(this);
+        if (topLevel != null) topLevel.PointerMoved += OnGlobalPointerMoved;
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        var topLevel = TopLevel.GetTopLevel(this);
+        if (topLevel != null) topLevel.PointerMoved -= OnGlobalPointerMoved;
+    }
+
+    private void OnGlobalPointerMoved(object? sender, PointerEventArgs e)
+    {
+        var pos = e.GetPosition(this);
+        if (Bounds.Width > 0 && Bounds.Height > 0)
         {
-            IntPtr p = (IntPtr)ptr;
-            int len = bytes.Length;
-            gl.ShaderSource(shader, 1, new IntPtr(&p), new IntPtr(&len));
+            _mousePosition = new Point(
+                Math.Clamp(pos.X / Bounds.Width, 0, 1),
+                Math.Clamp(pos.Y / Bounds.Height, 0, 1)
+            );
         }
-        gl.CompileShader(shader);
     }
 
     protected override void OnOpenGlInit(GlInterface gl)
     {
-        base.OnOpenGlInit(gl);
-
         _glUniform1f = Marshal.GetDelegateForFunctionPointer<glUniform1fDelegate>(gl.GetProcAddress("glUniform1f"));
         _glUniform2f = Marshal.GetDelegateForFunctionPointer<glUniform2fDelegate>(gl.GetProcAddress("glUniform2f"));
         _glUniform3f = Marshal.GetDelegateForFunctionPointer<glUniform3fDelegate>(gl.GetProcAddress("glUniform3f"));
         _glUniform1i = Marshal.GetDelegateForFunctionPointer<glUniform1iDelegate>(gl.GetProcAddress("glUniform1i"));
+        _glTexSubImage2D = Marshal.GetDelegateForFunctionPointer<glTexSubImage2DDelegate>(gl.GetProcAddress("glTexSubImage2D"));
 
         int vs = gl.CreateShader(GL_VERTEX_SHADER);
-        CompileShader(gl, vs, VertexShaderSource);
+        CompileShader(gl, vs, @"
+            attribute vec2 a;
+            varying vec2 v;
+            void main() {
+                vec2 uv = a * 0.5 + 0.5;
+                v = vec2(uv.x, 1.0 - uv.y); 
+                gl_Position = vec4(a, 0.0, 1.0);
+            }");
+
         int fs = gl.CreateShader(GL_FRAGMENT_SHADER);
-        CompileShader(gl, fs, FragmentShaderSource);
+        CompileShader(gl, fs, @"
+            precision highp float;
+            varying vec2 v;
+            uniform sampler2D tex;
+            uniform vec2 res;
+            uniform vec2 mouse;
+            uniform float curv, scan, vign, glow, flic, refl, time;
+            uniform vec3 tint;
+
+            vec2 barrel(vec2 uv, float s) {
+                vec2 d = uv - 0.5;
+                float r2 = dot(d, d);
+                float max_dist = 0.5;
+                float max_r2 = max_dist * max_dist * 2.0;
+                float scale = 1.0 / (1.0 + s * max_r2);
+                return 0.5 + d * (1.0 + s * r2) * scale;
+            }
+
+            float scanline(float y, float a) {
+                float l = sin(y * res.y * 0.5 * 3.14159) * 0.5 + 0.5;
+                l = pow(l, 1.5);
+                return 1.0 - a * (1.0 - l) * 0.6;
+            }
+
+            float vignet(vec2 uv, float s) {
+                vec2 d = abs(uv - 0.5) * 2.0;
+                float r = sqrt(dot(d, d));
+                return 1.0 - s * smoothstep(0.5, 1.0, r);
+            }
+
+            float glass(vec2 uv, vec2 m) {
+                vec2 targetM = vec2(m.x, m.y);
+                targetM += vec2(sin(time * 0.5) * 0.002, cos(time * 0.5) * 0.002);
+                vec2 d1 = (uv - targetM) * vec2(1.8, 2.5);
+                float r1 = exp(-dot(d1, d1) * 18.0) * 0.7;
+                vec2 d2 = (uv - targetM) * vec2(0.6, 1.0);
+                float r2 = exp(-dot(d2, d2) * 3.5) * 0.2;
+                float r3 = exp(-pow(abs(uv.x - targetM.x), 2.0) * 25.0) * exp(-pow(abs(uv.y - 0.5), 2.0) * 0.8) * 0.08;
+                return clamp(r1 + r2 + r3, 0.0, 1.0);
+            }
+
+            void main() {
+                vec2 uv = v;
+                vec2 d = barrel(uv, curv);
+                vec2 sampled_d = clamp(d, 0.0, 1.0);
+                vec4 col = texture2D(tex, sampled_d);
+                
+                float edgeFactor = smoothstep(0.0, 0.01, d.x) * (1.0 - smoothstep(0.99, 1.0, d.x)) *
+                                   smoothstep(0.0, 0.01, d.y) * (1.0 - smoothstep(0.99, 1.0, d.y));
+                col.rgb *= edgeFactor;
+
+                if (glow > 0.001) {
+                    float sp = glow * 4.0 / res.x;
+                    col.rgb += (texture2D(tex, clamp(sampled_d + vec2(sp, 0.0), 0.0, 1.0)).rgb + 
+                                texture2D(tex, clamp(sampled_d - vec2(sp, 0.0), 0.0, 1.0)).rgb) * glow;
+                }
+
+                col.rgb *= tint;
+                col.rgb *= scanline(d.y, scan);
+                
+                float g = glass(uv, mouse) * refl;            
+                float illumination = g * 1.5;           
+                float v_val = vignet(d, vign);        
+                float finalVignette = clamp(v_val + illumination, 0.0, 1.0);
+                col.rgb *= finalVignette;
+                
+                float fl = 1.0 - flic * 0.05 * sin(time * 43.7) * sin(time * 17.3);
+                col.rgb *= fl;
+                
+                vec3 reflectionLight = vec3(0.7, 0.85, 1.0) * g * 0.5;
+                vec3 reflectionHighlight = vec3(1.0) * pow(g, 2.5) * 0.6;
+                vec3 finalColor = col.rgb + reflectionLight + reflectionHighlight;
+                
+                gl_FragColor = vec4(finalColor, 1.0);
+            }");
 
         _program = gl.CreateProgram();
         gl.AttachShader(_program, vs);
@@ -301,16 +314,30 @@ public class ProCrtControl : OpenGlControlBase
         gl.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         gl.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         gl.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
 
-        _glTexSubImage2D = Marshal.GetDelegateForFunctionPointer<GlTexSubImage2DDelegate>(
-    gl.GetProcAddress("glTexSubImage2D"));
+    private unsafe void CompileShader(GlInterface gl, int shader, string source)
+    {
+        var bytes = System.Text.Encoding.UTF8.GetBytes(source);
+        fixed (byte* ptr = bytes)
+        {
+            IntPtr p = (IntPtr)ptr;
+            int len = bytes.Length;
+            gl.ShaderSource(shader, 1, new IntPtr(&p), new IntPtr(&len));
+        }
+        gl.CompileShader(shader);
     }
 
     protected override void OnOpenGlRender(GlInterface gl, int fb)
     {
-        UpdateTexture(gl, (int)Bounds.Width, (int)Bounds.Height);
-        gl.Viewport(0, 0, (int)Bounds.Width, (int)Bounds.Height);
-        gl.ClearColor(0, 0, 0, 1);
+        int w = (int)Bounds.Width;
+        int h = (int)Bounds.Height;
+        if (w <= 0 || h <= 0) return;
+
+        UpdateTexture(gl, w, h);
+
+        gl.Viewport(0, 0, w, h);
+        gl.ClearColor(0, 0, 0, 0);
         gl.Clear(GL_COLOR_BUFFER_BIT);
         gl.UseProgram(_program);
         gl.BindBuffer(GL_ARRAY_BUFFER, _vbo);
@@ -330,140 +357,53 @@ public class ProCrtControl : OpenGlControlBase
         }
 
         float time = (float)(DateTime.UtcNow - _startTime).TotalSeconds;
-        SetUniform(gl, "res", (float)Bounds.Width, (float)Bounds.Height);
-        SetUniform(gl, "curv", Curvature);
-        SetUniform(gl, "scan", Scanlines);
-        SetUniform(gl, "vign", Vignette);
-        SetUniform(gl, "glow", PhosphorGlow);
-        SetUniform(gl, "flic", Flicker);
-        SetUniform(gl, "refl", GlassReflect);
+        SetUniform(gl, "res", (float)w, (float)h);
+        SetUniform(gl, "curv", GetValue(CurvatureProperty));
+        SetUniform(gl, "scan", GetValue(ScanlinesProperty));
+        SetUniform(gl, "vign", GetValue(VignetteProperty));
+        SetUniform(gl, "glow", GetValue(PhosphorGlowProperty));
+        SetUniform(gl, "flic", GetValue(FlickerProperty));
+        SetUniform(gl, "refl", GetValue(GlassReflectProperty));
         SetUniform(gl, "mouse", (float)_mousePosition.X, (float)_mousePosition.Y);
         SetUniform(gl, "time", time);
-        SetUniform(gl, "tint", Tint[0], Tint[1], Tint[2]);
+        var tint = GetValue(TintProperty);
+        SetUniform(gl, "tint", tint[0], tint[1], tint[2]);
+
         gl.ActiveTexture(GL_TEXTURE0);
         gl.BindTexture(GL_TEXTURE_2D, _texture);
         SetUniform(gl, "tex", 0);
+
         gl.DrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         Dispatcher.UIThread.Post(RequestNextFrameRendering, DispatcherPriority.Render);
     }
-    private RenderTargetBitmap? _renderBitmap;   // for Avalonia rendering
-    private WriteableBitmap? _writeableBitmap;   // for raw pixel access → GL
-    private int _bitmapWidth;
-    private int _bitmapHeight;
-    private bool _textureAllocated;
-
-    private delegate void GlTexSubImage2DDelegate(
-    int target, int level,
-    int xoffset, int yoffset,
-    int width, int height,
-    int format, int type,
-    IntPtr pixels);
-
-    private GlTexSubImage2DDelegate? _glTexSubImage2D;
-
-    // In OnOpenGlInit, after the existing Marshal.GetDelegateForFunctionPointer calls:
 
     private void UpdateTexture(GlInterface gl, int w, int h)
     {
-        if (_renderBitmap == null || _bitmapWidth != w || _bitmapHeight != h)
+        if (_renderBitmap == null || _renderBitmap.PixelSize.Width != w || _renderBitmap.PixelSize.Height != h)
         {
             _renderBitmap?.Dispose();
             _writeableBitmap?.Dispose();
-
-            _renderBitmap = new RenderTargetBitmap(
-                new PixelSize(w, h),
-                new Vector(96, 96));
-
-            _writeableBitmap = new WriteableBitmap(
-                new PixelSize(w, h),
-                new Vector(96, 96),
-                PixelFormat.Rgba8888,
-                AlphaFormat.Premul);
-
-            _bitmapWidth = w;
-            _bitmapHeight = h;
+            _renderBitmap = new RenderTargetBitmap(new PixelSize(w, h), new Vector(96, 96));
+            _writeableBitmap = new WriteableBitmap(new PixelSize(w, h), new Vector(96, 96), PixelFormat.Rgba8888, AlphaFormat.Premul);
             _textureAllocated = false;
         }
 
-        RenderContent(w, h);
-        UploadToGl(gl, w, h);
-    }
-    private ContentPresenter? _presenter;
-
-    private void EnsurePresenter()
-    {
-        if (_presenter != null) return;
-
-        _presenter = new ContentPresenter
+        if (SourceElement != null)
         {
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch
-        };
-       // _presenter.Parent = this; // Provide styling context
-        // _presenter.Parent = this; // Parent is read-only, this caused a compilation error.
-        // Instead, add it to LogicalChildren to provide styling context.
-        if (!LogicalChildren.Contains(_presenter))
-        {
-            LogicalChildren.Add(_presenter);
-        }
-        _presenter.ApplyTemplate();
-    }
-    private void RenderContent(int w, int h)
-    {
-        if (_renderBitmap == null) return;
-        if (Content == null) return;
-
-        EnsurePresenter();
-
-        _presenter!.Content = Content;
-
-        var size = new Size(w, h);
-
-        // why: 必须走 presenter，而不是直接 content
-        _presenter.Measure(size);
-        _presenter.Arrange(new Rect(size));
-
-        _renderBitmap.Render(_presenter);
-    }
-
-    private void UploadToGl(GlInterface gl, int w, int h)
-    {
-        if (_renderBitmap == null || _writeableBitmap == null) return;
-
-        // Lock WriteableBitmap to get raw pixel pointer
-        using (var fb = _writeableBitmap.Lock())
-        {
-            // CopyPixels: direct memory copy, no PNG encoding at all
-            // This is the replacement for the Save() → FromEncodedData() round-trip
-            _renderBitmap.CopyPixels(
-                new PixelRect(0, 0, w, h),  // source rect (full bitmap)
-                fb.Address,                  // destination: raw pointer
-                fb.RowBytes * h,             // destination buffer size in bytes
-                fb.RowBytes);                // destination stride
-
-            // Upload raw pixels directly to GPU
-            gl.BindTexture(GL_TEXTURE_2D, _texture);
-
-            if (!_textureAllocated)
+            _renderBitmap.Render(SourceElement);
+            using (var fb = _writeableBitmap.Lock())
             {
-                // First frame or after resize: full GPU texture allocation
-                gl.TexImage2D(
-                    GL_TEXTURE_2D, 0, GL_RGBA,
-                    w, h, 0,
-                    GL_RGBA, GL_UNSIGNED_BYTE,
-                    fb.Address);
-                _textureAllocated = true;
-            }
-            else
-            {
-                // Subsequent frames: only update pixel data, no reallocation
-                // TexSubImage2D avoids re-allocating GPU memory every frame
-                _glTexSubImage2D?.Invoke(
-                    GL_TEXTURE_2D, 0,
-                    0, 0,           // xoffset, yoffset
-                    w, h,
-                    GL_RGBA, GL_UNSIGNED_BYTE,
-                    fb.Address);
+                _renderBitmap.CopyPixels(new PixelRect(0, 0, w, h), fb.Address, fb.RowBytes * h, fb.RowBytes);
+                gl.BindTexture(GL_TEXTURE_2D, _texture);
+                if (!_textureAllocated)
+                {
+                    gl.TexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, fb.Address);
+                    _textureAllocated = true;
+                }
+                else
+                {
+                    _glTexSubImage2D?.Invoke(GL_TEXTURE_2D, 0, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, fb.Address);
+                }
             }
         }
     }
@@ -493,15 +433,10 @@ public class ProCrtControl : OpenGlControlBase
 
     protected override void OnOpenGlDeinit(GlInterface gl)
     {
-        base.OnOpenGlDeinit(gl);
         gl.DeleteProgram(_program);
         gl.DeleteBuffer(_vbo);
         gl.DeleteTexture(_texture);
-        _surface?.Dispose();
-        _surface = null;
         _renderBitmap?.Dispose();
-        _renderBitmap = null;
         _writeableBitmap?.Dispose();
-        _writeableBitmap = null;
     }
 }
