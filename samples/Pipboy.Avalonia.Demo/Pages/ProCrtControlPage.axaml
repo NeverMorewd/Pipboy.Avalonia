@@ -28,8 +28,6 @@
                 ClipToBounds="True"
                 CornerRadius="40">
                 <pipboy:ProCrtControl
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Stretch"
                     Curvature="{Binding Curvature}"
                     Flicker="{Binding Flicker}"
                     GlassReflect="{Binding GlassReflect}"
@@ -83,6 +81,7 @@
                                 FontFamily="Consolas, Courier New, monospace"
                                 Text="> SYSTEM OK" />
                             <TextBlock FontFamily="Consolas, Courier New, monospace" Text="> NO CRITICAL ALERTS" />
+                            <ToggleSwitch OffContent="Off" OnContent="On" />
                         </StackPanel>
 
                         <!--  Footer  -->

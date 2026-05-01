@@ -1,13 +1,14 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Input;
-using Avalonia.Layout;
 using Avalonia.Media.Imaging;
 using Avalonia.Metadata;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
 using Avalonia.Platform;
 using Avalonia.Threading;
+using Avalonia.Layout;
 using SkiaSharp;
 using System.Runtime.InteropServices;
 
@@ -25,32 +26,6 @@ public class ProCrtControl : OpenGlControlBase
         set => SetValue(ContentProperty, value);
     }
 
-    public static readonly StyledProperty<Thickness> PaddingProperty =
-        AvaloniaProperty.Register<ProCrtControl, Thickness>(nameof(Padding));
-
-    public Thickness Padding
-    {
-        get => GetValue(PaddingProperty);
-        set => SetValue(PaddingProperty, value);
-    }
-
-    public static readonly StyledProperty<HorizontalAlignment> HorizontalContentAlignmentProperty =
-        AvaloniaProperty.Register<ProCrtControl, HorizontalAlignment>(nameof(HorizontalContentAlignment), HorizontalAlignment.Stretch);
-
-    public HorizontalAlignment HorizontalContentAlignment
-    {
-        get => GetValue(HorizontalContentAlignmentProperty);
-        set => SetValue(HorizontalContentAlignmentProperty, value);
-    }
-
-    public static readonly StyledProperty<VerticalAlignment> VerticalContentAlignmentProperty =
-        AvaloniaProperty.Register<ProCrtControl, VerticalAlignment>(nameof(VerticalContentAlignment), VerticalAlignment.Stretch);
-
-    public VerticalAlignment VerticalContentAlignment
-    {
-        get => GetValue(VerticalContentAlignmentProperty);
-        set => SetValue(VerticalContentAlignmentProperty, value);
-    }
 
     public static readonly StyledProperty<float> CurvatureProperty =
         AvaloniaProperty.Register<ProCrtControl, float>(nameof(Curvature), 0.2f);
@@ -413,45 +388,42 @@ public class ProCrtControl : OpenGlControlBase
         RenderContent(w, h);
         UploadToGl(gl, w, h);
     }
+    private ContentPresenter? _presenter;
+
+    private void EnsurePresenter()
+    {
+        if (_presenter != null) return;
+
+        _presenter = new ContentPresenter
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
+        };
+       // _presenter.Parent = this; // Provide styling context
+        // _presenter.Parent = this; // Parent is read-only, this caused a compilation error.
+        // Instead, add it to LogicalChildren to provide styling context.
+        if (!LogicalChildren.Contains(_presenter))
+        {
+            LogicalChildren.Add(_presenter);
+        }
+        _presenter.ApplyTemplate();
+    }
     private void RenderContent(int w, int h)
     {
         if (_renderBitmap == null) return;
+        if (Content == null) return;
 
-        if (Content is not Control contentControl)
-        {
-            // No content: leave bitmap black (already cleared on creation)
-            return;
-        }
+        EnsurePresenter();
 
-        var padding = Padding;
-        var availableWidth = Math.Max(0, w - padding.Left - padding.Right);
-        var availableHeight = Math.Max(0, h - padding.Top - padding.Bottom);
+        _presenter!.Content = Content;
 
-        contentControl.Measure(new Size(availableWidth, availableHeight));
-        var contentSize = contentControl.DesiredSize;
+        var size = new Size(w, h);
 
-        double x = padding.Left;
-        double y = padding.Top;
+        // why: 必须走 presenter，而不是直接 content
+        _presenter.Measure(size);
+        _presenter.Arrange(new Rect(size));
 
-        if (HorizontalContentAlignment == HorizontalAlignment.Center)
-            x += (availableWidth - contentSize.Width) / 2;
-        else if (HorizontalContentAlignment == HorizontalAlignment.Right)
-            x += availableWidth - contentSize.Width;
-        else if (HorizontalContentAlignment == HorizontalAlignment.Stretch)
-            contentSize = contentSize.WithWidth(availableWidth);
-
-        if (VerticalContentAlignment == VerticalAlignment.Center)
-            y += (availableHeight - contentSize.Height) / 2;
-        else if (VerticalContentAlignment == VerticalAlignment.Bottom)
-            y += availableHeight - contentSize.Height;
-        else if (VerticalContentAlignment == VerticalAlignment.Stretch)
-            contentSize = contentSize.WithHeight(availableHeight);
-
-        contentControl.Arrange(new Rect(x, y, contentSize.Width, contentSize.Height));
-
-        // Render into RenderTargetBitmap — this is the ONLY correct way
-        // to capture an Avalonia control's visual output
-        _renderBitmap.Render(contentControl);
+        _renderBitmap.Render(_presenter);
     }
 
     private void UploadToGl(GlInterface gl, int w, int h)
