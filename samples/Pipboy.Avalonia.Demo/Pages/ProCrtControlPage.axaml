@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="Pipboy.Avalonia.Demo.Pages.CrtContainerPage"
+    x:Class="Pipboy.Avalonia.Demo.Pages.ProCrtControlPage"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,34 +8,26 @@
     xmlns:vms="clr-namespace:Pipboy.Avalonia.Demo.ViewModels;assembly=Pipboy.Avalonia.Demo"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    x:DataType="{x:Type vms:CrtContainerViewModel}"
+    x:DataType="{x:Type vms:ProCrtControlViewModel}"
     mc:Ignorable="d">
     <UserControl.DataContext>
-        <vms:CrtContainerViewModel />
+        <vms:ProCrtControlViewModel />
     </UserControl.DataContext>
     <Grid Margin="20" ColumnDefinitions="*, 320">
-        <!--  预览部分  -->
         <Grid Grid.Column="0" RowDefinitions="Auto, *">
-            <!--  标签占一行，自动高度  -->
             <TextBlock
                 Grid.Row="0"
                 Margin="0,0,0,12"
-                FontSize="11"
-                Foreground="#888888"
                 LetterSpacing="2"
                 Text="PREVIEW — REAL-TIME OPENGL SIMULATION" />
-
-            <!--  Border 占一行，使用 '*' 填满剩余所有高度  -->
             <Border
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Background="Black"
+                Background="Transparent"
                 ClipToBounds="True"
-                CornerRadius="4">
-                <pipboy:CrtContainer
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Stretch"
+                CornerRadius="40">
+                <pipboy:ProCrtControl
                     Curvature="{Binding Curvature}"
                     Flicker="{Binding Flicker}"
                     GlassReflect="{Binding GlassReflect}"
@@ -44,29 +36,22 @@
                     Tint="{Binding Tint}"
                     Vignette="{Binding Vignette}">
                     <Grid Background="#001409">
-                        <!--  Pip-Boy Style Content  -->
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <!--  Header  -->
                         <StackPanel
                             Grid.Row="0"
                             Margin="20,20,20,10"
                             Orientation="Vertical">
                             <TextBlock
                                 HorizontalAlignment="Center"
-                                FontFamily="Consolas, Courier New, monospace"
                                 FontSize="14"
                                 FontWeight="Bold"
-                                Foreground="#4cff91"
                                 Text="VAULT-TEC INDUSTRIES  |  PIP-BOY 3000" />
-                            <Separator
-                                Height="2"
-                                Margin="0,5,0,0"
-                                Background="#4cff91" />
+                            <Separator Height="2" Margin="0,5,0,0" />
                         </StackPanel>
 
                         <!--  Main Content Area  -->
@@ -75,46 +60,28 @@
                             Margin="30,20,30,20"
                             Orientation="Vertical"
                             Spacing="15">
-                            <TextBlock
-                                FontFamily="Consolas, Courier New, monospace"
-                                FontSize="16"
-                                Foreground="#4cff91"
-                                Text="STATUS" />
+                            <TextBlock Text="STATUS" />
 
                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    FontFamily="Consolas, Courier New, monospace"
-                                    FontSize="14"
-                                    Foreground="#4cff91"
-                                    Text="HP" />
+                                <TextBlock VerticalAlignment="Center" Text="HP" />
                                 <ProgressBar
                                     Width="300"
                                     Height="14"
                                     VerticalAlignment="Center"
-                                    Background="#1a3d25"
-                                    Foreground="#4cff91"
-                                    Maximum="100"
-                                    Value="72" />
+                                    IsIndeterminate="True"
+                                    Maximum="100" />
                                 <TextBlock
                                     VerticalAlignment="Center"
-                                    FontFamily="Consolas, Courier New, monospace"
                                     FontSize="14"
-                                    Foreground="#4cff91"
                                     Text="72 / 100" />
                             </StackPanel>
 
                             <TextBlock
                                 Margin="0,20,0,0"
                                 FontFamily="Consolas, Courier New, monospace"
-                                FontSize="14"
-                                Foreground="#4cff91"
                                 Text="> SYSTEM OK" />
-                            <TextBlock
-                                FontFamily="Consolas, Courier New, monospace"
-                                FontSize="14"
-                                Foreground="#4cff91"
-                                Text="> NO CRITICAL ALERTS" />
+                            <TextBlock FontFamily="Consolas, Courier New, monospace" Text="> NO CRITICAL ALERTS" />
+                            <ToggleSwitch OffContent="Off" OnContent="On" />
                         </StackPanel>
 
                         <!--  Footer  -->
@@ -122,12 +89,9 @@
                             Grid.Row="2"
                             Margin="0,0,0,20"
                             HorizontalAlignment="Center"
-                            FontFamily="Consolas, Courier New, monospace"
-                            FontSize="12"
-                            Foreground="#4cff91"
                             Text="RADS: 12  |  WEIGHT: 187/200" />
                     </Grid>
-                </pipboy:CrtContainer>
+                </pipboy:ProCrtControl>
             </Border>
         </Grid>
 
@@ -137,7 +101,7 @@
             <StackPanel Spacing="15">
                 <TextBlock
                     FontSize="10"
-                    Foreground="#444444"
+                    Foreground="{DynamicResource PipboyTextDimBrush}"
                     LetterSpacing="2"
                     Text="DISTORTION" />
                 <StackPanel Spacing="4">
@@ -164,7 +128,7 @@
                     Background="#222222" />
                 <TextBlock
                     FontSize="10"
-                    Foreground="#444444"
+                    Foreground="{DynamicResource PipboyTextDimBrush}"
                     LetterSpacing="2"
                     Text="POST-PROCESS" />
 
@@ -228,7 +192,7 @@
                     Background="#222222" />
                 <TextBlock
                     FontSize="10"
-                    Foreground="#444444"
+                    Foreground="{DynamicResource PipboyTextDimBrush}"
                     LetterSpacing="2"
                     Text="CHARACTER" />
 
@@ -274,7 +238,7 @@
                     Background="#222222" />
                 <TextBlock
                     FontSize="10"
-                    Foreground="#444444"
+                    Foreground="{DynamicResource PipboyTextDimBrush}"
                     LetterSpacing="2"
                     Text="PRESETS" />
 

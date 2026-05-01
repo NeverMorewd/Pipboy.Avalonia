@@ -3,7 +3,7 @@ using System.Reactive;
 
 namespace Pipboy.Avalonia.Demo.ViewModels;
 
-public class CrtContainerViewModel : ReactiveObject
+public class ProCrtControlViewModel : ReactiveObject
 {
     private float _curvature = 0.18f;
     private float _scanlines = 0.35f;
@@ -11,7 +11,7 @@ public class CrtContainerViewModel : ReactiveObject
     private float _phosphorGlow = 0.25f;
     private float _flicker = 0.45f;
     private float _glassReflect = 0.38f;
-    private float[] _tint = new float[] { 0.298f, 1.0f, 0.569f };
+    private float[] _tint = [0.298f, 1.0f, 0.569f];
 
     public float Curvature { get => _curvature; set => this.RaiseAndSetIfChanged(ref _curvature, value); }
     public float Scanlines { get => _scanlines; set => this.RaiseAndSetIfChanged(ref _scanlines, value); }
@@ -23,7 +23,7 @@ public class CrtContainerViewModel : ReactiveObject
 
     public ReactiveCommand<string, Unit> ApplyPresetCommand { get; }
 
-    public CrtContainerViewModel()
+    public ProCrtControlViewModel()
     {
         ApplyPresetCommand = ReactiveCommand.Create<string>(ApplyPreset);
     }
@@ -48,6 +48,6 @@ public class CrtContainerViewModel : ReactiveObject
         PhosphorGlow = glow;
         Flicker = flic;
         GlassReflect = refl;
-        Tint = new[] { r, g, b };
+        Tint = [r, g, b];
     }
 }

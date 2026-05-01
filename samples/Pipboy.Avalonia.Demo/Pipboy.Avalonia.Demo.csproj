@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Pages\CrtContainerPage.axaml.cs">
-      <DependentUpon>CrtContainerPage.axaml</DependentUpon>
+    <Compile Update="Pages\ProCrtControlPage.axaml.cs">
+      <DependentUpon>ProCrtControlPage.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

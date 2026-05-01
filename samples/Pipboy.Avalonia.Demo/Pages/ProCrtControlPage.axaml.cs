@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace Pipboy.Avalonia.Demo.Pages;
 
-public partial class CrtContainerPage : UserControl
+public partial class ProCrtControlPage : UserControl
 {
-    public CrtContainerPage()
+    public ProCrtControlPage()
     {
         InitializeComponent();
     }
