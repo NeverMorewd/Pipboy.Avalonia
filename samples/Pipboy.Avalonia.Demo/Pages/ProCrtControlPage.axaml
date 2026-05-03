@@ -35,7 +35,7 @@
                     Scanlines="{Binding Scanlines}"
                     Tint="{Binding Tint}"
                     Vignette="{Binding Vignette}">
-                    <Grid Background="#001409">
+                    <Grid Background="{DynamicResource PipboyBackgroundBrush}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -106,26 +106,19 @@
                     Text="DISTORTION" />
                 <StackPanel Spacing="4">
                     <DockPanel>
-                        <TextBlock
-                            FontSize="11"
-                            Foreground="#AAAAAA"
-                            Text="Curvature" />
+                        <TextBlock FontSize="11" Text="Curvature" />
                         <TextBlock
                             HorizontalAlignment="Right"
                             Foreground="White"
                             Text="{Binding Curvature, StringFormat={}{0:F2}}" />
                     </DockPanel>
                     <Slider
-                        Foreground="#4cff91"
                         Maximum="0.6"
                         Minimum="0"
                         Value="{Binding Curvature}" />
                 </StackPanel>
 
-                <Separator
-                    Height="1"
-                    Margin="0,5"
-                    Background="#222222" />
+                <Separator Height="1" Margin="0,5" />
                 <TextBlock
                     FontSize="10"
                     Foreground="{DynamicResource PipboyTextDimBrush}"
@@ -134,17 +127,10 @@
 
                 <StackPanel Spacing="4">
                     <DockPanel>
-                        <TextBlock
-                            FontSize="11"
-                            Foreground="#AAAAAA"
-                            Text="Scanlines" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Foreground="White"
-                            Text="{Binding Scanlines, StringFormat={}{0:F2}}" />
+                        <TextBlock FontSize="11" Text="Scanlines" />
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding Scanlines, StringFormat={}{0:F2}}" />
                     </DockPanel>
                     <Slider
-                        Foreground="#4cff91"
                         Maximum="1"
                         Minimum="0"
                         Value="{Binding Scanlines}" />
@@ -152,17 +138,10 @@
 
                 <StackPanel Spacing="4">
                     <DockPanel>
-                        <TextBlock
-                            FontSize="11"
-                            Foreground="#AAAAAA"
-                            Text="Vignette" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Foreground="White"
-                            Text="{Binding Vignette, StringFormat={}{0:F2}}" />
+                        <TextBlock FontSize="11" Text="Vignette" />
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding Vignette, StringFormat={}{0:F2}}" />
                     </DockPanel>
                     <Slider
-                        Foreground="#4cff91"
                         Maximum="1"
                         Minimum="0"
                         Value="{Binding Vignette}" />
@@ -170,26 +149,16 @@
 
                 <StackPanel Spacing="4">
                     <DockPanel>
-                        <TextBlock
-                            FontSize="11"
-                            Foreground="#AAAAAA"
-                            Text="Phosphor Glow" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Foreground="White"
-                            Text="{Binding PhosphorGlow, StringFormat={}{0:F2}}" />
+                        <TextBlock FontSize="11" Text="Phosphor Glow" />
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding PhosphorGlow, StringFormat={}{0:F2}}" />
                     </DockPanel>
                     <Slider
-                        Foreground="#4cff91"
                         Maximum="1"
                         Minimum="0"
                         Value="{Binding PhosphorGlow}" />
                 </StackPanel>
 
-                <Separator
-                    Height="1"
-                    Margin="0,5"
-                    Background="#222222" />
+                <Separator Height="1" Margin="0,5" />
                 <TextBlock
                     FontSize="10"
                     Foreground="{DynamicResource PipboyTextDimBrush}"
@@ -198,17 +167,10 @@
 
                 <StackPanel Spacing="4">
                     <DockPanel>
-                        <TextBlock
-                            FontSize="11"
-                            Foreground="#AAAAAA"
-                            Text="Flicker" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Foreground="White"
-                            Text="{Binding Flicker, StringFormat={}{0:F2}}" />
+                        <TextBlock FontSize="11" Text="Flicker" />
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding Flicker, StringFormat={}{0:F2}}" />
                     </DockPanel>
                     <Slider
-                        Foreground="#4cff91"
                         Maximum="1"
                         Minimum="0"
                         Value="{Binding Flicker}" />
@@ -216,26 +178,16 @@
 
                 <StackPanel Spacing="4">
                     <DockPanel>
-                        <TextBlock
-                            FontSize="11"
-                            Foreground="#AAAAAA"
-                            Text="Glass Reflect" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Foreground="White"
-                            Text="{Binding GlassReflect, StringFormat={}{0:F2}}" />
+                        <TextBlock FontSize="11" Text="Glass Reflect" />
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding GlassReflect, StringFormat={}{0:F2}}" />
                     </DockPanel>
                     <Slider
-                        Foreground="#4cff91"
                         Maximum="1"
                         Minimum="0"
                         Value="{Binding GlassReflect}" />
                 </StackPanel>
 
-                <Separator
-                    Height="1"
-                    Margin="0,5"
-                    Background="#222222" />
+                <Separator Height="1" Margin="0,5" />
                 <TextBlock
                     FontSize="10"
                     Foreground="{DynamicResource PipboyTextDimBrush}"
