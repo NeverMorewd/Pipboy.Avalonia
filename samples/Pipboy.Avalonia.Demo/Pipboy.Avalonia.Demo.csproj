@@ -21,10 +21,4 @@
     <ProjectReference Include="..\..\src\Pipboy.Avalonia\Pipboy.Avalonia.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Pages\ProCrtControlPage.axaml.cs">
-      <DependentUpon>ProCrtControlPage.axaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
 </Project>
