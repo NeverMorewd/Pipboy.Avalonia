@@ -2,36 +2,114 @@
     x:Class="Pipboy.Avalonia.Demo.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Pipboy.Avalonia.Demo.Converters;assembly=Pipboy.Avalonia.Demo"
     xmlns:local="clr-namespace:Pipboy.Avalonia.Demo"
     xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
-    Title="PIPBOY OS v4.0 — Theme Gallery"
+    xmlns:vm="clr-namespace:Pipboy.Avalonia.Demo.ViewModels"
+    Title="PIPBOY OS — Theme Gallery"
     Width="1200"
     Height="760"
     MinWidth="800"
     MinHeight="560">
 
-    <!--  Extra content injected into the title bar centre  -->
+    <pipboy:PipboyWindow.Resources>
+        <converters:BoolToBorderBrushConverter
+            x:Key="BoolToBorderConverter"
+            FalseBrush="Transparent"
+            TrueBrush="White" />
+        <DataTemplate x:Key="SwatchTemplate" DataType="{x:Type vm:PaletteSwatchViewModel}">
+            <Button
+                Width="22"
+                Height="22"
+                Margin="2"
+                Padding="0"
+                Background="{Binding Brush}"
+                Classes="paletteItem"
+                Command="{Binding SelectCommand}"
+                CornerRadius="0"
+                Cursor="Hand"
+                ToolTip.Tip="{Binding Hex}">
+                <Button.Styles>
+                    <Style Selector="Button.paletteItem">
+                        <Setter Property="Width" Value="22" />
+                        <Setter Property="Height" Value="22" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="CornerRadius" Value="0" />
+                        <Setter Property="BorderThickness" Value="2" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Cursor" Value="Hand" />
+                    </Style>
+                </Button.Styles>
+                <Button.BorderBrush>
+                    <Binding Converter="{StaticResource BoolToBorderConverter}" Path="IsSelected" />
+                </Button.BorderBrush>
+                <Button.BorderThickness>
+                    <Thickness>2</Thickness>
+                </Button.BorderThickness>
+            </Button>
+        </DataTemplate>
+    </pipboy:PipboyWindow.Resources>
+
     <pipboy:PipboyWindow.TitleBarContent>
         <StackPanel
             VerticalAlignment="Center"
             Orientation="Horizontal"
             Spacing="10">
-            <TextBlock
-                VerticalAlignment="Center"
-                Classes="dim"
-                FontSize="10"
-                Text="ROBCO INDUSTRIES (TM)" />
-            <TextBlock
-                VerticalAlignment="Center"
-                Classes="dim"
-                FontSize="10"
-                Text="·" />
-            <pipboy:BlinkText IsBlinking="True">
-                <TextBlock
-                    Classes="accent"
-                    FontSize="10"
-                    Text="● ONLINE" />
-            </pipboy:BlinkText>
+            <Button
+                x:Name="PART_TriggerButton"
+                x:DataType="{x:Type vm:ColorPickerViewModel}"
+                Classes="colorPickerBtn">
+                <StackPanel
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <Border
+                        Width="14"
+                        Height="14"
+                        Background="{Binding CurrentBrush, Mode=TwoWay}"
+                        BorderThickness="1"
+                        CornerRadius="0" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="10"
+                        LetterSpacing="1"
+                        Text="{Binding HexLabel}" />
+
+                </StackPanel>
+
+                <Button.Flyout>
+                    <Flyout Placement="BottomEdgeAlignedRight" ShowMode="TransientWithDismissOnPointerMoveAway">
+                        <Flyout.FlyoutPresenterTheme>
+                            <ControlTheme TargetType="FlyoutPresenter">
+                                <Setter Property="BorderThickness" Value="1" />
+                                <Setter Property="CornerRadius" Value="0" />
+                                <Setter Property="Padding" Value="10" />
+                                <Setter Property="MinWidth" Value="220" />
+                            </ControlTheme>
+                        </Flyout.FlyoutPresenterTheme>
+
+                        <StackPanel Width="210" Spacing="5">
+
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontFamily="Courier New"
+                                FontSize="9"
+                                LetterSpacing="2"
+                                Text="— COLOR THEME —" />
+
+                            <Separator Height="1" />
+                            <ItemsControl ItemTemplate="{StaticResource SwatchTemplate}" ItemsSource="{Binding Swatches}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
         </StackPanel>
     </pipboy:PipboyWindow.TitleBarContent>
 
