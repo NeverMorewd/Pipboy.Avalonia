@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Pipboy.Avalonia;
 
 namespace Pipboy.Avalonia.Demo.Pages;
 
@@ -16,8 +15,7 @@ public partial class ThemePage : UserControl
         if (sender is Button btn && btn.Tag is string hex)
         {
             PipboyThemeManager.Instance.TrySetPrimaryColor(hex);
-            if (StatusText != null)
-                StatusText.Text = $"Current theme: {btn.Content} ({hex})";
+            StatusText?.Text = $"Current theme: {btn.Content} ({hex})";
         }
     }
 
@@ -28,13 +26,11 @@ public partial class ThemePage : UserControl
 
         if (PipboyThemeManager.Instance.TrySetPrimaryColor(hex))
         {
-            if (StatusText != null)
-                StatusText.Text = $"Current theme: Custom ({hex})";
+            StatusText?.Text = $"Current theme: Custom ({hex})";
         }
         else
         {
-            if (StatusText != null)
-                StatusText.Text = $"Invalid color: {hex}";
+            StatusText?.Text = $"Invalid color: {hex}";
         }
     }
 }

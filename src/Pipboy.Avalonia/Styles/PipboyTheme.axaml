@@ -43,6 +43,7 @@
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/RepeatButton.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/ScrollBar.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SelectableTextBlock.axaml" />
+    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Separator.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/Slider.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SplitButton.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/Controls/SplitView.axaml" />
