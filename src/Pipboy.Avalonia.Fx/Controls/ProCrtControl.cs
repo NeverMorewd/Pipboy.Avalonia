@@ -4,6 +4,7 @@ using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Layout;
+using Avalonia.Media;
 using Avalonia.Metadata;
 
 namespace Pipboy.Avalonia.Fx.Controls;
@@ -74,10 +75,9 @@ public class ProCrtControl : TemplatedControl
         set => SetValue(GlassReflectProperty, value);
     }
 
-    public static readonly StyledProperty<float[]> TintProperty =
-        AvaloniaProperty.Register<ProCrtControl, float[]>(nameof(Tint), [0.5f, 1.0f, 0.5f]);
-
-    public float[] Tint
+    public static readonly StyledProperty<Color> TintProperty =
+        AvaloniaProperty.Register<ProCrtControl, Color>(nameof(Tint), Color.FromRgb(76, 255, 145));
+    public Color Tint
     {
         get => GetValue(TintProperty);
         set => SetValue(TintProperty, value);

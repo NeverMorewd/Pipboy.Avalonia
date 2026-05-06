@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
@@ -18,7 +19,7 @@ internal class CrtGLEffectLayer : OpenGlControlBase
     public static readonly StyledProperty<float> PhosphorGlowProperty = AvaloniaProperty.Register<CrtGLEffectLayer, float>("PhosphorGlow");
     public static readonly StyledProperty<float> FlickerProperty = AvaloniaProperty.Register<CrtGLEffectLayer, float>("Flicker");
     public static readonly StyledProperty<float> GlassReflectProperty = AvaloniaProperty.Register<CrtGLEffectLayer, float>("GlassReflect");
-    public static readonly StyledProperty<float[]> TintProperty = AvaloniaProperty.Register<CrtGLEffectLayer, float[]>("Tint");
+    public static readonly StyledProperty<Color> TintProperty = AvaloniaProperty.Register<CrtGLEffectLayer, Color>("Tint");
     
     private int _program;
     private int _vbo;
@@ -252,7 +253,7 @@ internal class CrtGLEffectLayer : OpenGlControlBase
         SetUniform(gl, "mouse", (float)_mousePosition.X, (float)_mousePosition.Y);
         SetUniform(gl, "time", time);
         var tint = GetValue(TintProperty);
-        SetUniform(gl, "tint", tint[0], tint[1], tint[2]);
+        SetUniform(gl, "tint", tint.R / 255f, tint.G / 255f, tint.B / 255f);
 
         gl.ActiveTexture(GL_TEXTURE0);
         gl.BindTexture(GL_TEXTURE_2D, _texture);

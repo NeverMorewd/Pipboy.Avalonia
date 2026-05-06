@@ -33,7 +33,7 @@
                     GlassReflect="{Binding GlassReflect}"
                     PhosphorGlow="{Binding PhosphorGlow}"
                     Scanlines="{Binding Scanlines}"
-                    Tint="{Binding Tint}"
+                    Tint="{DynamicResource PipboyPrimaryColor}"
                     Vignette="{Binding Vignette}">
                     <Grid Background="{DynamicResource PipboyBackgroundBrush}">
                         <Grid.RowDefinitions>
