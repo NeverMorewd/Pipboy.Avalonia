@@ -1,0 +1,81 @@
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  TextBlock default foreground  -->
+    <Style Selector="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+        <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
+    </Style>
+
+    <!--  Heading styles  -->
+    <Style Selector="TextBlock.h1">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style Selector="TextBlock.h2">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource PipboyFontSizeLarge}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style Selector="TextBlock.dim">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
+    </Style>
+
+    <Style Selector="TextBlock.accent">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
+    </Style>
+
+    <!--  Semantic status text  -->
+    <Style Selector="TextBlock.error">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyErrorBrush}" />
+    </Style>
+    <Style Selector="TextBlock.warning">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyWarningBrush}" />
+    </Style>
+    <Style Selector="TextBlock.success">
+        <Setter Property="Foreground" Value="{DynamicResource PipboySuccessBrush}" />
+    </Style>
+
+    <!--
+        ── Pip-Boy data display classes ──────────────────────────────────────
+        value  — prominent numeric readout (HP, AP, Caps, SPECIAL stats)
+        label  — small dim descriptor above a value; spaced uppercase
+        blink  — hard-cut blink for critical alerts (low HP, rad warning)
+        ───────────────────────────────────────────────────────────────────────────
+    -->
+    <Style Selector="TextBlock.value">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource PipboyFontSizeLarge}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style Selector="TextBlock.label">
+        <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource PipboyFontSizeXSmall}" />
+        <Setter Property="LetterSpacing" Value="1.5" />
+    </Style>
+
+    <!--  Hard-cut blink: 50 % on / 50 % off, no fade — matches CRT terminal alerts  -->
+    <Style Selector="TextBlock.blink">
+        <Style.Animations>
+            <Animation IterationCount="INFINITE" Duration="0:0:1">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="49%">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="50%">
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="99%">
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+</Styles>
