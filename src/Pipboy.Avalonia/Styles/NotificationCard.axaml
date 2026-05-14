@@ -1,61 +1,6 @@
-﻿<Styles
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:notifications="using:Avalonia.Controls.Notifications">
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
-
-        <!--
-            ═══════════════════════════════════════════════════════════════════════
-            WindowNotificationManager
-            ═══════════════════════════════════════════════════════════════════════
-        -->
-        <ControlTheme x:Key="{x:Type notifications:WindowNotificationManager}" TargetType="notifications:WindowNotificationManager">
-            <Setter Property="Template">
-                <ControlTemplate TargetType="notifications:WindowNotificationManager">
-                    <StackPanel Name="PART_Items" Margin="16" />
-                </ControlTemplate>
-            </Setter>
-
-            <Style Selector="^:topleft /template/ StackPanel#PART_Items">
-                <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="HorizontalAlignment" Value="Left" />
-            </Style>
-            <Style Selector="^:topright /template/ StackPanel#PART_Items">
-                <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="HorizontalAlignment" Value="Right" />
-            </Style>
-            <Style Selector="^:topcenter /template/ StackPanel#PART_Items">
-                <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="HorizontalAlignment" Value="Center" />
-            </Style>
-            <Style Selector="^:bottomleft /template/ StackPanel#PART_Items">
-                <Setter Property="VerticalAlignment" Value="Bottom" />
-                <Setter Property="HorizontalAlignment" Value="Left" />
-            </Style>
-            <Style Selector="^:bottomright /template/ StackPanel#PART_Items">
-                <Setter Property="VerticalAlignment" Value="Bottom" />
-                <Setter Property="HorizontalAlignment" Value="Right" />
-            </Style>
-            <Style Selector="^:bottomcenter /template/ StackPanel#PART_Items">
-                <Setter Property="VerticalAlignment" Value="Bottom" />
-                <Setter Property="HorizontalAlignment" Value="Center" />
-            </Style>
-        </ControlTheme>
-
-        <!--
-            ═══════════════════════════════════════════════════════════════════════
-            NotificationCard
-            All types share the same border/background color.
-            Level is distinguished by a Path icon whose Data changes per pseudo-class.
-            
-            Icon path data (24×24 viewport, stroke-only, Pipboy wireframe style):
-            :information  — circle with "i" (dot + bar)
-            :success      — bold checkmark
-            :warning      — triangle with "!" (bar + dot)
-            :error        — X cross
-            ═══════════════════════════════════════════════════════════════════════
-        -->
-        <ControlTheme x:Key="{x:Type notifications:NotificationCard}" TargetType="notifications:NotificationCard">
+        <ControlTheme x:Key="{x:Type NotificationCard}" TargetType="NotificationCard">
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
@@ -63,7 +8,7 @@
             <Setter Property="Width" Value="320" />
             <Setter Property="Margin" Value="0,0,0,8" />
             <Setter Property="Template">
-                <ControlTemplate TargetType="notifications:NotificationCard">
+                <ControlTemplate TargetType="NotificationCard">
                     <Border
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
@@ -96,9 +41,9 @@
                                     Margin="6,0,0,0"
                                     Padding="4,1"
                                     VerticalAlignment="Top"
-                                    notifications:NotificationCard.CloseOnClick="True"
                                     Content="✕"
-                                    DockPanel.Dock="Right" />
+                                    DockPanel.Dock="Right"
+                                    NotificationCard.CloseOnClick="True" />
 
                                 <!--  Level icon — default data = information, overridden by pseudo-class  -->
                                 <Path

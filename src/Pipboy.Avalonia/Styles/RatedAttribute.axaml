@@ -1,7 +1,7 @@
-<Styles
+﻿<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia.Controls;assembly=Pipboy.Avalonia">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type pipboy:RatedAttribute}" TargetType="pipboy:RatedAttribute">
@@ -30,9 +30,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="pipboy:DotItem">
                                     <Panel Width="10" Height="10">
-                                        <Border
-                                            Background="{DynamicResource PipboyPrimaryBrush}"
-                                            IsVisible="{Binding IsFilled}" />
+                                        <Border Background="{DynamicResource PipboyPrimaryBrush}" IsVisible="{Binding IsFilled}" />
                                         <Border
                                             Background="Transparent"
                                             BorderBrush="{DynamicResource PipboyBorderBrush}"

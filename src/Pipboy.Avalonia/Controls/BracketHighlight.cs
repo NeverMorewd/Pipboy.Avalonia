@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 
-namespace Pipboy.Avalonia;
+namespace Pipboy.Avalonia.Controls;
 
 /// <summary>
 /// A ContentControl that shows animated Pip-Boy bracket indicators ("> ... <")
@@ -21,7 +21,7 @@ public class BracketHighlight : ContentControl
     // Keyed by group name; each list holds weak refs so GC'd controls are
     // cleaned up lazily on the next group iteration.
     private static readonly Dictionary<string, List<WeakReference<BracketHighlight>>> _groups
-        = new(System.StringComparer.Ordinal);
+        = new(StringComparer.Ordinal);
 
     // ── Dependency properties ─────────────────────────────────────────────────
 

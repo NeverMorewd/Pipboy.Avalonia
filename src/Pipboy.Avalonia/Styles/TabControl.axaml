@@ -1,12 +1,5 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
-
-        <!--
-            ═══════════════════════════════════════════════════════════════════════
-            Default tab strip (top-edge, box style)
-            ═══════════════════════════════════════════════════════════════════════
-        -->
-
         <!--  TabItem  -->
         <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
@@ -91,18 +84,6 @@
                 </ControlTemplate>
             </Setter>
         </ControlTheme>
-
-        <!-- ═══════════════════════════════════════════════════════════════════════
-         PipboyTopTabItem / PipboyTopTabs
-         Horizontal top-strip layout modeled on Fallout 4's
-         STAT | INV | DATA | MAP | RADIO navigation bar.
-
-         Usage:
-           <TabControl Theme="{StaticResource PipboyTopTabs}">
-             <TabItem Header="STAT" Theme="{StaticResource PipboyTopTabItem}">...</TabItem>
-             <TabItem Header="INV"  Theme="{StaticResource PipboyTopTabItem}">...</TabItem>
-           </TabControl>
-         ═══════════════════════════════════════════════════════════════════════-->
 
         <!--  PipboyTopTabItem: flat item with bottom underline as selection indicator  -->
         <ControlTheme x:Key="PipboyTopTabItem" TargetType="TabItem">

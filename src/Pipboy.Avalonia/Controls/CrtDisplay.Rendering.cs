@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
 
-namespace Pipboy.Avalonia;
+namespace Pipboy.Avalonia.Controls;
 
 public partial class CrtDisplay
 {

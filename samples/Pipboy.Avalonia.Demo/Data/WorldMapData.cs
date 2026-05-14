@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Avalonia.Media;
 using Pipboy.Avalonia;
+using Pipboy.Avalonia.Controls;
 
 namespace Pipboy.Avalonia.Demo.Data;
 

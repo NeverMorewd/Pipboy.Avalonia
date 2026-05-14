@@ -1,7 +1,8 @@
-<Styles
+﻿<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia.Controls;assembly=Pipboy.Avalonia"
+	xmlns:local="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type pipboy:PipboyCountdown}" TargetType="pipboy:PipboyCountdown">
@@ -54,9 +55,9 @@
                                     Grid.Row="2"
                                     Classes="slim"
                                     Maximum="{TemplateBinding Duration,
-                                                              Converter={x:Static pipboy:TimeSpanToSecondsConverter.Instance}}"
+                                                              Converter={x:Static local:TimeSpanToSecondsConverter.Instance}}"
                                     Value="{TemplateBinding RemainingTime,
-                                                            Converter={x:Static pipboy:TimeSpanToSecondsConverter.Instance}}" />
+                                                            Converter={x:Static local:TimeSpanToSecondsConverter.Instance}}" />
                             </Grid>
 
                         </StackPanel>
@@ -64,10 +65,12 @@
                 </ControlTemplate>
             </Setter>
 
-            <!--  ── Precision: font-size adjustments ─────────────────────────────
-                  Milliseconds adds ".fff" — 9+ chars at 32 px overflows narrow widgets.
-                  Hours adds "hh:" prefix — also slightly longer.
-                  ────────────────────────────────────────────────────────────────  -->
+            <!--
+                ── Precision: font-size adjustments ─────────────────────────────
+                Milliseconds adds ".fff" — 9+ chars at 32 px overflows narrow widgets.
+                Hours adds "hh:" prefix — also slightly longer.
+                ────────────────────────────────────────────────────────────────
+            -->
             <Style Selector="^:milliseconds /template/ TextBlock#PART_TimeText">
                 <Setter Property="FontSize" Value="24" />
             </Style>
@@ -83,9 +86,7 @@
             <!--  Completed: blink the time display  -->
             <Style Selector="^:completed /template/ Border#PART_TimeRoot">
                 <Style.Animations>
-                    <Animation
-                        IterationCount="INFINITE"
-                        Duration="0:0:1.06">
+                    <Animation IterationCount="INFINITE" Duration="0:0:1.06">
                         <KeyFrame Cue="0%">
                             <Setter Property="Opacity" Value="1" />
                         </KeyFrame>

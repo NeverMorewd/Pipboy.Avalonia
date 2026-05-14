@@ -1,14 +1,14 @@
-<Styles
+﻿<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia.Controls;assembly=Pipboy.Avalonia">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type pipboy:PipboyTitleBar}" TargetType="pipboy:PipboyTitleBar">
 
-            <Setter Property="Background"  Value="{DynamicResource PipboyPrimaryDarkBrush}" />
-            <Setter Property="Foreground"  Value="{DynamicResource PipboyTextBrush}" />
-            <Setter Property="Height"      Value="32" />
+            <Setter Property="Background" Value="{DynamicResource PipboyPrimaryDarkBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="Height" Value="32" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
 
             <Setter Property="Template">
@@ -21,13 +21,13 @@
 
                         <Grid ColumnDefinitions="*,Auto">
 
-                            <!--  ── Drag area: icon + title + custom content  ── -->
+                            <!--  ── Drag area: icon + title + custom content  ──  -->
                             <Border
                                 Name="PART_DragArea"
                                 Grid.Column="0"
+                                Padding="12,0,8,0"
                                 Background="Transparent"
-                                Cursor="SizeAll"
-                                Padding="12,0,8,0">
+                                Cursor="SizeAll">
                                 <StackPanel
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal"
@@ -52,19 +52,21 @@
                                         VerticalAlignment="Center"
                                         Classes="dim"
                                         FontSize="{DynamicResource PipboyFontSizeXSmall}"
-                                        IsVisible="{TemplateBinding TitleBarContent, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                        IsVisible="{TemplateBinding TitleBarContent,
+                                                                    Converter={x:Static ObjectConverters.IsNotNull}}"
                                         Text=" ·" />
 
                                     <!--  Optional extra title bar content  -->
                                     <ContentPresenter
                                         VerticalAlignment="Center"
                                         Content="{TemplateBinding TitleBarContent}"
-                                        IsVisible="{TemplateBinding TitleBarContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                        IsVisible="{TemplateBinding TitleBarContent,
+                                                                    Converter={x:Static ObjectConverters.IsNotNull}}" />
 
                                 </StackPanel>
                             </Border>
 
-                            <!--  ── System buttons  ── -->
+                            <!--  ── System buttons  ──  -->
                             <StackPanel
                                 Grid.Column="1"
                                 VerticalAlignment="Stretch"
@@ -73,7 +75,7 @@
                                 <StackPanel.Styles>
                                     <!--  Base chrome-button style  -->
                                     <Style Selector="Button.chrome-btn">
-                                        <Setter Property="Width"  Value="42" />
+                                        <Setter Property="Width" Value="42" />
                                         <Setter Property="Height" Value="32" />
                                         <Setter Property="Padding" Value="0" />
                                         <Setter Property="Background" Value="Transparent" />

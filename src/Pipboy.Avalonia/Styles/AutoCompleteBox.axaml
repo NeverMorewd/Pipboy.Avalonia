@@ -23,8 +23,8 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CaretBrush="{DynamicResource PipboyPrimaryBrush}"
                                 Foreground="{TemplateBinding Foreground}"
-                                SelectionBrush="{DynamicResource PipboySelectionBrush}"
-                                PlaceholderText="{TemplateBinding PlaceholderText}" />
+                                PlaceholderText="{TemplateBinding PlaceholderText}"
+                                SelectionBrush="{DynamicResource PipboySelectionBrush}" />
                             <!--  Dropdown suggestions popup  -->
                             <Popup
                                 Name="PART_Popup"

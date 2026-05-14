@@ -1,15 +1,14 @@
-﻿using System;
-using System.IO;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
+using System;
+using System.IO;
 
-namespace Pipboy.Avalonia;
+namespace Pipboy.Avalonia.Controls;
 
 /// <summary>
 /// A <see cref="Window"/> subclass with a Pip-Boy borderless chrome.
@@ -38,7 +37,6 @@ public class PipboyWindow : Window
         IconProperty.Changed.AddClassHandler<PipboyWindow>(
             (w, e) => w.SyncTitleBarIcon(e.NewValue as WindowIcon));
     }
-
     /// <summary>
     /// Optional extra content placed in the centre of the title bar
     /// (e.g. status indicator, version badge, breadcrumb).
@@ -81,7 +79,7 @@ public class PipboyWindow : Window
     {
         ExtendClientAreaToDecorationsHint  = true;
         ExtendClientAreaTitleBarHeightHint = -1;
-        WindowDecorations                  = WindowDecorations.Full;
+        WindowDecorations                  = WindowDecorations.BorderOnly;
     }
 
     private void SyncTitleBarIcon(WindowIcon? icon)

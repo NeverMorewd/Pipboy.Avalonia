@@ -1,7 +1,7 @@
-<Styles
+﻿<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia.Controls;assembly=Pipboy.Avalonia">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type pipboy:BracketHighlight}" TargetType="pipboy:BracketHighlight">
@@ -9,9 +9,7 @@
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="pipboy:BracketHighlight">
-                    <Border
-                        Name="PART_Root"
-                        Background="{TemplateBinding Background}">
+                    <Border Name="PART_Root" Background="{TemplateBinding Background}">
                         <Border.Transitions>
                             <Transitions>
                                 <BrushTransition Property="Background" Duration="0:0:0.1" />
@@ -37,7 +35,10 @@
                                 Text="&gt;">
                                 <TextBlock.Transitions>
                                     <Transitions>
-                                        <DoubleTransition Property="Opacity" Duration="0:0:0.12" Easing="LinearEasing" />
+                                        <DoubleTransition
+                                            Easing="LinearEasing"
+                                            Property="Opacity"
+                                            Duration="0:0:0.12" />
                                     </Transitions>
                                 </TextBlock.Transitions>
                             </TextBlock>
@@ -60,7 +61,10 @@
                                 Text="&lt;">
                                 <TextBlock.Transitions>
                                     <Transitions>
-                                        <DoubleTransition Property="Opacity" Duration="0:0:0.12" Easing="LinearEasing" />
+                                        <DoubleTransition
+                                            Easing="LinearEasing"
+                                            Property="Opacity"
+                                            Duration="0:0:0.12" />
                                     </Transitions>
                                 </TextBlock.Transitions>
                             </TextBlock>
@@ -76,8 +80,7 @@
                 Plain Setter — Transition on the template element handles
                 the smooth enter / exit automatically.
             -->
-            <Style Selector="^:selected /template/ TextBlock#PART_BracketLeft,
-                             ^:selected /template/ TextBlock#PART_BracketRight">
+            <Style Selector="^:selected /template/ TextBlock#PART_BracketLeft,                              ^:selected /template/ TextBlock#PART_BracketRight">
                 <Setter Property="Opacity" Value="1" />
             </Style>
             <Style Selector="^:selected /template/ Border#PART_Root">
@@ -92,8 +95,7 @@
                 Using :pointerover:not(:selected) avoids overriding the accent
                 background when the item is already selected and the mouse enters.
             -->
-            <Style Selector="^:pointerover:not(:selected) /template/ TextBlock#PART_BracketLeft,
-                             ^:pointerover:not(:selected) /template/ TextBlock#PART_BracketRight">
+            <Style Selector="^:pointerover:not(:selected) /template/ TextBlock#PART_BracketLeft,                              ^:pointerover:not(:selected) /template/ TextBlock#PART_BracketRight">
                 <Setter Property="Opacity" Value="0.4" />
             </Style>
             <Style Selector="^:pointerover:not(:selected) /template/ Border#PART_Root">

@@ -1,7 +1,7 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 
-namespace Pipboy.Avalonia;
+namespace Pipboy.Avalonia.Controls;
 
 /// <summary>
 /// A ContentControl that makes its content blink at a configurable interval.

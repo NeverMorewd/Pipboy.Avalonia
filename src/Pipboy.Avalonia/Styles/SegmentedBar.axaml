@@ -1,7 +1,7 @@
-<Styles
+﻿<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia.Controls;assembly=Pipboy.Avalonia">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type pipboy:SegmentedBar}" TargetType="pipboy:SegmentedBar">
@@ -11,10 +11,7 @@
                     <StackPanel Spacing="3">
 
                         <!--  Optional label + value/maximum row  -->
-                        <Grid
-                            ColumnDefinitions="*,Auto"
-                            IsVisible="{TemplateBinding Label,
-                                                        Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                        <Grid ColumnDefinitions="*,Auto" IsVisible="{TemplateBinding Label, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
                             <TextBlock
                                 Grid.Column="0"
                                 Foreground="{DynamicResource PipboyTextDimBrush}"
@@ -37,9 +34,7 @@
                                 <DataTemplate DataType="pipboy:SegmentItem">
                                     <Panel Width="14" Height="16">
                                         <!--  Filled segment  -->
-                                        <Border
-                                            Background="{DynamicResource PipboyPrimaryBrush}"
-                                            IsVisible="{Binding IsFilled}" />
+                                        <Border Background="{DynamicResource PipboyPrimaryBrush}" IsVisible="{Binding IsFilled}" />
                                         <!--  Empty segment  -->
                                         <Border
                                             Background="{DynamicResource PipboySurfaceBrush}"

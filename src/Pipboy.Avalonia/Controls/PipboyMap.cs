@@ -9,7 +9,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.Interactivity;
 
-namespace Pipboy.Avalonia;
+namespace Pipboy.Avalonia.Controls;
 
 /// <summary>
 /// A retro Pip-Boy style vector map control.

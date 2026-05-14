@@ -1,7 +1,7 @@
-<Styles
+﻿<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia.Controls;assembly=Pipboy.Avalonia">
     <Styles.Resources>
 
         <!--  Individual tab item  -->
@@ -30,7 +30,10 @@
                                 Text="[">
                                 <TextBlock.Transitions>
                                     <Transitions>
-                                        <DoubleTransition Property="Opacity" Duration="0:0:0.12" Easing="LinearEasing" />
+                                        <DoubleTransition
+                                            Easing="LinearEasing"
+                                            Property="Opacity"
+                                            Duration="0:0:0.12" />
                                     </Transitions>
                                 </TextBlock.Transitions>
                             </TextBlock>
@@ -53,7 +56,10 @@
                                 Text="]">
                                 <TextBlock.Transitions>
                                     <Transitions>
-                                        <DoubleTransition Property="Opacity" Duration="0:0:0.12" Easing="LinearEasing" />
+                                        <DoubleTransition
+                                            Easing="LinearEasing"
+                                            Property="Opacity"
+                                            Duration="0:0:0.12" />
                                     </Transitions>
                                 </TextBlock.Transitions>
                             </TextBlock>
@@ -80,8 +86,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             </Style>
             <!--  Plain Setter — Transition on the template element handles fade in/out  -->
-            <Style Selector="^:selected /template/ TextBlock#PART_BracketLeft,
-                             ^:selected /template/ TextBlock#PART_BracketRight">
+            <Style Selector="^:selected /template/ TextBlock#PART_BracketLeft,                              ^:selected /template/ TextBlock#PART_BracketRight">
                 <Setter Property="Opacity" Value="1" />
             </Style>
 

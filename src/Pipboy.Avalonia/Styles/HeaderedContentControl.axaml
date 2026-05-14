@@ -1,4 +1,4 @@
-<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <!--
@@ -19,8 +19,8 @@
                         <ContentPresenter
                             Content="{TemplateBinding Header}"
                             ContentTemplate="{TemplateBinding HeaderTemplate}"
-                            Foreground="{DynamicResource PipboyTextDimBrush}"
-                            FontSize="{DynamicResource PipboyFontSizeSmall}" />
+                            FontSize="{DynamicResource PipboyFontSizeSmall}"
+                            Foreground="{DynamicResource PipboyTextDimBrush}" />
 
                         <!--  Main content  -->
                         <ContentPresenter
@@ -108,8 +108,8 @@
                             Name="PART_HeaderPresenter"
                             Content="{TemplateBinding Header}"
                             ContentTemplate="{TemplateBinding HeaderTemplate}"
-                            Foreground="{DynamicResource PipboyPrimaryBrush}"
-                            FontSize="{DynamicResource PipboyFontSizeSmall}" />
+                            FontSize="{DynamicResource PipboyFontSizeSmall}"
+                            Foreground="{DynamicResource PipboyPrimaryBrush}" />
                     </Border>
 
                 </Grid>

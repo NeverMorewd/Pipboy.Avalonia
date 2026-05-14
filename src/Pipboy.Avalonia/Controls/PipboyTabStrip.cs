@@ -1,8 +1,8 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 
-namespace Pipboy.Avalonia;
+namespace Pipboy.Avalonia.Controls;
 
 /// <summary>
 /// A horizontal tab-strip navigation control in Pip-Boy style.

@@ -98,10 +98,25 @@ public partial class PipboyTheme : Styles, IDisposable
         Resources["PipboySuccessBrush"] = _successBrush;
 
         // Also expose raw Color values for advanced use
-        Resources["PipboyPrimaryColor"]    = p.Primary;
+        Resources["PipboyPrimaryColor"] = p.Primary;
+        Resources["PipboyPrimaryLightColor"] = p.PrimaryLight;
+        Resources["PipboyPrimaryDarkColor"] = p.PrimaryDark;
         Resources["PipboyBackgroundColor"] = p.Background;
-        Resources["PipboyTextColor"]       = p.Text;
-        Resources["PipboyScanBeamColor"]   = Color.FromArgb(40, p.Primary.R, p.Primary.G, p.Primary.B);
+        Resources["PipboySurfaceColor"] = p.Surface;
+        Resources["PipboySurfaceHighColor"] = p.SurfaceHigh;
+        Resources["PipboyTextColor"] = p.Text;
+        Resources["PipboyTextDimColor"] = p.TextDim;
+        Resources["PipboyHoverColor"] = p.Hover;
+        Resources["PipboyPressedColor"] = p.Pressed;
+        Resources["PipboyDisabledColor"] = p.Disabled;
+        Resources["PipboyFocusColor"] = p.Focus;
+        Resources["PipboySelectionColor"] = p.Selection;
+        Resources["PipboyBorderColor"] = p.Border;
+        Resources["PipboyBorderFocusColor"] = p.BorderFocus;
+        Resources["PipboyErrorColor"] = p.Error;
+        Resources["PipboyWarningColor"] = p.Warning;
+        Resources["PipboySuccessColor"] = p.Success;
+        Resources["PipboyScanBeamColor"] = Color.FromArgb(40, p.Primary.R, p.Primary.G, p.Primary.B);
 
         // Font design tokens
         Resources["PipboyFontFamily"]      = new FontFamily("Consolas,Courier New,monospace");
@@ -158,10 +173,26 @@ public partial class PipboyTheme : Styles, IDisposable
         _successBrush.Color = p.Success;
 
         // Update raw Color resources
-        Resources["PipboyPrimaryColor"]    = p.Primary;
+        // Update raw Color resources
+        Resources["PipboyPrimaryColor"] = p.Primary;
+        Resources["PipboyPrimaryLightColor"] = p.PrimaryLight;
+        Resources["PipboyPrimaryDarkColor"] = p.PrimaryDark;
         Resources["PipboyBackgroundColor"] = p.Background;
-        Resources["PipboyTextColor"]       = p.Text;
-        Resources["PipboyScanBeamColor"]   = Color.FromArgb(40, p.Primary.R, p.Primary.G, p.Primary.B);
+        Resources["PipboySurfaceColor"] = p.Surface;
+        Resources["PipboySurfaceHighColor"] = p.SurfaceHigh;
+        Resources["PipboyTextColor"] = p.Text;
+        Resources["PipboyTextDimColor"] = p.TextDim;
+        Resources["PipboyHoverColor"] = p.Hover;
+        Resources["PipboyPressedColor"] = p.Pressed;
+        Resources["PipboyDisabledColor"] = p.Disabled;
+        Resources["PipboyFocusColor"] = p.Focus;
+        Resources["PipboySelectionColor"] = p.Selection;
+        Resources["PipboyBorderColor"] = p.Border;
+        Resources["PipboyBorderFocusColor"] = p.BorderFocus;
+        Resources["PipboyErrorColor"] = p.Error;
+        Resources["PipboyWarningColor"] = p.Warning;
+        Resources["PipboySuccessColor"] = p.Success;
+        Resources["PipboyScanBeamColor"] = Color.FromArgb(40, p.Primary.R, p.Primary.G, p.Primary.B);
     }
 
     public void Dispose()

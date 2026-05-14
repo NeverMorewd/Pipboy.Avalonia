@@ -1,7 +1,7 @@
-<Styles
+﻿<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia">
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia.Controls;assembly=Pipboy.Avalonia">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type pipboy:TerminalPanel}" TargetType="pipboy:TerminalPanel">
@@ -27,9 +27,9 @@
                                 Grid.Column="0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
+                                IsHitTestVisible="False"
                                 LineOpacity="0.06"
-                                LineSpacing="3"
-                                IsHitTestVisible="False" />
+                                LineSpacing="3" />
 
                             <!--  Normal content (no typewriter)  -->
                             <ContentPresenter
@@ -41,7 +41,8 @@
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 Foreground="{TemplateBinding Foreground}"
-                                IsVisible="{TemplateBinding TypewriterEffect, Converter={x:Static BoolConverters.Not}}" />
+                                IsVisible="{TemplateBinding TypewriterEffect,
+                                                            Converter={x:Static BoolConverters.Not}}" />
 
                             <!--  Typewriter text output  -->
                             <TextBlock

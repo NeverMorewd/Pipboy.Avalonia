@@ -1,0 +1,95 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls">
+    <Design.PreviewWith>
+        <GroupBox
+            Margin="10"
+            Padding="10"
+            Header="Pipboy">
+            <TextBlock Text="Hello World" />
+        </GroupBox>
+    </Design.PreviewWith>
+    <Styles.Resources>
+        <converters:BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
+        <ControlTheme x:Key="{x:Type GroupBox}" TargetType="GroupBox">
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid
+                        x:Name="RootGrid"
+                        ColumnDefinitions="6,Auto,*,6"
+                        RowDefinitions="Auto,Auto,*,6"
+                        UseLayoutRounding="true">
+                        <!--  Separate Border for the background because if the background is set in the Border with the Header the opacity mask will be applied to the background as well.  -->
+                        <Border
+                            Grid.Row="1"
+                            Grid.RowSpan="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="4"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="Transparent"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}" />
+
+                        <Border
+                            Grid.Row="1"
+                            Grid.RowSpan="3"
+                            Grid.ColumnSpan="4"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                            <Border.OpacityMask>
+                                <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="6">
+                                    <Binding ElementName="Header" Path="Bounds.Width" />
+                                    <Binding Path="Bounds.Width" RelativeSource="{RelativeSource Self}" />
+                                    <Binding Path="Bounds.Height" RelativeSource="{RelativeSource Self}" />
+                                </MultiBinding>
+                            </Border.OpacityMask>
+                        </Border>
+
+                        <!--  ContentPresenter for the header  -->
+                        <Border
+                            x:Name="Header"
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            Padding="3,0,3,0">
+                            <ContentPresenter
+                                Name="PART_HeaderPresenter"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Header}"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                Foreground="{TemplateBinding Foreground}"
+                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}" />
+                        </Border>
+                        <!--  Primary content for GroupBox  -->
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            UseLayoutRounding="{TemplateBinding UseLayoutRounding}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="RecognizesAccessKey" Value="True" />
+            </Style>
+
+            <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
+                <Setter Property="RecognizesAccessKey" Value="True" />
+            </Style>
+        </ControlTheme>
+    </Styles.Resources>
+</Styles>
