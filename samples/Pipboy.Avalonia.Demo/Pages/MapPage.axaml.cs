@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Pipboy.Avalonia;
+using Pipboy.Avalonia.Controls;
 using Pipboy.Avalonia.Demo.Data;
 
 namespace Pipboy.Avalonia.Demo.Pages;

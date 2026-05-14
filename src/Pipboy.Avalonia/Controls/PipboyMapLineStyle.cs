@@ -1,4 +1,4 @@
-namespace Pipboy.Avalonia;
+﻿namespace Pipboy.Avalonia.Controls;
 
 /// <summary>Visual stroke style for a <see cref="MapLine"/>.</summary>
 public enum PipboyMapLineStyle

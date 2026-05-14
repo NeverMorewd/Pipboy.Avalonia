@@ -1,4 +1,4 @@
-namespace Pipboy.Avalonia;
+﻿namespace Pipboy.Avalonia.Controls;
 
 /// <summary>Represents a single segment in a <see cref="SegmentedBar"/>.</summary>
 public sealed class SegmentItem

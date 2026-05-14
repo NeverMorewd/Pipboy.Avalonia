@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls.Primitives;
+using Pipboy.Avalonia.Controls;
 
-namespace Pipboy.Avalonia;
+namespace Pipboy.Avalonia.Controls;
 
 /// <summary>
 /// Displays a named attribute with a dot-based rating (S.P.E.C.I.A.L. style).

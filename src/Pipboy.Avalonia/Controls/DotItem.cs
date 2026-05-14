@@ -1,4 +1,4 @@
-namespace Pipboy.Avalonia;
+﻿namespace Pipboy.Avalonia.Controls;
 
 /// <summary>Represents a single dot in a <see cref="RatedAttribute"/>.</summary>
 public sealed class DotItem

@@ -1,4 +1,4 @@
-namespace Pipboy.Avalonia;
+﻿namespace Pipboy.Avalonia.Controls;
 
 /// <summary>
 /// Controls how precisely a <see cref="PipboyCountdown"/> displays and decrements time.

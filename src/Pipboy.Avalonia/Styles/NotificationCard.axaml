@@ -1,0 +1,109 @@
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type NotificationCard}" TargetType="NotificationCard">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Width" Value="320" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="NotificationCard">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border.DataTemplates>
+                            <DataTemplate DataType="INotification">
+                                <StackPanel Spacing="3">
+                                    <TextBlock
+                                        FontWeight="Bold"
+                                        Text="{Binding Title}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Foreground="{DynamicResource PipboyTextDimBrush}"
+                                        Text="{Binding Message}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </Border.DataTemplates>
+
+                        <DockPanel>
+                            <!--  Left accent bar (fixed primary color, same for all types)  -->
+                            <Border
+                                Width="3"
+                                Background="{DynamicResource PipboyBorderBrush}"
+                                DockPanel.Dock="Left" />
+
+                            <!--  Icon + content + close  -->
+                            <DockPanel Margin="10,10,10,10">
+                                <Button
+                                    Margin="6,0,0,0"
+                                    Padding="4,1"
+                                    VerticalAlignment="Top"
+                                    Content="✕"
+                                    DockPanel.Dock="Right"
+                                    NotificationCard.CloseOnClick="True" />
+
+                                <!--  Level icon — default data = information, overridden by pseudo-class  -->
+                                <Path
+                                    Name="PART_Icon"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="0,2,10,0"
+                                    VerticalAlignment="Top"
+                                    Data="{DynamicResource PipboyIconInformation}"
+                                    DockPanel.Dock="Left"
+                                    Fill="Transparent"
+                                    Stretch="Uniform"
+                                    Stroke="{TemplateBinding Foreground}"
+                                    StrokeJoin="Miter"
+                                    StrokeLineCap="Square"
+                                    StrokeThickness="{DynamicResource PipboyIconStrokeThickness}" />
+
+                                <ContentPresenter VerticalAlignment="Top" Content="{TemplateBinding Content}" />
+                            </DockPanel>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <!--  Closing: fade out, then set IsClosed=True so WNM removes the card  -->
+            <Style Selector="^[IsClosing=true]">
+                <Style.Animations>
+                    <Animation FillMode="Forward" Duration="0:0:0.25">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="Opacity" Value="1" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="Opacity" Value="0" />
+                            <Setter Property="IsClosed" Value="True" />
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+
+            <!--  :information — circle with "i" (dot above, vertical bar below)  -->
+            <Style Selector="^:information /template/ Path#PART_Icon">
+                <Setter Property="Data" Value="{DynamicResource PipboyIconInformation}" />
+            </Style>
+
+            <!--  :success — checkmark  -->
+            <Style Selector="^:success /template/ Path#PART_Icon">
+                <Setter Property="Data" Value="{DynamicResource PipboyIconSuccess}" />
+            </Style>
+
+            <!--  :warning — triangle with exclamation (bar + dot)  -->
+            <Style Selector="^:warning /template/ Path#PART_Icon">
+                <Setter Property="Data" Value="{DynamicResource PipboyIconWarning}" />
+            </Style>
+
+            <!--  :error — X cross  -->
+            <Style Selector="^:error /template/ Path#PART_Icon">
+                <Setter Property="Data" Value="{DynamicResource PipboyIconError}" />
+            </Style>
+
+        </ControlTheme>
+
+    </Styles.Resources>
+</Styles>

@@ -1,3 +1,4 @@
+﻿using Pipboy.Avalonia.Controls;
 using System;
 using Xunit;
 

@@ -1,6 +1,7 @@
+﻿using Pipboy.Avalonia.Controls;
 using Xunit;
 
-namespace Pipboy.Avalonia.Tests;
+namespace Pipboy.Avalonia.Tests.Controls;
 
 /// <summary>
 /// Tests for PipboyWindow StyledProperty registrations.

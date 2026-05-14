@@ -1,4 +1,4 @@
-namespace Pipboy.Avalonia;
+﻿namespace Pipboy.Avalonia.Controls;
 
 /// <summary>
 /// Predefined marker icon styles for <see cref="MapMarker"/>.

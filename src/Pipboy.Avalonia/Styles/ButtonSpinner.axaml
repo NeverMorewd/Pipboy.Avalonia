@@ -1,0 +1,80 @@
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+
+        <ControlTheme
+            x:Key="PipboyButtonSpinnerRepeatButton"
+            BasedOn="{StaticResource {x:Type RepeatButton}}"
+            TargetType="RepeatButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Style Selector="^ /template/ RepeatButton:pointerover">
+                <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+        </ControlTheme>
+        <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="MinWidth" Value="300" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="ButtonSpinner">
+                    <Grid ColumnDefinitions="Auto, *, Auto">
+                        <Border
+                            Grid.Column="1"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                            <ContentPresenter
+                                Name="PART_ContentPresenter"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </Border>
+                        <Border
+                            Name="ButtonGroup"
+                            Grid.Column="2"
+                            MinWidth="16"
+                            Margin="4,0,0,0"
+                            BorderBrush="{DynamicResource PipboyBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="0"
+                            IsVisible="{TemplateBinding ShowButtonSpinner}"
+                            UseLayoutRounding="False">
+                            <Grid RowDefinitions="*, *">
+                                <RepeatButton
+                                    Name="PART_IncreaseButton"
+                                    Grid.Row="0"
+                                    Theme="{StaticResource PipboyButtonSpinnerRepeatButton}">
+                                    <PathIcon
+                                        Classes="ExtraSmall"
+                                        Data="{DynamicResource PipboyIconChevronUp}"
+                                        Foreground="{DynamicResource PipboyTextBrush}" />
+                                </RepeatButton>
+                                <RepeatButton
+                                    Name="PART_DecreaseButton"
+                                    Grid.Row="1"
+                                    Theme="{StaticResource PipboyButtonSpinnerRepeatButton}">
+                                    <PathIcon
+                                        Classes="ExtraSmall"
+                                        Data="{DynamicResource PipboyIconChevronDown}"
+                                        Foreground="{DynamicResource PipboyTextBrush}" />
+                                </RepeatButton>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:left /template/ Border#ButtonGroup">
+                <Setter Property="Grid.Column" Value="0" />
+                <Setter Property="Margin" Value="0 0 4 0" />
+            </Style>
+            <Style Selector="^:pointerover /template/ Border#ButtonGroup">
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+        </ControlTheme>
+
+    </Styles.Resources>
+</Styles>

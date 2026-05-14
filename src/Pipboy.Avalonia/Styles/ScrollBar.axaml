@@ -1,0 +1,85 @@
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+
+        <!--  ScrollBar page repeat button (clicking the track)  -->
+        <ControlTheme x:Key="PipboyScrollBarPageButton" TargetType="RepeatButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Background="{TemplateBinding Background}" />
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+        <!--  ScrollBar thumb  -->
+        <ControlTheme x:Key="PipboyScrollBarThumb" TargetType="Thumb">
+            <Setter Property="Background" Value="{DynamicResource PipboyTextDimBrush}" />
+            <Setter Property="MinWidth" Value="8" />
+            <Setter Property="MinHeight" Value="8" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Thumb">
+                    <Border
+                        Name="ThumbBorder"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="0" />
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#ThumbBorder">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#ThumbBorder">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryLightBrush}" />
+            </Style>
+        </ControlTheme>
+
+        <!--  Main ScrollBar — single template; orientation-specific properties set via styles  -->
+        <ControlTheme x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
+            <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="ScrollBar">
+                    <Border Background="{TemplateBinding Background}">
+                        <Track
+                            Name="PART_Track"
+                            Maximum="{TemplateBinding Maximum}"
+                            Minimum="{TemplateBinding Minimum}"
+                            Orientation="{TemplateBinding Orientation}"
+                            ViewportSize="{TemplateBinding ViewportSize}"
+                            Value="{TemplateBinding Value,
+                                                    Mode=TwoWay}">
+                            <Track.DecreaseButton>
+                                <RepeatButton Name="PART_PageUpButton" Theme="{StaticResource PipboyScrollBarPageButton}" />
+                            </Track.DecreaseButton>
+                            <Track.Thumb>
+                                <Thumb Cursor="Hand" Theme="{StaticResource PipboyScrollBarThumb}" />
+                            </Track.Thumb>
+                            <Track.IncreaseButton>
+                                <RepeatButton Name="PART_PageDownButton" Theme="{StaticResource PipboyScrollBarPageButton}" />
+                            </Track.IncreaseButton>
+                        </Track>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <!--  Vertical scrollbar: fixed width, thumb inverted so value 0 = thumb at top  -->
+            <Style Selector="^:vertical">
+                <Setter Property="Width" Value="14" />
+                <Setter Property="MinWidth" Value="14" />
+            </Style>
+            <Style Selector="^:vertical /template/ Track">
+                <Setter Property="IsDirectionReversed" Value="True" />
+            </Style>
+
+            <!--  Horizontal scrollbar: fixed height  -->
+            <Style Selector="^:horizontal">
+                <Setter Property="Height" Value="14" />
+                <Setter Property="MinHeight" Value="14" />
+            </Style>
+
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
+            </Style>
+        </ControlTheme>
+    </Styles.Resources>
+
+</Styles>

@@ -1,0 +1,214 @@
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ControlTheme x:Key="{x:Type CalendarDayButton}" TargetType="CalendarDayButton">
+            <Setter Property="ClickMode" Value="Release" />
+            <Setter Property="Margin" Value="1" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="CalendarDayButton">
+                    <ContentControl
+                        Name="Content"
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Background="{TemplateBinding Background}"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        FontSize="{TemplateBinding FontSize}" />
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ ContentControl#Content">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+            <Style Selector="^:today /template/ ContentControl#Content">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryDarkBrush}" />
+            </Style>
+            <Style Selector="^:selected /template/ ContentControl#Content">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PipboyBackgroundBrush}" />
+            </Style>
+            <Style Selector="^:inactive">
+                <Setter Property="Opacity" Value="0.4" />
+            </Style>
+            <Style Selector="^:blackout /template/ ContentControl#Content">
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="{x:Type CalendarButton}" TargetType="CalendarButton">
+            <Setter Property="ClickMode" Value="Release" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="CalendarButton">
+                    <ContentControl
+                        Name="Content"
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Background="{TemplateBinding Background}"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        FontSize="{TemplateBinding FontSize}" />
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ ContentControl#Content">
+                <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
+            </Style>
+            <Style Selector="^:selected /template/ ContentControl#Content">
+                <Setter Property="Background" Value="{DynamicResource PipboyPrimaryBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PipboyBackgroundBrush}" />
+            </Style>
+            <Style Selector="^:inactive /template/ ContentControl#Content">
+                <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="{x:Type CalendarItem}" TargetType="CalendarItem">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="MinWidth" Value="240" />
+            <Setter Property="MinHeight" Value="220" />
+            <Setter Property="DayTitleTemplate">
+                <Template>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        x:DataType="x:String"
+                        FontSize="{DynamicResource PipboyFontSizeSmall}"
+                        FontWeight="SemiBold"
+                        Foreground="{DynamicResource PipboyTextDimBrush}"
+                        Text="{Binding}" />
+                </Template>
+            </Setter>
+            <Setter Property="Template">
+                <ControlTemplate TargetType="CalendarItem">
+                    <Border
+                        Padding="8"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid
+                            MinWidth="{TemplateBinding MinWidth}"
+                            MinHeight="{TemplateBinding MinHeight}"
+                            RowDefinitions="Auto,*">
+                            <Grid
+                                Grid.Row="0"
+                                Margin="0,0,0,4"
+                                ColumnDefinitions="Auto,*,Auto">
+                                <RepeatButton
+                                    Name="PART_PreviousButton"
+                                    Grid.Column="0"
+                                    Width="28"
+                                    Height="28"
+                                    Padding="4"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Focusable="False"
+                                    Foreground="{DynamicResource PipboyTextBrush}">
+                                    <Path
+                                        Data="M 9 4 L 4 8 L 9 12"
+                                        Stroke="{DynamicResource PipboyTextBrush}"
+                                        StrokeThickness="{DynamicResource PipboyIconStrokeThickness}" />
+                                </RepeatButton>
+                                <Button
+                                    Name="PART_HeaderButton"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Foreground="{DynamicResource PipboyTextBrush}" />
+                                <RepeatButton
+                                    Name="PART_NextButton"
+                                    Grid.Column="2"
+                                    Width="28"
+                                    Height="28"
+                                    Padding="4"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Focusable="False"
+                                    Foreground="{DynamicResource PipboyTextBrush}">
+                                    <Path
+                                        Data="M 4 4 L 9 8 L 4 12"
+                                        Stroke="{DynamicResource PipboyTextBrush}"
+                                        StrokeThickness="{DynamicResource PipboyIconStrokeThickness}" />
+                                </RepeatButton>
+                            </Grid>
+                            <Grid
+                                Name="PART_MonthView"
+                                Grid.Row="1"
+                                HorizontalAlignment="Stretch"
+                                ColumnDefinitions="*,*,*,*,*,*,*"
+                                IsVisible="False">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="28" />
+                                    <RowDefinition Height="32" />
+                                    <RowDefinition Height="32" />
+                                    <RowDefinition Height="32" />
+                                    <RowDefinition Height="32" />
+                                    <RowDefinition Height="32" />
+                                    <RowDefinition Height="32" />
+                                </Grid.RowDefinitions>
+                            </Grid>
+                            <Grid
+                                Name="PART_YearView"
+                                Grid.Row="1"
+                                HorizontalAlignment="Stretch"
+                                ColumnDefinitions="*,*,*,*"
+                                IsVisible="False"
+                                RowDefinitions="60,60,60" />
+
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+
+        <ControlTheme x:Key="{x:Type Calendar}" TargetType="Calendar">
+            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Calendar">
+                    <StackPanel
+                        Name="PART_Root"
+                        HorizontalAlignment="Left"
+                        ClipToBounds="True">
+                        <CalendarItem
+                            Name="PART_CalendarItem"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Foreground="{TemplateBinding Foreground}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+</Styles>

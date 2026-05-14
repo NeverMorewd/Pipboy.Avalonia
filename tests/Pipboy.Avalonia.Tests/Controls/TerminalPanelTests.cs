@@ -1,3 +1,4 @@
+﻿using Pipboy.Avalonia.Controls;
 using Xunit;
 
 namespace Pipboy.Avalonia.Tests;

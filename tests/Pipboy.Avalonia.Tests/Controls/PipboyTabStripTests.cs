@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
+using Pipboy.Avalonia.Controls;
 using System.Threading.Tasks;
 using Xunit;
 

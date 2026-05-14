@@ -1,4 +1,5 @@
-using Avalonia.Media;
+﻿using Avalonia.Media;
+using Pipboy.Avalonia.Controls;
 using Xunit;
 
 namespace Pipboy.Avalonia.Tests;
