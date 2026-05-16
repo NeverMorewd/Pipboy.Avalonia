@@ -19,9 +19,6 @@ Sharp corners, monochromatic phosphor palette, retro terminal aesthetic — drop
 <!-- Desktop -->
 ![Desktop overview](docs/images/screenshot-overview.png)
 
-<!-- Runtime color switching -->
-![Color switching](docs/images/screenshot-colors.png)
-
 ![Color switching](docs/images/screenshot-map.png)
 
 ---
@@ -41,7 +38,7 @@ dotnet add package Pipboy.Avalonia
 ```xml
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
+             xmlns:pipboy="https://github.com/NeverMorewd/Pipboy.Avalonia"
              x:Class="MyApp.App">
   <Application.Styles>
     <pipboy:PipboyTheme />
