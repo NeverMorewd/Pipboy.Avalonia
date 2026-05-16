@@ -16,6 +16,7 @@ internal sealed partial class Program
 
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
+                     .WithInterFont()
                      .LogToTrace()
                      .UseReactiveUI(_ => { });
 }

@@ -1,9 +1,7 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.iOS;
 using Foundation;
-using Pipboy.Avalonia.Demo;
 using ReactiveUI.Avalonia;
-using UIKit;
 
 namespace Pipboy.Avalonia.Demo.iOS;
 
@@ -12,5 +10,7 @@ public class AppDelegate : AvaloniaAppDelegate<App>
 {
     protected override AppBuilder CustomizeAppBuilder(AppBuilder builder)
         => base.CustomizeAppBuilder(builder)
-               .LogToTrace().UseReactiveUI(_ => { });
+               .WithInterFont()
+               .LogToTrace()
+               .UseReactiveUI(_ => { });
 }
