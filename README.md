@@ -23,10 +23,21 @@ Sharp corners, monochromatic phosphor palette, retro terminal aesthetic — drop
 
 ---
 
-## Installation
+## Packages
+
+| Package | Description |
+|---|---|
+| `Pipboy.Avalonia` | Core Pip-Boy theme and base controls for Avalonia |
+| `Pipboy.Avalonia.Fx` | Advanced animated controls and visual effects |
+
+##### Install Core Package
 
 ```
 dotnet add package Pipboy.Avalonia
+```
+##### Install FX Package
+```
+dotnet add package Pipboy.Avalonia.Fx
 ```
 
 ---
