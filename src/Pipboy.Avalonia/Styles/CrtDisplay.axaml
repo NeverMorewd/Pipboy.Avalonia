@@ -1,9 +1,0 @@
-﻿<Styles
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:pipboy="clr-namespace:Pipboy.Avalonia.Controls;assembly=Pipboy.Avalonia">
-    <Style Selector="pipboy|CrtDisplay">
-        <Setter Property="ScanBeamColor" Value="{DynamicResource PipboyScanBeamColor}" />
-    </Style>
-
-</Styles>
