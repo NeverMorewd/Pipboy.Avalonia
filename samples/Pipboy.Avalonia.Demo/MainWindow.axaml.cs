@@ -1,9 +1,9 @@
-﻿using Pipboy.Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Pipboy.Avalonia.Demo.ViewModels;
 
 namespace Pipboy.Avalonia.Demo;
 
-public partial class MainWindow : PipboyWindow
+public partial class MainWindow : Window
 {
     private readonly ColorPickerViewModel _colorPickerVm = new();
     public MainWindow()

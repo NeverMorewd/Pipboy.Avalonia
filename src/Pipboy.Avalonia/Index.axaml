@@ -94,7 +94,6 @@
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/ScanlineOverlay.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/BracketHighlight.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/PipboyTabStrip.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/PipboyWindow.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/TerminalPanel.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/PipboyCountdown.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/CrtDisplay.axaml" />
