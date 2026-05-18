@@ -40,8 +40,8 @@
                             <Panel x:Name="PART_UnderlayWrapper">
                                 <Border
                                     x:Name="PART_WindowBorder"
-                                    Background="{DynamicResource ThemeBackgroundBrush}"
-                                    BorderBrush="{DynamicResource ThemeBorderMidBrush}"
+                                    Background="{DynamicResource PipboyBackgroundBrush}"
+                                    BorderBrush="{DynamicResource PipboyBorderBrush}"
                                     BorderThickness="{TemplateBinding FrameThickness}"
                                     IsHitTestVisible="False" />
                                 <!--  Titlebar: background, title text, and drag area live in underlay  -->
@@ -49,7 +49,7 @@
                                     x:Name="PART_TitleBar"
                                     Height="{TemplateBinding TitleBarHeight}"
                                     VerticalAlignment="Top"
-                                    Background="{DynamicResource ThemeBackgroundBrush}"
+                                    Background="{DynamicResource PipboyBackgroundBrush}"
                                     IsVisible="{TemplateBinding HasTitleBar}"
                                     WindowDecorationProperties.ElementRole="TitleBar" />
                             </Panel>
@@ -88,7 +88,7 @@
                                             <Path
                                                 Name="FullScreenButtonPath"
                                                 Data="M2048 2048v-819h-205v469l-1493 -1493h469v-205h-819v819h205v-469l1493 1493h-469v205h819z"
-                                                Fill="{DynamicResource CaptionButtonForeground}"
+                                                Fill="{DynamicResource PipboyTextBrush}"
                                                 Stretch="UniformToFill" />
                                         </Viewbox>
                                     </Button>
@@ -100,7 +100,7 @@
                                         <Viewbox Width="11" Margin="2">
                                             <Path
                                                 Data="M2048 1229v-205h-2048v205h2048z"
-                                                Fill="{DynamicResource CaptionButtonForeground}"
+                                                Fill="{DynamicResource PipboyTextBrush}"
                                                 Stretch="UniformToFill" />
                                         </Viewbox>
                                     </Button>
@@ -116,7 +116,7 @@
                                             <Path
                                                 Name="RestoreButtonPath"
                                                 Data="M2048 2048v-2048h-2048v2048h2048zM1843 1843h-1638v-1638h1638v1638z"
-                                                Fill="{DynamicResource CaptionButtonForeground}"
+                                                Fill="{DynamicResource PipboyTextBrush}"
                                                 Stretch="UniformToFill" />
                                         </Viewbox>
                                     </Button>
@@ -128,7 +128,7 @@
                                         <Viewbox Width="11" Margin="2">
                                             <Path
                                                 Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z"
-                                                Fill="{DynamicResource CaptionButtonForeground}"
+                                                Fill="{DynamicResource PipboyTextBrush}"
                                                 Stretch="UniformToFill" />
                                         </Viewbox>
                                     </Button>
@@ -141,7 +141,7 @@
                             <Panel
                                 Height="30"
                                 VerticalAlignment="Top"
-                                Background="{DynamicResource ThemeAccentBrush}"
+                                Background="{DynamicResource PipboySurfaceBrush}"
                                 WindowDecorationProperties.ElementRole="TitleBar">
                                 <TextBlock
                                     Margin="12,0,0,0"
@@ -161,7 +161,7 @@
                                         <Viewbox Width="11" Margin="2">
                                             <Path
                                                 Data="M205 1024h819v-819h-205v469l-674 -674l-145 145l674 674h-469v205zM1374 1229h469v-205h-819v819h205v-469l674 674l145 -145z"
-                                                Fill="{DynamicResource CaptionButtonForeground}"
+                                                Fill="{DynamicResource PipboyTextBrush}"
                                                 Stretch="UniformToFill" />
                                         </Viewbox>
                                     </Button>
@@ -173,7 +173,7 @@
                                         <Viewbox Width="11" Margin="2">
                                             <Path
                                                 Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z"
-                                                Fill="{DynamicResource CaptionButtonForeground}"
+                                                Fill="{DynamicResource PipboyTextBrush}"
                                                 Stretch="UniformToFill" />
                                         </Viewbox>
                                     </Button>
