@@ -10,8 +10,6 @@ Sharp corners, monochromatic phosphor palette, retro terminal aesthetic — drop
 
 **[▶ Try the live WASM demo](https://nevermorewd.github.io/Pipboy.Avalonia/)** — runs entirely in the browser, no install needed.
 
-> A significant portion of this codebase was written with [Claude Code](https://claude.ai/claude-code).
-
 ---
 
 ## Screenshots
@@ -56,8 +54,6 @@ dotnet add package Pipboy.Avalonia.Fx
   </Application.Styles>
 </Application>
 ```
-
-`PipboyTheme` is a self-contained `Styles` collection — no base Fluent/Simple theme required.
 
 ### 2. (Optional) Set the primary color
 
