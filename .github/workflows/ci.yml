@@ -22,22 +22,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET 10
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.x'
+          dotnet-version: '8.x'
 
-      - name: Restore dependencies
+      # ---------------- Restore ----------------
+      - name: Restore Pipboy.Avalonia
         run: dotnet restore src/Pipboy.Avalonia/Pipboy.Avalonia.csproj
 
-      - name: Build (Release)
-        run: |
-          dotnet build src/Pipboy.Avalonia/Pipboy.Avalonia.csproj \
-            --no-restore \
-            --configuration Release
+      - name: Restore Pipboy.Avalonia.Fx
+        run: dotnet restore src/Pipboy.Avalonia.Fx/Pipboy.Avalonia.Fx.csproj
 
-      - name: Run tests
-        run: |
-          dotnet test tests/Pipboy.Avalonia.Tests/Pipboy.Avalonia.Tests.csproj \
-            --configuration Release \
-            --verbosity normal
+      - name: Restore Tests
+        run: dotnet restore tests/Pipboy.Avalonia.Tests/Pipboy.Avalonia.Tests.csproj
+
+      # ---------------- Build ----------------
+      - name: Build Pipboy.Avalonia
+        run: dotnet build src/Pipboy.Avalonia/Pipboy.Avalonia.csproj --configuration Release --no-restore
+
+      - name: Build Pipboy.Avalonia.Fx
+        run: dotnet build src/Pipboy.Avalonia.Fx/Pipboy.Avalonia.Fx.csproj --configuration Release --no-restore
+
+      # ---------------- Test ----------------
+      - name: Run Tests
+        run: dotnet test tests/Pipboy.Avalonia.Tests/Pipboy.Avalonia.Tests.csproj --configuration Release --no-restore --verbosity normal
