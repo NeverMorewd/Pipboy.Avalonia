@@ -15,4 +15,10 @@
     <ProjectReference Include="..\Pipboy.Avalonia\Pipboy.Avalonia.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="PipboyFxTheme.axaml.cs">
+      <DependentUpon>PipboyFxTheme.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

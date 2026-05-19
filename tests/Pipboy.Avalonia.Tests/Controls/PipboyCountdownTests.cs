@@ -1,8 +1,8 @@
-﻿using Pipboy.Avalonia.Controls;
+﻿using Pipboy.Avalonia.Fx.Controls;
 using System;
 using Xunit;
 
-namespace Pipboy.Avalonia.Tests;
+namespace Pipboy.Avalonia.Tests.Controls;
 
 public class PipboyCountdownTests
 {

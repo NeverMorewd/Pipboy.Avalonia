@@ -6,8 +6,8 @@
     RequestedThemeVariant="Dark">
 
     <Application.Styles>
-        <!--  Pipboy theme provides all control templates and styling  -->
         <pipboy:PipboyTheme />
+        <pipboy:PipboyFxTheme />
     </Application.Styles>
 
 </Application>

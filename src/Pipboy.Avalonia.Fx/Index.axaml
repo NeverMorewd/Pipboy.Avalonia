@@ -1,0 +1,14 @@
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/SegmentedBar.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/RatedAttribute.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/BlinkText.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/ScanlineOverlay.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/BracketHighlight.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/PipboyTabStrip.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/TerminalPanel.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/PipboyCountdown.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/CrtDisplay.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/PipboyPanel.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/PipboyTitleBar.axaml" />
+	<StyleInclude Source="avares://Pipboy.Avalonia.Fx/Styles/PipboyMap.axaml" />
+</Styles>
