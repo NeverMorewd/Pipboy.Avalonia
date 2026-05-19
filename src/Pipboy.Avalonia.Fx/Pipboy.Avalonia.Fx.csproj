@@ -16,7 +16,7 @@
 	  <RepositoryType>git</RepositoryType>
 	  <RepositoryUrl>https://github.com/NeverMorewd/Pipboy.Avalonia</RepositoryUrl>
 	  <PackageProjectUrl>https://github.com/NeverMorewd/Pipboy.Avalonia</PackageProjectUrl>
-	  <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
