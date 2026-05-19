@@ -202,8 +202,6 @@
             <TabItem Header="Expander" Theme="{StaticResource NavTabItem}">
                 <pages:ExpanderPage />
             </TabItem>
-
-            <!--  FEEDBACK  -->
             <TabItem Header="FEEDBACK" Theme="{StaticResource NavCategory}" />
             <TabItem Header="Tooltip &amp; Flyout" Theme="{StaticResource NavTabItem}">
                 <pages:FeedbackPage />
@@ -214,7 +212,9 @@
             <TabItem Header="Window" Theme="{StaticResource NavTabItem}">
                 <pages:WindowPage />
             </TabItem>
-
+            <TabItem Header="ManagedFileChooser" Theme="{StaticResource NavTabItem}">
+                <pages:ManagedFileChooserPage />
+            </TabItem>
             <!--  PIPBOY CONTROLS  -->
             <TabItem Header="PIPBOY CONTROLS" Theme="{StaticResource NavCategory}" />
             <TabItem Header="Pipboy Controls" Theme="{StaticResource NavTabItem}">

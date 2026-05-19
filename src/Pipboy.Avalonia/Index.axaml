@@ -4,6 +4,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="avares://Pipboy.Avalonia/Resources/Icons.axaml" />
+				<ResourceInclude Source="avares://Pipboy.Avalonia/Resources/Strings.axaml" />
+				<ResourceInclude Source="avares://Pipboy.Avalonia/Resources/Constants.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
