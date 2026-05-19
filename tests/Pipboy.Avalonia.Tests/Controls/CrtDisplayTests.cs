@@ -1,8 +1,8 @@
 ﻿using Avalonia.Media;
-using Pipboy.Avalonia.Controls;
+using Pipboy.Avalonia.Fx.Controls;
 using Xunit;
 
-namespace Pipboy.Avalonia.Tests;
+namespace Pipboy.Avalonia.Tests.Controls;
 
 public class CrtDisplayTests
 {

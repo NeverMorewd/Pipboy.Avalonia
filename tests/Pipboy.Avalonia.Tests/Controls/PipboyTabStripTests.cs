@@ -1,11 +1,10 @@
-﻿using Avalonia.Controls;
-using Avalonia.Headless.XUnit;
+﻿using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Pipboy.Avalonia.Fx.Controls;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Pipboy.Avalonia.Tests;
+namespace Pipboy.Avalonia.Tests.Controls;
 
 public class PipboyTabStripTests
 {
