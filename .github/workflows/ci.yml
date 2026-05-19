@@ -15,17 +15,17 @@ on:
 
 jobs:
   build:
-    name: Build & Test
+    name: build & test
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET
+      - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'
+          dotnet-version: '10.x'
 
       # ---------------- Restore ----------------
       - name: Restore Pipboy.Avalonia

@@ -1,10 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	  <TargetFramework>net10.0</TargetFramework>
+	  <Nullable>enable</Nullable>
+	  <LangVersion>latest</LangVersion>
+	  <RootNamespace>Pipboy.Avalonia.Fx</RootNamespace>
+	  <AssemblyName>Pipboy.Avalonia.Fx</AssemblyName>
+	  <PackageId>Pipboy.Avalonia.Fx</PackageId>
+	  <Version>1.0.0</Version>
+	  <Authors>Dong</Authors>
+	  <Description>The effects and custom controls extension library basedon Pipboy.Avalonia UI theme.</Description>
+	  <PackageTags>avalonia;pipboy;fallout;fx;effects;custom-controls;widgets;skia;retro</PackageTags>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <RepositoryType>git</RepositoryType>
+	  <RepositoryUrl>https://github.com/NeverMorewd/Pipboy.Avalonia</RepositoryUrl>
+	  <PackageProjectUrl>https://github.com/NeverMorewd/Pipboy.Avalonia</PackageProjectUrl>
+	  <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
