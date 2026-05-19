@@ -1,5 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.Primitives;
+using System;
+using System.Collections.Generic;
 
 namespace Pipboy.Avalonia.Fx.Controls;
 

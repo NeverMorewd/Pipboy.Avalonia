@@ -7,6 +7,7 @@ using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
 using Avalonia.Platform;
 using Avalonia.Threading;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Pipboy.Avalonia.Fx.Controls;

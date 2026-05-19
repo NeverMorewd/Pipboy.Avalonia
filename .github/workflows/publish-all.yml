@@ -1,0 +1,38 @@
+name: Publish All Packages
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      # ───── Avalonia ─────
+      - name: Pack Pipboy.Avalonia
+        run: |
+          dotnet restore src/Pipboy.Avalonia/Pipboy.Avalonia.csproj
+          dotnet pack src/Pipboy.Avalonia/Pipboy.Avalonia.csproj -c Release -o ./nupkg
+
+      # ───── Fx ─────
+      - name: Pack Pipboy.Avalonia.Fx
+        run: |
+          dotnet restore src/Pipboy.Avalonia.Fx/Pipboy.Avalonia.Fx.csproj
+          dotnet pack src/Pipboy.Avalonia.Fx/Pipboy.Avalonia.Fx.csproj -c Release -o ./nupkg
+
+      # ───── Push all ─────
+      - name: Push
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --api-key "${{ secrets.NUGET_API_KEY }}" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
