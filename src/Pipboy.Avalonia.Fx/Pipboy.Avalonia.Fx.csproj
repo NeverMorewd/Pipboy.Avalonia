@@ -8,7 +8,7 @@
 	  <AssemblyName>Pipboy.Avalonia.Fx</AssemblyName>
 	  <PackageId>Pipboy.Avalonia.Fx</PackageId>
 	  <Version>1.0.0</Version>
-	  <PackageIcon>pip-terminal.png</PackageIcon>
+	  <PackageIcon>Properties\pip-terminal.png</PackageIcon>
 	  <Authors>Dong</Authors>
 	  <Description>The effects and custom controls extension library basedon Pipboy.Avalonia UI theme.</Description>
 	  <PackageTags>avalonia;pipboy;fallout;fx;effects;custom-controls;widgets;skia;retro</PackageTags>
