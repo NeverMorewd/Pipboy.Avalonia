@@ -79,27 +79,6 @@ The default color is phosphor green. Subscribe to `ThemeColorChanged` to react t
 
 ---
 
-## Custom Controls
-
-Explore all controls and their properties interactively in the **[live demo](https://nevermorewd.github.io/Pipboy.Avalonia/)** or browse the [`samples/`](samples/) directory.
-
-| Control | Description |
-|---------|-------------|
-| `CrtDisplay` | Layered CRT effects (scanlines, scan beam, noise, vignette, flicker) over any content |
-| `PipboyWindow` | Custom-chrome window with themed title bar, icon, and system buttons |
-| `PipboyTitleBar` | Standalone version of the title bar chrome for embedding in layouts |
-| `PipboyPanel` | Titled, closable panel with `Closed` event and `ClosedCommand` |
-| `PipboyTabStrip` | Tab-strip navigation with bracket indicators and gamepad D-Pad support |
-| `PipboyCountdown` | Countdown timer with configurable precision and `CompletedCommand` |
-| `SegmentedBar` | Discrete rectangular segment bar — HP/AP/RAD style |
-| `RatedAttribute` | Named attribute with filled/empty dot indicators — S.P.E.C.I.A.L. style |
-| `TerminalPanel` | Terminal-screen container with optional typewriter reveal effect |
-| `BlinkText` | Configurable blink animation wrapper (pure XAML, WASM safe) |
-| `ScanlineOverlay` | Decorator that draws CRT scanlines over its child |
-| `BracketHighlight` | Animated `> ... <` bracket indicators on hover or selection |
-
----
-
 ## Design Tokens
 
 All tokens are available as `{DynamicResource}` in XAML and update automatically when the primary color changes.
