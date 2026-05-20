@@ -20,10 +20,12 @@
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+   <ItemGroup>
+		<None Include="..\..\pip-terminal.png" Pack="true" PackagePath="\" Link="Properties\pip-terminal.png" />
+   </ItemGroup>
 	<ItemGroup>
-		<None Include="..\..\pip-terminal.png" Pack="true" PackagePath="\" Link="Properties\pip-terminal.png"/>
+		<None Include="..\..\README.md" Pack="True" PackagePath="\" />
 	</ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Avalonia.Skia" Version="12.0.1" />
   </ItemGroup>
