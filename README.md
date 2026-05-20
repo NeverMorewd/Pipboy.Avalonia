@@ -153,7 +153,7 @@ MIT
 
 ## Credits
 
-https://www.pip-boy.com/
-https://github.com/CodyTolene/pip-terminal
-https://github.com/AvaloniaUI/Avalonia
-https://github.com/irihitech/Semi.Avalonia
+- https://www.pip-boy.com/
+- https://github.com/CodyTolene/pip-terminal
+- https://github.com/AvaloniaUI/Avalonia
+- https://github.com/irihitech/Semi.Avalonia
