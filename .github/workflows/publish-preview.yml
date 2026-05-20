@@ -36,11 +36,18 @@ jobs:
           echo "Preview version: $VERSION"
 
       - name: Restore
-        run: dotnet restore src/Pipboy.Avalonia/Pipboy.Avalonia.csproj
+        run: |
+          dotnet restore src/Pipboy.Avalonia/Pipboy.Avalonia.csproj
+          dotnet restore src/Pipboy.Avalonia.Fx/Pipboy.Avalonia.Fx.csproj
 
       - name: Pack
         run: |
           dotnet pack src/Pipboy.Avalonia/Pipboy.Avalonia.csproj \
+            --no-restore \
+            --configuration Release \
+            -p:Version=${{ steps.version.outputs.version }} \
+            --output ./nupkg
+          dotnet pack src/Pipboy.Avalonia.Fx/Pipboy.Avalonia.Fx.csproj \
             --no-restore \
             --configuration Release \
             -p:Version=${{ steps.version.outputs.version }} \
