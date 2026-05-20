@@ -7,7 +7,7 @@
     <RootNamespace>Pipboy.Avalonia</RootNamespace>
     <AssemblyName>Pipboy.Avalonia</AssemblyName>
 	<PackageId>Pipboy.Avalonia</PackageId>
-	<PackageIcon>Properties\pip-terminal.png</PackageIcon>
+	<PackageIcon>..\..\pip-terminal.png</PackageIcon>
     <Version>1.0.0</Version>
     <Authors>Dong</Authors>
     <Description>A Fallout 4 Pip-Boy inspired theme library for Avalonia UI.</Description>
