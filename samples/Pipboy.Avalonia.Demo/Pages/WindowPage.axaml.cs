@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
@@ -54,7 +55,35 @@ public partial class WindowPage : UserControl
         ModalPanel.Footer  = BuildAcknowledgeFooter();
         ModalBackdrop.IsVisible = true;
     }
+    private void OnShowTransparent(object? sender, RoutedEventArgs e)
+    {
+        Window window = new()
+        {
+            WindowDecorations = WindowDecorations.None,
+            Topmost = true,
+            ShowActivated = false,
+            ShowInTaskbar = false,
+            IsHitTestVisible = false,
+            IsEnabled = false,
+            Background = Brushes.Transparent,
+            WindowStartupLocation = WindowStartupLocation.Manual,
+            Height = 200,
+            Width = 200,
+        };
+        var innerPanel = new DockPanel { Background = Brushes.Transparent };
 
+        var innerBorder = new Border
+        {
+            BorderThickness = new Thickness(1.0),
+            BorderBrush = new SolidColorBrush(PipboyThemeManager.Instance.PrimaryColor),
+            CornerRadius = new CornerRadius(1.0),
+            Child = innerPanel,
+            Background = Brushes.Transparent,
+        };
+
+        window.Content = innerBorder;
+        window.Show();
+    }
     private void ResetModal(string cssClass)
     {
         ModalPanel.Classes.Clear();

@@ -1,16 +1,4 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Styles.Resources>
-        <ControlTheme x:Key="{x:Type Border}" TargetType="Border">
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="CornerRadius" Value="0" />
-            <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Margin" Value="0" />
-        </ControlTheme>
-    </Styles.Resources>
-
-    <!--  ── Card: elevated surface container ──  -->
     <Style Selector="Border.card">
         <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
