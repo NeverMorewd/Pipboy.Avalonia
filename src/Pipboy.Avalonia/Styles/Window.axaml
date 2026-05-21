@@ -5,6 +5,7 @@
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
             <Setter Property="FontSize" Value="{DynamicResource PipboyFontSize}" />
+            <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource PipboySurfaceHighBrush}" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel>

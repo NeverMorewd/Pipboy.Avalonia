@@ -8,7 +8,7 @@
     <!--  Grid: scrollable content + modal overlay on top  -->
     <Grid>
 
-        <!--  ── Scrollable demo content  ── -->
+        <!--  ── Scrollable demo content  ──  -->
         <ScrollViewer>
             <StackPanel Margin="24" Spacing="28">
 
@@ -21,25 +21,43 @@
                 <!--  ══ VARIANTS ══════════════════════════════════════════  -->
                 <StackPanel Spacing="10">
                     <TextBlock Classes="h2" Text="VARIANTS" />
-                    <WrapPanel HorizontalAlignment="Left" ItemSpacing="16" LineSpacing="16">
+                    <WrapPanel
+                        HorizontalAlignment="Left"
+                        ItemSpacing="16"
+                        LineSpacing="16">
 
                         <!--  Default  -->
                         <pipboy:PipboyPanel Width="240" Header="SYSTEM STATUS">
                             <StackPanel Spacing="5">
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <TextBlock Grid.Column="0" Classes="dim" Text="Version" />
-                                    <TextBlock Grid.Column="1" Classes="accent" Text="v4.0.2075" />
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Classes="dim"
+                                        Text="Version" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Classes="accent"
+                                        Text="v4.0.2075" />
                                 </Grid>
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <TextBlock Grid.Column="0" Classes="dim" Text="Uptime" />
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Classes="dim"
+                                        Text="Uptime" />
                                     <TextBlock Grid.Column="1" Text="14d 06h 42m" />
                                 </Grid>
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <TextBlock Grid.Column="0" Classes="dim" Text="Memory" />
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Classes="dim"
+                                        Text="Memory" />
                                     <TextBlock Grid.Column="1" Text="384 / 512 KB" />
                                 </Grid>
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <TextBlock Grid.Column="0" Classes="dim" Text="Core" />
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Classes="dim"
+                                        Text="Core" />
                                     <TextBlock Grid.Column="1" Text="Vault-Tec ARM" />
                                 </Grid>
                             </StackPanel>
@@ -75,11 +93,17 @@
                                 </pipboy:BlinkText>
                                 <TextBlock Text="" />
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <TextBlock Grid.Column="0" Classes="dim" Text="Current" />
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Classes="dim"
+                                        Text="Current" />
                                     <TextBlock Grid.Column="1" Text="450 RAD/HR" />
                                 </Grid>
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <TextBlock Grid.Column="0" Classes="dim" Text="Threshold" />
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Classes="dim"
+                                        Text="Threshold" />
                                     <TextBlock Grid.Column="1" Text="100 RAD/HR" />
                                 </Grid>
                                 <pipboy:SegmentedBar
@@ -125,15 +149,18 @@
                         Text="IsClosable=True adds a [X] button to the title bar. The Closed event lets the host decide what to do."
                         TextWrapping="Wrap" />
 
-                    <WrapPanel HorizontalAlignment="Left" ItemSpacing="16" LineSpacing="12">
+                    <WrapPanel
+                        HorizontalAlignment="Left"
+                        ItemSpacing="16"
+                        LineSpacing="12">
 
                         <pipboy:PipboyPanel
                             x:Name="InfoPanel"
                             Width="280"
                             Classes="accent"
+                            Closed="OnPanelClosed"
                             Header="VAULT-TEC NOTIFICATION"
-                            IsClosable="True"
-                            Closed="OnPanelClosed">
+                            IsClosable="True">
                             <StackPanel Spacing="6">
                                 <TextBlock Text="New firmware update available." TextWrapping="Wrap" />
                                 <TextBlock
@@ -148,9 +175,9 @@
                             x:Name="WarnPanel"
                             Width="280"
                             Classes="warning"
+                            Closed="OnPanelClosed"
                             Header="SECURITY BREACH"
-                            IsClosable="True"
-                            Closed="OnPanelClosed">
+                            IsClosable="True">
                             <StackPanel Spacing="6">
                                 <pipboy:BlinkText IsBlinking="True">
                                     <TextBlock Classes="accent" Text="UNAUTHORISED ACCESS DETECTED" />
@@ -176,49 +203,80 @@
                         Text="Overlay a PipboyPanel over page content with a semi-transparent backdrop."
                         TextWrapping="Wrap" />
                     <StackPanel Orientation="Horizontal" Spacing="10">
-                        <Button Click="OnShowInfoModal"    Content="INFO DIALOG" />
+                        <Button Click="OnShowInfoModal" Content="INFO DIALOG" />
                         <Button Click="OnShowConfirmModal" Content="CONFIRM DIALOG" />
                         <Button Click="OnShowWarningModal" Content="WARNING DIALOG" />
+                        <Button Click="OnShowTransparent" Content="TRANSPARENT DIALOG" />
                     </StackPanel>
                 </StackPanel>
 
                 <!--  ══ INVENTORY PANEL (larger example) ═══════════════  -->
                 <StackPanel Spacing="10">
                     <TextBlock Classes="h2" Text="COMPOSED LAYOUT" />
-                    <TextBlock Classes="dim" Text="PipboyPanel as a structured data container." TextWrapping="Wrap" />
+                    <TextBlock
+                        Classes="dim"
+                        Text="PipboyPanel as a structured data container."
+                        TextWrapping="Wrap" />
 
-                    <Grid ColumnDefinitions="*,16,*" HorizontalAlignment="Left" MaxWidth="640">
+                    <Grid
+                        MaxWidth="640"
+                        HorizontalAlignment="Left"
+                        ColumnDefinitions="*,16,*">
 
                         <pipboy:PipboyPanel Grid.Column="0" Header="INVENTORY">
                             <StackPanel Spacing="4">
                                 <Grid ColumnDefinitions="*,Auto">
                                     <TextBlock Grid.Column="0" Text="10mm Pistol" />
-                                    <TextBlock Grid.Column="1" Classes="dim" Text="×1" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Classes="dim"
+                                        Text="×1" />
                                 </Grid>
                                 <Grid ColumnDefinitions="*,Auto">
                                     <TextBlock Grid.Column="0" Text="Stimpak" />
-                                    <TextBlock Grid.Column="1" Classes="dim" Text="×12" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Classes="dim"
+                                        Text="×12" />
                                 </Grid>
                                 <Grid ColumnDefinitions="*,Auto">
                                     <TextBlock Grid.Column="0" Text="RadAway" />
-                                    <TextBlock Grid.Column="1" Classes="dim" Text="×4" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Classes="dim"
+                                        Text="×4" />
                                 </Grid>
                                 <Grid ColumnDefinitions="*,Auto">
                                     <TextBlock Grid.Column="0" Text="Fusion Core" />
-                                    <TextBlock Grid.Column="1" Classes="dim" Text="×2" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Classes="dim"
+                                        Text="×2" />
                                 </Grid>
                                 <Grid ColumnDefinitions="*,Auto">
                                     <TextBlock Grid.Column="0" Text="Nuka-Cola" />
-                                    <TextBlock Grid.Column="1" Classes="dim" Text="×7" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Classes="dim"
+                                        Text="×7" />
                                 </Grid>
                                 <TextBlock Classes="dim" Text="──────────────────────" />
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <TextBlock Grid.Column="0" Classes="dim" Text="Weight" />
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Classes="dim"
+                                        Text="Weight" />
                                     <TextBlock Grid.Column="1" Text="24.3 / 270" />
                                 </Grid>
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <TextBlock Grid.Column="0" Classes="accent" Text="CAPS" />
-                                    <TextBlock Grid.Column="1" Classes="accent" Text="843" />
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Classes="accent"
+                                        Text="CAPS" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Classes="accent"
+                                        Text="843" />
                                 </Grid>
                             </StackPanel>
                         </pipboy:PipboyPanel>
@@ -239,13 +297,13 @@
                                 </Grid>
                             </pipboy:PipboyPanel.Footer>
                             <StackPanel Spacing="3">
-                                <pipboy:RatedAttribute Label="STRENGTH"     Value="8" />
-                                <pipboy:RatedAttribute Label="PERCEPTION"   Value="5" />
-                                <pipboy:RatedAttribute Label="ENDURANCE"    Value="7" />
-                                <pipboy:RatedAttribute Label="CHARISMA"     Value="4" />
+                                <pipboy:RatedAttribute Label="STRENGTH" Value="8" />
+                                <pipboy:RatedAttribute Label="PERCEPTION" Value="5" />
+                                <pipboy:RatedAttribute Label="ENDURANCE" Value="7" />
+                                <pipboy:RatedAttribute Label="CHARISMA" Value="4" />
                                 <pipboy:RatedAttribute Label="INTELLIGENCE" Value="9" />
-                                <pipboy:RatedAttribute Label="AGILITY"      Value="6" />
-                                <pipboy:RatedAttribute Label="LUCK"         Value="3" />
+                                <pipboy:RatedAttribute Label="AGILITY" Value="6" />
+                                <pipboy:RatedAttribute Label="LUCK" Value="3" />
                             </StackPanel>
                         </pipboy:PipboyPanel>
 
@@ -255,7 +313,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <!--  ── Modal overlay (rendered on top of scroll content)  ── -->
+        <!--  ── Modal overlay (rendered on top of scroll content)  ──  -->
         <Border
             x:Name="ModalBackdrop"
             Background="#BB000800"
