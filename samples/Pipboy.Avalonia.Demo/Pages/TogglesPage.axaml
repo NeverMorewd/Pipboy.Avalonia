@@ -7,9 +7,9 @@
 
         <Border
             Grid.Row="0"
+            Padding="24,16"
             BorderBrush="{DynamicResource PipboyBorderBrush}"
-            BorderThickness="0,0,0,1"
-            Padding="24,16">
+            BorderThickness="0,0,0,1">
             <StackPanel Spacing="3">
                 <TextBlock Classes="h1" Text="TOGGLES" />
                 <TextBlock
@@ -22,17 +22,23 @@
         <ScrollViewer Grid.Row="1">
             <StackPanel Margin="24,20" Spacing="20">
 
-                <!--  ── CheckBox ── -->
+                <!--  ── CheckBox ──  -->
                 <HeaderedContentControl Classes="groupbox" Header="CHECK BOX">
                     <Grid ColumnDefinitions="*,*,*">
                         <StackPanel Grid.Column="0" Spacing="8">
-                            <TextBlock Classes="dim" FontSize="10" Text="INTERACTIVE STATES" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="INTERACTIVE STATES" />
                             <CheckBox Content="VATS ENABLED" IsChecked="True" />
                             <CheckBox Content="AUTO-SAVE" IsChecked="False" />
                             <CheckBox Content="INDETERMINATE" IsChecked="{x:Null}" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Spacing="8">
-                            <TextBlock Classes="dim" FontSize="10" Text="DISABLED STATES" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="DISABLED STATES" />
                             <CheckBox Content="DISABLED UNCHECKED" IsEnabled="False" />
                             <CheckBox
                                 Content="DISABLED CHECKED"
@@ -44,7 +50,10 @@
                                 IsEnabled="False" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="8">
-                            <TextBlock Classes="dim" FontSize="10" Text="GAME SETTINGS EXAMPLE" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="GAME SETTINGS EXAMPLE" />
                             <CheckBox Content="HARDCORE MODE" IsChecked="False" />
                             <CheckBox Content="SUBTITLES" IsChecked="True" />
                             <CheckBox Content="HEAD BOB" IsChecked="True" />
@@ -53,11 +62,14 @@
                     </Grid>
                 </HeaderedContentControl>
 
-                <!--  ── RadioButton ── -->
+                <!--  ── RadioButton ──  -->
                 <HeaderedContentControl Classes="groupbox" Header="RADIO BUTTON">
                     <Grid ColumnDefinitions="*,*,*">
                         <StackPanel Grid.Column="0" Spacing="6">
-                            <TextBlock Classes="dim" FontSize="10" Text="DIFFICULTY  (GroupName=diff)" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="DIFFICULTY  (GroupName=diff)" />
                             <RadioButton Content="VERY EASY" GroupName="diff" />
                             <RadioButton
                                 Content="NORMAL"
@@ -67,7 +79,10 @@
                             <RadioButton Content="SURVIVAL" GroupName="diff" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Spacing="6">
-                            <TextBlock Classes="dim" FontSize="10" Text="FACTION  (GroupName=fac)" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="FACTION  (GroupName=fac)" />
                             <RadioButton
                                 Content="Brotherhood of Steel"
                                 GroupName="fac"
@@ -77,8 +92,14 @@
                             <RadioButton Content="Institute" GroupName="fac" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="6">
-                            <TextBlock Classes="dim" FontSize="10" Text="DISABLED STATE" />
-                            <RadioButton Content="OPTION A" GroupName="dis" IsEnabled="False" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="DISABLED STATE" />
+                            <RadioButton
+                                Content="OPTION A"
+                                GroupName="dis"
+                                IsEnabled="False" />
                             <RadioButton
                                 Content="OPTION B (checked)"
                                 GroupName="dis"
@@ -94,7 +115,7 @@
                     </Grid>
                 </HeaderedContentControl>
 
-                <!--  ── ToggleSwitch ── -->
+                <!--  ── ToggleSwitch ──  -->
                 <HeaderedContentControl Classes="groupbox" Header="TOGGLE SWITCH">
                     <Grid ColumnDefinitions="*,*">
                         <StackPanel Grid.Column="0" Spacing="4">
@@ -136,9 +157,7 @@
                                 <ToggleSwitch
                                     Grid.Row="4"
                                     Grid.Column="1"
-                                    IsChecked="True"
-                                    OffContent="OFF"
-                                    OnContent="ON" />
+                                    IsChecked="True" />
 
                                 <TextBlock
                                     Grid.Row="6"
