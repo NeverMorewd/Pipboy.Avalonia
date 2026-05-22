@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Avalonia.Threading;
+using System.Diagnostics;
 
 namespace Pipboy.Avalonia.Demo.Pages;
 
@@ -60,15 +62,18 @@ public partial class WindowPage : UserControl
         Window window = new()
         {
             WindowDecorations = WindowDecorations.None,
+            ExtendClientAreaTitleBarHeightHint = -1,
             Topmost = true,
             ShowActivated = false,
             ShowInTaskbar = false,
-            IsHitTestVisible = false,
+            IsHitTestVisible = true,
             IsEnabled = false,
             Background = Brushes.Transparent,
             WindowStartupLocation = WindowStartupLocation.Manual,
-            Height = 200,
-            Width = 200,
+            Height = (double) width.Value.GetValueOrDefault(),
+            Width = (double) height.Value.GetValueOrDefault(),
+            MinHeight = 0,
+            MinWidth = 0,
         };
         var innerPanel = new DockPanel { Background = Brushes.Transparent };
 
@@ -76,13 +81,26 @@ public partial class WindowPage : UserControl
         {
             BorderThickness = new Thickness(1.0),
             BorderBrush = new SolidColorBrush(PipboyThemeManager.Instance.PrimaryColor),
-            CornerRadius = new CornerRadius(1.0),
+            CornerRadius = new CornerRadius(0.0),
             Child = innerPanel,
             Background = Brushes.Transparent,
         };
 
         window.Content = innerBorder;
         window.Show();
+        
+
+        Application.Current!.Dispatcher.Invoke(() => 
+        {
+            Debug.WriteLine($"{window.ClientSize}");
+            Debug.WriteLine($"{window.Bounds}");
+            innerPanel.Children.Add(new  TextBlock 
+            {   Text = $"{window.ClientSize}",
+                TextWrapping = TextWrapping.Wrap ,
+                FontSize = 9 
+            });
+        },DispatcherPriority.Loaded);
+
     }
     private void ResetModal(string cssClass)
     {

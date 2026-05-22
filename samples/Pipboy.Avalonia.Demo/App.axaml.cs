@@ -28,6 +28,7 @@ public partial class App : Application
         {
             var window = new MainWindow();
             desktop.MainWindow = window;
+            desktop.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
             NotificationManager = new WindowNotificationManager(window)
             {

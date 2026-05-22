@@ -207,6 +207,18 @@
                         <Button Click="OnShowConfirmModal" Content="CONFIRM DIALOG" />
                         <Button Click="OnShowWarningModal" Content="WARNING DIALOG" />
                         <Button Click="OnShowTransparent" Content="TRANSPARENT DIALOG" />
+                        <NumericUpDown
+                            Name="width"
+                            Maximum="100000"
+                            Minimum="1"
+                            PlaceholderText="Width"
+                            Value="20" />
+                        <NumericUpDown
+                            Name="height"
+                            Maximum="100000"
+                            Minimum="1"
+                            PlaceholderText="Height"
+                            Value="20" />
                     </StackPanel>
                 </StackPanel>
 
