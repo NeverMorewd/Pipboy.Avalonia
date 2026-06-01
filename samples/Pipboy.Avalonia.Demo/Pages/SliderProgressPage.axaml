@@ -7,9 +7,9 @@
 
         <Border
             Grid.Row="0"
+            Padding="24,16"
             BorderBrush="{DynamicResource PipboyBorderBrush}"
-            BorderThickness="0,0,0,1"
-            Padding="24,16">
+            BorderThickness="0,0,0,1">
             <StackPanel Spacing="3">
                 <TextBlock Classes="h1" Text="SLIDERS &amp; PROGRESS" />
                 <TextBlock
@@ -22,7 +22,7 @@
         <ScrollViewer Grid.Row="1">
             <StackPanel Margin="24,20" Spacing="20">
 
-                <!--  ── Live Demo: Sliders driving ProgressBars ── -->
+                <!--  ── Live Demo: Sliders driving ProgressBars ──  -->
                 <HeaderedContentControl Classes="groupbox" Header="LIVE DEMO — SLIDER DRIVES PROGRESS BAR">
                     <StackPanel Spacing="4">
                         <TextBlock
@@ -115,7 +115,7 @@
                             Margin="0,8"
                             Fill="{DynamicResource PipboyBorderBrush}" />
 
-                        <Grid ColumnDefinitions="80,*" RowDefinitions="Auto,6,Auto,6,Auto,6,Auto,6,Auto">
+                        <Grid ColumnDefinitions="80,*" RowDefinitions="Auto,6,Auto,6,Auto,6,Auto,6,Auto,Auto">
                             <TextBlock
                                 Grid.Row="0"
                                 Grid.Column="0"
@@ -140,6 +140,7 @@
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Maximum="100"
+                                ShowProgressText="True"
                                 Value="{Binding #ApSlider.Value}" />
 
                             <TextBlock
@@ -179,20 +180,48 @@
                                 Grid.Row="8"
                                 Grid.Column="1"
                                 IsIndeterminate="True" />
+
+                            <StackPanel
+                                Grid.Row="9"
+                                Grid.ColumnSpan="2"
+                                Margin="0,5,0,5"
+                                Orientation="Horizontal"
+                                Spacing="10">
+                                <ProgressBar
+                                    Width="100"
+                                    Height="100"
+                                    IsIndeterminate="True"
+                                    Theme="{DynamicResource PipboyRingProgressBar}" />
+
+                                <ProgressBar
+                                    Width="100"
+                                    Height="100"
+                                    IsIndeterminate="False"
+                                    ShowProgressText="True"
+                                    Theme="{DynamicResource PipboyRingProgressBar}"
+                                    Value="{Binding #ExpSlider.Value}" />
+                            </StackPanel>
+
                         </Grid>
                     </StackPanel>
                 </HeaderedContentControl>
 
-                <!--  ── Slider variants ── -->
+                <!--  ── Slider variants ──  -->
                 <HeaderedContentControl Classes="groupbox" Header="SLIDER — VARIANTS">
                     <Grid ColumnDefinitions="*,*">
                         <StackPanel Grid.Column="0" Spacing="10">
                             <StackPanel Spacing="4">
-                                <TextBlock Classes="dim" FontSize="10" Text="HORIZONTAL (default)" />
+                                <TextBlock
+                                    Classes="dim"
+                                    FontSize="10"
+                                    Text="HORIZONTAL (default)" />
                                 <Slider Maximum="100" Value="65" />
                             </StackPanel>
                             <StackPanel Spacing="4">
-                                <TextBlock Classes="dim" FontSize="10" Text="TICK MARKS VISIBLE" />
+                                <TextBlock
+                                    Classes="dim"
+                                    FontSize="10"
+                                    Text="TICK MARKS VISIBLE" />
                                 <Slider
                                     IsSnapToTickEnabled="True"
                                     Maximum="10"
@@ -201,15 +230,24 @@
                                     Value="4" />
                             </StackPanel>
                             <StackPanel Spacing="4">
-                                <TextBlock Classes="dim" FontSize="10" Text="DISABLED" />
-                                <Slider IsEnabled="False" Maximum="100" Value="30" />
+                                <TextBlock
+                                    Classes="dim"
+                                    FontSize="10"
+                                    Text="DISABLED" />
+                                <Slider
+                                    IsEnabled="False"
+                                    Maximum="100"
+                                    Value="30" />
                             </StackPanel>
                         </StackPanel>
                         <StackPanel
                             Grid.Column="1"
                             Margin="16,0,0,0"
                             Spacing="4">
-                            <TextBlock Classes="dim" FontSize="10" Text="VERTICAL" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="VERTICAL" />
                             <Slider
                                 Width="24"
                                 Height="120"
