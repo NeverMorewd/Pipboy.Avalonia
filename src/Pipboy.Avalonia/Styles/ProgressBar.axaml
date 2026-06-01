@@ -1,93 +1,426 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Avalonia.Controls.Converters"
+    xmlns:local="using:Pipboy.Avalonia">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <StackPanel Spacing="10">
+                    <ProgressBar Maximum="10" Value="5" />
+                    <ProgressBar Value="50" />
+                    <ProgressBar
+                        Maximum="75"
+                        Minimum="25"
+                        Value="50" />
+                    <ProgressBar IsIndeterminate="True" />
+                    <ProgressBar ShowProgressText="True" Value="50" />
+                    <ProgressBar
+                        Maximum="100"
+                        Minimum="50"
+                        ProgressTextFormat="\{1\} percent"
+                        ShowProgressText="True"
+                        Value="70" />
+                </StackPanel>
+                <ProgressBar IsIndeterminate="True" Orientation="Vertical" />
+                <ProgressBar
+                    Orientation="Vertical"
+                    ShowProgressText="True"
+                    Value="50" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
     <Styles.Resources>
-
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <local:RingFillConverter x:Key="RingFillConverter" />
         <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
+            <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryDarkBrush}" />
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
-            <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="Height" Value="18" />
+            <Setter Property="MinHeight" Value="4" />
+            <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="ProgressBar">
                     <Border
+                        x:Name="ProgressBarRoot"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
+                        ClipToBounds="True"
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Panel>
-                            <!--
-                                Indeterminate animation root.
-                                Canvas children do not affect Canvas layout size, so animating
-                                Canvas.Left never expands the track.  ClipToBounds hides the
-                                indicator when it travels outside the track bounds.
-                            -->
-                            <Border
-                                Name="PART_IndeterminateRoot"
-                                ClipToBounds="True"
-                                IsVisible="False">
-                                <Canvas>
-                                    <Border
-                                        Name="PART_IndeterminateIndicator"
-                                        Canvas.Left="-80"
-                                        Width="80"
-                                        Height="100"
-                                        Background="{TemplateBinding Foreground}" />
-                                </Canvas>
-                            </Border>
-                            <!--  Determinate fill indicator  -->
-                            <Border
-                                Name="PART_Indicator"
-                                HorizontalAlignment="Left"
-                                Background="{TemplateBinding Foreground}"
-                                CornerRadius="0" />
+                            <Panel x:Name="DeterminateRoot" Opacity="1">
+                                <Panel.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="Opacity" Duration="0:0:0.197" />
+                                    </Transitions>
+                                </Panel.Transitions>
+                                <Border
+                                    x:Name="PART_Indicator"
+                                    Margin="{TemplateBinding Padding}"
+                                    Background="{TemplateBinding Foreground}"
+                                    CornerRadius="{TemplateBinding CornerRadius}" />
+                            </Panel>
+                            <Panel x:Name="IndeterminateRoot" Opacity="0">
+                                <Panel.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="Opacity" Duration="0:0:0.197" />
+                                    </Transitions>
+                                </Panel.Transitions>
+                                <Border
+                                    x:Name="IndeterminateProgressBarIndicator"
+                                    Margin="{TemplateBinding Padding}"
+                                    Background="{TemplateBinding Foreground}"
+                                    CornerRadius="{TemplateBinding CornerRadius}" />
+                                <Border
+                                    x:Name="IndeterminateProgressBarIndicator2"
+                                    Margin="{TemplateBinding Padding}"
+                                    Background="{TemplateBinding Foreground}"
+                                    CornerRadius="{TemplateBinding CornerRadius}" />
+                            </Panel>
+                            <LayoutTransformControl
+                                x:Name="PART_LayoutTransformControl"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                IsVisible="{TemplateBinding ShowProgressText}">
+                                <TextBlock Foreground="{DynamicResource PipboyTextBrush}">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource StringFormatConverter}">
+                                            <TemplateBinding Property="ProgressTextFormat" />
+                                            <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}" />
+                                            <TemplateBinding Property="Percentage" />
+                                            <TemplateBinding Property="Minimum" />
+                                            <TemplateBinding Property="Maximum" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </LayoutTransformControl>
                         </Panel>
                     </Border>
                 </ControlTemplate>
             </Setter>
-
-            <Style Selector="^:indeterminate /template/ Border#PART_Indicator">
-                <Setter Property="IsVisible" Value="False" />
+            <Style Selector="^:horizontal /template/ Border#PART_Indicator">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
             </Style>
-            <Style Selector="^:indeterminate /template/ Border#PART_IndeterminateRoot">
-                <Setter Property="IsVisible" Value="True" />
+            <Style Selector="^:vertical /template/ Border#PART_Indicator">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="VerticalAlignment" Value="Bottom" />
             </Style>
-            <!--  Indeterminate: animate Canvas.Left — attached property, does not affect layout  -->
-            <Style Selector="^:indeterminate /template/ Border#PART_IndeterminateIndicator">
+            <Style Selector="^:horizontal">
+                <Setter Property="MinWidth" Value="200" />
+                <Setter Property="MinHeight" Value="4" />
+            </Style>
+            <Style Selector="^:vertical">
+                <Setter Property="MinWidth" Value="4" />
+                <Setter Property="MinHeight" Value="200" />
+            </Style>
+            <Style Selector="^:vertical /template/ LayoutTransformControl#PART_LayoutTransformControl">
+                <Setter Property="LayoutTransform">
+                    <Setter.Value>
+                        <RotateTransform Angle="90" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style Selector="^:indeterminate /template/ Panel#DeterminateRoot">
+                <Setter Property="Opacity" Value="0" />
+            </Style>
+            <Style Selector="^:indeterminate /template/ Panel#IndeterminateRoot">
+                <Setter Property="Opacity" Value="1" />
+            </Style>
+            <Style Selector="^:horizontal:indeterminate /template/ Border#IndeterminateProgressBarIndicator">
                 <Style.Animations>
-                    <Animation
-                        Easing="LinearEasing"
-                        IterationCount="INFINITE"
-                        Duration="0:0:1.5">
-                        <KeyFrame Cue="0%">
-                            <Setter Property="Canvas.Left" Value="-80" />
+                    <Animation IterationCount="Infinite" Duration="0:0:2">
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:0">
+                            <Setter Property="TranslateTransform.X" Value="{Binding $parent[ProgressBar].TemplateSettings.ContainerAnimationStartPosition}" />
                         </KeyFrame>
-                        <KeyFrame Cue="100%">
-                            <Setter Property="Canvas.Left" Value="600" />
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:1.5">
+                            <Setter Property="TranslateTransform.X" Value="{Binding $parent[ProgressBar].TemplateSettings.ContainerAnimationEndPosition}" />
+                        </KeyFrame>
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:2">
+                            <Setter Property="TranslateTransform.X" Value="{Binding $parent[ProgressBar].TemplateSettings.ContainerAnimationEndPosition}" />
                         </KeyFrame>
                     </Animation>
                 </Style.Animations>
             </Style>
-            <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
+            <Style Selector="^:horizontal:indeterminate /template/ Border#IndeterminateProgressBarIndicator2">
+                <Style.Animations>
+                    <Animation IterationCount="Infinite" Duration="0:0:2">
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:0">
+                            <Setter Property="TranslateTransform.X" Value="{Binding $parent[ProgressBar].TemplateSettings.Container2AnimationStartPosition}" />
+                        </KeyFrame>
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:0.75">
+                            <Setter Property="TranslateTransform.X" Value="{Binding $parent[ProgressBar].TemplateSettings.Container2AnimationStartPosition}" />
+                        </KeyFrame>
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:2">
+                            <Setter Property="TranslateTransform.X" Value="{Binding $parent[ProgressBar].TemplateSettings.Container2AnimationEndPosition}" />
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+            <Style Selector="^:vertical:indeterminate /template/ Border#IndeterminateProgressBarIndicator">
+                <Style.Animations>
+                    <Animation IterationCount="Infinite" Duration="0:0:2">
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:0">
+                            <Setter Property="TranslateTransform.Y" Value="{Binding $parent[ProgressBar].TemplateSettings.ContainerAnimationStartPosition}" />
+                        </KeyFrame>
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:1.5">
+                            <Setter Property="TranslateTransform.Y" Value="{Binding $parent[ProgressBar].TemplateSettings.ContainerAnimationEndPosition}" />
+                        </KeyFrame>
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:2">
+                            <Setter Property="TranslateTransform.Y" Value="{Binding $parent[ProgressBar].TemplateSettings.ContainerAnimationEndPosition}" />
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+            <Style Selector="^:vertical:indeterminate /template/ Border#IndeterminateProgressBarIndicator2">
+                <Style.Animations>
+                    <Animation IterationCount="Infinite" Duration="0:0:2">
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:0">
+                            <Setter Property="TranslateTransform.Y" Value="{Binding $parent[ProgressBar].TemplateSettings.Container2AnimationStartPosition}" />
+                        </KeyFrame>
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:0.75">
+                            <Setter Property="TranslateTransform.Y" Value="{Binding $parent[ProgressBar].TemplateSettings.Container2AnimationStartPosition}" />
+                        </KeyFrame>
+                        <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:2">
+                            <Setter Property="TranslateTransform.Y" Value="{Binding $parent[ProgressBar].TemplateSettings.Container2AnimationEndPosition}" />
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+            <Style Selector="^:horizontal /template/ Border#IndeterminateProgressBarIndicator">
+                <Setter Property="Width" Value="{Binding $parent[ProgressBar].TemplateSettings.ContainerWidth}" />
+            </Style>
+            <Style Selector="^:horizontal /template/ Border#IndeterminateProgressBarIndicator2">
+                <Setter Property="Width" Value="{Binding $parent[ProgressBar].TemplateSettings.Container2Width}" />
+            </Style>
+            <Style Selector="^:vertical /template/ Border#IndeterminateProgressBarIndicator">
+                <Setter Property="Height" Value="{Binding $parent[ProgressBar].TemplateSettings.ContainerWidth}" />
+            </Style>
+            <Style Selector="^:vertical /template/ Border#IndeterminateProgressBarIndicator2">
+                <Setter Property="Height" Value="{Binding $parent[ProgressBar].TemplateSettings.Container2Width}" />
             </Style>
         </ControlTheme>
 
+        <ControlTheme x:Key="PipboyRingProgressBar" TargetType="ProgressBar">
+            <Setter Property="Foreground" Value="{StaticResource PipboyPrimaryDarkBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{StaticResource PipboyBorderBrush}" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="100" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Panel Name="RootPanel">
+                        <!--  Outer Frame (Background Track)  -->
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Opacity="0.15" />
+
+                        <!--  Corner Decorations  -->
+                        <Canvas>
+                            <Polyline
+                                Points="0,15 0,0 15,0"
+                                Stroke="{TemplateBinding BorderBrush}"
+                                StrokeThickness="2" />
+                            <Polyline
+                                Points="85,0 100,0 100,15"
+                                Stroke="{TemplateBinding BorderBrush}"
+                                StrokeThickness="2" />
+                            <Polyline
+                                Points="0,85 0,100 15,100"
+                                Stroke="{TemplateBinding BorderBrush}"
+                                StrokeThickness="2" />
+                            <Polyline
+                                Points="85,100 100,100 100,85"
+                                Stroke="{TemplateBinding BorderBrush}"
+                                StrokeThickness="2" />
+                        </Canvas>
+
+                        <!--  Indeterminate: Rectangular Path Animation  -->
+                        <Panel Name="PART_IndeterminateRoot" IsVisible="{TemplateBinding IsIndeterminate}">
+                            <!--  Four blocks chasing each other along the edge  -->
+                            <Rectangle
+                                Width="12"
+                                Height="12"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Fill="{TemplateBinding Foreground}">
+                                <Rectangle.Transitions>
+                                    <Transitions />
+                                </Rectangle.Transitions>
+                                <Rectangle.RenderTransform>
+                                    <TranslateTransform />
+                                </Rectangle.RenderTransform>
+                                <Rectangle.Styles>
+                                    <Style Selector="Rectangle">
+                                        <Style.Animations>
+                                            <Animation
+                                                Easing="LinearEasing"
+                                                IterationCount="Infinite"
+                                                Duration="0:0:2">
+                                                <KeyFrame KeyTime="0:0:0">
+                                                    <Setter Property="TranslateTransform.X" Value="0" />
+                                                    <Setter Property="TranslateTransform.Y" Value="0" />
+                                                </KeyFrame>
+                                                <KeyFrame KeyTime="0:0:0.5">
+                                                    <Setter Property="TranslateTransform.X" Value="88" />
+                                                    <Setter Property="TranslateTransform.Y" Value="0" />
+                                                </KeyFrame>
+                                                <KeyFrame KeyTime="0:0:1.0">
+                                                    <Setter Property="TranslateTransform.X" Value="88" />
+                                                    <Setter Property="TranslateTransform.Y" Value="88" />
+                                                </KeyFrame>
+                                                <KeyFrame KeyTime="0:0:1.5">
+                                                    <Setter Property="TranslateTransform.X" Value="0" />
+                                                    <Setter Property="TranslateTransform.Y" Value="88" />
+                                                </KeyFrame>
+                                                <KeyFrame KeyTime="0:0:2.0">
+                                                    <Setter Property="TranslateTransform.X" Value="0" />
+                                                    <Setter Property="TranslateTransform.Y" Value="0" />
+                                                </KeyFrame>
+                                            </Animation>
+                                        </Style.Animations>
+                                    </Style>
+                                </Rectangle.Styles>
+                            </Rectangle>
+                            <!--  Secondary block for better "ring" feel  -->
+                            <Rectangle
+                                Width="12"
+                                Height="12"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Fill="{TemplateBinding Foreground}"
+                                Opacity="0.5">
+                                <Rectangle.RenderTransform>
+                                    <TranslateTransform />
+                                </Rectangle.RenderTransform>
+                                <Rectangle.Styles>
+                                    <Style Selector="Rectangle">
+                                        <Style.Animations>
+                                            <Animation
+                                                Delay="0:0:0.2"
+                                                Easing="LinearEasing"
+                                                IterationCount="Infinite"
+                                                Duration="0:0:2">
+                                                <KeyFrame KeyTime="0:0:0">
+                                                    <Setter Property="TranslateTransform.X" Value="0" />
+                                                    <Setter Property="TranslateTransform.Y" Value="0" />
+                                                </KeyFrame>
+                                                <KeyFrame KeyTime="0:0:0.5">
+                                                    <Setter Property="TranslateTransform.X" Value="88" />
+                                                    <Setter Property="TranslateTransform.Y" Value="0" />
+                                                </KeyFrame>
+                                                <KeyFrame KeyTime="0:0:1.0">
+                                                    <Setter Property="TranslateTransform.X" Value="88" />
+                                                    <Setter Property="TranslateTransform.Y" Value="88" />
+                                                </KeyFrame>
+                                                <KeyFrame KeyTime="0:0:1.5">
+                                                    <Setter Property="TranslateTransform.X" Value="0" />
+                                                    <Setter Property="TranslateTransform.Y" Value="88" />
+                                                </KeyFrame>
+                                                <KeyFrame KeyTime="0:0:2.0">
+                                                    <Setter Property="TranslateTransform.X" Value="0" />
+                                                    <Setter Property="TranslateTransform.Y" Value="0" />
+                                                </KeyFrame>
+                                            </Animation>
+                                        </Style.Animations>
+                                    </Style>
+                                </Rectangle.Styles>
+                            </Rectangle>
+                        </Panel>
+
+                        <!--  Required PART_Indicator (Hidden but present for Avalonia internal logic)  -->
+                        <Border Name="PART_Indicator" IsVisible="False" />
+
+                        <!--  Determinate: Ring Fill  -->
+                        <Panel Name="PART_DeterminateRoot" IsVisible="{Binding !IsIndeterminate, RelativeSource={RelativeSource TemplatedParent}}">
+                            <!--  Top Edge  -->
+                            <Border
+                                Name="PART_TopFill"
+                                Height="6"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Background="{TemplateBinding Foreground}">
+                                <Border.Width>
+                                    <MultiBinding Converter="{StaticResource RingFillConverter}">
+                                        <Binding Path="Percentage" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Source="Top" />
+                                    </MultiBinding>
+                                </Border.Width>
+                            </Border>
+                            <!--  Right Edge  -->
+                            <Border
+                                Name="PART_RightFill"
+                                Width="6"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="{TemplateBinding Foreground}">
+                                <Border.Height>
+                                    <MultiBinding Converter="{StaticResource RingFillConverter}">
+                                        <Binding Path="Percentage" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Source="Right" />
+                                    </MultiBinding>
+                                </Border.Height>
+                            </Border>
+                            <!--  Bottom Edge  -->
+                            <Border
+                                Name="PART_BottomFill"
+                                Height="6"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Background="{TemplateBinding Foreground}">
+                                <Border.Width>
+                                    <MultiBinding Converter="{StaticResource RingFillConverter}">
+                                        <Binding Path="Percentage" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Source="Bottom" />
+                                    </MultiBinding>
+                                </Border.Width>
+                            </Border>
+                            <!--  Left Edge  -->
+                            <Border
+                                Name="PART_LeftFill"
+                                Width="6"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Background="{TemplateBinding Foreground}">
+                                <Border.Height>
+                                    <MultiBinding Converter="{StaticResource RingFillConverter}">
+                                        <Binding Path="Percentage" RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Source="Left" />
+                                    </MultiBinding>
+                                </Border.Height>
+                            </Border>
+                        </Panel>
+
+                        <!--  Progress Text  -->
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource PipboyTextBrush}"
+                            IsVisible="{TemplateBinding ShowProgressText}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource StringFormatConverter}">
+                                    <TemplateBinding Property="ProgressTextFormat" />
+                                    <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <TemplateBinding Property="Percentage" />
+                                    <TemplateBinding Property="Minimum" />
+                                    <TemplateBinding Property="Maximum" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Panel>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
     </Styles.Resources>
 
-    <!--
-        ── ProgressBar size variants ─────────────────────────────────────────
-        slim  — 4 px, no border; inline condition bar (weapon durability, etc.)
-        thick — 28 px; prominent HUD meter (main HP / AP bar)
-        ───────────────────────────────────────────────────────────────────────────
-    -->
-    <Style Selector="ProgressBar.slim">
-        <Setter Property="Height" Value="4" />
-        <Setter Property="BorderThickness" Value="0" />
-    </Style>
-
-    <Style Selector="ProgressBar.thick">
-        <Setter Property="Height" Value="28" />
-    </Style>
 
 </Styles>
