@@ -188,8 +188,8 @@
                                 Orientation="Horizontal"
                                 Spacing="10">
                                 <ProgressBar
-                                    Width="100"
-                                    Height="100"
+                                    Width="200"
+                                    Height="200"
                                     IsIndeterminate="True"
                                     Theme="{DynamicResource PipboyRingProgressBar}" />
 
