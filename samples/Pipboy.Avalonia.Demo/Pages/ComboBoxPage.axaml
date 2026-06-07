@@ -7,9 +7,9 @@
 
         <Border
             Grid.Row="0"
+            Padding="24,16"
             BorderBrush="{DynamicResource PipboyBorderBrush}"
-            BorderThickness="0,0,0,1"
-            Padding="24,16">
+            BorderThickness="0,0,0,1">
             <StackPanel Spacing="3">
                 <TextBlock Classes="h1" Text="COMBO BOX" />
                 <TextBlock
@@ -22,12 +22,18 @@
         <ScrollViewer Grid.Row="1">
             <StackPanel Margin="24,20" Spacing="20">
 
-                <!--  ── States ── -->
+                <!--  ── States ──  -->
                 <HeaderedContentControl Classes="groupbox" Header="STATES">
                     <Grid ColumnDefinitions="*,*,*">
                         <StackPanel Grid.Column="0" Spacing="8">
-                            <TextBlock Classes="dim" FontSize="10" Text="DEFAULT — LOCATION" />
-                            <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="DEFAULT — LOCATION" />
+                            <ComboBox
+                                Height="80"
+                                HorizontalAlignment="Stretch"
+                                SelectedIndex="0">
                                 <ComboBoxItem Content="DIAMOND CITY" />
                                 <ComboBoxItem Content="GOODNEIGHBOR" />
                                 <ComboBoxItem Content="THE INSTITUTE" />
@@ -36,8 +42,14 @@
                                 <ComboBoxItem Content="THE GLOWING SEA" />
                             </ComboBox>
                         </StackPanel>
-                        <StackPanel Grid.Column="1" Margin="16,0" Spacing="8">
-                            <TextBlock Classes="dim" FontSize="10" Text="DEFAULT — FACTION" />
+                        <StackPanel
+                            Grid.Column="1"
+                            Margin="16,0"
+                            Spacing="8">
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="DEFAULT — FACTION" />
                             <ComboBox HorizontalAlignment="Stretch" SelectedIndex="0">
                                 <ComboBoxItem Content="BROTHERHOOD OF STEEL" />
                                 <ComboBoxItem Content="MINUTEMEN" />
@@ -46,7 +58,10 @@
                             </ComboBox>
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="8">
-                            <TextBlock Classes="dim" FontSize="10" Text="DISABLED  (IsEnabled=False)" />
+                            <TextBlock
+                                Classes="dim"
+                                FontSize="10"
+                                Text="DISABLED  (IsEnabled=False)" />
                             <ComboBox
                                 HorizontalAlignment="Stretch"
                                 IsEnabled="False"
@@ -62,7 +77,7 @@
                     </Grid>
                 </HeaderedContentControl>
 
-                <!--  ── Many Items ── -->
+                <!--  ── Many Items ──  -->
                 <HeaderedContentControl Classes="groupbox" Header="SCROLLABLE DROPDOWN — MANY ITEMS">
                     <StackPanel Spacing="10">
                         <TextBlock
@@ -72,7 +87,10 @@
                             TextWrapping="Wrap" />
                         <Grid ColumnDefinitions="Auto,*">
                             <StackPanel Grid.Column="0" Spacing="4">
-                                <TextBlock Classes="dim" FontSize="10" Text="14 ITEMS — SCROLLS" />
+                                <TextBlock
+                                    Classes="dim"
+                                    FontSize="10"
+                                    Text="14 ITEMS — SCROLLS" />
                                 <ComboBox Width="240" SelectedIndex="0">
                                     <ComboBoxItem Content="1. GUNS" />
                                     <ComboBoxItem Content="2. ENERGY WEAPONS" />
@@ -90,7 +108,10 @@
                                     <ComboBoxItem Content="14. EXPLOSIVES" />
                                 </ComboBox>
                             </StackPanel>
-                            <StackPanel Grid.Column="1" Margin="32,22,0,0" Spacing="4">
+                            <StackPanel
+                                Grid.Column="1"
+                                Margin="32,22,0,0"
+                                Spacing="4">
                                 <TextBlock
                                     Classes="dim"
                                     FontSize="11"
