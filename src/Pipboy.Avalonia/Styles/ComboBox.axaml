@@ -1,6 +1,5 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
-
         <!--  ComboBoxItem  -->
         <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem">
             <Setter Property="Background" Value="Transparent" />
@@ -38,87 +37,129 @@
             </Style>
         </ControlTheme>
 
-        <!--  ComboBox  -->
+
         <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="0" />
-            <Setter Property="Padding" Value="8,5" />
-            <Setter Property="MinHeight" Value="{DynamicResource PipboyControlHeight}" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="MinHeight" Value="20" />
+            <Setter Property="PlaceholderForeground" Value="{DynamicResource PipboyTextDimBrush}" />
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
             <Setter Property="Template">
-                <ControlTemplate TargetType="ComboBox">
-                    <DataValidationErrors>
-                        <Grid RowDefinitions="Auto">
-                            <!--  Main visible border  -->
-                            <Border
-                                Name="PART_Border"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}">
-                                <Grid ColumnDefinitions="*,24">
-                                    <!--  Selected item display  -->
-                                    <ContentControl
-                                        Name="ContentPresenter"
-                                        Grid.Column="0"
-                                        Margin="{TemplateBinding Padding}"
-                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        Content="{TemplateBinding SelectionBoxItem}"
-                                        ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" />
-                                    <!--  Dropdown arrow indicator  -->
-                                    <Border
-                                        Grid.Column="1"
-                                        BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                        BorderThickness="1,0,0,0">
-                                        <Path
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Data="M 4 6 L 8 10 L 12 6"
-                                            Stroke="{DynamicResource PipboyTextDimBrush}"
-                                            StrokeThickness="{DynamicResource PipboyIconStrokeThickness}" />
-                                    </Border>
-                                </Grid>
-                            </Border>
-                            <!--  Dropdown popup  -->
+                <ControlTemplate>
+                    <Border
+                        Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock
+                                Name="PlaceholderTextBlock"
+                                Grid.Column="0"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Foreground="{TemplateBinding PlaceholderForeground}"
+                                Opacity="{DynamicResource TextControlPlaceholderOpacity}"
+                                Text="{TemplateBinding PlaceholderText}">
+                                <TextBlock.IsVisible>
+                                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                        <Binding
+                                            Converter="{x:Static ObjectConverters.IsNull}"
+                                            Path="SelectionBoxItem"
+                                            RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Path="!IsEditable" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </TextBlock.IsVisible>
+                            </TextBlock>
+                            <ContentControl
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding SelectionBoxItem}"
+                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                IsVisible="{TemplateBinding IsEditable,
+                                                            Converter={x:Static BoolConverters.Not}}" />
+                            <TextBox
+                                Name="PART_EditableTextBox"
+                                Grid.Column="0"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="{TemplateBinding Foreground}"
+                                IsVisible="{TemplateBinding IsEditable}"
+                                PlaceholderText="{TemplateBinding PlaceholderText}"
+                                Text="{TemplateBinding Text,
+                                                       Mode=TwoWay}">
+                                <TextBox.Resources>
+                                    <SolidColorBrush x:Key="TextControlBackgroundFocused">Transparent</SolidColorBrush>
+                                    <SolidColorBrush x:Key="TextControlBackgroundPointerOver">Transparent</SolidColorBrush>
+                                    <Thickness x:Key="TextControlBorderThemeThicknessFocused">0</Thickness>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <ToggleButton
+                                Name="toggle"
+                                Grid.Column="1"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ClickMode="Press"
+                                Focusable="False"
+                                IsChecked="{TemplateBinding IsDropDownOpen,
+                                                            Mode=TwoWay}">
+                                <Path
+                                    Width="8"
+                                    Height="4"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="F1 M 301.14,-189.041L 311.57,-189.041L 306.355,-182.942L 301.14,-189.041 Z"
+                                    Fill="{DynamicResource PipboyTextBrush}"
+                                    Stretch="Uniform" />
+                            </ToggleButton>
                             <Popup
                                 Name="PART_Popup"
+                                MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
                                 MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                InheritsTransform="True"
                                 IsLightDismissEnabled="True"
                                 IsOpen="{TemplateBinding IsDropDownOpen,
                                                          Mode=TwoWay}"
-                                Placement="BottomEdgeAlignedLeft"
-                                PlacementTarget="PART_Border">
+                                PlacementTarget="{TemplateBinding}">
                                 <Border
                                     Background="{DynamicResource PipboySurfaceBrush}"
                                     BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                    BorderThickness="1"
-                                    CornerRadius="0">
-                                    <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
-                                        <ItemsPresenter Name="PART_ItemsPresenter" Margin="0" />
+                                    BorderThickness="1">
+                                    <ScrollViewer
+                                        HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                        IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}"
+                                        ScrollViewer.IsScrollChainingEnabled="False"
+                                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                        <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
                                     </ScrollViewer>
                                 </Border>
                             </Popup>
                         </Grid>
-                    </DataValidationErrors>
+                    </Border>
                 </ControlTemplate>
             </Setter>
 
-            <Style Selector="^:pointerover /template/ Border#PART_Border">
-                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
-            </Style>
-            <Style Selector="^:focus /template/ Border#PART_Border">
+            <Style Selector="^:pointerover /template/ Border#border">
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />
             </Style>
-            <Style Selector="^:disabled">
-                <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
+
+            <Style Selector="^:disabled /template/ Border#border">
+                <Setter Property="Opacity" Value="0.8" />
+            </Style>
+
+            <Style Selector="^[IsEditable=true]">
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
             </Style>
         </ControlTheme>
 
