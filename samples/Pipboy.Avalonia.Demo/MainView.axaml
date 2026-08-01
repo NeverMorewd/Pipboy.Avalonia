@@ -229,6 +229,9 @@
             <TabItem Header="ProCrtControl" Theme="{StaticResource NavTabItem}">
                 <pages:ProCrtControlPage />
             </TabItem>
+            <TabItem Header="AvaloniaEdit" Theme="{StaticResource NavTabItem}">
+				<pages:AvaloniaEditPage />
+            </TabItem>
             <!--  THEME  -->
             <TabItem Header="THEME" Theme="{StaticResource NavCategory}" />
             <TabItem Header="Colors" Theme="{StaticResource NavTabItem}">

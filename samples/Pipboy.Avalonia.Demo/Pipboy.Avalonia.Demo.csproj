@@ -14,6 +14,7 @@
 		<IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
 		<PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
 	</PackageReference>
+	<PackageReference Include="CommunityToolkit.Mvvm" />
 	<PackageReference Include="ReactiveUI.Avalonia" />
 	<PackageReference Include="ReactiveUI.SourceGenerators">
 	  <PrivateAssets>all</PrivateAssets>
@@ -22,8 +23,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Pipboy.Avalonia.AvaloniaEdit\Pipboy.Avalonia.AvaloniaEdit.csproj" />
     <ProjectReference Include="..\..\src\Pipboy.Avalonia.Fx\Pipboy.Avalonia.Fx.csproj" />
     <ProjectReference Include="..\..\src\Pipboy.Avalonia\Pipboy.Avalonia.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Pages\AvaloniaEditPage.axaml.cs">
+      <DependentUpon>AvaloniaEditPage.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

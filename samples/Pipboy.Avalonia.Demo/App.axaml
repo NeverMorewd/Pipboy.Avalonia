@@ -8,6 +8,7 @@
     <Application.Styles>
         <pipboy:PipboyTheme />
         <pipboy:PipboyFxTheme />
+        <pipboy:PipboyAvaloniaEditTheme />
     </Application.Styles>
 
 </Application>

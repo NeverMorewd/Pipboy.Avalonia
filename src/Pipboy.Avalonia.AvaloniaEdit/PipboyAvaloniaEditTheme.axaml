@@ -1,0 +1,52 @@
+﻿<Styles
+    x:Class="Pipboy.Avalonia.AvaloniaEdit.PipboyAvaloniaEditTheme"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Styles.Resources>
+        <ResourceDictionary>
+
+            <StaticResource x:Key="SearchPanelFontSize" ResourceKey="ControlContentThemeFontSize" />
+
+            <StaticResource x:Key="SearchPanelFontFamily" ResourceKey="ContentControlThemeFontFamily" />
+
+            <ResourceDictionary.ThemeDictionaries>
+
+                <ResourceDictionary x:Key="Default">
+
+                    <!--  Completion Tooltip  -->
+                    <StaticResource x:Key="CompletionToolTipBackground" ResourceKey="PipboySurfaceHighBrush" />
+
+                    <StaticResource x:Key="CompletionToolTipForeground" ResourceKey="PipboyTextBrush" />
+
+                    <StaticResource x:Key="CompletionToolTipBorderBrush" ResourceKey="PipboyBorderBrush" />
+
+                    <StaticResource x:Key="CompletionToolTipBorderThickness" ResourceKey="ToolTipBorderThemeThickness" />
+
+                    <!--  Overload Viewer  -->
+                    <StaticResource x:Key="OverloadViewerBackground" ResourceKey="PipboySurfaceHighBrush" />
+
+                    <StaticResource x:Key="OverloadViewerForeground" ResourceKey="PipboyTextBrush" />
+
+                    <StaticResource x:Key="OverloadViewerBorderBrush" ResourceKey="PipboyBorderBrush" />
+
+                    <!--  Search Panel  -->
+                    <StaticResource x:Key="SearchPanelBackgroundBrush" ResourceKey="PipboySurfaceBrush" />
+
+                    <StaticResource x:Key="SearchPanelBorderBrush" ResourceKey="PipboyBorderBrush" />
+
+                    <!--  Text Selection  -->
+                    <StaticResource x:Key="TextAreaSelectionBrush" ResourceKey="PipboySelectionBrush" />
+
+                </ResourceDictionary>
+
+            </ResourceDictionary.ThemeDictionaries>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="Index.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Styles.Resources>
+
+</Styles>
