@@ -126,6 +126,35 @@ All tokens are available as `{DynamicResource}` in XAML and update automatically
 | `PipboyFontSize` | `13` |
 | `PipboyFontSizeLarge` | `16` |
 
+### Shape
+
+Use these `CornerRadius` tokens to keep controls and containers visually consistent.
+
+| Resource Key | Description |
+|---|---|
+| `PipboyCornerRadiusNone` | Square corners for terminal and structural elements |
+| `PipboyCornerRadiusControl` | Subtle rounding for interactive controls |
+| `PipboyCornerRadiusPanel` | Larger rounding for panels and popups |
+| `PipboyCornerRadiusPill` | Fully rounded pill treatment |
+
+### Border Thickness
+
+These `Thickness` tokens cover the standard control border and directional separators used by the theme.
+
+| Resource Key | Description |
+|---|---|
+| `PipboyThicknessNone` | No border |
+| `PipboyThicknessThin` | Standard 1px control border |
+| `PipboyThicknessStrong` | Emphasized 2px border |
+| `PipboyThicknessTop` | Top-only separator |
+| `PipboyThicknessRight` | Right-only separator |
+| `PipboyThicknessBottom` | Bottom-only separator |
+| `PipboyThicknessBottomStrong` | Emphasized bottom indicator |
+| `PipboyThicknessLeft` | Left-only separator |
+| `PipboyThicknessAllButTop` | Panel outline without a top edge |
+| `PipboyThicknessLeftRightBottom` | Popup or split-button outline without a left edge |
+| `PipboyThicknessRightBottom` | Right and bottom tab edge |
+
 ---
 
 ## License

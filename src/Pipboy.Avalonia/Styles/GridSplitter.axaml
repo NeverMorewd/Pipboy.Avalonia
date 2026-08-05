@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type GridSplitter}" TargetType="GridSplitter">
@@ -10,7 +10,7 @@
                     <Border
                         Name="Root"
                         Background="{TemplateBinding Background}"
-                        CornerRadius="0" />
+                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}" />
                 </ControlTemplate>
             </Setter>
 

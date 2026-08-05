@@ -1,4 +1,4 @@
-﻿<Styles
+<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls">
@@ -15,8 +15,8 @@
         <ControlTheme x:Key="{x:Type GroupBox}" TargetType="GroupBox">
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusNone}" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Grid

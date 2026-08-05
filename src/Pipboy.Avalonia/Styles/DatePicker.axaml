@@ -1,4 +1,4 @@
-﻿<Styles
+<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="using:System"
@@ -7,7 +7,7 @@
         <Border Height="500" Padding="20">
             <StackPanel VerticalAlignment="Center" Spacing="20">
                 <DatePicker />
-                <DatePicker CornerRadius="10" />
+                <DatePicker CornerRadius="{DynamicResource PipboyCornerRadiusPanel}" />
                 <DatePicker IsEnabled="False" />
                 <DatePicker>
                     <DataValidationErrors.Error>
@@ -29,7 +29,7 @@
             <Setter Property="MaxHeight" Value="300" />
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="DatePickerPresenter">
                     <Border
@@ -57,7 +57,7 @@
                                         Grid.Row="0"
                                         HorizontalAlignment="Stretch"
                                         Background="Transparent"
-                                        BorderThickness="0"
+                                        BorderThickness="{DynamicResource PipboyThicknessNone}"
                                         Content="▲"
                                         Opacity="{DynamicResource PipboyDimOpacity}" />
                                     <ScrollViewer
@@ -75,7 +75,7 @@
                                         Grid.Row="2"
                                         HorizontalAlignment="Stretch"
                                         Background="Transparent"
-                                        BorderThickness="0"
+                                        BorderThickness="{DynamicResource PipboyThicknessNone}"
                                         Content="▼"
                                         Opacity="{DynamicResource PipboyDimOpacity}" />
                                 </Grid>
@@ -99,7 +99,7 @@
                                         Grid.Row="0"
                                         HorizontalAlignment="Stretch"
                                         Background="Transparent"
-                                        BorderThickness="0"
+                                        BorderThickness="{DynamicResource PipboyThicknessNone}"
                                         Content="▲"
                                         Opacity="{DynamicResource PipboyDimOpacity}" />
                                     <ScrollViewer
@@ -117,7 +117,7 @@
                                         Grid.Row="2"
                                         HorizontalAlignment="Stretch"
                                         Background="Transparent"
-                                        BorderThickness="0"
+                                        BorderThickness="{DynamicResource PipboyThicknessNone}"
                                         Content="▼"
                                         Opacity="{DynamicResource PipboyDimOpacity}" />
                                 </Grid>
@@ -141,7 +141,7 @@
                                         Grid.Row="0"
                                         HorizontalAlignment="Stretch"
                                         Background="Transparent"
-                                        BorderThickness="0"
+                                        BorderThickness="{DynamicResource PipboyThicknessNone}"
                                         Content="▲"
                                         Opacity="{DynamicResource PipboyDimOpacity}" />
                                     <ScrollViewer
@@ -159,7 +159,7 @@
                                         Grid.Row="2"
                                         HorizontalAlignment="Stretch"
                                         Background="Transparent"
-                                        BorderThickness="0"
+                                        BorderThickness="{DynamicResource PipboyThicknessNone}"
                                         Content="▼"
                                         Opacity="{DynamicResource PipboyDimOpacity}" />
                                 </Grid>
@@ -201,7 +201,7 @@
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="MinHeight" Value="30" />
             <Setter Property="MinWidth" Value="200" />
             <Setter Property="Padding" Value="0" />

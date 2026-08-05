@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
         <ResourceDictionary>
             <ControlTheme x:Key="{x:Type AdornerLayer}" TargetType="AdornerLayer">
@@ -6,8 +6,8 @@
                     <FocusAdornerTemplate>
                         <Border
                             BorderBrush="{DynamicResource PipboyBorderFocusBrush}"
-                            BorderThickness="1"
-                            CornerRadius="0" />
+                            BorderThickness="{DynamicResource PipboyThicknessThin}"
+                            CornerRadius="{DynamicResource PipboyCornerRadiusNone}" />
                     </FocusAdornerTemplate>
                 </Setter>
             </ControlTheme>

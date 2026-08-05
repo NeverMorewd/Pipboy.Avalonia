@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <x:Double x:Key="DatePickerFlyoutPresenterHighlightHeight">40</x:Double>
@@ -62,7 +62,7 @@
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{DynamicResource PipboyBorderBrush}"
-                            BorderThickness="1"
+                            BorderThickness="{DynamicResource PipboyThicknessThin}"
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             CornerRadius="{TemplateBinding CornerRadius}"

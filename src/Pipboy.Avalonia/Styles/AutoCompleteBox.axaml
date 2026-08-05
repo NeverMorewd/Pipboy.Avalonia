@@ -1,11 +1,11 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="MinHeight" Value="{DynamicResource PipboyControlHeight}" />
             <Setter Property="Padding" Value="8,5" />
             <Setter Property="Template">
@@ -36,13 +36,13 @@
                                 <Border
                                     Background="{DynamicResource PipboySurfaceBrush}"
                                     BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                    BorderThickness="1"
-                                    CornerRadius="0">
+                                    BorderThickness="{DynamicResource PipboyThicknessThin}"
+                                    CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
                                     <ListBox
                                         Name="PART_SelectingItemsControl"
                                         MaxHeight="{DynamicResource PipboyPopupMaxHeight}"
                                         Background="Transparent"
-                                        BorderThickness="0"
+                                        BorderThickness="{DynamicResource PipboyThicknessNone}"
                                         ScrollViewer.VerticalScrollBarVisibility="Auto" />
                                 </Border>
                             </Popup>

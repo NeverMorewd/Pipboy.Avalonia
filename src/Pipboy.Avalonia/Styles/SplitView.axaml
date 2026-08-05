@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type SplitView}" TargetType="SplitView">
@@ -20,7 +20,7 @@
                             Name="PART_PaneRoot"
                             HorizontalAlignment="Left"
                             Background="{TemplateBinding PaneBackground}">
-                            <Border BorderBrush="{DynamicResource PipboyBorderBrush}" BorderThickness="0,0,1,0">
+                            <Border BorderBrush="{DynamicResource PipboyBorderBrush}" BorderThickness="{DynamicResource PipboyThicknessRight}">
                                 <ContentPresenter
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"

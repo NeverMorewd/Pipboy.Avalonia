@@ -1,9 +1,9 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessNone}" />
             <Setter Property="Padding" Value="12,5" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
@@ -70,7 +70,7 @@
                                 Padding="0,2"
                                 Background="{DynamicResource PipboySurfaceBrush}"
                                 BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                BorderThickness="1">
+                                BorderThickness="{DynamicResource PipboyThicknessThin}">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                                     <ItemsPresenter
                                         Name="PART_ItemsPresenter"
@@ -127,7 +127,7 @@
         <ControlTheme x:Key="TopLevelMenuItem" TargetType="MenuItem">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessNone}" />
             <Setter Property="Padding" Value="12,6" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
@@ -164,7 +164,7 @@
                                 Padding="0,2"
                                 Background="{DynamicResource PipboySurfaceBrush}"
                                 BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                BorderThickness="1">
+                                BorderThickness="{DynamicResource PipboyThicknessThin}">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                                     <ItemsPresenter
                                         Name="PART_ItemsPresenter"
@@ -205,7 +205,7 @@
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessBottom}" />
             <Setter Property="Padding" Value="2,0" />
             <Setter Property="ItemContainerTheme" Value="{StaticResource TopLevelMenuItem}" />
             <Setter Property="Template">

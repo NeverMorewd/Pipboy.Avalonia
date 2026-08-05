@@ -1,11 +1,11 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <!--  ListBoxItem  -->
         <ControlTheme x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessNone}" />
             <Setter Property="Padding" Value="8,4" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -38,11 +38,11 @@
             </Style>
             <Style Selector="^:selected /template/ Border#PART_Border">
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
-                <Setter Property="BorderThickness" Value="0,0,0,1" />
+                <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessBottom}" />
             </Style>
             <Style Selector="^:focus-visible /template/ Border#PART_Border">
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />
-                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             </Style>
             <Style Selector="^:disabled">
                 <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
@@ -54,8 +54,8 @@
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusNone}" />
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
             <Setter Property="Template">

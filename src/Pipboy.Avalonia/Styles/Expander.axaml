@@ -1,11 +1,11 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Padding="20">
             <StackPanel
                 Width="350"
                 Orientation="Vertical"
                 Spacing="20">
-                <Expander CornerRadius="25" ExpandDirection="Up">
+                <Expander CornerRadius="{DynamicResource PipboyCornerRadiusPill}" ExpandDirection="Up">
                     <Expander.Header>
                         <Grid ColumnDefinitions="*, Auto">
                             <TextBlock Grid.Column="0" Text="Expand" />
@@ -17,7 +17,7 @@
                     </StackPanel>
                 </Expander>
                 <Expander
-                    CornerRadius="25"
+                    CornerRadius="{DynamicResource PipboyCornerRadiusPill}"
                     ExpandDirection="Down"
                     Header="Expand Down">
                     <StackPanel>
@@ -25,7 +25,7 @@
                     </StackPanel>
                 </Expander>
                 <Expander
-                    CornerRadius="25"
+                    CornerRadius="{DynamicResource PipboyCornerRadiusPill}"
                     ExpandDirection="Left"
                     Header="Expand Left">
                     <StackPanel>
@@ -33,7 +33,7 @@
                     </StackPanel>
                 </Expander>
                 <Expander
-                    CornerRadius="25"
+                    CornerRadius="{DynamicResource PipboyCornerRadiusPill}"
                     ExpandDirection="Right"
                     Header="Expand Right">
                     <StackPanel>
@@ -49,7 +49,7 @@
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="Padding" Value="8" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Template">
@@ -58,7 +58,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="0">
+                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
                         <StackPanel>
                             <!--  Header toggle button  -->
                             <ToggleButton
@@ -69,7 +69,7 @@
                                 VerticalContentAlignment="Center"
                                 Background="Transparent"
                                 BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                BorderThickness="0,0,0,1"
+                                BorderThickness="{DynamicResource PipboyThicknessBottom}"
                                 Cursor="Hand"
                                 IsChecked="{TemplateBinding IsExpanded,
                                                             Mode=TwoWay}">

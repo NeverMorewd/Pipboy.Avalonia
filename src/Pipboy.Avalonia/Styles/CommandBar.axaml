@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Width="500" Padding="20">
             <StackPanel Spacing="8">
@@ -22,7 +22,7 @@
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessNone}" />
             <Setter Property="Padding" Value="8,4" />
             <Setter Property="Width" Value="68" />
             <Setter Property="MinHeight" Value="40" />
@@ -108,7 +108,7 @@
         <ControlTheme x:Key="{x:Type CommandBarToggleButton}" TargetType="CommandBarToggleButton">
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="Padding" Value="8,4" />
             <Setter Property="Width" Value="68" />
             <Setter Property="MinHeight" Value="40" />
@@ -226,7 +226,7 @@
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="MinHeight" Value="48" />
             <Setter Property="Padding" Value="4,0" />
             <Setter Property="ItemWidthBottom" Value="70" />
@@ -250,7 +250,7 @@
                                     Padding="12,0"
                                     VerticalAlignment="Stretch"
                                     Background="Transparent"
-                                    BorderThickness="0"
+                                    BorderThickness="{DynamicResource PipboyThicknessNone}"
                                     DockPanel.Dock="Right"
                                     IsVisible="{TemplateBinding IsOverflowButtonVisible}">
                                     <PathIcon
@@ -296,7 +296,7 @@
                                     Padding="4"
                                     Background="{DynamicResource PipboySurfaceBrush}"
                                     BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                    BorderThickness="1">
+                                    BorderThickness="{DynamicResource PipboyThicknessThin}">
                                     <ItemsControl x:Name="PART_OverflowPresenter" ItemsSource="{Binding OverflowItems, RelativeSource={RelativeSource TemplatedParent}}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>

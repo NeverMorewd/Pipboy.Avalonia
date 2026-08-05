@@ -1,10 +1,10 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
         <!--  ComboBoxItem  -->
         <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessNone}" />
             <Setter Property="Padding" Value="10,5" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -42,8 +42,8 @@
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="3" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusControl}" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Padding" Value="4" />
@@ -93,7 +93,7 @@
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Background="Transparent"
-                                BorderThickness="0"
+                                BorderThickness="{DynamicResource PipboyThicknessNone}"
                                 Foreground="{TemplateBinding Foreground}"
                                 IsVisible="{TemplateBinding IsEditable}"
                                 PlaceholderText="{TemplateBinding PlaceholderText}"
@@ -109,7 +109,7 @@
                                 Name="toggle"
                                 Grid.Column="1"
                                 Background="Transparent"
-                                BorderThickness="0"
+                                BorderThickness="{DynamicResource PipboyThicknessNone}"
                                 ClickMode="Press"
                                 Focusable="False"
                                 IsChecked="{TemplateBinding IsDropDownOpen,
@@ -135,7 +135,7 @@
                                 <Border
                                     Background="{DynamicResource PipboySurfaceBrush}"
                                     BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                    BorderThickness="1">
+                                    BorderThickness="{DynamicResource PipboyThicknessThin}">
                                     <ScrollViewer
                                         HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                         IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}"

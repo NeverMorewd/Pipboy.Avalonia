@@ -1,11 +1,11 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="MinHeight" Value="30" />
             <Setter Property="Padding" Value="8,0" />
             <Setter Property="Template">
@@ -26,7 +26,7 @@
                                     Padding="{TemplateBinding Padding}"
                                     VerticalContentAlignment="Center"
                                     Background="Transparent"
-                                    BorderThickness="0"
+                                    BorderThickness="{DynamicResource PipboyThicknessNone}"
                                     Foreground="{TemplateBinding Foreground}"
                                     PlaceholderText="{TemplateBinding PlaceholderText}" />
                                 <Button
@@ -35,7 +35,7 @@
                                     Width="30"
                                     Padding="6"
                                     Background="Transparent"
-                                    BorderThickness="0"
+                                    BorderThickness="{DynamicResource PipboyThicknessNone}"
                                     Focusable="False">
                                     <Path
                                         Data="M 2 4 L 2 13 L 14 13 L 14 4 Z M 5 2 L 5 5 M 11 2 L 11 5 M 2 8 L 14 8"

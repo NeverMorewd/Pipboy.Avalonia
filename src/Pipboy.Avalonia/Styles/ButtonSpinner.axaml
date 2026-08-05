@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <ControlTheme
@@ -7,7 +7,7 @@
             TargetType="RepeatButton">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusNone}" />
             <Style Selector="^ /template/ RepeatButton:pointerover">
                 <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyHoverBrush}" />
@@ -15,7 +15,7 @@
         </ControlTheme>
         <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessNone}" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="ButtonSpinner">
                     <Grid ColumnDefinitions="Auto, *, Auto">
@@ -38,8 +38,8 @@
                             MinWidth="16"
                             Margin="4,0,0,0"
                             BorderBrush="{DynamicResource PipboyBorderBrush}"
-                            BorderThickness="1"
-                            CornerRadius="3"
+                            BorderThickness="{DynamicResource PipboyThicknessThin}"
+                            CornerRadius="{DynamicResource PipboyCornerRadiusControl}"
                             IsVisible="{TemplateBinding ShowButtonSpinner}"
                             UseLayoutRounding="False">
                             <Grid RowDefinitions="*, *">

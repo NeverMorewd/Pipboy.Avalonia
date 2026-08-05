@@ -1,4 +1,5 @@
 using System;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
@@ -138,6 +139,25 @@ public partial class PipboyTheme : Styles, IDisposable
 
         // Stroke design tokens
         Resources["PipboyIconStrokeThickness"] = 1.5;
+
+        // Shape tokens keep control templates visually consistent and prevent
+        // border and corner values from becoming scattered implementation details.
+        Resources["PipboyThicknessNone"] = new Thickness(0);
+        Resources["PipboyThicknessThin"] = new Thickness(1);
+        Resources["PipboyThicknessStrong"] = new Thickness(2);
+        Resources["PipboyThicknessTop"] = new Thickness(0, 1, 0, 0);
+        Resources["PipboyThicknessRight"] = new Thickness(0, 0, 1, 0);
+        Resources["PipboyThicknessBottom"] = new Thickness(0, 0, 0, 1);
+        Resources["PipboyThicknessBottomStrong"] = new Thickness(0, 0, 0, 2);
+        Resources["PipboyThicknessLeft"] = new Thickness(1, 0, 0, 0);
+        Resources["PipboyThicknessAllButTop"] = new Thickness(1, 1, 1, 0);
+        Resources["PipboyThicknessLeftRightBottom"] = new Thickness(0, 1, 1, 1);
+        Resources["PipboyThicknessRightBottom"] = new Thickness(0, 0, 1, 1);
+
+        Resources["PipboyCornerRadiusNone"] = new CornerRadius(0);
+        Resources["PipboyCornerRadiusControl"] = new CornerRadius(3);
+        Resources["PipboyCornerRadiusPanel"] = new CornerRadius(10);
+        Resources["PipboyCornerRadiusPill"] = new CornerRadius(25);
 
         // Load compiled AXAML styles — AvaloniaXamlLoader.Load uses the compiled (NativeAOT-safe)
         // version generated from PipboyTheme.axaml; the StyleInclude chain inside that AXAML file

@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <!--  Invisible repeat button used in Track click areas  -->
@@ -20,8 +20,8 @@
                         Height="14"
                         Background="{DynamicResource PipboyPrimaryBrush}"
                         BorderBrush="{DynamicResource PipboyBorderFocusBrush}"
-                        BorderThickness="1"
-                        CornerRadius="0" />
+                        BorderThickness="{DynamicResource PipboyThicknessThin}"
+                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}" />
                 </ControlTemplate>
             </Setter>
             <Style Selector="^:pointerover /template/ Border#ThumbBorder">
@@ -48,7 +48,7 @@
                             VerticalAlignment="Center"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="1" />
+                            BorderThickness="{DynamicResource PipboyThicknessThin}" />
                         <!--  Functional Track (full size, transparent background)  -->
                         <Track
                             Name="PART_Track"

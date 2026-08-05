@@ -1,4 +1,4 @@
-﻿<Styles
+<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:pipboy="https://github.com/NeverMorewd/Pipboy.Avalonia">
@@ -8,7 +8,7 @@
 
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="Padding" Value="14,10" />
             <Setter Property="MinWidth" Value="160" />
 
@@ -30,7 +30,7 @@
                                     Padding="10,5,8,5"
                                     Background="{DynamicResource PipboyPrimaryDarkBrush}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="0,0,0,1"
+                                    BorderThickness="{DynamicResource PipboyThicknessBottom}"
                                     DockPanel.Dock="Top">
                                     <Grid ColumnDefinitions="*,Auto">
 
@@ -75,7 +75,7 @@
                                 <Border
                                     Padding="12,8"
                                     BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="0,1,0,0"
+                                    BorderThickness="{DynamicResource PipboyThicknessTop}"
                                     DockPanel.Dock="Bottom"
                                     IsVisible="{TemplateBinding Footer,
                                                                 Converter={x:Static ObjectConverters.IsNotNull}}">
