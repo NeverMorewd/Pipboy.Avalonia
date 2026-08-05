@@ -1,13 +1,13 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
         <!--  TabItem  -->
         <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextDimBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1,1,1,0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessAllButTop}" />
             <Setter Property="Padding" Value="14,6" />
-            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusNone}" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="TabItem">
@@ -49,7 +49,7 @@
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="TabControl">
@@ -59,7 +59,7 @@
                             Grid.Row="0"
                             Background="{DynamicResource PipboySurfaceBrush}"
                             BorderBrush="{DynamicResource PipboyBorderBrush}"
-                            BorderThickness="0,0,0,1">
+                            BorderThickness="{DynamicResource PipboyThicknessBottom}">
                             <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
                         </Border>
                         <!--
@@ -70,7 +70,7 @@
                             Grid.Row="1"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="0,0,1,1"
+                            BorderThickness="{DynamicResource PipboyThicknessRightBottom}"
                             ClipToBounds="True">
                             <ContentPresenter
                                 Name="PART_SelectedContentHost"
@@ -94,13 +94,13 @@
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="TabItem">
-                    <!--  BorderThickness="0,0,0,2": bottom-only border acts as underline indicator  -->
+                    <!--  BorderThickness="{DynamicResource PipboyThicknessBottomStrong}": bottom-only border acts as underline indicator  -->
                     <Border
                         Name="PART_LayoutRoot"
                         Padding="{TemplateBinding Padding}"
                         Background="{TemplateBinding Background}"
                         BorderBrush="Transparent"
-                        BorderThickness="0,0,0,2">
+                        BorderThickness="{DynamicResource PipboyThicknessBottomStrong}">
                         <ContentPresenter
                             Name="PART_ContentPresenter"
                             HorizontalContentAlignment="Center"
@@ -146,7 +146,7 @@
                             Grid.Row="0"
                             Background="{DynamicResource PipboySurfaceBrush}"
                             BorderBrush="{DynamicResource PipboyBorderBrush}"
-                            BorderThickness="0,0,0,1">
+                            BorderThickness="{DynamicResource PipboyThicknessBottom}">
                             <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
                         </Border>
                         <!--  Content area  -->

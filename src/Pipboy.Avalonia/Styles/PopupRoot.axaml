@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type PopupRoot}" TargetType="PopupRoot">
             <Setter Property="Background" Value="{x:Null}" />
@@ -15,8 +15,8 @@
                                     <Border
                                         Background="{DynamicResource PipboyBackgroundBrush}"
                                         BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                        BorderThickness="1"
-                                        CornerRadius="0">
+                                        BorderThickness="{DynamicResource PipboyThicknessThin}"
+                                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
                                         <ContentPresenter
                                             Name="PART_ContentPresenter"
                                             Padding="{TemplateBinding Padding}"

@@ -1,11 +1,11 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type CalendarDayButton}" TargetType="CalendarDayButton">
             <Setter Property="ClickMode" Value="Release" />
             <Setter Property="Margin" Value="1" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessNone}" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -52,7 +52,7 @@
             <Setter Property="Margin" Value="2" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessNone}" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -89,7 +89,7 @@
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="MinWidth" Value="240" />
             <Setter Property="MinHeight" Value="220" />
             <Setter Property="DayTitleTemplate">
@@ -126,7 +126,7 @@
                                     Height="28"
                                     Padding="4"
                                     Background="Transparent"
-                                    BorderThickness="0"
+                                    BorderThickness="{DynamicResource PipboyThicknessNone}"
                                     Focusable="False"
                                     Foreground="{DynamicResource PipboyTextBrush}">
                                     <Path
@@ -140,7 +140,7 @@
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Center"
                                     Background="Transparent"
-                                    BorderThickness="0"
+                                    BorderThickness="{DynamicResource PipboyThicknessNone}"
                                     Foreground="{DynamicResource PipboyTextBrush}" />
                                 <RepeatButton
                                     Name="PART_NextButton"
@@ -149,7 +149,7 @@
                                     Height="28"
                                     Padding="4"
                                     Background="Transparent"
-                                    BorderThickness="0"
+                                    BorderThickness="{DynamicResource PipboyThicknessNone}"
                                     Focusable="False"
                                     Foreground="{DynamicResource PipboyTextBrush}">
                                     <Path
@@ -192,7 +192,7 @@
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="Calendar">

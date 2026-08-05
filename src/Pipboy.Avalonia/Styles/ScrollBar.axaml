@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <!--  ScrollBar page repeat button (clicking the track)  -->
@@ -22,7 +22,7 @@
                     <Border
                         Name="ThumbBorder"
                         Background="{TemplateBinding Background}"
-                        CornerRadius="0" />
+                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}" />
                 </ControlTemplate>
             </Setter>
             <Style Selector="^:pointerover /template/ Border#ThumbBorder">

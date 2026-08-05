@@ -1,12 +1,12 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusControl}" />
             <Setter Property="Padding" Value="14,6" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -47,7 +47,6 @@
             </Style>
             <Style Selector="^:focus-visible /template/ Border#PART_Border">
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />
-                <Setter Property="BorderThickness" Value="2" />
             </Style>
         </ControlTheme>
 

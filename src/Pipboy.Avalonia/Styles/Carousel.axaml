@@ -1,9 +1,9 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type Carousel}" TargetType="Carousel">
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <ScrollViewer

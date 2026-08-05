@@ -79,10 +79,11 @@ public sealed class PipboyColorPalette
         double selL = hsl.L * 0.45f;
         Selection = new HslColor(hsl.A, hsl.H, hsl.S, selL > 0.30f ? 0.30f : selL).ToRgb();
 
-        // Borders
-        Border = hsl.AdjustLightness(-0.10f).ToRgb();
-        double bfL = hsl.L + 0.25f;
-        BorderFocus = hsl.WithLightness(bfL > 0.90f ? 0.90f : bfL).ToRgb();
+        // Borders are deliberately quieter than the phosphor primary. Using a darker,
+        // less saturated tone prevents every control from reading as a heavy neon frame.
+        Border = new HslColor(hsl.A, hsl.H, Math.Min(hsl.S * 0.55f, 0.45f), 0.28f).ToRgb();
+        double bfL = Math.Min(hsl.L + 0.12f, 0.78f);
+        BorderFocus = hsl.WithLightness(bfL).ToRgb();
 
         // Semantic status — same hue as primary, varying lightness for severity tiers.
         // Keeps the monochromatic design principle: Success (mid), Warning (bright), Error (near-white).

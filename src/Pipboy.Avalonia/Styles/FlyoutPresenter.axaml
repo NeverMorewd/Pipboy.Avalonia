@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <!--  MenuFlyout popup container (used by SplitButton, DropDownButton, Button.Flyout=MenuFlyout)  -->
@@ -6,7 +6,7 @@
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="Padding" Value="0,2" />
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -16,7 +16,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="0">
+                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
                         <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
                             <ItemsPresenter
                                 Name="PART_ItemsPresenter"
@@ -32,7 +32,7 @@
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceHighBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="Padding" Value="12,8" />
             <Setter Property="MaxWidth" Value="400" />
             <Setter Property="Template">
@@ -43,7 +43,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="0">
+                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
                         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
                         </ScrollViewer>

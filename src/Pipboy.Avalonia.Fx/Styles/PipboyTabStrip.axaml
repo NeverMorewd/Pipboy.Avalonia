@@ -1,4 +1,4 @@
-﻿<Styles
+<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:pipboy="https://github.com/NeverMorewd/Pipboy.Avalonia">
@@ -17,7 +17,7 @@
                         Padding="{TemplateBinding Padding}"
                         Background="{TemplateBinding Background}"
                         BorderBrush="Transparent"
-                        BorderThickness="0,0,0,2">
+                        BorderThickness="{DynamicResource PipboyThicknessBottomStrong}">
                         <Grid ColumnDefinitions="14,*,14">
 
                             <TextBlock
@@ -99,7 +99,7 @@
         <ControlTheme x:Key="{x:Type pipboy:PipboyTabStrip}" TargetType="pipboy:PipboyTabStrip">
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessBottom}" />
             <Setter Property="ItemsPanel">
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />

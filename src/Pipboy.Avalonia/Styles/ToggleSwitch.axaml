@@ -1,11 +1,11 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
 
         <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Cursor" Value="Hand" />
@@ -36,7 +36,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="0">
+                            CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
                             <!--
                                 PART_SwitchKnob must be a Panel subclass (Canvas) so that Avalonia's
                                 ToggleSwitch can call Canvas.SetLeft(PART_MovingKnobs, ...) to slide the knob.
@@ -62,7 +62,7 @@
                                         Height="14"
                                         Margin="1,2"
                                         Background="{DynamicResource PipboyTextDimBrush}"
-                                        CornerRadius="0" />
+                                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}" />
                                 </Panel>
                             </Canvas>
                         </Border>

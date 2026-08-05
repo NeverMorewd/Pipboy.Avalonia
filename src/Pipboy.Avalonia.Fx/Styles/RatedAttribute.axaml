@@ -1,4 +1,4 @@
-﻿<Styles
+<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:pipboy="https://github.com/NeverMorewd/Pipboy.Avalonia">
@@ -34,7 +34,7 @@
                                         <Border
                                             Background="Transparent"
                                             BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                            BorderThickness="1"
+                                            BorderThickness="{DynamicResource PipboyThicknessThin}"
                                             IsVisible="{Binding !IsFilled}" />
                                     </Panel>
                                 </DataTemplate>

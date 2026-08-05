@@ -1,4 +1,4 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <PipsPager NumberOfPages="5" SelectedPageIndex="2" />
     </Design.PreviewWith>
@@ -7,7 +7,7 @@
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessNone}" />
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="PreviousButtonTheme" Value="{StaticResource {x:Type Button}}" />
             <Setter Property="NextButtonTheme" Value="{StaticResource {x:Type Button}}" />
@@ -45,7 +45,7 @@
                             VerticalAlignment="Center"
                             AutoScrollToSelectedItem="False"
                             Background="Transparent"
-                            BorderThickness="0"
+                            BorderThickness="{DynamicResource PipboyThicknessNone}"
                             ClipToBounds="False"
                             ItemsSource="{Binding TemplateSettings.Pips, RelativeSource={RelativeSource TemplatedParent}}"
                             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
