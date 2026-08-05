@@ -55,7 +55,6 @@
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/NotificationCard.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/OverlayPopupHost.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/NumericUpDown.axaml" />
-    <StyleInclude Source="avares://Pipboy.Avalonia/Styles/OverlayPopupHost.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/PathIcon.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/PipsPager.axaml" />
     <StyleInclude Source="avares://Pipboy.Avalonia/Styles/PopupRoot.axaml" />

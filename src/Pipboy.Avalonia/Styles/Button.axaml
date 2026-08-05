@@ -6,12 +6,10 @@
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="CornerRadius" Value="3" />
             <Setter Property="Padding" Value="14,6" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="Button">
@@ -21,6 +19,12 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
+                        <Border.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Background" Duration="0:0:0.1" />
+                                <BrushTransition Property="BorderBrush" Duration="0:0:0.1" />
+                            </Transitions>
+                        </Border.Transitions>
                         <ContentPresenter
                             Name="PART_ContentPresenter"
                             Padding="{TemplateBinding Padding}"
@@ -35,11 +39,11 @@
 
             <Style Selector="^:pointerover">
                 <Setter Property="Background" Value="{DynamicResource PipboyHoverBrush}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />
             </Style>
             <Style Selector="^:pressed">
                 <Setter Property="Background" Value="{DynamicResource PipboyPressedBrush}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />
             </Style>
             <Style Selector="^:disabled">
                 <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />

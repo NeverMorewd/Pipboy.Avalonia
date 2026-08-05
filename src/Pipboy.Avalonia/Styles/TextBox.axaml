@@ -6,7 +6,7 @@
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="CornerRadius" Value="3" />
             <Setter Property="Padding" Value="8,5" />
             <Setter Property="MinHeight" Value="{DynamicResource PipboyControlHeight}" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -81,7 +81,6 @@
             </Style>
             <Style Selector="^:focus /template/ Border#PART_BorderElement">
                 <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderFocusBrush}" />
-                <Setter Property="BorderThickness" Value="2" />
             </Style>
             <Style Selector="^:disabled">
                 <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />

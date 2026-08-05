@@ -98,6 +98,7 @@
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="MinHeight" Value="{DynamicResource PipboyControlHeight}" />
             <Setter Property="Padding" Value="8,5" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="NumericUpDown">
                     <DataValidationErrors>
@@ -114,7 +115,7 @@
                                 MinHeight="0"
                                 Padding="{TemplateBinding Padding}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                VerticalContentAlignment="Center"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 CaretBrush="{DynamicResource PipboyPrimaryBrush}"

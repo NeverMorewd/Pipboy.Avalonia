@@ -43,10 +43,11 @@
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="3" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Padding" Value="4" />
-            <Setter Property="MinHeight" Value="20" />
+            <Setter Property="MinHeight" Value="{DynamicResource PipboyControlHeight}" />
             <Setter Property="PlaceholderForeground" Value="{DynamicResource PipboyTextDimBrush}" />
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
             <Setter Property="Template">
