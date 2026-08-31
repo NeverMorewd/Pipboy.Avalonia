@@ -37,7 +37,7 @@
                                     Background="{DynamicResource PipboySurfaceBrush}"
                                     BorderBrush="{DynamicResource PipboyBorderBrush}"
                                     BorderThickness="{DynamicResource PipboyThicknessThin}"
-                                    CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
+                                    CornerRadius="{DynamicResource PipboyCornerRadiusPanel}">
                                     <ListBox
                                         Name="PART_SelectingItemsControl"
                                         MaxHeight="{DynamicResource PipboyPopupMaxHeight}"

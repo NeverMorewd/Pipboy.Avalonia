@@ -6,7 +6,7 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
-            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusNone}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusControl}" />
             <Setter Property="Padding" Value="8,0,0,0" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Left" />
@@ -23,7 +23,8 @@
                             VerticalAlignment="Center"
                             Background="{DynamicResource PipboySurfaceBrush}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
                             <Path
                                 Name="PART_CheckMark"
                                 HorizontalAlignment="Center"

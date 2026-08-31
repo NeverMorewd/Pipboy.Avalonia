@@ -11,7 +11,7 @@
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
-            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusNone}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusControl}" />
             <Setter Property="Padding" Value="14,6" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />

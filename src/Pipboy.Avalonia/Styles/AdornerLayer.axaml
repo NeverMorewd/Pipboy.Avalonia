@@ -7,7 +7,7 @@
                         <Border
                             BorderBrush="{DynamicResource PipboyBorderFocusBrush}"
                             BorderThickness="{DynamicResource PipboyThicknessThin}"
-                            CornerRadius="{DynamicResource PipboyCornerRadiusNone}" />
+                            CornerRadius="{DynamicResource PipboyCornerRadiusControl}" />
                     </FocusAdornerTemplate>
                 </Setter>
             </ControlTheme>

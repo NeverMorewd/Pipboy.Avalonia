@@ -7,7 +7,7 @@
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessAllButTop}" />
             <Setter Property="Padding" Value="14,6" />
-            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusNone}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusPanel}" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="TabItem">

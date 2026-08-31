@@ -81,10 +81,15 @@ public partial class WindowPage : UserControl
         {
             BorderThickness = new Thickness(1.0),
             BorderBrush = new SolidColorBrush(PipboyThemeManager.Instance.PrimaryColor),
-            CornerRadius = new CornerRadius(0.0),
             Child = innerPanel,
             Background = Brushes.Transparent,
         };
+
+        if (this.TryFindResource("PipboyCornerRadiusPanel", null, out var cornerRadius) &&
+            cornerRadius is CornerRadius panelCornerRadius)
+        {
+            innerBorder.CornerRadius = panelCornerRadius;
+        }
 
         window.Content = innerBorder;
         window.Show();

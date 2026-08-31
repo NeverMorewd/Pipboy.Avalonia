@@ -16,7 +16,7 @@
                                         Background="{DynamicResource PipboyBackgroundBrush}"
                                         BorderBrush="{DynamicResource PipboyBorderBrush}"
                                         BorderThickness="{DynamicResource PipboyThicknessThin}"
-                                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
+                                        CornerRadius="{DynamicResource PipboyCornerRadiusPanel}">
                                         <ContentPresenter
                                             Name="PART_ContentPresenter"
                                             Padding="{TemplateBinding Padding}"

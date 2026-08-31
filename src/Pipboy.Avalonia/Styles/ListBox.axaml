@@ -55,7 +55,7 @@
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
-            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusNone}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusPanel}" />
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
             <Setter Property="Template">

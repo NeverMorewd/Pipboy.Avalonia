@@ -33,11 +33,12 @@
     <Styles.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
         <local:SegmentFillConverter x:Key="SegmentFillConverter" />
+        <local:ProgressRingGeometryConverter x:Key="ProgressRingGeometryConverter" />
         <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
             <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryDarkBrush}" />
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
-            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusNone}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusControl}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="Height" Value="18" />
             <Setter Property="MinHeight" Value="4" />
@@ -206,10 +207,9 @@
         </ControlTheme>
 
         <ControlTheme x:Key="PipboyRingProgressBar" TargetType="ProgressBar">
-            <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryDarkBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PipboyPrimaryBrush}" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="Width" Value="100" />
             <Setter Property="Height" Value="100" />
             <Setter Property="Template">
@@ -219,300 +219,53 @@
                         Width="{TemplateBinding Width}"
                         Height="{TemplateBinding Height}">
 
-                        <Viewbox
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Stretch="Fill">
+                        <Viewbox Stretch="Uniform">
                             <Panel Width="100" Height="100">
+                                <Ellipse
+                                    Width="84"
+                                    Height="84"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Stroke="{TemplateBinding BorderBrush}"
+                                    StrokeThickness="5" />
 
-                                <Border
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}" />
-                                <Border
-                                    Margin="13"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}" />
-                                <!--<Canvas>
-                                    <Polyline
-                                        Points="0,15 0,0 15,0"
-                                        Stroke="{TemplateBinding BorderBrush}"
-                                        StrokeThickness="2" />
-                                    <Polyline
-                                        Points="85,0 100,0 100,15"
-                                        Stroke="{TemplateBinding BorderBrush}"
-                                        StrokeThickness="2" />
-                                    <Polyline
-                                        Points="0,85 0,100 15,100"
-                                        Stroke="{TemplateBinding BorderBrush}"
-                                        StrokeThickness="2" />
-                                    <Polyline
-                                        Points="85,100 100,100 100,85"
-                                        Stroke="{TemplateBinding BorderBrush}"
-                                        StrokeThickness="2" />
-                                </Canvas>-->
+                                <Path
+                                    Name="PART_DeterminateRing"
+                                    Data="{Binding Percentage, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ProgressRingGeometryConverter}}"
+                                    IsVisible="{Binding !IsIndeterminate, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Stroke="{TemplateBinding Foreground}"
+                                    StrokeLineCap="Square"
+                                    StrokeThickness="7" />
 
-                                <Panel Name="PART_IndeterminateRoot" IsVisible="{TemplateBinding IsIndeterminate}">
-                                    <Rectangle
-                                        Width="12"
-                                        Height="12"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        Fill="{TemplateBinding Foreground}">
-                                        <Rectangle.RenderTransform>
-                                            <TranslateTransform />
-                                        </Rectangle.RenderTransform>
-                                        <Rectangle.Styles>
-                                            <Style Selector="Rectangle">
-                                                <Style.Animations>
-                                                    <Animation
-                                                        Easing="LinearEasing"
-                                                        IterationCount="Infinite"
-                                                        Duration="0:0:2">
-                                                        <KeyFrame KeyTime="0:0:0">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:0.5">
-                                                            <Setter Property="TranslateTransform.X" Value="88" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:1.0">
-                                                            <Setter Property="TranslateTransform.X" Value="88" />
-                                                            <Setter Property="TranslateTransform.Y" Value="88" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:1.5">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="88" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:2.0">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                    </Animation>
-                                                </Style.Animations>
-                                            </Style>
-                                        </Rectangle.Styles>
-                                    </Rectangle>
-                                    <Rectangle
-                                        Width="12"
-                                        Height="12"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        Fill="{TemplateBinding Foreground}"
-                                        Opacity="0.75">
-                                        <Rectangle.RenderTransform>
-                                            <TranslateTransform />
-                                        </Rectangle.RenderTransform>
-                                        <Rectangle.Styles>
-                                            <Style Selector="Rectangle">
-                                                <Style.Animations>
-                                                    <Animation
-                                                        Delay="0:0:0.2"
-                                                        Easing="LinearEasing"
-                                                        IterationCount="Infinite"
-                                                        Duration="0:0:2">
-                                                        <KeyFrame KeyTime="0:0:0">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:0.5">
-                                                            <Setter Property="TranslateTransform.X" Value="88" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:1.0">
-                                                            <Setter Property="TranslateTransform.X" Value="88" />
-                                                            <Setter Property="TranslateTransform.Y" Value="88" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:1.5">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="88" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:2.0">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                    </Animation>
-                                                </Style.Animations>
-                                            </Style>
-                                        </Rectangle.Styles>
-                                    </Rectangle>
-
-                                    <Rectangle
-                                        Width="12"
-                                        Height="12"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        Fill="{TemplateBinding Foreground}"
-                                        Opacity="0.5">
-                                        <Rectangle.RenderTransform>
-                                            <TranslateTransform />
-                                        </Rectangle.RenderTransform>
-                                        <Rectangle.Styles>
-                                            <Style Selector="Rectangle">
-                                                <Style.Animations>
-                                                    <Animation
-                                                        Delay="0:0:0.4"
-                                                        Easing="LinearEasing"
-                                                        IterationCount="Infinite"
-                                                        Duration="0:0:2">
-                                                        <KeyFrame KeyTime="0:0:0">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:0.5">
-                                                            <Setter Property="TranslateTransform.X" Value="88" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:1.0">
-                                                            <Setter Property="TranslateTransform.X" Value="88" />
-                                                            <Setter Property="TranslateTransform.Y" Value="88" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:1.5">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="88" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:2.0">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                    </Animation>
-                                                </Style.Animations>
-                                            </Style>
-                                        </Rectangle.Styles>
-                                    </Rectangle>
-                                    <Rectangle
-                                        Width="12"
-                                        Height="12"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        Fill="{TemplateBinding Foreground}"
-                                        Opacity="0.25">
-                                        <Rectangle.RenderTransform>
-                                            <TranslateTransform />
-                                        </Rectangle.RenderTransform>
-                                        <Rectangle.Styles>
-                                            <Style Selector="Rectangle">
-                                                <Style.Animations>
-                                                    <Animation
-                                                        Delay="0:0:0.6"
-                                                        Easing="LinearEasing"
-                                                        IterationCount="Infinite"
-                                                        Duration="0:0:2">
-                                                        <KeyFrame KeyTime="0:0:0">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:0.5">
-                                                            <Setter Property="TranslateTransform.X" Value="88" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:1.0">
-                                                            <Setter Property="TranslateTransform.X" Value="88" />
-                                                            <Setter Property="TranslateTransform.Y" Value="88" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:1.5">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="88" />
-                                                        </KeyFrame>
-                                                        <KeyFrame KeyTime="0:0:2.0">
-                                                            <Setter Property="TranslateTransform.X" Value="0" />
-                                                            <Setter Property="TranslateTransform.Y" Value="0" />
-                                                        </KeyFrame>
-                                                    </Animation>
-                                                </Style.Animations>
-                                            </Style>
-                                        </Rectangle.Styles>
-                                    </Rectangle>
-                                </Panel>
-
-                                <Panel Name="PART_DeterminateRoot" IsVisible="{Binding !IsIndeterminate, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <Canvas ClipToBounds="True">
-
-                                        <!--  Top  -->
-                                        <Rectangle
-                                            Canvas.Left="1"
-                                            Canvas.Top="1"
-                                            Height="12"
-                                            Fill="{TemplateBinding Foreground}">
-
-                                            <Rectangle.Width>
-                                                <MultiBinding Converter="{StaticResource SegmentFillConverter}">
-                                                    <Binding Path="Percentage" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                    <Binding Source="Top" />
-                                                    <Binding Path="Bounds.Width" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                    <Binding Path="Bounds.Height" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                </MultiBinding>
-                                            </Rectangle.Width>
-
-                                        </Rectangle>
-
-                                        <!--  Right  -->
-                                        <Rectangle
-                                            Canvas.Top="1"
-                                            Canvas.Right="1"
-                                            Width="12"
-                                            Fill="{TemplateBinding Foreground}">
-
-                                            <Rectangle.Height>
-                                                <MultiBinding Converter="{StaticResource SegmentFillConverter}">
-                                                    <Binding Path="Percentage" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                    <Binding Source="Right" />
-                                                    <Binding Path="Bounds.Width" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                    <Binding Path="Bounds.Height" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                </MultiBinding>
-                                            </Rectangle.Height>
-
-                                        </Rectangle>
-
-                                        <!--  Bottom  -->
-                                        <Rectangle
-                                            Canvas.Right="1"
-                                            Canvas.Bottom="1"
-                                            Height="12"
-                                            Fill="{TemplateBinding Foreground}">
-
-                                            <Rectangle.Width>
-                                                <MultiBinding Converter="{StaticResource SegmentFillConverter}">
-                                                    <Binding Path="Percentage" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                    <Binding Source="Bottom" />
-                                                    <Binding Path="Bounds.Width" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                    <Binding Path="Bounds.Height" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                </MultiBinding>
-                                            </Rectangle.Width>
-
-                                            <Rectangle.RenderTransform>
-                                                <ScaleTransform ScaleX="-1" />
-                                            </Rectangle.RenderTransform>
-
-                                        </Rectangle>
-
-                                        <!--  Left  -->
-                                        <Rectangle
-                                            Canvas.Left="1"
-                                            Canvas.Bottom="1"
-                                            Width="12"
-                                            Fill="{TemplateBinding Foreground}">
-
-                                            <Rectangle.Height>
-                                                <MultiBinding Converter="{StaticResource SegmentFillConverter}">
-                                                    <Binding Path="Percentage" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                    <Binding Source="Left" />
-                                                    <Binding Path="Bounds.Width" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                    <Binding Path="Bounds.Height" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                </MultiBinding>
-                                            </Rectangle.Height>
-
-                                            <Rectangle.RenderTransform>
-                                                <ScaleTransform ScaleY="-1" />
-                                            </Rectangle.RenderTransform>
-
-                                        </Rectangle>
-
-                                    </Canvas>
-                                </Panel>
-
+                                <Path
+                                    Name="PART_IndeterminateRing"
+                                    Data="M 50,8 A 42,42 0 0 1 92,50"
+                                    IsVisible="{TemplateBinding IsIndeterminate}"
+                                    Stroke="{TemplateBinding Foreground}"
+                                    StrokeLineCap="Square"
+                                    StrokeThickness="7"
+                                    RenderTransformOrigin="50%,50%">
+                                    <Path.RenderTransform>
+                                        <RotateTransform />
+                                    </Path.RenderTransform>
+                                    <Path.Styles>
+                                        <Style Selector="Path">
+                                            <Style.Animations>
+                                                <Animation
+                                                    Easing="LinearEasing"
+                                                    IterationCount="Infinite"
+                                                    Duration="0:0:1.15">
+                                                    <KeyFrame KeyTime="0:0:0">
+                                                        <Setter Property="RotateTransform.Angle" Value="0" />
+                                                    </KeyFrame>
+                                                    <KeyFrame KeyTime="0:0:1.15">
+                                                        <Setter Property="RotateTransform.Angle" Value="360" />
+                                                    </KeyFrame>
+                                                </Animation>
+                                            </Style.Animations>
+                                        </Style>
+                                    </Path.Styles>
+                                </Path>
                             </Panel>
                         </Viewbox>
 

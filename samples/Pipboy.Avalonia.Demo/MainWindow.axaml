@@ -27,7 +27,7 @@
                 Background="{Binding Brush}"
                 Classes="paletteItem"
                 Command="{Binding SelectCommand}"
-                CornerRadius="0"
+                CornerRadius="{DynamicResource PipboyCornerRadiusControl}"
                 Cursor="Hand"
                 ToolTip.Tip="{Binding Hex}">
                 <Button.Styles>
@@ -35,7 +35,7 @@
                         <Setter Property="Width" Value="22" />
                         <Setter Property="Height" Value="22" />
                         <Setter Property="Padding" Value="0" />
-                        <Setter Property="CornerRadius" Value="0" />
+                        <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusControl}" />
                         <Setter Property="BorderThickness" Value="1" />
                         <Setter Property="BorderBrush" Value="Transparent" />
                         <Setter Property="Cursor" Value="Hand" />
@@ -72,7 +72,7 @@
                         Height="14"
                         Background="{Binding CurrentBrush, Mode=TwoWay}"
                         BorderThickness="1"
-                        CornerRadius="0" />
+                        CornerRadius="{DynamicResource PipboyCornerRadiusControl}" />
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="10"
@@ -86,7 +86,7 @@
                         <Flyout.FlyoutPresenterTheme>
                             <ControlTheme TargetType="FlyoutPresenter">
                                 <Setter Property="BorderThickness" Value="1" />
-                                <Setter Property="CornerRadius" Value="0" />
+                                <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusPanel}" />
                                 <Setter Property="Padding" Value="10" />
                                 <Setter Property="MinWidth" Value="220" />
                             </ControlTheme>

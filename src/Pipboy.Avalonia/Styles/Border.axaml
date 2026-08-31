@@ -3,18 +3,21 @@
         <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
         <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusPanel}" />
         <Setter Property="Padding" Value="16" />
     </Style>
     <Style Selector="Border.card-elevated">
         <Setter Property="Background" Value="{DynamicResource PipboySurfaceHighBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryDarkBrush}" />
         <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusPanel}" />
         <Setter Property="Padding" Value="16" />
     </Style>
     <Style Selector="Border.terminal">
         <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
         <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusPanel}" />
         <Setter Property="Padding" Value="12" />
     </Style>
 
@@ -22,6 +25,7 @@
         <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
         <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusControl}" />
         <Setter Property="Padding" Value="8,4" />
     </Style>
 
@@ -29,12 +33,14 @@
         <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
         <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusPanel}" />
     </Style>
 
     <Style Selector="Border.pipboy-panel">
         <Setter Property="Background" Value="{DynamicResource PipboySurfaceHighBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
         <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusPanel}" />
         <Setter Property="Padding" Value="8" />
     </Style>
 </Styles>
