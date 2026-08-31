@@ -25,17 +25,6 @@ Softly rounded geometry, a monochromatic phosphor palette, and a retro terminal 
 
 **[▶ Try the live WASM demo](https://nevermorewd.github.io/Pipboy.Avalonia/)** — runs entirely in the browser, no install needed.
 
----
-
-## Screenshots
-
-<!-- Desktop -->
-![Desktop overview](docs/images/screenshot-overview.png)
-
-![Color switching](docs/images/screenshot-map.png)
-
----
-
 ## Packages
 
 | Package | Description |
