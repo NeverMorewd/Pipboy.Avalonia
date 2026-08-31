@@ -11,7 +11,7 @@
   
 A Pip-Boy inspired theme library for Avalonia UI.
 
-Sharp corners, monochromatic phosphor palette, retro terminal aesthetic — drop it in as your sole application theme and every standard control gets the Vault-Tec treatment.
+Softly rounded geometry, a monochromatic phosphor palette, and a retro terminal aesthetic — drop it in as your application theme and every standard control gets the Vault-Tec treatment.
   </p>
 </div>
 
@@ -132,10 +132,10 @@ Use these `CornerRadius` tokens to keep controls and containers visually consist
 
 | Resource Key | Description |
 |---|---|
-| `PipboyCornerRadiusNone` | Square corners for terminal and structural elements |
-| `PipboyCornerRadiusControl` | Subtle rounding for interactive controls |
+| `PipboyCornerRadiusNone` | Optional square-corner override |
+| `PipboyCornerRadiusControl` | Standard rounding for interactive controls |
 | `PipboyCornerRadiusPanel` | Larger rounding for panels and popups |
-| `PipboyCornerRadiusPill` | Fully rounded pill treatment |
+| `PipboyCornerRadiusPill` | Stronger, bounded rounding for compact accents |
 
 ### Border Thickness
 

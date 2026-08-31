@@ -5,7 +5,7 @@
                 Width="350"
                 Orientation="Vertical"
                 Spacing="20">
-                <Expander CornerRadius="{DynamicResource PipboyCornerRadiusPill}" ExpandDirection="Up">
+                <Expander CornerRadius="{DynamicResource PipboyCornerRadiusControl}" ExpandDirection="Up">
                     <Expander.Header>
                         <Grid ColumnDefinitions="*, Auto">
                             <TextBlock Grid.Column="0" Text="Expand" />
@@ -17,7 +17,7 @@
                     </StackPanel>
                 </Expander>
                 <Expander
-                    CornerRadius="{DynamicResource PipboyCornerRadiusPill}"
+                    CornerRadius="{DynamicResource PipboyCornerRadiusControl}"
                     ExpandDirection="Down"
                     Header="Expand Down">
                     <StackPanel>
@@ -25,7 +25,7 @@
                     </StackPanel>
                 </Expander>
                 <Expander
-                    CornerRadius="{DynamicResource PipboyCornerRadiusPill}"
+                    CornerRadius="{DynamicResource PipboyCornerRadiusControl}"
                     ExpandDirection="Left"
                     Header="Expand Left">
                     <StackPanel>
@@ -33,7 +33,7 @@
                     </StackPanel>
                 </Expander>
                 <Expander
-                    CornerRadius="{DynamicResource PipboyCornerRadiusPill}"
+                    CornerRadius="{DynamicResource PipboyCornerRadiusControl}"
                     ExpandDirection="Right"
                     Header="Expand Right">
                     <StackPanel>
@@ -58,7 +58,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
+                        CornerRadius="{DynamicResource PipboyCornerRadiusPanel}">
                         <StackPanel>
                             <!--  Header toggle button  -->
                             <ToggleButton

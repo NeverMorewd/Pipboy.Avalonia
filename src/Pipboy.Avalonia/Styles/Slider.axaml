@@ -21,7 +21,7 @@
                         Background="{DynamicResource PipboyPrimaryBrush}"
                         BorderBrush="{DynamicResource PipboyBorderFocusBrush}"
                         BorderThickness="{DynamicResource PipboyThicknessThin}"
-                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}" />
+                        CornerRadius="{DynamicResource PipboyCornerRadiusControl}" />
                 </ControlTemplate>
             </Setter>
             <Style Selector="^:pointerover /template/ Border#ThumbBorder">

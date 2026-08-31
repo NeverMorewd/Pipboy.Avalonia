@@ -11,7 +11,7 @@
         <ControlTheme x:Key="{x:Type ContentPage}" TargetType="ContentPage">
             <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
-            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusNone}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusPanel}" />
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="Template">
                 <ControlTemplate>

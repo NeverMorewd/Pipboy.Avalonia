@@ -10,7 +10,7 @@
                     <Border
                         Name="Root"
                         Background="{TemplateBinding Background}"
-                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}" />
+                        CornerRadius="{DynamicResource PipboyCornerRadiusControl}" />
                 </ControlTemplate>
             </Setter>
 

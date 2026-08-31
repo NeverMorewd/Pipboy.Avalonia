@@ -159,7 +159,7 @@
                                                 <Setter Property="Height" Value="17" />
                                                 <Setter Property="Margin" Value="0,0,4,4" />
                                                 <Setter Property="Cursor" Value="Hand" />
-                                                <Setter Property="CornerRadius" Value="2" />
+                                                <Setter Property="CornerRadius" Value="{DynamicResource PipboyCornerRadiusControl}" />
                                             </Style>
                                         </WrapPanel.Styles>
                                         <!--  Classic  -->
