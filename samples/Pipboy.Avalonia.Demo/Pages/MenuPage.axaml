@@ -7,9 +7,9 @@
 
         <Border
             Grid.Row="0"
+            Padding="24,16"
             BorderBrush="{DynamicResource PipboyBorderBrush}"
-            BorderThickness="0,0,0,1"
-            Padding="24,16">
+            BorderThickness="0,0,0,1">
             <StackPanel Spacing="3">
                 <TextBlock Classes="h1" Text="MENUS" />
                 <TextBlock
@@ -22,7 +22,7 @@
         <ScrollViewer Grid.Row="1">
             <StackPanel Margin="24,20" Spacing="20">
 
-                <!--  ── Menu Bar ── -->
+                <!--  ── Menu Bar ──  -->
                 <HeaderedContentControl Classes="groupbox" Header="MENU BAR">
                     <StackPanel Spacing="10">
                         <TextBlock
@@ -75,10 +75,13 @@
                     </StackPanel>
                 </HeaderedContentControl>
 
-                <!--  ── Context Menu + Flyout side by side ── -->
+                <!--  ── Context Menu + Flyout side by side ──  -->
                 <Grid ColumnDefinitions="*,16,*">
 
-                    <HeaderedContentControl Grid.Column="0" Classes="groupbox" Header="CONTEXT MENU">
+                    <HeaderedContentControl
+                        Grid.Column="0"
+                        Classes="groupbox"
+                        Header="CONTEXT MENU">
                         <StackPanel Spacing="10">
                             <TextBlock
                                 Classes="dim"
@@ -100,12 +103,27 @@
                                         <MenuItem Click="OnMenuItemClick" Header="Inspect" />
                                         <MenuItem Click="OnMenuItemClick" Header="Mark Target" />
                                         <MenuItem Header="Tag As">
-                                            <MenuItem Click="OnMenuItemClick" Header="Enemy" />
-                                            <MenuItem Click="OnMenuItemClick" Header="Neutral" />
+                                            <MenuItem
+                                                Click="OnMenuItemClick"
+                                                Header="Enemy"
+                                                ToggleType="Radio" />
+                                            <MenuItem
+                                                Click="OnMenuItemClick"
+                                                Header="Neutral"
+                                                ToggleType="Radio" />
                                             <MenuItem Header="Friendly">
-                                                <MenuItem Click="OnMenuItemClick" Header="Brotherhood" />
-                                                <MenuItem Click="OnMenuItemClick" Header="Minutemen" />
-                                                <MenuItem Click="OnMenuItemClick" Header="Railroad" />
+                                                <MenuItem
+                                                    Click="OnMenuItemClick"
+                                                    Header="Brotherhood"
+                                                    ToggleType="CheckBox" />
+                                                <MenuItem
+                                                    Click="OnMenuItemClick"
+                                                    Header="Minutemen"
+                                                    ToggleType="CheckBox" />
+                                                <MenuItem
+                                                    Click="OnMenuItemClick"
+                                                    Header="Railroad"
+                                                    ToggleType="CheckBox" />
                                             </MenuItem>
                                         </MenuItem>
                                         <Separator />
@@ -125,7 +143,10 @@
                         </StackPanel>
                     </HeaderedContentControl>
 
-                    <HeaderedContentControl Grid.Column="2" Classes="groupbox" Header="MENU FLYOUT">
+                    <HeaderedContentControl
+                        Grid.Column="2"
+                        Classes="groupbox"
+                        Header="MENU FLYOUT">
                         <StackPanel Spacing="10">
                             <TextBlock
                                 Classes="dim"
