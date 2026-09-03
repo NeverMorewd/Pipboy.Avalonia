@@ -16,10 +16,30 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                            <Grid ColumnDefinitions="20,*,Auto,20">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="ToggleIcon" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIcon" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGT" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemChevron" />
+                                </Grid.ColumnDefinitions>
+
+                                <ContentControl
+                                    Name="PART_ToggleIconPresenter"
+                                    Grid.Column="0"
+                                    Width="14"
+                                    Height="14"
+                                    Margin="{DynamicResource MenuItemIconMargin}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    IsVisible="False" />
+
                                 <!--  Icon  -->
                                 <ContentPresenter
-                                    Grid.Column="0"
+                                    Grid.Column="1"
                                     Width="14"
                                     Height="14"
                                     HorizontalContentAlignment="Center"
@@ -28,7 +48,7 @@
                                 <!--  Header  -->
                                 <ContentPresenter
                                     Name="PART_HeaderPresenter"
-                                    Grid.Column="1"
+                                    Grid.Column="2"
                                     Padding="{TemplateBinding Padding}"
                                     HorizontalContentAlignment="Left"
                                     VerticalContentAlignment="Center"
@@ -38,7 +58,7 @@
                                 <!--  Input gesture hint (Ctrl+S etc.)  -->
                                 <TextBlock
                                     Name="PART_InputGestureText"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Margin="8,0"
                                     VerticalAlignment="Center"
                                     Foreground="{DynamicResource PipboyTextDimBrush}"
@@ -46,7 +66,7 @@
                                 <!--  Submenu chevron — hidden via :empty when no children  -->
                                 <Path
                                     Name="PART_SubMenuArrow"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Data="M 4 5 L 9 8 L 4 11"
@@ -69,8 +89,8 @@
                             <Border
                                 Padding="0,2"
                                 Background="{DynamicResource PipboySurfaceBrush}"
-                                BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                BorderThickness="{DynamicResource PipboyThicknessThin}">
+                                ClipToBounds="True"
+                                CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                                     <ItemsPresenter
                                         Name="PART_ItemsPresenter"
@@ -104,12 +124,37 @@
             <Style Selector="^:disabled">
                 <Setter Property="Opacity" Value="{DynamicResource PipboyDisabledOpacity}" />
             </Style>
-            <!--  Separator role: replace template with a thin horizontal rule  -->
             <Style Selector="^:separator">
                 <Setter Property="Template">
                     <ControlTemplate>
                         <Separator />
                     </ControlTemplate>
+                </Setter>
+            </Style>
+
+            <Style Selector="^:checked:toggle /template/ ContentControl#PART_ToggleIconPresenter">
+                <Setter Property="IsVisible" Value="True" />
+                <Setter Property="Content">
+                    <Template>
+                        <PathIcon
+                            Width="14"
+                            Height="14"
+                            Data="M 5.25,9.43 L 2.82,7.00 L 2.00,7.82 L 5.25,11.08 L 12.25,4.08 L 11.43,3.26 Z"
+                            Foreground="{Binding $parent[MenuItem].Foreground}" />
+                    </Template>
+                </Setter>
+            </Style>
+
+            <Style Selector="^:checked:radio /template/ ContentControl#PART_ToggleIconPresenter">
+                <Setter Property="IsVisible" Value="True" />
+                <Setter Property="Content">
+                    <Template>
+                        <Ellipse
+                            Width="6"
+                            Height="6"
+                            Margin="4"
+                            Fill="{Binding $parent[MenuItem].Foreground}" />
+                    </Template>
                 </Setter>
             </Style>
         </ControlTheme>
@@ -163,8 +208,8 @@
                             <Border
                                 Padding="0,2"
                                 Background="{DynamicResource PipboySurfaceBrush}"
-                                BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                BorderThickness="{DynamicResource PipboyThicknessThin}">
+                                ClipToBounds="True"
+                                CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                                     <ItemsPresenter
                                         Name="PART_ItemsPresenter"

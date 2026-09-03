@@ -1,11 +1,11 @@
 <Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Styles.Resources>
         <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator">
-            <Setter Property="Background" Value="{DynamicResource PipboyBackgroundBrush}" />
+            <Setter Property="Background" Value="{DynamicResource PipboyBorderBrush}" />
             <Setter Property="Focusable" Value="False" />
             <Setter Property="Height" Value="1" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Margin" Value="1" />
+            <Setter Property="Margin" Value="9,5" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="Separator">
                     <Border
