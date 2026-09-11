@@ -1,0 +1,356 @@
+<Styles
+    x:Class="Pipboy.Avalonia.ProDataGrid.PipboyProDataGridTheme"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid">
+    <!--
+        Pipboy skin for ProDataGrid (Avalonia.Controls.DataGrid). Apply alongside Pipboy.Avalonia's
+        PipboyTheme, after ProDataGrid's own package reference, e.g.:
+
+        <Application.Styles>
+            <pipboy:PipboyTheme />
+            <prodatagrid:PipboyProDataGridTheme />
+        </Application.Styles>
+
+        Everything lives in this one file rather than split across Themes/Pipboy.xaml +
+        Pipboy.v2.xaml + Index.axaml: a same-assembly StyleInclude chain (this file -> another
+        file -> another file) was observed to intermittently fail to resolve on a truly clean
+        build (AVLN2000 "unable to resolve XAML resource"), succeeding only on a second,
+        incremental build - reproducible even with just one level of chaining. Keeping a single
+        avares:// StyleInclude (to ProDataGrid's own, externally-packaged Generic.xaml) and
+        nothing else avoids that class of build ordering issue entirely, and is proven correct
+        by ProDataGrid's own Fluent.xaml, which follows the same "include Generic.xaml, then
+        redefine every resource key it consumes" structure.
+
+        All control styles are resolved at compile time (StyleInclude + a ControlTheme declared
+        directly below), making this NativeAOT-safe - no runtime URI lookup required.
+    -->
+    <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Generic.xaml" />
+
+    <Styles.Resources>
+        <ResourceDictionary>
+
+            <!-- ==================== Column headers ==================== -->
+            <SolidColorBrush x:Key="DataGridColumnHeaderForegroundBrush" Color="{DynamicResource PipboyTextDimColor}" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush" Color="{DynamicResource PipboySurfaceHighColor}" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderHoveredBackgroundBrush" Color="{DynamicResource PipboyHoverColor}" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderPressedBackgroundBrush" Color="{DynamicResource PipboyPressedColor}" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderDraggedBackgroundBrush" Color="{DynamicResource PipboyPressedColor}" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderSelectedBackgroundBrush" Color="{DynamicResource PipboySelectionColor}" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderSelectedHoveredBackgroundBrush" Color="{DynamicResource PipboyHoverColor}" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderSelectedForegroundBrush" Color="{DynamicResource PipboyPrimaryColor}" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderCurrentBackgroundBrush" Color="{DynamicResource PipboySelectionColor}" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderCurrentForegroundBrush" Color="{DynamicResource PipboyPrimaryColor}" />
+
+            <!-- ==================== Row groups ==================== -->
+            <SolidColorBrush x:Key="DataGridRowGroupHeaderBackgroundBrush" Color="{DynamicResource PipboySurfaceHighColor}" />
+            <SolidColorBrush x:Key="DataGridRowGroupHeaderPressedBackgroundBrush" Color="{DynamicResource PipboyPressedColor}" />
+            <SolidColorBrush x:Key="DataGridRowGroupHeaderForegroundBrush" Color="{DynamicResource PipboyTextColor}" />
+            <SolidColorBrush x:Key="DataGridRowGroupHeaderHoveredBackgroundBrush" Color="{DynamicResource PipboyHoverColor}" />
+
+            <!-- ==================== Rows / cells: hover, status tint ==================== -->
+            <SolidColorBrush x:Key="DataGridRowHoveredBackgroundBrush" Color="{DynamicResource PipboyHoverColor}" />
+            <SolidColorBrush x:Key="DataGridCellHoveredBackgroundBrush" Color="{DynamicResource PipboyHoverColor}" />
+            <SolidColorBrush x:Key="DataGridRowInvalidBrush" Color="{DynamicResource PipboyErrorColor}" />
+            <SolidColorBrush x:Key="DataGridRowWarningBrush" Color="{DynamicResource PipboyWarningColor}" />
+            <SolidColorBrush x:Key="DataGridRowInfoBrush" Color="{DynamicResource PipboySuccessColor}" />
+            <SolidColorBrush x:Key="DataGridRowDropIndicatorBrush" Color="{DynamicResource PipboyPrimaryColor}" />
+
+            <!-- ==================== Rows / cells: selection ====================
+                 Same brush reused for all four focus/hover combinations - like ProDataGrid's own
+                 Fluent theme, the distinction comes purely from the opacity tokens below. -->
+            <SolidColorBrush x:Key="DataGridRowSelectedBackgroundBrush" Color="{DynamicResource PipboySelectionColor}" />
+            <SolidColorBrush x:Key="DataGridRowSelectedHoveredBackgroundBrush" Color="{DynamicResource PipboySelectionColor}" />
+            <SolidColorBrush x:Key="DataGridRowSelectedUnfocusedBackgroundBrush" Color="{DynamicResource PipboySelectionColor}" />
+            <SolidColorBrush x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundBrush" Color="{DynamicResource PipboySelectionColor}" />
+            <SolidColorBrush x:Key="DataGridCellSelectedBackgroundBrush"
+                             Color="{DynamicResource PipboySelectionColor}"
+                             Opacity="{DynamicResource DataGridRowSelectedBackgroundOpacity}" />
+            <SolidColorBrush x:Key="DataGridCellSelectedHoveredBackgroundBrush"
+                             Color="{DynamicResource PipboySelectionColor}"
+                             Opacity="{DynamicResource DataGridRowSelectedHoveredBackgroundOpacity}" />
+            <SolidColorBrush x:Key="DataGridCellSelectedUnfocusedBackgroundBrush"
+                             Color="{DynamicResource PipboySelectionColor}"
+                             Opacity="{DynamicResource DataGridRowSelectedUnfocusedBackgroundOpacity}" />
+            <SolidColorBrush x:Key="DataGridCellSelectedHoveredUnfocusedBackgroundBrush"
+                             Color="{DynamicResource PipboySelectionColor}"
+                             Opacity="{DynamicResource DataGridRowSelectedHoveredUnfocusedBackgroundOpacity}" />
+
+            <!-- ==================== Focus ring / selection outline / fill handle ==================== -->
+            <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="{DynamicResource PipboyPrimaryColor}" />
+            <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="{DynamicResource PipboyBorderFocusColor}" />
+            <SolidColorBrush x:Key="DataGridSelectionOutlineBrush" Color="{DynamicResource PipboyPrimaryColor}" />
+            <SolidColorBrush x:Key="DataGridFillHandleBrush" Color="{DynamicResource PipboyPrimaryColor}" />
+
+            <!-- ==================== Validation ==================== -->
+            <SolidColorBrush x:Key="DataGridCellInvalidBrush" Color="{DynamicResource PipboyErrorColor}" />
+            <SolidColorBrush x:Key="DataGridCellWarningBrush" Color="{DynamicResource PipboyWarningColor}" />
+            <SolidColorBrush x:Key="DataGridCellInfoBrush" Color="{DynamicResource PipboySuccessColor}" />
+
+            <!-- ==================== Gridlines / separators ==================== -->
+            <SolidColorBrush x:Key="DataGridGridLinesBrush" Opacity="0.5" Color="{DynamicResource PipboyBorderColor}" />
+
+            <!-- ==================== Details / summary rows ==================== -->
+            <SolidColorBrush x:Key="DataGridDetailsPresenterBackgroundBrush" Color="{DynamicResource PipboySurfaceColor}" />
+            <SolidColorBrush x:Key="DataGridSummaryRowBackgroundBrush" Color="{DynamicResource PipboySurfaceHighColor}" />
+            <SolidColorBrush x:Key="DataGridSummaryRowForegroundBrush" Color="{DynamicResource PipboyTextColor}" />
+            <SolidColorBrush x:Key="DataGridTotalSummaryRowBackgroundBrush" Color="{DynamicResource PipboySurfaceHighColor}" />
+            <SolidColorBrush x:Key="DataGridGroupSummaryRowBackgroundBrush" Color="{DynamicResource PipboySurfaceColor}" />
+
+            <!-- ==================== Filter flyout ==================== -->
+            <SolidColorBrush x:Key="DataGridFilterFlyoutBackgroundBrush" Color="{DynamicResource PipboySurfaceColor}" />
+
+            <!-- ==================== Search highlight ==================== -->
+            <SolidColorBrush x:Key="DataGridSearchMatchBrush"
+                             Color="{DynamicResource PipboyWarningColor}"
+                             Opacity="{DynamicResource ListAccentLowOpacity}" />
+            <SolidColorBrush x:Key="DataGridSearchCurrentBrush"
+                             Color="{DynamicResource PipboyWarningColor}"
+                             Opacity="{DynamicResource ListAccentMediumOpacity}" />
+            <SolidColorBrush x:Key="DataGridSearchMatchForegroundBrush" Color="{DynamicResource PipboyBackgroundColor}" />
+
+            <!-- Opacity resources -->
+            <x:Double x:Key="ListAccentLowOpacity">0.5</x:Double>
+            <x:Double x:Key="ListAccentMediumOpacity">0.8</x:Double>
+
+            <!-- ==================== Sizing - aligned to Pipboy's shared control rhythm ====================
+                 Literal values mirroring PipboyTheme.axaml.cs's PipboyFontSize/PipboyFontSizeSmall/
+                 PipboyControlHeight tokens. Inlined rather than cross-referenced via Static/DynamicResource:
+                 these are fixed design constants (never mutated at runtime, unlike the color palette),
+                 and this resource dictionary is loaded standalone, independent of whether/when
+                 Pipboy.Avalonia's own PipboyTheme has registered its resources on the shared host. -->
+            <x:Double x:Key="DataGridCellFontSize">13</x:Double>
+            <x:Double x:Key="DataGridCellMinHeight">30</x:Double>
+            <x:Double x:Key="DataGridColumnHeaderFontSize">11</x:Double>
+            <x:Double x:Key="DataGridColumnHeaderMinHeight">30</x:Double>
+            <x:Double x:Key="DataGridRowGroupHeaderFontSize">13</x:Double>
+            <x:Double x:Key="DataGridRowGroupHeaderMinHeight">30</x:Double>
+            <x:Double x:Key="DataGridSummaryRowMinHeight">30</x:Double>
+
+            <!-- ==================== Corner radius - Pipboy's flat, square control language ====================
+                 Mirrors PipboyCornerRadiusPanel (6). -->
+            <CornerRadius x:Key="DataGridFilterFlyoutCornerRadius">6</CornerRadius>
+
+            <!-- ==================== Remaining sizing / spacing / margins / paddings ====================
+                 Generic.xaml (ProDataGrid's structural ControlThemes) does NOT define fallbacks for any
+                 of these - only a theme file does (verified against ProDataGrid's own Fluent.xaml). Since
+                 this file includes Generic.xaml directly rather than layering on Fluent.xaml, every one of
+                 these keys must be supplied here or the corresponding DynamicResource lookup resolves to
+                 null. Values are carried over unchanged from Fluent.xaml - purely layout/metric constants,
+                 not part of the Pipboy color/branding surface. -->
+            <x:Double x:Key="DataGridSortIconMinWidth">32</x:Double>
+            <x:Double x:Key="DataGridColumnHeaderIconSize">12</x:Double>
+            <x:Double x:Key="DataGridColumnHeaderIconSpacing">4</x:Double>
+            <x:Double x:Key="DataGridColumnHeaderDragGripSize">10</x:Double>
+            <x:Double x:Key="DataGridRowHeaderDragGripSize">12</x:Double>
+            <x:Double x:Key="DataGridRowGroupHeaderExpanderSize">12</x:Double>
+            <x:Double x:Key="DataGridHierarchicalExpanderSize">28</x:Double>
+            <x:Double x:Key="DataGridHierarchicalExpanderGlyphSize">10</x:Double>
+            <x:Double x:Key="DataGridDropLocationIndicatorWidth">2</x:Double>
+            <Thickness x:Key="DataGridSelectionOutlineThickness">2</Thickness>
+            <x:Double x:Key="DataGridFillHandleSize">6</x:Double>
+
+            <GridLength x:Key="DataGridRowHeaderIndicatorWidth">16</GridLength>
+
+            <Thickness x:Key="DataGridCellTextBlockMargin">12,0,12,0</Thickness>
+            <Thickness x:Key="DataGridCellComboBoxPadding">8,0</Thickness>
+            <Thickness x:Key="DataGridColumnHeaderPadding">12,0,0,0</Thickness>
+            <Thickness x:Key="DataGridColumnHeaderSortIconMargin">0,0,4,0</Thickness>
+            <Thickness x:Key="DataGridColumnHeaderDragGripMargin">2,0,2,0</Thickness>
+            <Thickness x:Key="DataGridRowGroupHeaderExpanderMargin">12,0,0,0</Thickness>
+            <Thickness x:Key="DataGridRowGroupHeaderContentMargin">12,0,0,0</Thickness>
+            <Thickness x:Key="DataGridRowGroupHeaderTextMargin">4,0,0,0</Thickness>
+            <Thickness x:Key="DataGridHierarchicalPresenterContentMargin">6,0,0,0</Thickness>
+            <Thickness x:Key="DataGridFilterFlyoutPadding">12</Thickness>
+            <Thickness x:Key="DataGridBorderThickness">0</Thickness>
+
+            <x:Double x:Key="DataGridFilterEditorSpacing">8</x:Double>
+            <x:Double x:Key="DataGridFilterEditorActionSpacing">6</x:Double>
+            <x:Double x:Key="DataGridFilterTextEditorWidth">240</x:Double>
+            <x:Double x:Key="DataGridFilterNumberEditorWidth">240</x:Double>
+            <x:Double x:Key="DataGridFilterNumberInputWidth">100</x:Double>
+            <x:Double x:Key="DataGridFilterDateEditorWidth">260</x:Double>
+            <x:Double x:Key="DataGridFilterDateEditorFieldSpacing">6</x:Double>
+            <x:Double x:Key="DataGridFilterEnumEditorWidth">240</x:Double>
+            <x:Double x:Key="DataGridPivotHeaderSegmentsSpacing">2</x:Double>
+            <x:Double x:Key="DataGridColumnBandHeaderSegmentsSpacing">2</x:Double>
+            <x:Double x:Key="DataGridFilterButtonSize">22</x:Double>
+            <x:Double x:Key="DataGridFilterGlyphSize">12</x:Double>
+            <x:Double x:Key="DataGridFilterGlyphStrokeThickness">1.2</x:Double>
+            <Thickness x:Key="DataGridValidationInlineIndicatorMargin">8,0</Thickness>
+            <x:Double x:Key="DataGridValidationInlineIndicatorSize">14</x:Double>
+            <x:Double x:Key="DataGridValidationInlineIndicatorStrokeThickness">2</x:Double>
+            <x:Double x:Key="DataGridCellValidationStrokeThickness">1</x:Double>
+            <x:Double x:Key="DataGridCellFocusPrimaryStrokeThickness">2</x:Double>
+            <Thickness x:Key="DataGridCellFocusSecondaryMargin">2</Thickness>
+            <x:Double x:Key="DataGridCellFocusSecondaryStrokeThickness">1</x:Double>
+            <x:Double x:Key="DataGridCellGridLineWidth">1</x:Double>
+            <x:Double x:Key="DataGridColumnHeaderVerticalSeparatorWidth">1</x:Double>
+            <x:Double x:Key="DataGridColumnHeaderDragGripIconStrokeThickness">0</x:Double>
+            <x:Double x:Key="DataGridColumnHeaderDragIndicatorOpacity">0.5</x:Double>
+            <Thickness x:Key="DataGridTopLeftColumnHeaderBorderThickness">0,0,1,0</Thickness>
+            <x:Double x:Key="DataGridTopLeftColumnHeaderSeparatorStrokeThickness">1</x:Double>
+            <x:Double x:Key="DataGridTopLeftColumnHeaderSeparatorHeight">1</x:Double>
+            <Thickness x:Key="DataGridRowHeaderBorderThickness">0,0,1,0</Thickness>
+            <x:Double x:Key="DataGridRowHeaderHorizontalSeparatorHeight">1</x:Double>
+            <Thickness x:Key="DataGridRowHeaderHorizontalSeparatorMargin">1,0,1,0</Thickness>
+            <x:Double x:Key="DataGridRowHeaderDragGripIconStrokeThickness">0</x:Double>
+            <x:Double x:Key="DataGridHierarchicalPresenterIndent">16</x:Double>
+            <x:Double x:Key="DataGridHierarchicalDisabledGlyphOpacity">0</x:Double>
+            <x:Double x:Key="DataGridRowBottomGridLineHeight">1</x:Double>
+            <x:Double x:Key="DataGridRowGroupBottomGridLineHeight">1</x:Double>
+            <x:Double x:Key="DataGridRowInvalidOpacity">0.4</x:Double>
+            <x:Double x:Key="DataGridRowWarningOpacity">0.35</x:Double>
+            <x:Double x:Key="DataGridRowInfoOpacity">0.35</x:Double>
+            <x:Double x:Key="DataGridRowSearchMatchOpacity">0.18</x:Double>
+            <x:Double x:Key="DataGridRowSearchCurrentOpacity">0.24</x:Double>
+            <x:Double x:Key="DataGridRowDraggingOpacity">0.6</x:Double>
+            <x:Double x:Key="DataGridRowDragOverInsideOpacity">0.08</x:Double>
+            <x:Double x:Key="DataGridRowGroupCurrencyStrokeThickness">1</x:Double>
+            <x:Double x:Key="DataGridRowGroupFocusPrimaryStrokeThickness">2</x:Double>
+            <Thickness x:Key="DataGridRowGroupFocusSecondaryMargin">2</Thickness>
+            <x:Double x:Key="DataGridRowGroupFocusSecondaryStrokeThickness">1</x:Double>
+            <Thickness x:Key="DataGridSummaryRowBorderThickness">0,1,0,0</Thickness>
+            <Thickness x:Key="DataGridSummaryCellBorderThickness">0,0,1,0</Thickness>
+            <Thickness x:Key="DataGridRowGroupFooterBorderThickness">0,0,0,1</Thickness>
+            <Thickness x:Key="DataGridFillHandleBorderThickness">1</Thickness>
+            <CornerRadius x:Key="DataGridFillHandleCornerRadius">1</CornerRadius>
+            <x:Double x:Key="DataGridSelectionOverlayInitialSize">0</x:Double>
+            <x:Double x:Key="DataGridColumnHeadersSeparatorHeight">1</x:Double>
+            <x:Double x:Key="DataGridColumnChooserItemsSpacing">6</x:Double>
+            <Thickness x:Key="DataGridColumnChooserFlyoutPadding">8</Thickness>
+            <x:Double x:Key="DataGridColumnChooserFlyoutMaxWidth">260</x:Double>
+            <x:Double x:Key="DataGridColumnChooserFlyoutMaxHeight">320</x:Double>
+
+            <!-- ==================== Row separators: on by default, matching the Pipboy list/tree
+                 "underline per row" motif used by ListBoxItem and TreeViewItem. ==================== -->
+            <DataGridGridLinesVisibility x:Key="DataGridGridLinesVisibility">Horizontal</DataGridGridLinesVisibility>
+
+            <!-- ==================== Chrome ====================
+                 Left transparent/borderless like ProDataGrid's own Fluent default - the DataGrid is
+                 usually already hosted inside a Pipboy-bordered panel/GroupBox in the consuming app,
+                 so we don't want to double up on borders here. -->
+            <SolidColorBrush x:Key="DataGridTransparentBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="DataGridRowBackgroundBrush" Color="Transparent" />
+            <x:Double x:Key="DataGridRowSelectedBackgroundOpacity">0.6</x:Double>
+            <x:Double x:Key="DataGridRowSelectedHoveredBackgroundOpacity">0.8</x:Double>
+            <x:Double x:Key="DataGridRowSelectedUnfocusedBackgroundOpacity">0.6</x:Double>
+            <x:Double x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundOpacity">0.8</x:Double>
+            <SolidColorBrush x:Key="DataGridCellBackgroundBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="DataGridCurrencyVisualPrimaryBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="DataGridFillerColumnGridLinesBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="DataGridBackgroundBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="DataGridBorderBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="DataGridDropLocationIndicatorBackground" Color="{DynamicResource PipboyPrimaryColor}" />
+            <StaticResource x:Key="DataGridDropLocationIndicatorBrush" ResourceKey="DataGridDropLocationIndicatorBackground" />
+
+            <!-- ==================== Disabled overlay / scrollbar corner - not set by ProDataGrid's own
+                 Fluent.xaml, defined here for completeness. ==================== -->
+            <SolidColorBrush x:Key="DataGridDisabledVisualElementBackground" Color="{DynamicResource PipboyDisabledColor}" Opacity="0.5" />
+            <SolidColorBrush x:Key="DataGridScrollBarsSeparatorBackground" Color="{DynamicResource PipboyBorderColor}" />
+
+            <!-- ==================== DataGrid template override ====================
+                 Mirrors ProDataGrid's own Fluent.v2.xaml: keep the base ControlTheme's property
+                 values (Background/BorderBrush/GridLinesVisibility/etc., all already redefined
+                 above) and only swap in the ScrollViewer-based template. Purely structural - driven
+                 entirely by the DynamicResource keys redefined above. -->
+            <ControlTheme x:Key="{x:Type DataGrid}"
+                          TargetType="DataGrid"
+                          BasedOn="{StaticResource {x:Type DataGrid}}">
+                <Setter Property="UseLogicalScrollable" Value="True" />
+                <Setter Property="Template">
+                    <ControlTemplate>
+                        <Border x:Name="DataGridBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                            <Grid RowDefinitions="Auto,Auto,*,Auto"
+                                  ClipToBounds="True">
+
+                                <!-- Column Headers Row (stays fixed at top) -->
+                                <Grid Grid.Row="0" ColumnDefinitions="Auto,*">
+                                    <DataGridColumnHeader Name="PART_TopLeftCornerHeader"
+                                                          Theme="{StaticResource DataGridTopLeftColumnHeader}" />
+                                    <DataGridColumnHeadersPresenter Name="PART_ColumnHeadersPresenter"
+                                                                    Grid.Column="1" />
+                                </Grid>
+
+                                <Rectangle Name="PART_ColumnHeadersAndRowsSeparator"
+                                           Grid.Row="0"
+                                           VerticalAlignment="Bottom"
+                                           Height="1"
+                                           Fill="{DynamicResource DataGridGridLinesBrush}" />
+
+                                <!-- ScrollViewer wrapping the RowsPresenter -->
+                                <Grid Grid.Row="2">
+                                    <ScrollViewer Name="PART_ScrollViewer"
+                                                  HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
+                                                  VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
+                                                  IsScrollInertiaEnabled="{TemplateBinding IsScrollInertiaEnabled}"
+                                                  AllowAutoHide="True">
+                                        <DataGridRowsPresenter Name="PART_RowsPresenter" />
+                                    </ScrollViewer>
+                                    <controls:DataGridSelectionOverlay Name="PART_SelectionOverlay"
+                                            ClipToBounds="True"
+                                            IsHitTestVisible="True"
+                                            Panel.ZIndex="5">
+                                        <Border Name="PART_SelectionOutline"
+                                                BorderBrush="{DynamicResource DataGridSelectionOutlineBrush}"
+                                                BorderThickness="{DynamicResource DataGridSelectionOutlineThickness}"
+                                                Background="{x:Null}"
+                                                IsHitTestVisible="False"
+                                                IsVisible="False"
+                                                Width="0"
+                                                Height="0" />
+                                        <Border Name="PART_FillHandle"
+                                                Width="{DynamicResource DataGridFillHandleSize}"
+                                                Height="{DynamicResource DataGridFillHandleSize}"
+                                                Background="{DynamicResource DataGridFillHandleBrush}"
+                                                BorderBrush="{DynamicResource DataGridSelectionOutlineBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="1"
+                                                Cursor="Cross"
+                                                IsVisible="False" />
+                                    </controls:DataGridSelectionOverlay>
+                                </Grid>
+
+                                <!-- Total Summary Row (fixed at bottom) -->
+                                <controls:DataGridSummaryRow Name="PART_TotalSummaryRow"
+                                                    Grid.Row="3"
+                                                    IsVisible="False" />
+
+                                <!-- Disabled overlay -->
+                                <Border x:Name="PART_DisabledVisualElement"
+                                        Grid.Row="0" Grid.RowSpan="4"
+                                        IsHitTestVisible="False"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        CornerRadius="{TemplateBinding CornerRadius}"
+                                        Background="{DynamicResource DataGridDisabledVisualElementBackground}"
+                                        IsVisible="{Binding !$parent[DataGrid].IsEnabled}" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter>
+
+                <Style Selector="^:summary-top /template/ controls|DataGridSummaryRow#PART_TotalSummaryRow">
+                    <Setter Property="Grid.Row" Value="1" />
+                </Style>
+
+                <Style Selector="^:empty-columns">
+                    <Style Selector="^ /template/ DataGridColumnHeader#PART_TopLeftCornerHeader">
+                        <Setter Property="IsVisible" Value="False" />
+                    </Style>
+                    <Style Selector="^ /template/ DataGridColumnHeadersPresenter#PART_ColumnHeadersPresenter">
+                        <Setter Property="IsVisible" Value="False" />
+                    </Style>
+                    <Style Selector="^ /template/ Rectangle#PART_ColumnHeadersAndRowsSeparator">
+                        <Setter Property="IsVisible" Value="False" />
+                    </Style>
+                </Style>
+            </ControlTheme>
+
+        </ResourceDictionary>
+    </Styles.Resources>
+</Styles>

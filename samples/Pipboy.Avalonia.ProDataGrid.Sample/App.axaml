@@ -1,0 +1,14 @@
+<Application
+    x:Class="Pipboy.Avalonia.ProDataGrid.Sample.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pipboy="https://github.com/NeverMorewd/Pipboy.Avalonia"
+    xmlns:prodatagrid="clr-namespace:Pipboy.Avalonia.ProDataGrid;assembly=Pipboy.Avalonia.ProDataGrid"
+    RequestedThemeVariant="Dark">
+
+    <Application.Styles>
+        <pipboy:PipboyTheme />
+        <prodatagrid:PipboyProDataGridTheme />
+    </Application.Styles>
+
+</Application>

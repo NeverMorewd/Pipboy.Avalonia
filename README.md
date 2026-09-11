@@ -31,6 +31,7 @@ Softly rounded geometry, a monochromatic phosphor palette, and a retro terminal 
 |---|---|
 | `Pipboy.Avalonia` | Core Pip-Boy theme and base controls for Avalonia |
 | `Pipboy.Avalonia.Fx` | Advanced animated controls and visual effects |
+| `Pipboy.Avalonia.ProDataGrid` | Pip-Boy skin for [ProDataGrid](https://github.com/wieslawsoltes/ProDataGrid) |
 
 ##### Install Core Package
 
@@ -40,6 +41,10 @@ dotnet add package Pipboy.Avalonia
 ##### Install FX Package
 ```
 dotnet add package Pipboy.Avalonia.Fx
+```
+##### Install ProDataGrid Theme
+```
+dotnet add package Pipboy.Avalonia.ProDataGrid
 ```
 
 ---
@@ -67,6 +72,35 @@ PipboyThemeManager.Instance.SetPrimaryColor(Color.Parse("#FFA500")); // Amber
 ```
 
 The default color is phosphor green. Subscribe to `ThemeColorChanged` to react to color updates.
+
+---
+
+## ProDataGrid Theme
+
+[ProDataGrid](https://github.com/wieslawsoltes/ProDataGrid) ships its own Fluent theme via:
+
+```xml
+<Application.Styles>
+  <FluentTheme />
+  <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.v2.xaml" />
+</Application.Styles>
+```
+
+`Pipboy.Avalonia.ProDataGrid` is the Pip-Boy equivalent - same structure, template parts, and
+pseudo-classes (hover, selection, focus ring, gridlines, drag/fill handle, validation, summary
+rows), recolored and resized against the Pipboy design tokens instead of Fluent's system colors:
+
+```xml
+<Application xmlns:pipboy="https://github.com/NeverMorewd/Pipboy.Avalonia"
+             xmlns:prodatagrid="clr-namespace:Pipboy.Avalonia.ProDataGrid;assembly=Pipboy.Avalonia.ProDataGrid">
+  <Application.Styles>
+    <pipboy:PipboyTheme />
+    <prodatagrid:PipboyProDataGridTheme />
+  </Application.Styles>
+</Application>
+```
+
+See `samples/Pipboy.Avalonia.ProDataGrid.Sample` for a runnable preview.
 
 ---
 
@@ -156,3 +190,4 @@ MIT
 - https://github.com/CodyTolene/pip-terminal
 - https://github.com/AvaloniaUI/Avalonia
 - https://github.com/irihitech/Semi.Avalonia
+- https://github.com/wieslawsoltes/ProDataGrid
