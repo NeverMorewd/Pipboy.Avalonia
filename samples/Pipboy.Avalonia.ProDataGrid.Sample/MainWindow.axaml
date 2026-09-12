@@ -1,0 +1,47 @@
+<Window
+    x:Class="Pipboy.Avalonia.ProDataGrid.Sample.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Pipboy.Avalonia.ProDataGrid.Sample"
+    mc:Ignorable="d"
+    d:DesignWidth="820" d:DesignHeight="560"
+    Width="820" Height="560"
+    Title="Pipboy.Avalonia.ProDataGrid Sample"
+    Background="{DynamicResource PipboyBackgroundBrush}">
+
+    <DockPanel Margin="20">
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,16" Spacing="4">
+            <TextBlock Text="PRODATAGRID :: PIPBOY THEME PREVIEW"
+                       Foreground="{DynamicResource PipboyPrimaryBrush}"
+                       FontSize="{DynamicResource PipboyFontSizeLarge}" />
+            <TextBlock Text="Click a row to select it, hover to preview, resize the window to test wrapping."
+                       Foreground="{DynamicResource PipboyTextDimBrush}"
+                       FontSize="{DynamicResource PipboyFontSizeSmall}" />
+        </StackPanel>
+
+        <Border BorderBrush="{DynamicResource PipboyBorderBrush}"
+                BorderThickness="{DynamicResource PipboyThicknessThin}"
+                CornerRadius="{DynamicResource PipboyCornerRadiusPanel}"
+                Background="{DynamicResource PipboySurfaceBrush}"
+                Padding="1">
+            <DataGrid Name="Grid"
+                      x:DataType="local:SampleRow"
+                      AutoGenerateColumns="False"
+                      CanUserResizeColumns="True"
+                      CanUserSortColumns="True"
+                      SelectionMode="Extended"
+                      HeadersVisibility="Column"
+                      IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="1.4*" />
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="1*" />
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="1*" />
+                    <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="0.6*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </DockPanel>
+</Window>

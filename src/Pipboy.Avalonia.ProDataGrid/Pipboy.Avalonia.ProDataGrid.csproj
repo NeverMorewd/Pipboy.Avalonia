@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Pipboy.Avalonia.ProDataGrid</RootNamespace>
+    <AssemblyName>Pipboy.Avalonia.ProDataGrid</AssemblyName>
+    <PackageId>Pipboy.Avalonia.ProDataGrid</PackageId>
+    <PackageIcon>pip-terminal.png</PackageIcon>
+    <Version>1.0.0-beta</Version>
+    <Authors>Dong</Authors>
+    <Description>A Pip-Boy themed skin for ProDataGrid (Avalonia.Controls.DataGrid), matching the Pipboy.Avalonia design tokens.</Description>
+    <PackageTags>avalonia;theme;fallout;pipboy;retro;datagrid;prodatagrid</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/NeverMorewd/Pipboy.Avalonia</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/NeverMorewd/Pipboy.Avalonia</PackageProjectUrl>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\pip-terminal.png" Pack="true" PackagePath="\" Link="Properties\pip-terminal.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="True" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ProDataGrid" Version="12.1.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pipboy.Avalonia\Pipboy.Avalonia.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="PipboyProDataGridTheme.axaml.cs">
+      <DependentUpon>PipboyProDataGridTheme.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

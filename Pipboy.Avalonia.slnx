@@ -10,9 +10,11 @@
     <Project Path="samples/Pipboy.Avalonia.Demo.Desktop/Pipboy.Avalonia.Demo.Desktop.csproj" />
     <Project Path="samples/Pipboy.Avalonia.Demo.iOS/Pipboy.Avalonia.Demo.iOS.csproj" />
     <Project Path="samples/Pipboy.Avalonia.Demo/Pipboy.Avalonia.Demo.csproj" />
+    <Project Path="samples/Pipboy.Avalonia.ProDataGrid.Sample/Pipboy.Avalonia.ProDataGrid.Sample.csproj" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Pipboy.Avalonia.Fx/Pipboy.Avalonia.Fx.csproj" Id="c390aae1-f839-45ee-8172-042e8af79fc9" />
+    <Project Path="src/Pipboy.Avalonia.ProDataGrid/Pipboy.Avalonia.ProDataGrid.csproj" />
     <Project Path="src/Pipboy.Avalonia/Pipboy.Avalonia.csproj" />
   </Folder>
   <Folder Name="/tests/">
