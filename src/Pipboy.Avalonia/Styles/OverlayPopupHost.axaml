@@ -10,18 +10,12 @@
                     <LayoutTransformControl LayoutTransform="{TemplateBinding Transform}">
                         <VisualLayerManager Name="PART_VisualLayerManager">
                             <LayoutTransformControl Name="PART_LayoutTransform">
-                                <Border
-                                    Background="{DynamicResource PipboyBackgroundBrush}"
-                                    BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                    BorderThickness="{DynamicResource PipboyThicknessThin}"
-                                    CornerRadius="{DynamicResource PipboyCornerRadiusPanel}">
-                                    <ContentPresenter
-                                        Name="PART_ContentPresenter"
-                                        Padding="{TemplateBinding Padding}"
-                                        Background="Transparent"
-                                        Content="{TemplateBinding Content}"
-                                        ContentTemplate="{TemplateBinding ContentTemplate}" />
-                                </Border>
+                                <ContentPresenter
+                                    Name="PART_ContentPresenter"
+                                    Padding="{TemplateBinding Padding}"
+                                    Background="Transparent"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
                             </LayoutTransformControl>
                         </VisualLayerManager>
                     </LayoutTransformControl>

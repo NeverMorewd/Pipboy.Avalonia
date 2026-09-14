@@ -89,8 +89,10 @@
                             <Border
                                 Padding="0,2"
                                 Background="{DynamicResource PipboySurfaceBrush}"
+                                BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                BorderThickness="{DynamicResource PipboyThicknessThin}"
                                 ClipToBounds="True"
-                                CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
+                                CornerRadius="{DynamicResource PipboyCornerRadiusPanel}">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                                     <ItemsPresenter
                                         Name="PART_ItemsPresenter"
@@ -208,8 +210,10 @@
                             <Border
                                 Padding="0,2"
                                 Background="{DynamicResource PipboySurfaceBrush}"
+                                BorderBrush="{DynamicResource PipboyBorderBrush}"
+                                BorderThickness="{DynamicResource PipboyThicknessThin}"
                                 ClipToBounds="True"
-                                CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
+                                CornerRadius="{DynamicResource PipboyCornerRadiusPanel}">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                                     <ItemsPresenter
                                         Name="PART_ItemsPresenter"

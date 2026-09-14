@@ -15,19 +15,12 @@
                                 IsHitTestVisible="False" />
                             <VisualLayerManager Name="PART_VisualLayerManager">
                                 <LayoutTransformControl Name="PART_LayoutTransform">
-                                    <Border
-                                        Background="{DynamicResource PipboyBackgroundBrush}"
-                                        BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                        BorderThickness="{DynamicResource PipboyThicknessThin}"
-                                        ClipToBounds="True"
-                                        CornerRadius="{DynamicResource PipboyCornerRadiusNone}">
-                                        <ContentPresenter
-                                            Name="PART_ContentPresenter"
-                                            Padding="{TemplateBinding Padding}"
-                                            Background="Transparent"
-                                            Content="{TemplateBinding Content}"
-                                            ContentTemplate="{TemplateBinding ContentTemplate}" />
-                                    </Border>
+                                    <ContentPresenter
+                                        Name="PART_ContentPresenter"
+                                        Padding="{TemplateBinding Padding}"
+                                        Background="Transparent"
+                                        Content="{TemplateBinding Content}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}" />
                                 </LayoutTransformControl>
                             </VisualLayerManager>
                         </Panel>
