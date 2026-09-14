@@ -25,6 +25,7 @@
         <Border BorderBrush="{DynamicResource PipboyBorderBrush}"
                 BorderThickness="{DynamicResource PipboyThicknessThin}"
                 CornerRadius="{DynamicResource PipboyCornerRadiusPanel}"
+                ClipToBounds="True"
                 Background="{DynamicResource PipboySurfaceBrush}"
                 Padding="1">
             <DataGrid Name="Grid"

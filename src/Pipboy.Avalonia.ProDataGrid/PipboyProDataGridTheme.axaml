@@ -264,7 +264,8 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}">
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                ClipToBounds="True">
                             <Grid RowDefinitions="Auto,Auto,*,Auto"
                                   ClipToBounds="True">
 
