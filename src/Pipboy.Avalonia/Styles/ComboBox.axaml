@@ -135,7 +135,9 @@
                                 <Border
                                     Background="{DynamicResource PipboySurfaceBrush}"
                                     BorderBrush="{DynamicResource PipboyBorderBrush}"
-                                    BorderThickness="{DynamicResource PipboyThicknessThin}">
+                                    BorderThickness="{DynamicResource PipboyThicknessThin}"
+                                    ClipToBounds="True"
+                                    CornerRadius="{DynamicResource PipboyCornerRadiusPanel}">
                                     <ScrollViewer
                                         HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                         IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}"

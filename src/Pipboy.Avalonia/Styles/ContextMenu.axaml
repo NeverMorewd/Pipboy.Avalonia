@@ -11,7 +11,9 @@
                     <Border
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        ClipToBounds="True"
+                        CornerRadius="{DynamicResource PipboyCornerRadiusPanel}">
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <ItemsPresenter
                                 Name="PART_ItemsPresenter"
