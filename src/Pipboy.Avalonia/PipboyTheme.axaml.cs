@@ -159,7 +159,7 @@ public partial class PipboyTheme : Styles, IDisposable
 
         Resources["PipboyCornerRadiusNone"] = new CornerRadius(0);
         Resources["PipboyCornerRadiusControl"] = new CornerRadius(8);
-        Resources["PipboyCornerRadiusPanel"] = new CornerRadius(16);
+        Resources["PipboyCornerRadiusPanel"] = new CornerRadius(8);
         Resources["PipboyCornerRadiusPill"] = new CornerRadius(999);
 
         // Load compiled AXAML styles — AvaloniaXamlLoader.Load uses the compiled (NativeAOT-safe)
