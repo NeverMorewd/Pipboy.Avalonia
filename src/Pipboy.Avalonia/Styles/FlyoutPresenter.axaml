@@ -53,4 +53,17 @@
         </ControlTheme>
 
     </Styles.Resources>
+
+    <!--
+        Windows TrayIcon menus use the managed popup path. These selector styles provide
+        the same palette even when the popup creates its presenter outside the default
+        control-theme lookup.
+    -->
+    <Style Selector="MenuFlyoutPresenter">
+        <Setter Property="Background" Value="{DynamicResource PipboySurfaceBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PipboyBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
+        <Setter Property="Padding" Value="0,2" />
+    </Style>
 </Styles>

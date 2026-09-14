@@ -133,6 +133,11 @@ All tokens are available as `{DynamicResource}` in XAML and update automatically
 
 ### Colors (raw `Color` values)
 
+All secondary colors are generated from the configured primary color in
+`PipboyColorPalette`; consumers should change the primary rather than replacing individual
+tokens. The palette keeps the primary hue and tunes saturation/lightness for readable text,
+quiet surfaces, and visible borders.
+
 | Resource Key | Description |
 |---|---|
 | `PipboyPrimaryColor` | Raw `Color` of the primary |
@@ -143,7 +148,8 @@ All tokens are available as `{DynamicResource}` in XAML and update automatically
 
 | Resource Key | Value |
 |---|---|
-| `PipboyFontFamily` | `Consolas, Courier New, monospace` |
+| `PipboyFontFamily` | `Segoe UI, Arial, sans-serif` (UI text) |
+| `PipboyFontFamilyMono` | `Consolas, Courier New, monospace` (aligned metadata) |
 | `PipboyFontSizeXSmall` | `10` |
 | `PipboyFontSizeSmall` | `11` |
 | `PipboyFontSize` | `13` |
@@ -156,9 +162,9 @@ Use these `CornerRadius` tokens to keep controls and containers visually consist
 | Resource Key | Description |
 |---|---|
 | `PipboyCornerRadiusNone` | Optional square-corner override |
-| `PipboyCornerRadiusControl` | Standard rounding for interactive controls |
-| `PipboyCornerRadiusPanel` | Larger rounding for panels and popups |
-| `PipboyCornerRadiusPill` | Stronger, bounded rounding for compact accents |
+| `PipboyCornerRadiusControl` | 8px rounding for interactive controls |
+| `PipboyCornerRadiusPanel` | 16px rounding for panels and popups |
+| `PipboyCornerRadiusPill` | Fully rounded compact accents |
 
 ### Border Thickness
 

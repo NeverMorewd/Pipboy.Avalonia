@@ -269,4 +269,10 @@
             </Setter>
         </ControlTheme>
     </Styles.Resources>
+
+    <!-- See FlyoutPresenter.axaml: Windows tray menus can bypass the default theme key. -->
+    <Style Selector="MenuItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource PipboyTextBrush}" />
+    </Style>
 </Styles>

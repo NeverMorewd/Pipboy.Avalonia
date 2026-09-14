@@ -5,10 +5,12 @@ namespace Pipboy.Avalonia;
 
 /// <summary>
 /// Represents a complete monochromatic color palette derived from a single primary color.
-/// All colors share the same hue and saturation, varying only in lightness.
+/// All colors keep the primary hue while their saturation and lightness are tuned for their role.
 /// </summary>
 public sealed class PipboyColorPalette
 {
+    private const double SaturationThreshold = 0.25;
+
     // --- Primary shades ---
     public Color Primary { get; }
     public Color PrimaryLight { get; }
@@ -51,26 +53,30 @@ public sealed class PipboyColorPalette
         PrimaryLight = hsl.AdjustLightness(0.25f).ToRgb();
         PrimaryDark = hsl.AdjustLightness(-0.25f).ToRgb();
 
-        // Saturation scale: primaries with low saturation (greys, slates) produce
-        // proportionally desaturated derived colors so there is no unwanted hue cast.
-        // Primaries with S ≥ 0.25 get the full target saturation; achromatic primaries
-        // (S = 0) produce a pure grey palette.
-        double ss = Math.Min(hsl.S / 0.25, 1.0);
+        // Scale the role saturation for muted primaries without introducing a hue cast
+        // for grey/slate themes. Primaries with S >= the threshold use each role's full
+        // saturation; an achromatic primary produces an achromatic derived palette.
+        double saturationScale = Math.Min(hsl.S / SaturationThreshold, 1.0);
 
-        // Dark backgrounds — same hue, low saturation, very low lightness
-        Background = new HslColor(hsl.A, hsl.H, 0.30f * ss, 0.05f).ToRgb();
-        Surface    = new HslColor( hsl.A, hsl.H, 0.28f * ss, 0.09f).ToRgb();
-        SurfaceHigh = new HslColor(hsl.A, hsl.H, 0.25f * ss, 0.14f).ToRgb();
+        HslColor Derived(double saturation, double lightness) =>
+            new(hsl.A, hsl.H, saturation * saturationScale, lightness);
 
-        // Text — same hue, moderately saturated, high lightness
-        Text    = new HslColor(hsl.A, hsl.H, 0.70f * ss, 0.85f).ToRgb();
-        TextDim = new HslColor( hsl.A, hsl.H, 0.45f * ss, 0.58f).ToRgb();
+        // The surface ramp is intentionally close to black. This keeps panels calm while
+        // retaining enough separation for the hierarchy to remain visible.
+        Background = Derived(0.55, 0.06).ToRgb();
+        Surface = Derived(0.49, 0.085).ToRgb();
+        SurfaceHigh = Derived(0.45, 0.115).ToRgb();
+
+        // Softer text saturation avoids the white-on-neon look while the lightness values
+        // keep body text readable on every surface.
+        Text = Derived(0.35, 0.915).ToRgb();
+        TextDim = Derived(0.15, 0.62).ToRgb();
 
         // Interactive states — fixed dark lightness so all hues (green, yellow,
-        // cyan, orange…) stay dark enough for Text (L=0.85) to be readable.
-        Hover    = new HslColor(hsl.A, hsl.H, Math.Min(hsl.S * 0.60f, 0.55f), 0.20f).ToRgb();
-        Pressed  = new HslColor(hsl.A, hsl.H, Math.Min(hsl.S * 0.50f, 0.45f), 0.13f).ToRgb();
-        Disabled = new HslColor(hsl.A, hsl.H, 0.15f * ss, 0.35f).ToRgb();
+        // cyan, orange…) stay dark enough for Text to remain readable.
+        Hover = Derived(0.55, 0.20).ToRgb();
+        Pressed = Derived(0.45, 0.13).ToRgb();
+        Disabled = Derived(0.15, 0.35).ToRgb();
 
         // Focus / selection
         double focusL = hsl.L + 0.30f;
@@ -81,14 +87,14 @@ public sealed class PipboyColorPalette
 
         // Borders are deliberately quieter than the phosphor primary. Using a darker,
         // less saturated tone prevents every control from reading as a heavy neon frame.
-        Border = new HslColor(hsl.A, hsl.H, Math.Min(hsl.S * 0.55f, 0.45f), 0.28f).ToRgb();
+        Border = Derived(0.31, 0.21).ToRgb();
         double bfL = Math.Min(hsl.L + 0.12f, 0.78f);
         BorderFocus = hsl.WithLightness(bfL).ToRgb();
 
         // Semantic status — same hue as primary, varying lightness for severity tiers.
         // Keeps the monochromatic design principle: Success (mid), Warning (bright), Error (near-white).
-        // The ss factor collapses saturation to 0 for gray/achromatic primaries.
-        double semS = Math.Min(hsl.S * 1.1f * ss, 0.95f);
+        // The saturation scale collapses saturation to 0 for gray/achromatic primaries.
+        double semS = Math.Min(hsl.S * 1.1, 0.95) * saturationScale;
         Success = new HslColor(hsl.A, hsl.H, semS, 0.60f).ToRgb();
         Warning = new HslColor(hsl.A, hsl.H, semS, 0.78f).ToRgb();
         Error   = new HslColor(hsl.A, hsl.H, semS, 0.93f).ToRgb();
