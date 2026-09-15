@@ -10,7 +10,7 @@
             <Setter Property="BorderBrush" Value="{DynamicResource PipboyPrimaryBrush}" />
             <Setter Property="BorderThickness" Value="{DynamicResource PipboyThicknessThin}" />
             <Setter Property="Padding" Value="16,12" />
-            <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamily}" />
+            <Setter Property="FontFamily" Value="{DynamicResource PipboyFontFamilyMono}" />
             <Setter Property="Template">
                 <ControlTemplate TargetType="pipboy:TerminalPanel">
                     <Border

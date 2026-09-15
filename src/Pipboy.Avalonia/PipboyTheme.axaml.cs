@@ -120,7 +120,10 @@ public partial class PipboyTheme : Styles, IDisposable
         Resources["PipboyScanBeamColor"] = Color.FromArgb(40, p.Primary.R, p.Primary.G, p.Primary.B);
 
         // Font design tokens
-        Resources["PipboyFontFamily"]      = new FontFamily("Consolas,Courier New,monospace");
+        // Use a humanist UI face for headings, descriptions, and controls. Consumers that
+        // render aligned diagnostics can opt into the companion monospace token below.
+        Resources["PipboyFontFamily"]      = new FontFamily("Segoe UI,Arial,sans-serif");
+        Resources["PipboyFontFamilyMono"]  = new FontFamily("Consolas,Courier New,monospace");
         Resources["PipboyFontSize"]        = 13.0;
         Resources["PipboyFontSizeXSmall"]  = 10.0;
         Resources["PipboyFontSizeSmall"]   = 11.0;
@@ -155,9 +158,9 @@ public partial class PipboyTheme : Styles, IDisposable
         Resources["PipboyThicknessRightBottom"] = new Thickness(0, 0, 1, 1);
 
         Resources["PipboyCornerRadiusNone"] = new CornerRadius(0);
-        Resources["PipboyCornerRadiusControl"] = new CornerRadius(3);
-        Resources["PipboyCornerRadiusPanel"] = new CornerRadius(6);
-        Resources["PipboyCornerRadiusPill"] = new CornerRadius(8);
+        Resources["PipboyCornerRadiusControl"] = new CornerRadius(8);
+        Resources["PipboyCornerRadiusPanel"] = new CornerRadius(8);
+        Resources["PipboyCornerRadiusPill"] = new CornerRadius(999);
 
         // Load compiled AXAML styles — AvaloniaXamlLoader.Load uses the compiled (NativeAOT-safe)
         // version generated from PipboyTheme.axaml; the StyleInclude chain inside that AXAML file

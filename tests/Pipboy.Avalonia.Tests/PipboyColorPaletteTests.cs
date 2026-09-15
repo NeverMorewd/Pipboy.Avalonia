@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Media;
 using Xunit;
 
@@ -64,6 +65,34 @@ public class PipboyColorPaletteTests
         var textHsl = new HslColor(palette.Text);
         var dimHsl = new HslColor(palette.TextDim);
         Assert.True(dimHsl.L < textHsl.L, "TextDim should be dimmer than Text");
+    }
+
+    [Fact]
+    public void SurfaceRamp_IsQuietAndOrdered()
+    {
+        var palette = new PipboyColorPalette(PipboyGreen);
+        var background = new HslColor(palette.Background);
+        var surface = new HslColor(palette.Surface);
+        var surfaceHigh = new HslColor(palette.SurfaceHigh);
+
+        Assert.InRange(background.L, 0.05, 0.07);
+        Assert.InRange(surface.L, 0.075, 0.10);
+        Assert.InRange(surfaceHigh.L, 0.10, 0.13);
+        Assert.True(background.L < surface.L && surface.L < surfaceHigh.L,
+            "Surface tones should form a steadily lighter hierarchy");
+    }
+
+    [Fact]
+    public void TextAndBorder_HaveContrastAgainstSurface()
+    {
+        var palette = new PipboyColorPalette(PipboyGreen);
+
+        Assert.True(ContrastRatio(palette.Text, palette.Surface) >= 7.0,
+            "Primary text should have strong contrast against the surface");
+        Assert.True(ContrastRatio(palette.TextDim, palette.Surface) >= 4.5,
+            "Dim text should remain readable against the surface");
+        Assert.True(ContrastRatio(palette.Border, palette.Surface) >= 1.5,
+            "Borders should remain visible without competing with text");
     }
 
     [Fact]
@@ -136,5 +165,29 @@ public class PipboyColorPaletteTests
 
         Assert.InRange(lightDiff, 0.15f, 0.40f);
         Assert.InRange(darkDiff, 0.15f, 0.40f);
+    }
+
+    private static double ContrastRatio(Color first, Color second)
+    {
+        var firstLuminance = RelativeLuminance(first);
+        var secondLuminance = RelativeLuminance(second);
+        var lighter = Math.Max(firstLuminance, secondLuminance);
+        var darker = Math.Min(firstLuminance, secondLuminance);
+        return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    private static double RelativeLuminance(Color color)
+    {
+        static double Linearize(byte channel)
+        {
+            var normalized = channel / 255.0;
+            return normalized <= 0.04045
+                ? normalized / 12.92
+                : Math.Pow((normalized + 0.055) / 1.055, 2.4);
+        }
+
+        return (0.2126 * Linearize(color.R))
+             + (0.7152 * Linearize(color.G))
+             + (0.0722 * Linearize(color.B));
     }
 }

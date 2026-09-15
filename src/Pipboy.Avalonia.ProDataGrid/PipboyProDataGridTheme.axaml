@@ -127,9 +127,9 @@
             <x:Double x:Key="DataGridRowGroupHeaderMinHeight">30</x:Double>
             <x:Double x:Key="DataGridSummaryRowMinHeight">30</x:Double>
 
-            <!-- ==================== Corner radius - Pipboy's flat, square control language ====================
-                 Mirrors PipboyCornerRadiusPanel (6). -->
-            <CornerRadius x:Key="DataGridFilterFlyoutCornerRadius">6</CornerRadius>
+            <!-- ==================== Corner radius - aligned with Pipboy's panel token ====================
+                 Mirrors PipboyCornerRadiusPanel (16). -->
+            <CornerRadius x:Key="DataGridFilterFlyoutCornerRadius">16</CornerRadius>
 
             <!-- ==================== Remaining sizing / spacing / margins / paddings ====================
                  Generic.xaml (ProDataGrid's structural ControlThemes) does NOT define fallbacks for any
@@ -264,7 +264,8 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}">
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                ClipToBounds="True">
                             <Grid RowDefinitions="Auto,Auto,*,Auto"
                                   ClipToBounds="True">
 
