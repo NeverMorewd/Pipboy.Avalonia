@@ -75,33 +75,22 @@ The default color is phosphor green. Subscribe to `ThemeColorChanged` to react t
 
 ### 3. (Optional) Choose a palette derivation strategy
 
-`PipboyColorPalette`'s default derivation (`PipboyPaletteStrategy.Classic`) keeps some roles -
-`Border` in particular - deliberately quiet so the UI doesn't read as a heavy neon frame, and
-uses raw HSL lightness throughout, which isn't perceptually uniform (a saturated yellow and a
-saturated blue at the same HSL lightness don't look equally bright). `PipboyThemeManager` can
-regenerate the current palette under a different strategy at any time:
+`Classic` (default) keeps every existing consumer's look unchanged. Switch strategies at any
+time, including at runtime - it regenerates the current palette and fires `ThemeColorChanged`:
 
 ```csharp
 PipboyThemeManager.Instance.SetPaletteStrategy(PipboyPaletteStrategy.AccessibleContrast);
 ```
 
-This applies immediately to the current primary color and to every subsequent
-`SetPrimaryColor`/`TrySetPrimaryColor` call, and fires `ThemeColorChanged` like any other palette
-update. It's opt-in and defaults to `Classic`, so existing consumers see no visual change unless
-they call this. See `samples/Pipboy.Avalonia.Demo`'s Theme page for a runnable picker across all
-five strategies below.
+| Strategy | What it does |
+| --- | --- |
+| `Classic` | Original derivation. `Border` in particular can fall below WCAG's 3:1 non-text contrast minimum. |
+| `AccessibleContrast` | Text/borders/focus/status colors nudged to meet WCAG 2.1 AA (4.5:1 text, 3:1 non-text) against `Surface`. |
+| `HighContrast` | Same roles, stricter floor (7:1 text, 4.5:1 non-text) - an OS-style high-contrast mode. |
+| `PerceptuallyUniform` | Background/surface/text ramp driven by CIE L* instead of raw HSL lightness, so it looks equally bright/dark regardless of hue (Material Design 3 / OKLCH-style). |
+| `ColorblindSafe` | Widens the lightness gap between `Success`/`Warning`/`Error` so the three stay distinguishable without relying on hue. |
 
-| Strategy | What it does | Based on |
-| --- | --- | --- |
-| `Classic` | The original derivation (default - no behavior change for existing consumers). | - |
-| `AccessibleContrast` | Nudges `Text`, `TextDim`, `Border`, `BorderFocus`, `Focus`, and the semantic status colors (hue/saturation untouched) until each meets WCAG 2.1's contrast minimum against `Surface`: 4.5:1 for text, 3:1 for non-text UI components. A role that already clears its target is left unchanged. | [SC 1.4.3](https://www.w3.org/TR/WCAG21/#contrast-minimum) / [SC 1.4.11](https://www.w3.org/TR/WCAG21/#non-text-contrast) |
-| `HighContrast` | The same roles as `AccessibleContrast`, held to a stricter floor: 7:1 for text, 4.5:1 for non-text (WCAG defines no AAA tier for non-text contrast; this is simply stricter than AA). Approximates an OS-level high-contrast mode for low-vision users. | [SC 1.4.6](https://www.w3.org/TR/WCAG21/#contrast-enhanced) |
-| `PerceptuallyUniform` | Recomputes `Background`/`Surface`/`SurfaceHigh`/`Text`/`TextDim`/`Hover`/`Pressed`/`Disabled` by CIE L* instead of raw HSL lightness, so each role looks equally bright/dark regardless of the chosen hue. | Same lightness axis as Material Design 3's HCT/tonal palettes and most OKLCH-based design-token systems (Radix Colors, Tailwind v4) |
-| `ColorblindSafe` | Widens the CIE L* gap between `Success`/`Warning`/`Error` to at least 15 points if the Classic derivation left them closer, so the three stay distinguishable by lightness alone. Does not run a color-vision-deficiency simulation. | The lightness-separation approach dataviz color systems (ColorBrewer, Highcharts, IBM Carbon) use |
-
-The underlying math is public if you need it for your own colors: `WcagContrast.Ratio(Color,
-Color)` / `WcagContrast.EnsureMinimumContrast(...)`, and `PerceptualLightness.ToCieLStar(Color)` /
-`PerceptualLightness.WithCieLStar(...)`.
+Runnable picker: `samples/Pipboy.Avalonia.Demo`'s Theme page.
 
 ---
 
