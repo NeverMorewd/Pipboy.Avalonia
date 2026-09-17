@@ -17,32 +17,88 @@
             <TextBlock Text="PRODATAGRID :: PIPBOY THEME PREVIEW"
                        Foreground="{DynamicResource PipboyPrimaryBrush}"
                        FontSize="{DynamicResource PipboyFontSizeLarge}" />
-            <TextBlock Text="Click a row to select it, hover to preview, resize the window to test wrapping."
+            <TextBlock Text="Click a row to select it, hover to preview, resize the window to test wrapping. The second tab shows the same inventory as a hierarchical grid (categories -&gt; items) via ProDataGrid's HierarchicalRowsEnabled mode, not a separate TreeDataGrid control."
+                       TextWrapping="Wrap"
                        Foreground="{DynamicResource PipboyTextDimBrush}"
                        FontSize="{DynamicResource PipboyFontSizeSmall}" />
         </StackPanel>
 
-        <Border BorderBrush="{DynamicResource PipboyBorderBrush}"
-                BorderThickness="{DynamicResource PipboyThicknessThin}"
-                CornerRadius="{DynamicResource PipboyCornerRadiusPanel}"
-                ClipToBounds="True"
-                Background="{DynamicResource PipboySurfaceBrush}"
-                Padding="1">
-            <DataGrid Name="Grid"
-                      x:DataType="local:SampleRow"
-                      AutoGenerateColumns="False"
-                      CanUserResizeColumns="True"
-                      CanUserSortColumns="True"
-                      SelectionMode="Extended"
-                      HeadersVisibility="Column"
-                      IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="1.4*" />
-                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="1*" />
-                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="1*" />
-                    <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="0.6*" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Border>
+        <TabControl>
+            <TabItem Header="DATAGRID">
+                <Border BorderBrush="{DynamicResource PipboyBorderBrush}"
+                        BorderThickness="{DynamicResource PipboyThicknessThin}"
+                        CornerRadius="{DynamicResource PipboyCornerRadiusPanel}"
+                        ClipToBounds="True"
+                        Background="{DynamicResource PipboySurfaceBrush}"
+                        Padding="1"
+                        Margin="0,8,0,0">
+                    <DataGrid Name="Grid"
+                              x:DataType="local:SampleRow"
+                              AutoGenerateColumns="False"
+                              CanUserResizeColumns="True"
+                              CanUserSortColumns="True"
+                              SelectionMode="Extended"
+                              HeadersVisibility="Column"
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="1.4*" />
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="1*" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="1*" />
+                            <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="0.6*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </TabItem>
+
+            <TabItem Header="TREE DATA GRID">
+                <Border BorderBrush="{DynamicResource PipboyBorderBrush}"
+                        BorderThickness="{DynamicResource PipboyThicknessThin}"
+                        CornerRadius="{DynamicResource PipboyCornerRadiusPanel}"
+                        ClipToBounds="True"
+                        Background="{DynamicResource PipboySurfaceBrush}"
+                        Padding="1"
+                        Margin="0,8,0,0">
+                    <DataGrid Name="TreeGrid"
+                              AutoGenerateColumns="False"
+                              CanUserResizeColumns="True"
+                              HeadersVisibility="Column"
+                              HierarchicalRowsEnabled="True"
+                              IsReadOnly="True"
+                              SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridHierarchicalColumn Header="Name"
+                                                         Width="2*"
+                                                         x:CompileBindings="False"
+                                                         Binding="{Binding Item}">
+                                <DataGridHierarchicalColumn.CellTemplate>
+                                    <DataTemplate x:DataType="local:SampleTreeItem">
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridHierarchicalColumn.CellTemplate>
+                            </DataGridHierarchicalColumn>
+                            <DataGridTemplateColumn Header="Status" Width="1*" x:CompileBindings="False">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <!-- A plain (non-hierarchical) column's row DataContext in a
+                                         hierarchical grid is the HierarchicalNode wrapper, not
+                                         the item itself - hence Item.Status rather than Status.
+                                         Compiled bindings are off for this column, so the dotted
+                                         path resolves by reflection regardless of x:DataType. -->
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Item.Status}" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Value" Width="0.6*" x:CompileBindings="False">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Item.Value}" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </TabItem>
+        </TabControl>
     </DockPanel>
 </Window>
