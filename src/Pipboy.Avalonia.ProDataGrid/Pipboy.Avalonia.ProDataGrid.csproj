@@ -8,7 +8,7 @@
     <AssemblyName>Pipboy.Avalonia.ProDataGrid</AssemblyName>
     <PackageId>Pipboy.Avalonia.ProDataGrid</PackageId>
     <PackageIcon>pip-terminal.png</PackageIcon>
-    <Version>1.0.1-beta</Version>
+    <Version>1.0.2-beta</Version>
     <Authors>Dong</Authors>
     <Description>A Pip-Boy themed skin for ProDataGrid (Avalonia.Controls.DataGrid), matching the Pipboy.Avalonia design tokens.</Description>
     <PackageTags>avalonia;theme;fallout;pipboy;retro;datagrid;prodatagrid</PackageTags>
