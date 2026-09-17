@@ -73,6 +73,32 @@ PipboyThemeManager.Instance.SetPrimaryColor(Color.Parse("#FFA500")); // Amber
 
 The default color is phosphor green. Subscribe to `ThemeColorChanged` to react to color updates.
 
+### 3. (Optional) Opt into WCAG-checked contrast
+
+`PipboyColorPalette`'s default derivation (`PipboyPaletteStrategy.Classic`) keeps some roles -
+`Border` in particular - deliberately quiet so the UI doesn't read as a heavy neon frame. That
+trade-off is a real accessibility gap for an application that needs to meet WCAG 2.1 AA / EN 301
+549: `Border` alone can fall as low as ~1.6:1 against the surface, well under the 3:1 minimum
+[SC 1.4.11 (Non-text Contrast)](https://www.w3.org/TR/WCAG21/#non-text-contrast) requires.
+
+Switch to `PipboyPaletteStrategy.AccessibleContrast` to keep the same hue-preserving derivation
+but have every role that can render as foreground content - `Text`, `TextDim`, `Border`,
+`BorderFocus`, `Focus`, and the semantic status colors - nudged in lightness (hue and saturation
+untouched) until it meets [SC 1.4.3](https://www.w3.org/TR/WCAG21/#contrast-minimum) (4.5:1, text)
+or SC 1.4.11 (3:1, non-text UI components) against the surface it's drawn on. A role that already
+clears its target is left unchanged.
+
+```csharp
+PipboyThemeManager.Instance.SetPaletteStrategy(PipboyPaletteStrategy.AccessibleContrast);
+```
+
+This applies immediately to the current primary color and to every subsequent
+`SetPrimaryColor`/`TrySetPrimaryColor` call, and fires `ThemeColorChanged` like any other palette
+update. It's opt-in and defaults to `Classic`, so existing consumers see no visual change unless
+they call this. The underlying contrast math is public via `WcagContrast.Ratio(Color, Color)` if
+you need to check your own colors against the same formula. See `samples/Pipboy.Avalonia.Demo`'s
+Theme page for a runnable toggle.
+
 ---
 
 ## ProDataGrid Theme

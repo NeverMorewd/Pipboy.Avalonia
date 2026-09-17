@@ -8,6 +8,19 @@ public partial class ThemePage : UserControl
     public ThemePage()
     {
         InitializeComponent();
+
+        // Reflect whatever strategy is already active (e.g. set from another page, or by the
+        // host application at startup) rather than assuming Classic.
+        if (AccessibleContrastCheckBox is not null)
+            AccessibleContrastCheckBox.IsChecked = PipboyThemeManager.Instance.PaletteStrategy == PipboyPaletteStrategy.AccessibleContrast;
+    }
+
+    private void OnAccessibleContrastToggled(object? sender, RoutedEventArgs e)
+    {
+        var strategy = AccessibleContrastCheckBox?.IsChecked == true
+            ? PipboyPaletteStrategy.AccessibleContrast
+            : PipboyPaletteStrategy.Classic;
+        PipboyThemeManager.Instance.SetPaletteStrategy(strategy);
     }
 
     private void OnColorPresetClick(object? sender, RoutedEventArgs e)

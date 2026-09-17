@@ -121,6 +121,54 @@ public class PipboyThemeManagerTests
     }
 
     [Fact]
+    public void PaletteStrategy_DefaultsToClassic()
+    {
+        Assert.Equal(PipboyPaletteStrategy.Classic, PipboyThemeManager.Instance.PaletteStrategy);
+    }
+
+    [Fact]
+    public void SetPaletteStrategy_RegeneratesPaletteAndFiresEvent()
+    {
+        var manager = PipboyThemeManager.Instance;
+        manager.ResetToDefault();
+
+        int eventCount = 0;
+        EventHandler<ThemeColorChangedEventArgs> handler = (_, _) => eventCount++;
+        manager.ThemeColorChanged += handler;
+        try
+        {
+            manager.SetPaletteStrategy(PipboyPaletteStrategy.AccessibleContrast);
+            Assert.Equal(PipboyPaletteStrategy.AccessibleContrast, manager.PaletteStrategy);
+            Assert.Equal(1, eventCount);
+            Assert.True(WcagContrast.Ratio(manager.Palette.Border, manager.Palette.Surface) >= 3.0);
+        }
+        finally
+        {
+            manager.ThemeColorChanged -= handler;
+            manager.SetPaletteStrategy(PipboyPaletteStrategy.Classic);
+        }
+    }
+
+    [Fact]
+    public void SetPaletteStrategy_SameStrategy_DoesNotFireEvent()
+    {
+        var manager = PipboyThemeManager.Instance;
+
+        int eventCount = 0;
+        EventHandler<ThemeColorChangedEventArgs> handler = (_, _) => eventCount++;
+        manager.ThemeColorChanged += handler;
+        try
+        {
+            manager.SetPaletteStrategy(manager.PaletteStrategy);
+            Assert.Equal(0, eventCount);
+        }
+        finally
+        {
+            manager.ThemeColorChanged -= handler;
+        }
+    }
+
+    [Fact]
     public void ThemeColorChanged_EventArgs_ContainsNewPalette()
     {
         var manager = PipboyThemeManager.Instance;

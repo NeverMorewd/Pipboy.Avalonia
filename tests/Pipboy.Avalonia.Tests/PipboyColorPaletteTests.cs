@@ -167,27 +167,68 @@ public class PipboyColorPaletteTests
         Assert.InRange(darkDiff, 0.15f, 0.40f);
     }
 
-    private static double ContrastRatio(Color first, Color second)
+    private static double ContrastRatio(Color first, Color second) => WcagContrast.Ratio(first, second);
+
+    [Fact]
+    public void Classic_BorderContrast_IsUnaffectedByAccessibleContrastExisting()
     {
-        var firstLuminance = RelativeLuminance(first);
-        var secondLuminance = RelativeLuminance(second);
-        var lighter = Math.Max(firstLuminance, secondLuminance);
-        var darker = Math.Min(firstLuminance, secondLuminance);
-        return (lighter + 0.05) / (darker + 0.05);
+        // Documents the gap AccessibleContrast exists to fix: Classic's Border is deliberately
+        // quiet and does not clear the 3:1 non-text contrast minimum on its own.
+        var palette = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.Classic);
+        Assert.True(ContrastRatio(palette.Border, palette.Surface) < 3.0);
     }
 
-    private static double RelativeLuminance(Color color)
+    [Theory]
+    [InlineData("#15FF52")] // default Pipboy green
+    [InlineData("#FF0000")] // red
+    [InlineData("#3050FF")] // blue - low default saturation scaling territory
+    [InlineData("#808080")] // achromatic
+    public void AccessibleContrast_MeetsWcagMinimumsAgainstSurface(string hex)
     {
-        static double Linearize(byte channel)
-        {
-            var normalized = channel / 255.0;
-            return normalized <= 0.04045
-                ? normalized / 12.92
-                : Math.Pow((normalized + 0.055) / 1.055, 2.4);
-        }
+        var palette = new PipboyColorPalette(Color.Parse(hex), PipboyPaletteStrategy.AccessibleContrast);
 
-        return (0.2126 * Linearize(color.R))
-             + (0.7152 * Linearize(color.G))
-             + (0.0722 * Linearize(color.B));
+        Assert.True(ContrastRatio(palette.Text, palette.Surface) >= 4.5,
+            "Text must meet WCAG 1.4.3 (4.5:1) against Surface");
+        Assert.True(ContrastRatio(palette.TextDim, palette.Surface) >= 4.5,
+            "TextDim must meet WCAG 1.4.3 (4.5:1) against Surface");
+        Assert.True(ContrastRatio(palette.Success, palette.Surface) >= 4.5,
+            "Success must meet WCAG 1.4.3 (4.5:1) against Surface");
+        Assert.True(ContrastRatio(palette.Warning, palette.Surface) >= 4.5,
+            "Warning must meet WCAG 1.4.3 (4.5:1) against Surface");
+        Assert.True(ContrastRatio(palette.Error, palette.Surface) >= 4.5,
+            "Error must meet WCAG 1.4.3 (4.5:1) against Surface");
+
+        Assert.True(ContrastRatio(palette.Border, palette.Surface) >= 3.0,
+            "Border must meet WCAG 1.4.11 (3:1) against Surface");
+        Assert.True(ContrastRatio(palette.BorderFocus, palette.Surface) >= 3.0,
+            "BorderFocus must meet WCAG 1.4.11 (3:1) against Surface");
+        Assert.True(ContrastRatio(palette.Focus, palette.Surface) >= 3.0,
+            "Focus must meet WCAG 1.4.11 (3:1) against Surface");
+    }
+
+    [Fact]
+    public void AccessibleContrast_PreservesHue()
+    {
+        var palette = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.AccessibleContrast);
+        var primaryHue = new HslColor(palette.Primary).H;
+
+        foreach (var color in new[] { palette.Text, palette.TextDim, palette.Border, palette.BorderFocus, palette.Focus })
+        {
+            var hue = new HslColor(color).H;
+            Assert.InRange(hue, primaryHue - 2f, primaryHue + 2f);
+        }
+    }
+
+    [Fact]
+    public void AccessibleContrast_LeavesAlreadyCompliantRolesUnchanged()
+    {
+        // Text/TextDim already clear their targets under Classic (see
+        // TextAndBorder_HaveContrastAgainstSurface above) - AccessibleContrast should not move
+        // them at all, only the roles that actually fail.
+        var classic = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.Classic);
+        var accessible = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.AccessibleContrast);
+
+        Assert.Equal(classic.Text, accessible.Text);
+        Assert.Equal(classic.TextDim, accessible.TextDim);
     }
 }

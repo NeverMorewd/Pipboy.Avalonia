@@ -32,6 +32,7 @@ public sealed class PipboyThemeManager
 
     private Color _primaryColor;
     private PipboyColorPalette _palette;
+    private PipboyPaletteStrategy _paletteStrategy = PipboyPaletteStrategy.Classic;
 
     /// <summary>Raised when the theme primary color changes.</summary>
     public event EventHandler<ThemeColorChangedEventArgs>? ThemeColorChanged;
@@ -39,7 +40,7 @@ public sealed class PipboyThemeManager
     private PipboyThemeManager()
     {
         _primaryColor = DefaultPrimaryColor;
-        _palette = new PipboyColorPalette(_primaryColor);
+        _palette = new PipboyColorPalette(_primaryColor, _paletteStrategy);
     }
 
     /// <summary>Gets the current primary color.</summary>
@@ -47,6 +48,9 @@ public sealed class PipboyThemeManager
 
     /// <summary>Gets the current color palette.</summary>
     public PipboyColorPalette Palette => _palette;
+
+    /// <summary>Gets the palette derivation strategy currently in effect. Set via <see cref="SetPaletteStrategy"/>.</summary>
+    public PipboyPaletteStrategy PaletteStrategy => _paletteStrategy;
 
     /// <summary>
     /// Sets the primary color and regenerates the palette.
@@ -56,7 +60,22 @@ public sealed class PipboyThemeManager
     {
         if (_primaryColor == color) return;
         _primaryColor = color;
-        _palette = new PipboyColorPalette(color);
+        _palette = new PipboyColorPalette(color, _paletteStrategy);
+        ThemeColorChanged?.Invoke(this, new ThemeColorChangedEventArgs(_palette));
+    }
+
+    /// <summary>
+    /// Sets how the palette is derived from the primary color (see
+    /// <see cref="PipboyPaletteStrategy"/>) and regenerates it immediately, raising
+    /// <see cref="ThemeColorChanged"/> if the resulting colors changed - a caller wanting
+    /// every consumer of the theme to move to WCAG-checked contrast (or back to the original
+    /// look) does not need to also touch the primary color to see it take effect.
+    /// </summary>
+    public void SetPaletteStrategy(PipboyPaletteStrategy strategy)
+    {
+        if (_paletteStrategy == strategy) return;
+        _paletteStrategy = strategy;
+        _palette = new PipboyColorPalette(_primaryColor, _paletteStrategy);
         ThemeColorChanged?.Invoke(this, new ThemeColorChangedEventArgs(_palette));
     }
 

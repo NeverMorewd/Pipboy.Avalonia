@@ -43,7 +43,12 @@ public sealed class PipboyColorPalette
     public Color Border { get; }
     public Color BorderFocus { get; }
 
-    public PipboyColorPalette(Color primaryColor)
+    /// <summary>Equivalent to <see cref="PipboyColorPalette(Color, PipboyPaletteStrategy)"/> with <see cref="PipboyPaletteStrategy.Classic"/>.</summary>
+    public PipboyColorPalette(Color primaryColor) : this(primaryColor, PipboyPaletteStrategy.Classic)
+    {
+    }
+
+    public PipboyColorPalette(Color primaryColor, PipboyPaletteStrategy strategy)
     {
         var hsl = new HslColor(primaryColor); //HslColor.FromColor(primaryColor);
 
@@ -98,5 +103,21 @@ public sealed class PipboyColorPalette
         Success = new HslColor(hsl.A, hsl.H, semS, 0.60f).ToRgb();
         Warning = new HslColor(hsl.A, hsl.H, semS, 0.78f).ToRgb();
         Error   = new HslColor(hsl.A, hsl.H, semS, 0.93f).ToRgb();
+
+        if (strategy == PipboyPaletteStrategy.AccessibleContrast)
+        {
+            const double TextMinContrast = 4.5;    // WCAG 1.4.3 (Contrast Minimum)
+            const double UiMinContrast = 3.0;       // WCAG 1.4.11 (Non-text Contrast)
+
+            Text = WcagContrast.EnsureMinimumContrast(Text, Surface, TextMinContrast);
+            TextDim = WcagContrast.EnsureMinimumContrast(TextDim, Surface, TextMinContrast);
+            Success = WcagContrast.EnsureMinimumContrast(Success, Surface, TextMinContrast);
+            Warning = WcagContrast.EnsureMinimumContrast(Warning, Surface, TextMinContrast);
+            Error = WcagContrast.EnsureMinimumContrast(Error, Surface, TextMinContrast);
+
+            Border = WcagContrast.EnsureMinimumContrast(Border, Surface, UiMinContrast);
+            BorderFocus = WcagContrast.EnsureMinimumContrast(BorderFocus, Surface, UiMinContrast);
+            Focus = WcagContrast.EnsureMinimumContrast(Focus, Surface, UiMinContrast);
+        }
     }
 }
