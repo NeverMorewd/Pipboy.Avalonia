@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'preview/**'
+      - 'prodatagrid-preview/**'
   workflow_dispatch:
 
 jobs:
@@ -22,18 +23,23 @@ jobs:
         with:
           dotnet-version: '10.x'
 
-      - name: Resolve preview version
+      - name: Resolve preview versions
         id: version
         run: |
           BASE=$(grep -oP '(?<=<Version>)[^<]+' src/Pipboy.Avalonia/Pipboy.Avalonia.csproj)
+          PRODATAGRID_BASE=$(grep -oP '(?<=<Version>)[^<]+' src/Pipboy.Avalonia.ProDataGrid/Pipboy.Avalonia.ProDataGrid.csproj)
           VERSION="${BASE}-preview.${{ github.run_number }}"
+          PRODATAGRID_VERSION="${PRODATAGRID_BASE}-preview.${{ github.run_number }}"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "Preview version: $VERSION"
+          echo "prodatagrid_version=$PRODATAGRID_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Preview version (Pipboy.Avalonia / Fx): $VERSION"
+          echo "Preview version (ProDataGrid): $PRODATAGRID_VERSION"
 
       - name: Restore
         run: |
           dotnet restore src/Pipboy.Avalonia/Pipboy.Avalonia.csproj
           dotnet restore src/Pipboy.Avalonia.Fx/Pipboy.Avalonia.Fx.csproj
+          dotnet restore src/Pipboy.Avalonia.ProDataGrid/Pipboy.Avalonia.ProDataGrid.csproj
 
       - name: Pack
         run: |
@@ -46,6 +52,11 @@ jobs:
             --no-restore \
             --configuration Release \
             -p:Version=${{ steps.version.outputs.version }} \
+            --output ./nupkg
+          dotnet pack src/Pipboy.Avalonia.ProDataGrid/Pipboy.Avalonia.ProDataGrid.csproj \
+            --no-restore \
+            --configuration Release \
+            -p:Version=${{ steps.version.outputs.prodatagrid_version }} \
             --output ./nupkg
 
       - name: List produced packages
