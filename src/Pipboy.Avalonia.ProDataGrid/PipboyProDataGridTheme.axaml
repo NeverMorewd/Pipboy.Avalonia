@@ -258,6 +258,16 @@
                           TargetType="DataGrid"
                           BasedOn="{StaticResource {x:Type DataGrid}}">
                 <Setter Property="UseLogicalScrollable" Value="True" />
+                <!-- Re-declared here rather than left to inherit through BasedOn's StaticResource
+                     lookup into Avalonia.Controls.DataGrid's own Generic.xaml (a different
+                     assembly's theme dictionary, resolved once at XAML parse time): a consumer
+                     whose DataGrid sets GridLinesVisibility as a local XAML value (common, since
+                     it's the property most apps actually want to control) can otherwise end up
+                     with HorizontalGridLinesBrush/VerticalGridLinesBrush resolved through a much
+                     longer, easier-to-break DynamicResource chain than every other brush in this
+                     theme goes through - see docs/PIPBOY_THEME_ADJUSTMENTS.md. -->
+                <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource DataGridGridLinesBrush}" />
+                <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource DataGridGridLinesBrush}" />
                 <Setter Property="Template">
                     <ControlTemplate>
                         <Border x:Name="DataGridBorder"
