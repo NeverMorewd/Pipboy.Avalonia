@@ -90,7 +90,7 @@ PipboyThemeManager.Instance.SetPaletteStrategy(PipboyPaletteStrategy.AccessibleC
 | `PerceptuallyUniform` | Background/surface/text ramp driven by CIE L* instead of raw HSL lightness, so it looks equally bright/dark regardless of hue (Material Design 3 / OKLCH-style). |
 | `ColorblindSafe` | Widens the lightness gap between `Success`/`Warning`/`Error` so the three stay distinguishable without relying on hue. |
 
-Runnable picker: `samples/Pipboy.Avalonia.Demo`'s Theme page.
+
 
 ---
 
