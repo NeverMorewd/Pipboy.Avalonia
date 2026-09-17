@@ -14,11 +14,16 @@ internal sealed class UnitTestAppBuilder
 
 internal sealed class UnitTestApp : Application
 {
+    // Deliberately empty: PipboyTheme subscribes to the process-wide
+    // PipboyThemeManager.Instance.ThemeColorChanged singleton for as long as it's alive, and
+    // Avalonia.Headless.XUnit does not tear down/dispose this Application between [AvaloniaFact]
+    // tests. Adding it here once would leak a live subscription (holding UI-thread-affine
+    // SolidColorBrush fields) across every other test in this assembly, including the plain
+    // [Fact] tests in PipboyThemeManagerTests that call SetPrimaryColor from a non-Avalonia
+    // thread - which then fails with "The calling thread cannot access this object because a
+    // different thread owns it." Tests that actually need the Pipboy theme applied add and
+    // dispose their own instance (see ProDataGridReattachTests).
     public override void Initialize()
     {
-        // Mirrors a real consumer's App.axaml (Peek's, specifically): PipboyTheme first, then
-        // the ProDataGrid skin, exactly the order/registration this bug was reported against.
-        Styles.Add(new global::Pipboy.Avalonia.PipboyTheme());
-        Styles.Add(new global::Pipboy.Avalonia.ProDataGrid.PipboyProDataGridTheme());
     }
 }
