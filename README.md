@@ -73,6 +73,25 @@ PipboyThemeManager.Instance.SetPrimaryColor(Color.Parse("#FFA500")); // Amber
 
 The default color is phosphor green. Subscribe to `ThemeColorChanged` to react to color updates.
 
+### 3. (Optional) Choose a palette derivation strategy
+
+`Classic` (default) keeps every existing consumer's look unchanged. Switch strategies at any
+time, including at runtime - it regenerates the current palette and fires `ThemeColorChanged`:
+
+```csharp
+PipboyThemeManager.Instance.SetPaletteStrategy(PipboyPaletteStrategy.AccessibleContrast);
+```
+
+| Strategy | What it does |
+| --- | --- |
+| `Classic` | Original derivation. `Border` in particular can fall below WCAG's 3:1 non-text contrast minimum. |
+| `AccessibleContrast` | Text/borders/focus/status colors nudged to meet WCAG 2.1 AA (4.5:1 text, 3:1 non-text) against `Surface`. |
+| `HighContrast` | Same roles, stricter floor (7:1 text, 4.5:1 non-text) - an OS-style high-contrast mode. |
+| `PerceptuallyUniform` | Background/surface/text ramp driven by CIE L* instead of raw HSL lightness, so it looks equally bright/dark regardless of hue (Material Design 3 / OKLCH-style). |
+| `ColorblindSafe` | Widens the lightness gap between `Success`/`Warning`/`Error` so the three stay distinguishable without relying on hue. |
+
+
+
 ---
 
 ## ProDataGrid Theme

@@ -167,27 +167,177 @@ public class PipboyColorPaletteTests
         Assert.InRange(darkDiff, 0.15f, 0.40f);
     }
 
-    private static double ContrastRatio(Color first, Color second)
+    private static double ContrastRatio(Color first, Color second) => WcagContrast.Ratio(first, second);
+
+    [Fact]
+    public void Classic_BorderContrast_IsUnaffectedByAccessibleContrastExisting()
     {
-        var firstLuminance = RelativeLuminance(first);
-        var secondLuminance = RelativeLuminance(second);
-        var lighter = Math.Max(firstLuminance, secondLuminance);
-        var darker = Math.Min(firstLuminance, secondLuminance);
-        return (lighter + 0.05) / (darker + 0.05);
+        // Documents the gap AccessibleContrast exists to fix: Classic's Border is deliberately
+        // quiet and does not clear the 3:1 non-text contrast minimum on its own.
+        var palette = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.Classic);
+        Assert.True(ContrastRatio(palette.Border, palette.Surface) < 3.0);
     }
 
-    private static double RelativeLuminance(Color color)
+    [Theory]
+    [InlineData("#15FF52")] // default Pipboy green
+    [InlineData("#FF0000")] // red
+    [InlineData("#3050FF")] // blue - low default saturation scaling territory
+    [InlineData("#808080")] // achromatic
+    public void AccessibleContrast_MeetsWcagMinimumsAgainstSurface(string hex)
     {
-        static double Linearize(byte channel)
-        {
-            var normalized = channel / 255.0;
-            return normalized <= 0.04045
-                ? normalized / 12.92
-                : Math.Pow((normalized + 0.055) / 1.055, 2.4);
-        }
+        var palette = new PipboyColorPalette(Color.Parse(hex), PipboyPaletteStrategy.AccessibleContrast);
 
-        return (0.2126 * Linearize(color.R))
-             + (0.7152 * Linearize(color.G))
-             + (0.0722 * Linearize(color.B));
+        Assert.True(ContrastRatio(palette.Text, palette.Surface) >= 4.5,
+            "Text must meet WCAG 1.4.3 (4.5:1) against Surface");
+        Assert.True(ContrastRatio(palette.TextDim, palette.Surface) >= 4.5,
+            "TextDim must meet WCAG 1.4.3 (4.5:1) against Surface");
+        Assert.True(ContrastRatio(palette.Success, palette.Surface) >= 4.5,
+            "Success must meet WCAG 1.4.3 (4.5:1) against Surface");
+        Assert.True(ContrastRatio(palette.Warning, palette.Surface) >= 4.5,
+            "Warning must meet WCAG 1.4.3 (4.5:1) against Surface");
+        Assert.True(ContrastRatio(palette.Error, palette.Surface) >= 4.5,
+            "Error must meet WCAG 1.4.3 (4.5:1) against Surface");
+
+        Assert.True(ContrastRatio(palette.Border, palette.Surface) >= 3.0,
+            "Border must meet WCAG 1.4.11 (3:1) against Surface");
+        Assert.True(ContrastRatio(palette.BorderFocus, palette.Surface) >= 3.0,
+            "BorderFocus must meet WCAG 1.4.11 (3:1) against Surface");
+        Assert.True(ContrastRatio(palette.Focus, palette.Surface) >= 3.0,
+            "Focus must meet WCAG 1.4.11 (3:1) against Surface");
+    }
+
+    [Fact]
+    public void AccessibleContrast_PreservesHue()
+    {
+        var palette = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.AccessibleContrast);
+        var primaryHue = new HslColor(palette.Primary).H;
+
+        foreach (var color in new[] { palette.Text, palette.TextDim, palette.Border, palette.BorderFocus, palette.Focus })
+        {
+            var hue = new HslColor(color).H;
+            Assert.InRange(hue, primaryHue - 2f, primaryHue + 2f);
+        }
+    }
+
+    [Fact]
+    public void AccessibleContrast_LeavesAlreadyCompliantRolesUnchanged()
+    {
+        // Text/TextDim already clear their targets under Classic (see
+        // TextAndBorder_HaveContrastAgainstSurface above) - AccessibleContrast should not move
+        // them at all, only the roles that actually fail.
+        var classic = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.Classic);
+        var accessible = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.AccessibleContrast);
+
+        Assert.Equal(classic.Text, accessible.Text);
+        Assert.Equal(classic.TextDim, accessible.TextDim);
+    }
+
+    [Theory]
+    [InlineData("#15FF52")]
+    [InlineData("#FF0000")]
+    [InlineData("#3050FF")]
+    [InlineData("#808080")]
+    public void HighContrast_MeetsStricterMinimumsAgainstSurface(string hex)
+    {
+        var palette = new PipboyColorPalette(Color.Parse(hex), PipboyPaletteStrategy.HighContrast);
+
+        foreach (var text in new[] { palette.Text, palette.TextDim, palette.Success, palette.Warning, palette.Error })
+            Assert.True(ContrastRatio(text, palette.Surface) >= 7.0, "HighContrast text roles must meet WCAG 1.4.6 (7:1)");
+
+        foreach (var ui in new[] { palette.Border, palette.BorderFocus, palette.Focus })
+            Assert.True(ContrastRatio(ui, palette.Surface) >= 4.5, "HighContrast non-text roles must meet the stricter 4.5:1 floor");
+    }
+
+    [Fact]
+    public void HighContrast_IsAtLeastAsStrictAsAccessibleContrast()
+    {
+        var accessible = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.AccessibleContrast);
+        var high = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.HighContrast);
+
+        Assert.True(ContrastRatio(high.Text, high.Surface) >= ContrastRatio(accessible.Text, accessible.Surface));
+        Assert.True(ContrastRatio(high.Border, high.Surface) >= ContrastRatio(accessible.Border, accessible.Surface));
+    }
+
+    [Theory]
+    [InlineData("#FFD700")] // yellow - high HSL lightness perception even at low L
+    [InlineData("#3050FF")] // blue - low HSL lightness perception even at moderate L
+    public void PerceptuallyUniform_RampMatchesGreenBaselinePerceptually(string hex)
+    {
+        // The strategy is anchored to what Classic already produces for the default green -
+        // so every hue's ramp should land close to the same CIE L* the green baseline has,
+        // rather than drifting with raw HSL lightness the way Classic does.
+        var baseline = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.Classic);
+        var palette = new PipboyColorPalette(Color.Parse(hex), PipboyPaletteStrategy.PerceptuallyUniform);
+
+        double LStar(Color c) => PerceptualLightness.ToCieLStar(c);
+
+        Assert.InRange(LStar(palette.Background), LStar(baseline.Background) - 1.0, LStar(baseline.Background) + 1.0);
+        Assert.InRange(LStar(palette.Text), LStar(baseline.Text) - 1.0, LStar(baseline.Text) + 1.0);
+    }
+
+    [Fact]
+    public void PerceptuallyUniform_PreservesHueAndLeavesOtherRolesAlone()
+    {
+        var classic = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.Classic);
+        var perceptual = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.PerceptuallyUniform);
+
+        // Roles outside the background/surface/text ramp are untouched by this strategy.
+        Assert.Equal(classic.Border, perceptual.Border);
+        Assert.Equal(classic.Focus, perceptual.Focus);
+        Assert.Equal(classic.Success, perceptual.Success);
+
+        // A wider tolerance than the other hue-preservation checks in this file: Background in
+        // particular targets CIE L* ~6.5, dark enough that 8-bit RGB quantization leaves very
+        // few distinct channel values to reconstruct hue from, so a few degrees of drift here
+        // is quantization noise, not a bug.
+        var hue = new HslColor(classic.Primary).H;
+        foreach (var c in new[] { perceptual.Background, perceptual.Surface, perceptual.Text, perceptual.TextDim })
+            Assert.InRange(new HslColor(c).H, hue - 6f, hue + 6f);
+    }
+
+    [Theory]
+    [InlineData("#15FF52")]
+    [InlineData("#FF0000")]
+    [InlineData("#3050FF")]
+    public void ColorblindSafe_SeparatesSeverityTiersByLightness(string hex)
+    {
+        var palette = new PipboyColorPalette(Color.Parse(hex), PipboyPaletteStrategy.ColorblindSafe);
+
+        var successL = PerceptualLightness.ToCieLStar(palette.Success);
+        var warningL = PerceptualLightness.ToCieLStar(palette.Warning);
+        var errorL = PerceptualLightness.ToCieLStar(palette.Error);
+
+        Assert.True(warningL - successL >= 14.9, "Warning should be at least ~15 L* above Success");
+        Assert.True(errorL - warningL >= 14.9, "Error should be at least ~15 L* above Warning");
+    }
+
+    [Fact]
+    public void ColorblindSafe_LeavesAlreadySeparatedTiersUnchanged()
+    {
+        // Blue's Success/Warning/Error already land ~21-24 CIE L* apart under Classic (green,
+        // by contrast, compresses to ~4-6 apart near the top of the scale - exactly the case
+        // this strategy exists to fix) - so ColorblindSafe shouldn't move blue's tiers at all.
+        var blue = Color.Parse("#3050FF");
+        var classic = new PipboyColorPalette(blue, PipboyPaletteStrategy.Classic);
+        var safe = new PipboyColorPalette(blue, PipboyPaletteStrategy.ColorblindSafe);
+
+        Assert.Equal(classic.Success, safe.Success);
+        Assert.Equal(classic.Warning, safe.Warning);
+        Assert.Equal(classic.Error, safe.Error);
+    }
+
+    [Fact]
+    public void ColorblindSafe_WidensGreenPrimarysCompressedSeverityTiers()
+    {
+        // Documents the gap this strategy exists to fix: the default green's Success/Warning/
+        // Error compress to within a few CIE L* points of each other near the top of the
+        // lightness scale, because green's luminance weight is so high that Classic's HSL
+        // lightness steps barely move the resulting brightness.
+        var classic = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.Classic);
+        Assert.True(PerceptualLightness.ToCieLStar(classic.Warning) - PerceptualLightness.ToCieLStar(classic.Success) < 15.0);
+
+        var safe = new PipboyColorPalette(PipboyGreen, PipboyPaletteStrategy.ColorblindSafe);
+        Assert.NotEqual(classic.Warning, safe.Warning);
+        Assert.NotEqual(classic.Error, safe.Error);
     }
 }

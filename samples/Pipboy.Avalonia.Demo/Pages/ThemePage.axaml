@@ -149,6 +149,28 @@
                     Text="Current theme: Pipboy Green (#15FF52)" />
             </StackPanel>
 
+            <!--  Accessibility  -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="h2" Text="ACCESSIBILITY" />
+                <TextBlock
+                    Classes="dim"
+                    FontSize="11"
+                    Text="Every strategy below keeps the same primary hue - only how each role's lightness (and, for ColorblindSafe, only the three severity colors) is derived from it changes."
+                    TextWrapping="Wrap" />
+                <ComboBox Name="PaletteStrategyComboBox" SelectionChanged="OnPaletteStrategyChanged">
+                    <ComboBoxItem Content="Classic (default)" Tag="Classic" />
+                    <ComboBoxItem Content="Accessible Contrast (WCAG 2.1 AA)" Tag="AccessibleContrast" />
+                    <ComboBoxItem Content="High Contrast (WCAG AAA text)" Tag="HighContrast" />
+                    <ComboBoxItem Content="Perceptually Uniform (CIE L*)" Tag="PerceptuallyUniform" />
+                    <ComboBoxItem Content="Colorblind Safe (severity lightness spacing)" Tag="ColorblindSafe" />
+                </ComboBox>
+                <TextBlock
+                    Name="PaletteStrategyDescription"
+                    Classes="dim"
+                    FontSize="11"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
             <!--  Palette preview  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="PALETTE PREVIEW" />
@@ -230,6 +252,116 @@
                             VerticalAlignment="Bottom"
                             FontSize="10"
                             Text="SurfHigh" />
+                    </Border>
+                </WrapPanel>
+
+                <TextBlock
+                    Classes="dim"
+                    FontSize="10"
+                    LetterSpacing="2"
+                    Text="— ROLES THE ACCESSIBILITY TOGGLE AFFECTS (on Surface) —" />
+                <WrapPanel>
+                    <Border
+                        Width="90"
+                        Height="52"
+                        Margin="0,0,4,4"
+                        Background="{DynamicResource PipboySurfaceBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{DynamicResource PipboyTextBrush}"
+                            Text="Text" />
+                    </Border>
+                    <Border
+                        Width="90"
+                        Height="52"
+                        Margin="0,0,4,4"
+                        Background="{DynamicResource PipboySurfaceBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{DynamicResource PipboyTextDimBrush}"
+                            Text="TextDim" />
+                    </Border>
+                    <Border
+                        Width="90"
+                        Height="52"
+                        Margin="0,0,4,4"
+                        Background="{DynamicResource PipboySurfaceBrush}"
+                        BorderBrush="{DynamicResource PipboyBorderBrush}"
+                        BorderThickness="2">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="10"
+                            Foreground="{DynamicResource PipboyTextDimBrush}"
+                            Text="Border" />
+                    </Border>
+                    <Border
+                        Width="90"
+                        Height="52"
+                        Margin="0,0,4,4"
+                        Background="{DynamicResource PipboySurfaceBrush}"
+                        BorderBrush="{DynamicResource PipboyBorderFocusBrush}"
+                        BorderThickness="2">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="10"
+                            Foreground="{DynamicResource PipboyTextDimBrush}"
+                            Text="BorderFocus" />
+                    </Border>
+                    <Border
+                        Width="90"
+                        Height="52"
+                        Margin="0,0,4,4"
+                        Background="{DynamicResource PipboySurfaceBrush}"
+                        BorderBrush="{DynamicResource PipboyFocusBrush}"
+                        BorderThickness="2">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="10"
+                            Foreground="{DynamicResource PipboyTextDimBrush}"
+                            Text="Focus" />
+                    </Border>
+                    <Border
+                        Width="90"
+                        Height="52"
+                        Margin="0,0,4,4"
+                        Background="{DynamicResource PipboySurfaceBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{DynamicResource PipboySuccessBrush}"
+                            Text="Success" />
+                    </Border>
+                    <Border
+                        Width="90"
+                        Height="52"
+                        Margin="0,0,4,4"
+                        Background="{DynamicResource PipboySurfaceBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{DynamicResource PipboyWarningBrush}"
+                            Text="Warning" />
+                    </Border>
+                    <Border
+                        Width="90"
+                        Height="52"
+                        Margin="0,0,4,4"
+                        Background="{DynamicResource PipboySurfaceBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{DynamicResource PipboyErrorBrush}"
+                            Text="Error" />
                     </Border>
                 </WrapPanel>
             </StackPanel>
