@@ -152,14 +152,22 @@
             <!--  Accessibility  -->
             <StackPanel Spacing="8">
                 <TextBlock Classes="h2" Text="ACCESSIBILITY" />
-                <CheckBox
-                    Name="AccessibleContrastCheckBox"
-                    Click="OnAccessibleContrastToggled"
-                    Content="Accessible contrast (WCAG 2.1 AA)" />
                 <TextBlock
                     Classes="dim"
                     FontSize="11"
-                    Text="Nudges Text, TextDim, Border, BorderFocus, Focus, and the semantic status colors - hue and saturation unchanged - until each meets WCAG's 4.5:1 (text) or 3:1 (non-text UI components) minimum against Surface. A role that already clears its target is left untouched."
+                    Text="Every strategy below keeps the same primary hue - only how each role's lightness (and, for ColorblindSafe, only the three severity colors) is derived from it changes."
+                    TextWrapping="Wrap" />
+                <ComboBox Name="PaletteStrategyComboBox" SelectionChanged="OnPaletteStrategyChanged">
+                    <ComboBoxItem Content="Classic (default)" Tag="Classic" />
+                    <ComboBoxItem Content="Accessible Contrast (WCAG 2.1 AA)" Tag="AccessibleContrast" />
+                    <ComboBoxItem Content="High Contrast (WCAG AAA text)" Tag="HighContrast" />
+                    <ComboBoxItem Content="Perceptually Uniform (CIE L*)" Tag="PerceptuallyUniform" />
+                    <ComboBoxItem Content="Colorblind Safe (severity lightness spacing)" Tag="ColorblindSafe" />
+                </ComboBox>
+                <TextBlock
+                    Name="PaletteStrategyDescription"
+                    Classes="dim"
+                    FontSize="11"
                     TextWrapping="Wrap" />
             </StackPanel>
 

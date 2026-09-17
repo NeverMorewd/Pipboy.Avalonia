@@ -73,20 +73,13 @@ PipboyThemeManager.Instance.SetPrimaryColor(Color.Parse("#FFA500")); // Amber
 
 The default color is phosphor green. Subscribe to `ThemeColorChanged` to react to color updates.
 
-### 3. (Optional) Opt into WCAG-checked contrast
+### 3. (Optional) Choose a palette derivation strategy
 
 `PipboyColorPalette`'s default derivation (`PipboyPaletteStrategy.Classic`) keeps some roles -
-`Border` in particular - deliberately quiet so the UI doesn't read as a heavy neon frame. That
-trade-off is a real accessibility gap for an application that needs to meet WCAG 2.1 AA / EN 301
-549: `Border` alone can fall as low as ~1.6:1 against the surface, well under the 3:1 minimum
-[SC 1.4.11 (Non-text Contrast)](https://www.w3.org/TR/WCAG21/#non-text-contrast) requires.
-
-Switch to `PipboyPaletteStrategy.AccessibleContrast` to keep the same hue-preserving derivation
-but have every role that can render as foreground content - `Text`, `TextDim`, `Border`,
-`BorderFocus`, `Focus`, and the semantic status colors - nudged in lightness (hue and saturation
-untouched) until it meets [SC 1.4.3](https://www.w3.org/TR/WCAG21/#contrast-minimum) (4.5:1, text)
-or SC 1.4.11 (3:1, non-text UI components) against the surface it's drawn on. A role that already
-clears its target is left unchanged.
+`Border` in particular - deliberately quiet so the UI doesn't read as a heavy neon frame, and
+uses raw HSL lightness throughout, which isn't perceptually uniform (a saturated yellow and a
+saturated blue at the same HSL lightness don't look equally bright). `PipboyThemeManager` can
+regenerate the current palette under a different strategy at any time:
 
 ```csharp
 PipboyThemeManager.Instance.SetPaletteStrategy(PipboyPaletteStrategy.AccessibleContrast);
@@ -95,9 +88,20 @@ PipboyThemeManager.Instance.SetPaletteStrategy(PipboyPaletteStrategy.AccessibleC
 This applies immediately to the current primary color and to every subsequent
 `SetPrimaryColor`/`TrySetPrimaryColor` call, and fires `ThemeColorChanged` like any other palette
 update. It's opt-in and defaults to `Classic`, so existing consumers see no visual change unless
-they call this. The underlying contrast math is public via `WcagContrast.Ratio(Color, Color)` if
-you need to check your own colors against the same formula. See `samples/Pipboy.Avalonia.Demo`'s
-Theme page for a runnable toggle.
+they call this. See `samples/Pipboy.Avalonia.Demo`'s Theme page for a runnable picker across all
+five strategies below.
+
+| Strategy | What it does | Based on |
+| --- | --- | --- |
+| `Classic` | The original derivation (default - no behavior change for existing consumers). | - |
+| `AccessibleContrast` | Nudges `Text`, `TextDim`, `Border`, `BorderFocus`, `Focus`, and the semantic status colors (hue/saturation untouched) until each meets WCAG 2.1's contrast minimum against `Surface`: 4.5:1 for text, 3:1 for non-text UI components. A role that already clears its target is left unchanged. | [SC 1.4.3](https://www.w3.org/TR/WCAG21/#contrast-minimum) / [SC 1.4.11](https://www.w3.org/TR/WCAG21/#non-text-contrast) |
+| `HighContrast` | The same roles as `AccessibleContrast`, held to a stricter floor: 7:1 for text, 4.5:1 for non-text (WCAG defines no AAA tier for non-text contrast; this is simply stricter than AA). Approximates an OS-level high-contrast mode for low-vision users. | [SC 1.4.6](https://www.w3.org/TR/WCAG21/#contrast-enhanced) |
+| `PerceptuallyUniform` | Recomputes `Background`/`Surface`/`SurfaceHigh`/`Text`/`TextDim`/`Hover`/`Pressed`/`Disabled` by CIE L* instead of raw HSL lightness, so each role looks equally bright/dark regardless of the chosen hue. | Same lightness axis as Material Design 3's HCT/tonal palettes and most OKLCH-based design-token systems (Radix Colors, Tailwind v4) |
+| `ColorblindSafe` | Widens the CIE L* gap between `Success`/`Warning`/`Error` to at least 15 points if the Classic derivation left them closer, so the three stay distinguishable by lightness alone. Does not run a color-vision-deficiency simulation. | The lightness-separation approach dataviz color systems (ColorBrewer, Highcharts, IBM Carbon) use |
+
+The underlying math is public if you need it for your own colors: `WcagContrast.Ratio(Color,
+Color)` / `WcagContrast.EnsureMinimumContrast(...)`, and `PerceptualLightness.ToCieLStar(Color)` /
+`PerceptualLightness.WithCieLStar(...)`.
 
 ---
 
